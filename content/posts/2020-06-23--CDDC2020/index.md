@@ -268,3 +268,9 @@ void FUN_000110a0(void)
 ### Between 0&1 (Unsolved)
 
 ### WYSIWYG (Unsolved)
+
+## Addtional resources
+
+https://blog.justins.in/cddc20/
+
+Note: *The website above solves some challenges that my team did not, you may want to read it.*

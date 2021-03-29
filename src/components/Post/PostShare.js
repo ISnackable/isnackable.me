@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import {
   FacebookShareButton,
-  GooglePlusShareButton,
+  WhatsappShareButton,
   LinkedinShareButton,
   TwitterShareButton,
   FacebookShareCount,
-  GooglePlusShareCount,
   LinkedinShareCount,
   FacebookIcon,
   TwitterIcon,
-  GooglePlusIcon,
+  WhatsappIcon,
   LinkedinIcon
 } from "react-share";
 
@@ -62,12 +61,9 @@ class PostShare extends React.Component {
           <TwitterShareButton url={url} title={title}>
             <TwitterIcon round size={iconSize} />
           </TwitterShareButton>
-          <GooglePlusShareButton url={url}>
-            <GooglePlusIcon round size={iconSize} />
-            <GooglePlusShareCount url={url}>
-              {count => <div className="share-count">{filter(count)}</div>}
-            </GooglePlusShareCount>
-          </GooglePlusShareButton>
+          <WhatsappShareButton url={url}>
+            <WhatsappIcon round size={iconSize} />
+          </WhatsappShareButton>
           <FacebookShareButton
             url={url}
             quote={`${title} - ${excerpt}`}
