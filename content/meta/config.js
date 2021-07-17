@@ -4,7 +4,7 @@ module.exports = {
   siteTitle: "ISnackable's Blog", // <title>
   shortSiteTitle: "ISnackable", // <title> ending for posts and pages
   siteDescription: "A blog site created with GatsbyJS.",
-  siteUrl: "https://isnackable.github.io",
+  siteUrl: "https://isnackable.me",
   pathPrefix: "",
   siteImage: "preview.jpg",
   siteLanguage: "en",
