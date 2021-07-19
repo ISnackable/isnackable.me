@@ -17,7 +17,7 @@ Okay, so we know that this challenge resolves around the GitHub Workflow, the vu
 
 #### Content of **comment-logger.yml**:
 
-```yml
+```yaml
 name: log and process issue comments
 on:
   issue_comment:
@@ -68,7 +68,7 @@ So I realised that my comment is a user input that I can control, which may or m
 
 Link: https://securitylab.github.com/research/github-actions-untrusted-input
 
-```yml
+```yaml{3,6,11,14}
 - id: comment_log
 env:
     COMMENT_BODY: ${{ github.event.comment.body }} // I CAN CONTROL
@@ -99,7 +99,7 @@ Link: https://docs.github.com/en/actions/reference/workflow-commands-for-github-
 
 My input: `::save-state name=processID::12345`. This workflow command create environment variables named STATE_processID with the value of 12345. I thought that this command could modify the COMMAND_ID, so I replace "processID" with "COMMAND_ID". Spoiler alert, it didn't. Why not? That's because this command created an enviroment variable and prepend "STATE_".
 
-```yml
+```yaml
 if: ${{ steps.comment_log.outputs.COMMENT_ID }}
 ```
 

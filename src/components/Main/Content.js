@@ -16,6 +16,13 @@ const styles = theme => ({
     "& .gatsby-highlight": {
       margin: "2em 0"
     },
+    "& .gatsby-highlight-code-line" : {
+      backgroundColor : "#455770",
+      display: "block",
+      borderLeft: "0.1em solid #d23669",
+      margin: [[0, "-1em", "0", "-1em"]],
+      padding: [["0", "1em", "0", "0.75em"]]
+    },
     "& .gatsby-resp-iframe-wrapper": {
       margin: "2em 0"
     },

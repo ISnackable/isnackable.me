@@ -226,7 +226,7 @@ undefined4 main(void)
 
 ### Something's Going On (Unsolved)
 
-### What Time Is It? [1] (Unsolved)
+### What Time Is It? \[1\] (Unsolved)
 
 ### Suspicious Service (Unsolved)
 
