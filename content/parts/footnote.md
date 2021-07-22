@@ -2,4 +2,4 @@
 title: footnote
 ---
 
-* MIT Licensed | [ISnackable](https://github.com/ISnackable)
+- MIT Licensed | [ISnackable](https://github.com/ISnackable)

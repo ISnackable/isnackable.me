@@ -3,8 +3,7 @@ title: My other projects
 menuTitle: My projects
 ---
 
-The [Blog Site](https://github.com/ISnackable/ISnackable.github.io) you are looking at is created with GatsbyJS using the [PersonalBlog](https://github.com/greglobinski/gatsby-starter-personal-blog) template. 
-
+The [Blog Site](https://github.com/ISnackable/ISnackable.github.io) you are looking at is created with GatsbyJS using the [PersonalBlog](https://github.com/greglobinski/gatsby-starter-personal-blog) template.
 
 ### Discord Free Games Bot
 
