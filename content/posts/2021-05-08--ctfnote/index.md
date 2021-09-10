@@ -114,8 +114,8 @@ Config Vars
 - CMD_DOMAIN=`<your-app-name>.herokuapp.com`
 - CMD\_PROTOCOL\_USESSL=`true`
 - CMD\_URL\_PATH=`pad`
-- CMD\_IMAGE\_UPLOAD_TYPE=`filesystem`
 - PGSSLMODE=`no-verify`
+<!-- - CMD\_IMAGE\_UPLOAD_TYPE=`filesystem` -->
 
 Once it has been deployed, open the Heroku Postgres add-on page and copy the Database Credentials URI down somewhere as we will need it later for the backend app.
 

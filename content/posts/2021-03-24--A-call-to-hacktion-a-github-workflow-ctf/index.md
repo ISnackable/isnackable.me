@@ -87,7 +87,7 @@ with:
     result-encoding: string
 ```
 
-Looking at the workflow file again, I see that my input (_comment\_body_), is flows to `console.log(process.env.COMMENT_BODY)`. My first initial thought is that I could potential inject javascript code here. To test my theory, I tried inputting quotes, `'` and `"` to see if there is any error generated.
+Looking at the workflow file again, I see that my input (comment\_body), is flows to `console.log(process.env.COMMENT_BODY)`. My first initial thought is that I could potential inject javascript code here. To test my theory, I tried inputting quotes, `'` and `"` to see if there is any error generated.
 
 And did it work? Of course that didn't work, it would have been too easy if it did. Afterwards, I thought to try out some of the steps written in the GitHub Security Lab blog post about untrusted input. I tried template injection, but that didn't work as there is no template here.
 
@@ -103,7 +103,7 @@ My input: `::save-state name=processID::12345`. This workflow command create env
 if: ${{ steps.comment_log.outputs.COMMENT_ID }}
 ```
 
-Back to the workflow file again, I noticed that if I wanted the next step to run, the comment*log needed to output the COMMENT\_ID, right? Note: \_Not really, `steps.comment_log.outputs.COMMENT_ID` is actually just the value of the output from the comment\_log step.*
+Back to the workflow file again, I noticed that if I wanted the next step to run, the comment\_log needed to output the COMMENT\_ID, right? *Note: Not really, `steps.comment_log.outputs.COMMENT_ID` is actually just the value of the output from the comment\_log step.*
 
 With that, I'm going to skip my painstaking redundant effort to try to get "COMMENT\_BODY" to be the value of "COMMENT\_ID".
 

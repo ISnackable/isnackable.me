@@ -4,7 +4,9 @@ subTitle: Customizing *NIX desktops
 cover: Awesome_logo.jpeg
 ---
 
-# NOT DONE
+# NOT DONE (IN PROGRESS)
+
+https://github.com/ISnackable/dotfiles
 
 ## Introduction
 
