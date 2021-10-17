@@ -1,4 +1,7 @@
-import * as React from "react";
+import { graphql } from "gatsby";
+import React from "react";
+import Layout from "../components/layout";
+import * as styles from "../styles/home.module.css";
 
 // styles
 const pageStyles = {
@@ -6,11 +9,7 @@ const pageStyles = {
   padding: 96,
   fontFamily: "-apple-system, Roboto, sans-serif, serif",
 };
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-};
+
 const headingAccentStyles = {
   color: "#663399",
 };
@@ -25,30 +24,51 @@ const codeStyles = {
   borderRadius: 4,
 };
 
+export const query = graphql`
+  query SiteInfo {
+    site {
+      siteMetadata {
+        title
+        description
+        githubUsername
+      }
+    }
+  }
+`;
+
 // markup
-const IndexPage = () => {
+const IndexPage = (props) => {
+  const { data, errors } = props;
+
+  const site = (data || {}).site;
+  const { title, description, githubUsername } = site.siteMetadata;
+
   return (
-    <main style={pageStyles}>
-      <title>Home Page</title>
-      <h1 style={headingStyles}>
-        About
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
-        <span role="img" aria-label="Party popper emojis">
-          🎉🎉🎉
-        </span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time.{" "}
-        <span role="img" aria-label="Sunglasses smiley emoji">
-          😎
-        </span>
-      </p>
-      <p style={paragraphStyles}>Some Recent Blog Posts</p>
-      <p style={paragraphStyles}>Experience</p>
-      <p style={paragraphStyles}>Awards</p>
-    </main>
+    <Layout>
+      <main className={styles.header} style={pageStyles}>
+        <title>Home Page</title>
+        <h1>
+          {title}
+          <br />
+          <span style={headingAccentStyles}>
+            — you just made a Gatsby site!{" "}
+          </span>
+          <span role="img" aria-label="Party popper emojis">
+            🎉🎉🎉
+          </span>
+        </h1>
+        <p style={paragraphStyles}>
+          Edit <code style={codeStyles}>src/pages/index.js</code> to see this
+          page update in real-time.{" "}
+          <span role="img" aria-label="Sunglasses smiley emoji">
+            😎
+          </span>
+        </p>
+        <p style={paragraphStyles}>Some Recent Blog Posts</p>
+        <p style={paragraphStyles}>Experience</p>
+        <p style={paragraphStyles}>Awards</p>
+      </main>
+    </Layout>
   );
 };
 

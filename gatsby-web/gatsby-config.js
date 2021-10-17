@@ -4,7 +4,7 @@ module.exports = {
     titleTemplate: "%s · The Real Hero",
     description: "A personal site",
     siteUrl: "https://www.isnackable.me",
-    image: "/images/icon.png", // Path to your image you placed in the 'static' folder
+    image: "/icons/icon-512x512.png", // Path to your image you placed in the 'static' folder
     githubUsername: "@ISnackable",
   },
   plugins: [
@@ -34,7 +34,6 @@ module.exports = {
         theme_color: "#a2466c",
         display: "standalone",
         lang: "en",
-        icon: "src/images/icon.png",
         icons: [
           {
             src: "/icons/icon-48x48.png",

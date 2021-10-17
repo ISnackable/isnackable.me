@@ -7,7 +7,7 @@
   ISnackable Personal Site
 </h1>
 
-A personal site created with Gatsby as the frontend framework and Sanity.io and the headless content management system.
+A personal site created with Gatsby as the frontend framework and Sanity.io as the headless content management system.
 
 ## Authors
 
