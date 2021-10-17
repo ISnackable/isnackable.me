@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "description": "ISnackable Site",
+  "author": "ISnackable",
+  "license": "GPL-3.0-or-later",
   "keywords": [
     "gatsby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
+    "dev": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "lint": "eslint .",
+    "format": "prettier-eslint --write \"**/*.js\" \"!.cache/**\" \"!node_modules/**\" \"!public/**\"",
+    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "dependencies": {
+    "@sanity/block-content-to-react": "^3.0.0",
     "autoprefixer": "^10.3.7",
     "gatsby": "^3.14.2",
     "gatsby-plugin-image": "^1.14.1",

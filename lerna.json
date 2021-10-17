@@ -1,0 +1,4 @@
+{
+  "packages": ["gatsby-web", "sanity-studio"],
+  "version": "1.0.0"
+}

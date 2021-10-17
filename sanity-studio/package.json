@@ -5,10 +5,14 @@
   "description": "",
   "main": "package.json",
   "author": "ISnackable",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-or-later",
   "scripts": {
-    "start": "sanity start",
-    "build": "sanity build"
+    "dev": "sanity start",
+    "format": "prettier-eslint --write \"**/*.js\" \"!node_modules/**\"",
+    "build": "sanity build",
+    "graphql-deploy": "sanity graphql deploy --playground",
+    "lint": "eslint .",
+    "test": "sanity check"
   },
   "keywords": [
     "sanity"
