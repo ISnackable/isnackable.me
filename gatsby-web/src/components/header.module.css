@@ -1,0 +1,68 @@
+/* Smaller screen size, defaults to bottom */
+.divbar {
+  position: fixed;
+  z-index: 750;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: rgb(var(--color-bg-rgb));
+  transform: translateY(0) translateZ(100px);
+  transition: background-color 0.2s linear, transform 0.15s ease-in-out;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .divbar {
+    background-color: transparent;
+    width: 4rem;
+    transform: translateY(0) translateZ(0);
+    padding-bottom: 0;
+    height: 100%;
+  }
+}
+
+.navbar {
+  position: fixed;
+  z-index: 750;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 68px;
+  padding: 4px 1em 24px 1em;
+}
+
+/* Bigger screen size, move to side */
+@media (min-width: 900px) {
+  .navbar {
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1em 6px 1em 4px;
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Svg icons hide */
+  .navbar > a.tab > svg.icon {
+    display: none;
+    transform: rotate(180deg);
+    width: 20px;
+    height: 32px;
+  }
+
+  .navbar > a.tab {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    flex-direction: row;
+    font-size: var(--fs-xs);
+    height: auto;
+    margin: 1em auto;
+  }
+
+  .navbar > div > button:after {
+    background: none;
+  }
+}
