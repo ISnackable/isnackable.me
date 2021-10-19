@@ -1,5 +1,5 @@
-import { Link } from "gatsby";
 import React from "react";
+import { Link } from "gatsby";
 import * as style from "./header.module.css";
 
 const Header = ({
@@ -12,7 +12,7 @@ const Header = ({
   return (
     <nav className={style.navbar}>
       <Link className={style.tab} to="/">
-        <svg
+        {/* <svg
           className={style.icon}
           width="1em"
           height="1em"
@@ -27,19 +27,22 @@ const Header = ({
               strokeLinejoin="round"
             ></path>
           </g>
-        </svg>
+        </svg> */}
         About
+      </Link>
+      <Link className={style.tab} to="/projects">
+        Projects
+      </Link>
+      <div className={style.icon}>ICON</div>
+      <Link className={style.tab} to="/tools">
+        Tools
       </Link>
       <Link className={style.tab} to="/blog">
         Blog
       </Link>
-      <div title="Contact">ICON</div>
-      <Link className={style.tab} to="/projects">
-        Projects
-      </Link>
-      <Link className={style.tab} to="/tools">
-        Tools
-      </Link>
+      <div className={style.contact} title="Contact">
+        Contact
+      </div>
     </nav>
   );
 };

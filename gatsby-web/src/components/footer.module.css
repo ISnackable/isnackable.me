@@ -1,7 +1,7 @@
 @import "../styles/custom-properties.css";
 
 .footer {
-  color: var(--color-ink);
+  /* color: var(--color-ink); */
   text-align: center;
   font-size: var(--font-small-size);
   /* line-height: 1.3; */
