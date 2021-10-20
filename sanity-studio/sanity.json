@@ -1,7 +1,7 @@
 {
   "root": true,
   "project": {
-    "name": "ISnackable's Blog"
+    "name": "ISnackable's Site"
   },
   "api": {
     "projectId": "dbozi5wf",
@@ -11,7 +11,8 @@
     "@sanity/base",
     "@sanity/default-layout",
     "@sanity/default-login",
-    "@sanity/desk-tool"
+    "@sanity/desk-tool",
+    "@sanity/code-input"
   ],
   "env": {
     "development": {
