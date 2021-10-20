@@ -373,11 +373,11 @@ export default {
       "-webkit-box-shadow": "0 0 0 50px white inset"
     },
     ":not(pre) > code[class*='language-']": {
-      background: "#eee",
-      color: "#666",
+      background: "#212121",
       textShadow: "none",
       padding: "1px 5px",
-      borderRadius: "2px"
+      border: "1px solid #404040",
+      borderRadius: "3px"
     }
   }
 };
