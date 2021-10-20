@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
+import SEO from "../components/seo";
 
 export const query = graphql`
   query SiteInfo {
@@ -8,7 +9,7 @@ export const query = graphql`
       siteMetadata {
         title
         description
-        githubUsername
+        twitterUsername
       }
     }
   }
@@ -16,15 +17,19 @@ export const query = graphql`
 
 // markup
 const IndexPage = (props) => {
-  const { data, errors } = props;
+  const { data } = props;
   // console.error(errors);
 
   const site = (data || {}).site;
-  const { title, description, githubUsername } = site.siteMetadata;
+  const { title, description, twitterUsername } = site.siteMetadata;
 
   return (
     <Layout>
-      <h1>
+      <SEO
+        title={"Home"}
+        description={"Home page of ISnackable personal site"}
+      />
+      <h1 className="text-center">
         {title}
         <br />
         <span>— {description} </span>
@@ -36,7 +41,7 @@ const IndexPage = (props) => {
         Edit <code>src/pages/index.js</code> to see this page update in
         real-time.{" "}
         <span role="img" aria-label="Sunglasses smiley emoji">
-          😎 {githubUsername}
+          😎 {twitterUsername}
         </span>
       </p>
       <p className="m-5 font-bold">Some Recent Blog Posts</p>

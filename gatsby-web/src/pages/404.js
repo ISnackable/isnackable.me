@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "gatsby";
+import Layout from "../components/layout";
 import SEO from "../components/seo";
 
 // styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-};
 const headingStyles = {
   marginTop: 0,
   marginBottom: 64,
@@ -28,8 +24,8 @@ const codeStyles = {
 // markup
 const NotFoundPage = () => {
   return (
-    <main style={pageStyles}>
-      <title>Not found</title>
+    <Layout>
+      <SEO title={"Page Not Found"} />
       <h1 style={headingStyles}>Page not found</h1>
       <p style={paragraphStyles}>
         Sorry{" "}
@@ -48,7 +44,7 @@ const NotFoundPage = () => {
         <br />
         <Link to="/">Go home</Link>.
       </p>
-    </main>
+    </Layout>
   );
 };
 

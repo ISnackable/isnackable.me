@@ -38,7 +38,7 @@
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     flex-direction: row;
-    font-size: var(--font-small-size);
+    font-size: var(--font-base-size);
     height: auto;
     margin: 1em auto;
   }
@@ -104,6 +104,11 @@
   }
 }
 
+[aria-current="page"]:not([aria-current="false"]) {
+  opacity: 1;
+  outline: 2px solid transparent;
+}
+
 .tab:hover,
 .tab:focus {
   opacity: 1;
@@ -135,7 +140,7 @@
   transition: transform 0.4s ease-out;
 }
 
-.icon {
+.logo {
   min-width: 56px;
   margin: -12px 12px 0 12px;
   flex-grow: 1;
@@ -144,12 +149,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   display: flex;
 }
 
 @media (min-width: 900px) {
-  .icon {
+  .logo {
     display: flex;
     flex-grow: 1;
     order: -1;
@@ -166,7 +170,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   display: none;
 }
 

@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: "ISnackable Site",
-    titleTemplate: "%s · The Real Hero",
+    title: "ISnackable, Cybersecurity",
+    titleTemplate: "%s — ISnackable, Cybersecurity",
     description: "A personal site",
     siteUrl: "https://www.isnackable.me",
     image: "/icons/icon-512x512.png", // Path to your image you placed in the 'static' folder
-    githubUsername: "@ISnackable",
+    twitterUsername: "@ISnackable",
   },
   plugins: [
     {
