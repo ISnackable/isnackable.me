@@ -9,7 +9,7 @@ const BlogPage = () => {
       <SEO title={"Blog"} description={"A collection of my blog posts"} />
       <h1>Blog Page</h1>
       <input type="search"></input>
-      <StaticImage src="/svg/algolia-full.svg" alt="Algolia Icon" />
+      <StaticImage src="../../static/svg/algolia-full.svg" alt="Algolia Icon" />
       <button>filter</button>
       <p>All posts</p>
     </Layout>

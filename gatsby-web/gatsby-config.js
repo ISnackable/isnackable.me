@@ -1,3 +1,8 @@
+// Load variables from `.env` as soon as possible
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
+
 module.exports = {
   siteMetadata: {
     title: "ISnackable, Cybersecurity",
@@ -11,8 +16,8 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: "dbozi5wf",
-        dataset: "production",
+        projectId: process.env.GATSBY_SANITY_PROJECT_ID,
+        dataset: process.env.GATSBY_SANITY_DATASET,
         // a token with read permissions is required
         // if you have a private dataset
         token: process.env.SANITY_TOKEN,
@@ -30,8 +35,8 @@ module.exports = {
         name: "ISnackable's Blog",
         short_name: "ISnackable",
         start_url: "/",
-        background_color: "#f7f0eb",
-        theme_color: "#a2466c",
+        background_color: "#141414",
+        theme_color: "#ffffff",
         display: "standalone",
         lang: "en",
         icons: [
