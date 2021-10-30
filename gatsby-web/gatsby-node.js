@@ -1,4 +1,4 @@
-const { isFuture } = require("date-fns");
+const { parseISO, isFuture } = require("date-fns");
 
 // async function createProjectPages(
 //   pathPrefix = "/",
@@ -66,7 +66,7 @@ async function createBlogPostPages(
 
   const postEdges = (result.data.allSanityPost || {}).edges || [];
   postEdges
-    .filter((edge) => !isFuture(edge.node.publishedAt))
+    .filter((edge) => !isFuture(parseISO(edge.node.publishedAt))) // should validate publishedAt before parsing
     .forEach((edge) => {
       const { id, slug = {} } = edge.node;
       const path = `${pathPrefix}/${slug.current}/`;

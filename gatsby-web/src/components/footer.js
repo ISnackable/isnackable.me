@@ -7,8 +7,8 @@ const Footer = () => {
       <button>Contact</button>
       <span></span>
       <a href="https://github.com/ISnackable">GitHub</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Twitter</a>
+      <a href="https://www.linkedin.com/in/#/">LinkedIn</a>
+      <a href="https://hackerone.com/isnackable">HackerOne</a>
     </footer>
   );
 };

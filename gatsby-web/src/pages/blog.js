@@ -1,19 +1,152 @@
 import React from "react";
-import { StaticImage } from "gatsby-plugin-image";
+import { Link, graphql } from "gatsby";
+import { StaticImage, GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
-import SEO from "../components/seo";
+import Seo from "../components/seo";
+import {
+  getBlogUrl,
+  toDateString,
+  mapEdgesToNodes,
+  filterOutDocsWithoutSlugs,
+  filterOutDocsPublishedInTheFuture,
+} from "../lib/helpers";
 
-const BlogPage = () => {
+const BlogPage = (props) => {
+  const { data } = props;
+  const postNodes = (data || {}).allSanityPost
+    ? mapEdgesToNodes(data.allSanityPost)
+        .filter(filterOutDocsWithoutSlugs)
+        .filter(filterOutDocsPublishedInTheFuture)
+    : [];
+
   return (
     <Layout>
-      <SEO title={"Blog"} description={"A collection of my blog posts"} />
-      <h1>Blog Page</h1>
-      <input type="search"></input>
-      <StaticImage src="../../static/svg/algolia-full.svg" alt="Algolia Icon" />
-      <button>filter</button>
-      <p>All posts</p>
+      <Seo title={"Blog"} description={"A collection of my blog posts"} />
+      <section>
+        <div className="px-4 py-12 mx-auto">
+          <div className="max-w-4xl pt-24 mx-auto">
+            <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-white">
+                Blog Post
+              </h1>
+              <p className="lg:w-1/2 w-full leading-relaxed text-opacity-80">
+                I write stuff I find interesting.
+              </p>
+            </div>
+
+            {/* Need to create a search bar component */}
+            <form
+              action=""
+              className="flex justify-center bg-white rounded-xl border-2 overflow-hidden"
+            >
+              <input
+                type="search"
+                placeholder="Search..."
+                className="block rounded-md border-0 focus:outline-none focus:ring-0 focus:border-blue-500 flex-grow p-2 text-black"
+              />
+              <button type="submit">
+                <svg
+                  className="h-6 w-6 my-auto m-2"
+                  style={{ color: "gray" }}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
+              <a
+                href="https://www.algolia.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <StaticImage
+                  src="../../static/svg/algolia-full.svg"
+                  alt="Algolia Icon"
+                  height={40}
+                  width={150}
+                />
+              </a>
+            </form>
+
+            {/* Create a filter component */}
+
+            <div className="space-y-8 lg:divide-y lg:divide-gray-800">
+              {postNodes &&
+                postNodes.map((post) => {
+                  return (
+                    <div
+                      key={post.id}
+                      className="pt-8 sm:flex lg:items-end group"
+                    >
+                      <div className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
+                        <GatsbyImage
+                          className="w-full rounded-md sm:h-32 sm:w-32"
+                          image={post.mainImage.asset.gatsbyImageData}
+                          alt={`${post.title} main image`}
+                        />
+                      </div>
+                      <div>
+                        <span className="text-sm text-gray-300">
+                          <time dateTime={post.publishedAt}>
+                            {toDateString(post.publishedAt)}
+                          </time>
+                        </span>
+                        <p className="mt-3 text-lg font-medium leading-6">
+                          <Link
+                            to={getBlogUrl(post.slug)}
+                            className="
+                        text-xl text-neutral-600
+                        group-hover:text-gray-300
+                        lg:text-2xl"
+                            aria-label={`Read "${post.title}"`}
+                          >
+                            {post.title}
+                          </Link>
+                        </p>
+                        <p className="mt-2 text-lg text-gray-300">
+                          Description
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      </section>
     </Layout>
   );
 };
+
+export const query = graphql`
+  query BlogPage {
+    allSanityPost(
+      sort: { fields: [publishedAt], order: DESC }
+      filter: { slug: { current: { ne: null } }, publishedAt: { ne: null } }
+    ) {
+      edges {
+        node {
+          id
+          publishedAt
+          mainImage {
+            asset {
+              gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
+            }
+          }
+          title
+          slug {
+            current
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default BlogPage;

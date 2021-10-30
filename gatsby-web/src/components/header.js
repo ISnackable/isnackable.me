@@ -1,14 +1,41 @@
 // import ReactDOM from "react-dom";
-import React, { useRef } from "react";
+import React, { useState } from "react";
 // import { Mesh } from "three";
 // import { Canvas, useFrame } from "@react-three/fiber";
 import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import * as style from "./header.module.css";
+import useScrollListener from "./useScrollListener";
+import { useMediaQuery } from "react-responsive";
+
+const MINIMUM_SCROLL = 80;
+const TIMEOUT_DELAY = 200;
 
 const Header = () => {
+  const [shouldHideHeader, setShouldHideHeader] = useState(false);
+  const [reachBottom, setReachBottom] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
+
+  useScrollListener((callbackData) => {
+    const { previousScrollTop, currentScrollTop } = callbackData;
+    const isScrolledDown = previousScrollTop < currentScrollTop;
+    const isMinimumScrolled = currentScrollTop > MINIMUM_SCROLL;
+    const isBottom =
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      document.documentElement.scrollHeight;
+
+    setReachBottom(isBottom);
+
+    setTimeout(() => {
+      setShouldHideHeader(isScrolledDown && isMinimumScrolled && !isBottom);
+    }, TIMEOUT_DELAY);
+  });
+
+  const hiddenStyle =
+    shouldHideHeader && isMobile && !reachBottom ? "navbar--hidden" : "";
+
   return (
-    <nav className={style.navbar}>
+    <nav className={`${style.navbar} ${hiddenStyle}`}>
       <Link className={style.tab} to="/">
         <svg
           className={style.icon}
@@ -52,7 +79,12 @@ const Header = () => {
         Projects
       </Link>
       <div className={style.logo}>
-        <StaticImage src="../images/icon.png" alt="Logo" />
+        <StaticImage
+          src="../images/icon.png"
+          height={63}
+          width={63}
+          alt="Logo"
+        />
         {/* <Canvas></Canvas> */}
       </div>
       <Link className={style.tab} to="/tools">
