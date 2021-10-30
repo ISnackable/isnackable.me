@@ -23,13 +23,13 @@ const BlogPage = (props) => {
     <Layout>
       <Seo title={"Blog"} description={"A collection of my blog posts"} />
       <section>
-        <div className="px-4 py-12 mx-auto">
-          <div className="max-w-4xl pt-24 mx-auto">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="mx-auto">
             <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
               <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-white">
                 Blog Post
               </h1>
-              <p className="lg:w-1/2 w-full leading-relaxed text-opacity-80">
+              <p className="lg:w-1/2 w-full leading-relaxed text-opacity-80 text-gray-400">
                 I write stuff I find interesting.
               </p>
             </div>
@@ -37,29 +37,27 @@ const BlogPage = (props) => {
             {/* Need to create a search bar component */}
             <form
               action=""
-              className="flex justify-center bg-white rounded-xl border-2 overflow-hidden"
+              className="flex justify-center  overflow-hidden border-0"
             >
               <input
                 type="search"
                 placeholder="Search..."
-                className="block rounded-md border-0 focus:outline-none focus:ring-0 focus:border-blue-500 flex-grow p-2 text-black"
+                className="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:ring-2 focus:ring-indigo-900 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
-              <button type="submit">
-                <svg
-                  className="h-6 w-6 my-auto m-2"
-                  style={{ color: "gray" }}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
+              <svg
+                className="h-6 w-6 my-auto m-2"
+                style={{ color: "gray" }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
               <a
                 href="https://www.algolia.com"
                 rel="noopener noreferrer"
