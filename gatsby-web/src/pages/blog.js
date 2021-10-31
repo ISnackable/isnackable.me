@@ -108,7 +108,7 @@ const BlogPage = (props) => {
                           </Link>
                         </p>
                         <p className="mt-2 text-lg text-gray-300">
-                          Description
+                          {post?.description}
                         </p>
                       </div>
                     </div>
@@ -141,6 +141,7 @@ export const query = graphql`
           slug {
             current
           }
+          description
         }
       }
     }

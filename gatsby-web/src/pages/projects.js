@@ -1,9 +1,16 @@
 import React from "react";
-// import { graphql } from "gatsby";
+import { graphql } from "gatsby";
+import { GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
+import { mapEdgesToNodes } from "../lib/helpers";
 
-const ProjectsPage = () => {
+const ProjectsPage = (props) => {
+  const { data } = props;
+  const projectNodes = (data || {}).allSanityProject
+    ? mapEdgesToNodes(data.allSanityProject)
+    : [];
+
   return (
     <Layout>
       <Seo
@@ -21,30 +28,29 @@ const ProjectsPage = () => {
             </p>
           </div>
           <div className="flex flex-wrap -m-4">
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-700 border-opacity-75 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-gray-800 text-blue-400 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-white font-medium title-font mb-2">
-                  Project #1
-                </h2>
-                <p className="leading-relaxed text-base">Project Description</p>
-              </div>
-            </div>
+            {projectNodes &&
+              projectNodes.map((project) => {
+                return (
+                  <div key={project.id} className="xl:w-1/3 md:w-1/2 p-4">
+                    <div className="border border-gray-700 border-opacity-75 p-6 rounded-lg">
+                      <GatsbyImage
+                        className="w-10 h-10 inline-flex items-center justify-center rounded-full mb-4"
+                        image={project.mainImage.asset.gatsbyImageData}
+                        alt={`${project.title} main image`}
+                      />
+                      <h2 className="text-lg text-white font-medium title-font mb-2">
+                        <a href={project.projectUrl ?? ""}>{project.title}</a>
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        {project.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
-          <button className="flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
-            More at GitHub
+          <button className="flex mx-auto mt-16 text-black bg-blue-400 border-0 py-2 px-8 focus:outline-none hover:text-gray-300 hover:bg-blue-600 rounded text-lg">
+            <a href="https://github.com/ISnackable/">More at GitHub</a>
           </button>
         </div>
       </section>
@@ -52,6 +58,24 @@ const ProjectsPage = () => {
   );
 };
 
-// export const query = graphql``;
+export const query = graphql`
+  query ProjectPage {
+    allSanityProject(filter: { slug: { current: { ne: null } } }) {
+      edges {
+        node {
+          id
+          mainImage {
+            asset {
+              gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
+            }
+          }
+          title
+          description
+          projectUrl
+        }
+      }
+    }
+  }
+`;
 
 export default ProjectsPage;

@@ -19,7 +19,7 @@ const Layout = (props) => {
           type: "spring",
           mass: 0.35,
           stiffness: 75,
-          duration: 0.1,
+          duration: 0.2,
         }}
       >
         {children}

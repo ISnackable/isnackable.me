@@ -20,7 +20,7 @@ module.exports = {
         dataset: process.env.GATSBY_SANITY_DATASET,
         // a token with read permissions is required
         // if you have a private dataset
-        token: process.env.SANITY_TOKEN,
+        token: process.env.SANITY_READ_TOKEN,
         // watchMode: true,
       },
     },

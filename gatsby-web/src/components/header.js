@@ -9,7 +9,7 @@ import useScrollListener from "./useScrollListener";
 import { useMediaQuery } from "react-responsive";
 
 const MINIMUM_SCROLL = 80;
-const TIMEOUT_DELAY = 200;
+const TIMEOUT_DELAY = 100;
 
 const Header = () => {
   const [shouldHideHeader, setShouldHideHeader] = useState(false);

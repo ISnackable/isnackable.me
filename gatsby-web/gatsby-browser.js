@@ -11,7 +11,7 @@ export const shouldUpdateScroll = ({
   getSavedScrollPosition,
 }) => {
   // transition duration from `layout.js` * 1000 to get time in ms
-  const TRANSITION_DELAY = 0.3 * 1000 * 2;
+  const TRANSITION_DELAY = 0.2 * 1000 * 2;
 
   // if it's a "normal" route
   if (location.action === "PUSH") {

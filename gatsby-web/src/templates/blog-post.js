@@ -31,6 +31,7 @@ export const query = graphql`
           gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
         }
       }
+      description
     }
   }
 `;

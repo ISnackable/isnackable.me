@@ -20,3 +20,7 @@ Github: [@ISnackable](https://www.github.com/ISnackable)
 Copyright (C) 2021 ISnackable
 
 This project is [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) licensed.
+
+## References
+
+https://github.com/sanity-io/gatsby-portfolio-preview-poc

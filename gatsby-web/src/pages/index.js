@@ -116,10 +116,10 @@ const IndexPage = (props) => {
                       image={post.mainImage.asset.gatsbyImageData}
                       alt={`${post.title} main image`}
                     />
-                    <h1 className="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
+                    <h1 className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
                       {post.title}
                     </h1>
-                    <p className="mx-auto text-base leading-relaxed text-gray-300 ">
+                    <p className="mx-auto text-base leading-relaxed text-gray-300">
                       <time dateTime={post.publishedAt}>
                         {toDateString(post.publishedAt)}
                       </time>
@@ -301,6 +301,7 @@ export const query = graphql`
           slug {
             current
           }
+          description
         }
       }
     }
