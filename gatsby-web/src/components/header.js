@@ -1,5 +1,5 @@
 // import ReactDOM from "react-dom";
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 // import { Mesh } from "three";
 // import { Canvas, useFrame } from "@react-three/fiber";
 import { Link } from "gatsby";
@@ -12,27 +12,35 @@ const MINIMUM_SCROLL = 80;
 const TIMEOUT_DELAY = 100;
 
 const Header = () => {
+  const _isMounted = useRef(true);
   const [shouldHideHeader, setShouldHideHeader] = useState(false);
-  const [reachBottom, setReachBottom] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
+  useEffect(() => {
+    return () => {
+      _isMounted.current = false;
+    };
+  }, []);
+
   useScrollListener((callbackData) => {
+    if (!_isMounted.current) {
+      return;
+    }
     const { previousScrollTop, currentScrollTop } = callbackData;
     const isScrolledDown = previousScrollTop < currentScrollTop;
     const isMinimumScrolled = currentScrollTop > MINIMUM_SCROLL;
     const isBottom =
-      Math.ceil(window.innerHeight + window.scrollY) >=
+      Math.ceil(window.innerHeight + currentScrollTop) >=
       document.documentElement.scrollHeight;
 
-    setReachBottom(isBottom);
-
     setTimeout(() => {
-      setShouldHideHeader(isScrolledDown && isMinimumScrolled && !isBottom);
+      setShouldHideHeader(
+        isScrolledDown && isMinimumScrolled && isMobile && !isBottom
+      );
     }, TIMEOUT_DELAY);
   });
 
-  const hiddenStyle =
-    shouldHideHeader && isMobile && !reachBottom ? "navbar--hidden" : "";
+  const hiddenStyle = shouldHideHeader ? "navbar--hidden" : "";
 
   return (
     <nav className={`${style.navbar} ${hiddenStyle}`}>

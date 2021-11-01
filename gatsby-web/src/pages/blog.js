@@ -95,7 +95,7 @@ const BlogPage = (props) => {
                             {toDateString(post.publishedAt)}
                           </time>
                         </span>
-                        <p className="mt-3 text-lg font-medium leading-6">
+                        <p className="mt-2 text-lg font-medium leading-6">
                           <Link
                             to={getBlogUrl(post.slug)}
                             className="
