@@ -36,21 +36,42 @@ export default {
         decorators: [
           { title: "Strong", value: "strong" },
           { title: "Emphasis", value: "em" },
-          { title: "Code", value: "code" },
+          { title: "Inline Code", value: "code" },
           { title: "Underline", value: "underline" },
           { title: "Strike", value: "strike-through" },
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: "URL",
             name: "link",
             type: "object",
+            title: "External link",
             fields: [
               {
-                title: "URL",
                 name: "href",
                 type: "url",
+                title: "URL",
+              },
+              {
+                title: "Open in new tab",
+                name: "blank",
+                type: "boolean",
+              },
+            ],
+          },
+          {
+            name: "internalLink",
+            type: "object",
+            title: "Internal link",
+            fields: [
+              {
+                name: "reference",
+                type: "reference",
+                title: "Reference",
+                to: [
+                  { type: "post" },
+                  // other types you may want to link to
+                ],
               },
             ],
           },
@@ -61,13 +82,28 @@ export default {
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
     {
+      name: "break",
+      type: "object",
+      title: "Break",
+      fields: [
+        {
+          name: "style",
+          type: "string",
+          options: {
+            list: ["break", "readMore"],
+          },
+        },
+      ],
+    },
+    {
       type: "image",
       options: { hotspot: true },
     },
     {
-      title: "Code",
+      title: "Code Block",
       name: "code",
       type: "code",
     },
+    { type: "externalImage" },
   ],
 };

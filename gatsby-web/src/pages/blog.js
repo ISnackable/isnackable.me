@@ -85,7 +85,7 @@ const BlogPage = (props) => {
                       <div className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
                         <GatsbyImage
                           className="w-full rounded-md sm:h-32 sm:w-32"
-                          image={post.mainImage.asset.gatsbyImageData}
+                          image={post.mainImage?.asset?.gatsbyImageData}
                           alt={`${post.title} main image`}
                         />
                       </div>

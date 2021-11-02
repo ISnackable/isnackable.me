@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const codeStyles = {
   border: "1px solid #404040",
@@ -9,13 +8,8 @@ const codeStyles = {
   borderRadius: "3px",
 };
 
-const InlineCode = React.memo(() => {
-  const { value } = this.props;
-  return <code style={codeStyles}>{value}</code>;
+const InlineCode = React.memo((props) => {
+  return <code style={codeStyles}>{props.children}</code>;
 });
-
-InlineCode.propTypes = {
-  value: PropTypes.string.isRequired,
-};
 
 export default InlineCode;

@@ -3,6 +3,9 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV || "development"}`,
 });
 
+const clientConfig = require("./client-config");
+const isProd = process.env.NODE_ENV === "production";
+
 module.exports = {
   siteMetadata: {
     title: "ISnackable, Cybersecurity",
@@ -16,12 +19,10 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: process.env.GATSBY_SANITY_PROJECT_ID,
-        dataset: process.env.GATSBY_SANITY_DATASET,
-        // a token with read permissions is required
-        // if you have a private dataset
+        ...clientConfig.sanity,
         token: process.env.SANITY_READ_TOKEN,
-        // watchMode: true,
+        watchMode: !isProd,
+        overlayDrafts: !isProd && process.env.SANITY_READ_TOKEN,
       },
     },
     "gatsby-plugin-postcss",
