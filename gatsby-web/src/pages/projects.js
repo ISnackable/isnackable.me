@@ -31,15 +31,20 @@ const ProjectsPage = (props) => {
             {projectNodes &&
               projectNodes.map((project) => {
                 return (
-                  <div key={project.id} className="xl:w-1/3 md:w-1/2 p-4">
-                    <div className="border border-gray-700 border-opacity-75 p-6 rounded-lg">
+                  <div key={project.id} className="xl:w-1/4 md:w-1/2 p-4">
+                    <div className="bg-gray-800 bg-opacity-40 p-6 rounded-lg">
                       <GatsbyImage
-                        className="w-10 h-10 inline-flex items-center justify-center rounded-full mb-4"
+                        className="h-40 rounded w-full object-cover object-center mb-6"
                         image={project.mainImage.asset.gatsbyImageData}
                         alt={`${project.title} main image`}
                       />
-                      <h2 className="text-lg text-white font-medium title-font mb-2">
-                        <a href={project.projectUrl ?? ""}>{project.title}</a>
+                      <h2 className="text-lg text-white font-medium title-font mb-4">
+                        <a
+                          className="hover:text-gray-300"
+                          href={project.projectUrl ?? ""}
+                        >
+                          {project.title}
+                        </a>{" "}
                       </h2>
                       <p className="leading-relaxed text-base">
                         {project.description}

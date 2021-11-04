@@ -35,42 +35,12 @@ const BlogPage = (props) => {
             </div>
 
             {/* Need to create a search bar component */}
-            <form
-              action=""
-              className="flex justify-center  overflow-hidden border-0"
-            >
-              <input
-                type="search"
-                placeholder="Search..."
-                className="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:ring-2 focus:ring-indigo-900 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-              <svg
-                className="h-6 w-6 my-auto m-2"
-                style={{ color: "gray" }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <a
-                href="https://www.algolia.com"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <StaticImage
-                  src="../../static/svg/algolia-full.svg"
-                  alt="Algolia Icon"
-                  height={40}
-                  width={150}
-                />
-              </a>
-            </form>
+
+            <input
+              type="search"
+              placeholder="Search..."
+              className="w-full bg-gray-900 bg-opacity-40 rounded border border-gray-700 focus:ring-2 focus:ring-blue-900 focus:bg-transparent focus:border-blue-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
 
             {/* Create a filter component */}
 

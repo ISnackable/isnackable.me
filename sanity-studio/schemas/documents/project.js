@@ -5,6 +5,12 @@ export default {
   title: "Project",
   type: "document",
   icon: RiMiniProgramFill,
+  initialValue: () => ({
+    author: {
+      _ref: "4a55f40a-2011-4ee8-8bab-45bac88f88df",
+      _type: "reference",
+    },
+  }),
   fields: [
     {
       name: "title",
@@ -44,11 +50,8 @@ export default {
     },
     {
       name: "mainImage",
-      title: "Main image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
+      title: "Main Image",
+      type: "mainImage",
     },
   ],
   preview: {

@@ -1,0 +1,34 @@
+.copyButton {
+  display: block;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  padding: 6px;
+  margin: 0;
+  font-size: 8px;
+  background: transparent;
+  border: none transparent;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .copyButton {
+    display: none;
+  }
+}
+
+.filename {
+  display: block;
+  background-color: #282a36;
+  color: #cccccc;
+  padding-top: 0.45em;
+  font-size: 1.1em;
+  border-top-left-radius: 0.3em;
+  border-top-right-radius: 0.3em;
+  padding-left: 1.3888888888888888rem;
+  padding-right: 1.3888888888888888rem;
+}
+
+.filename::before {
+  content: "📁 ";
+}

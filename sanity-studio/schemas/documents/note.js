@@ -1,10 +1,10 @@
-import { FaBloggerB } from "react-icons/fa";
+import { MdNoteAlt } from "react-icons/md";
 
 export default {
-  name: "post",
-  title: "Blog",
+  name: "note",
+  title: "Note",
   type: "document",
-  icon: FaBloggerB,
+  icon: MdNoteAlt,
   initialValue: () => ({
     publishedAt: new Date().toISOString(),
     author: {
@@ -55,12 +55,6 @@ export default {
       type: "mainImage",
     },
     {
-      name: "categories",
-      title: "Categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
-    },
-    {
       name: "body",
       title: "Body",
       type: "blockContent",
@@ -104,7 +98,7 @@ export default {
       media: "mainImage",
     },
     prepare({ title = "No title", publishedAt, slug = {}, media }) {
-      const path = `/blog/${slug.current}`;
+      const path = `/note/${slug.current}`;
       return {
         title,
         media,

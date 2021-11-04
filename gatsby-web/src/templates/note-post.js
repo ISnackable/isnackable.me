@@ -6,14 +6,10 @@ import BlogPost from "../components/blog-post";
 import { toPlainText } from "../lib/helpers";
 
 export const query = graphql`
-  query BlogPostTemplateQuery($id: String!) {
-    post: sanityPost(id: { eq: $id }) {
+  query NotePostTemplateQuery($id: String!) {
+    post: sanityNote(id: { eq: $id }) {
       id
       publishedAt
-      categories {
-        _id
-        title
-      }
       title
       slug {
         current
@@ -37,7 +33,7 @@ export const query = graphql`
   }
 `;
 
-const BlogPostTemplate = (props) => {
+const NotePostTemplate = (props) => {
   const { data, errors } = props;
   const post = data && data.post;
 
@@ -57,4 +53,4 @@ const BlogPostTemplate = (props) => {
   );
 };
 
-export default BlogPostTemplate;
+export default NotePostTemplate;

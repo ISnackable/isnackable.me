@@ -95,7 +95,7 @@ const Header = () => {
         />
         {/* <Canvas></Canvas> */}
       </div>
-      <Link className={style.tab} to="/tools">
+      <Link className={style.tab} to="/notes">
         <svg
           className={style.icon}
           width="1em"
@@ -115,7 +115,7 @@ const Header = () => {
           <polyline points="16 12 21 17 17 21 12 16" />
           <line x1="16" y1="17" x2="14.5" y2="18.5" />
         </svg>
-        Tools
+        Notes
       </Link>
       <Link className={style.tab} to="/blog">
         <svg

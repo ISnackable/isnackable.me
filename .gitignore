@@ -60,6 +60,7 @@ typings/
 .cache/
 .DS_Store
 /public
+dist
 yarn-error.log
 
 # editors

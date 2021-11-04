@@ -2,6 +2,7 @@ import React from "react";
 import CodeBlock from "./codeBlock";
 import InlineCode from "./inlineCode";
 import Figure from "./figure";
+import ExternalImage from "./externalImage";
 
 const AuthorReference = ({ node }) => {
   if (node && node.author && node.author.name) {
@@ -14,25 +15,8 @@ const serializers = {
   types: {
     authorReference: AuthorReference,
     code: CodeBlock,
-    image: Figure,
-    externalImage: ({ node }) => {
-      if (!node || !node._key || !node.url) {
-        return null;
-      }
-
-      return (
-        <figure className="relative max-w-xs my-4 mx-auto">
-          <img
-            className="object-cover w-full h-full"
-            src={node?.url}
-            alt={node?.alt ?? ""}
-          />
-          {node?.caption && (
-            <figcaption className="pt-2">{node?.caption}</figcaption>
-          )}
-        </figure>
-      );
-    },
+    figure: Figure,
+    externalImage: ExternalImage,
     break: ({ node }) => {
       const { style } = node;
       if (style === "break") {
@@ -46,28 +30,28 @@ const serializers = {
       switch (style) {
         case "h1":
           return (
-            <h1 className="text-3xl font-medium title-font mt-4">
+            <h1 className="text-4xl font-medium title-font mt-4">
               {props.children}
             </h1>
           );
 
         case "h2":
           return (
-            <h2 className="text-2xl font-medium title-font mt-2">
+            <h2 className="text-3xl font-medium title-font mt-2">
               {props.children}
             </h2>
           );
 
         case "h3":
           return (
-            <h3 className="text-xl font-medium title-font mt-1">
+            <h3 className="text-2xl font-medium title-font mt-1">
               {props.children}
             </h3>
           );
 
         case "h4":
           return (
-            <h4 className="text-lg font-medium title-font mt-0.5">
+            <h4 className="text-xl font-medium title-font mt-0.5">
               {props.children}
             </h4>
           );
@@ -77,7 +61,7 @@ const serializers = {
 
         default:
           return (
-            <p className="text-base leading-relaxed mt-4">{props.children}</p>
+            <p className="text-lg leading-relaxed mt-4">{props.children}</p>
           );
       }
     },

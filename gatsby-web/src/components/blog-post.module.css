@@ -1,5 +1,3 @@
-.root {
-}
 .title {
   font-size: var(--font-title1-size);
 }
@@ -8,12 +6,10 @@
   height: 300px;
 }
 
-.grid {
-}
-
 .mainContent {
   margin-top: 42px;
   color: #dddddd;
+  line-height: 1.5;
 }
 
 .metaContent {
@@ -26,7 +22,4 @@
 }
 
 .categories {
-}
-
-.categoriesHeadline {
 }

@@ -17,7 +17,7 @@ function BlogPost(props) {
   } = props;
 
   return (
-    <article className={styles.root}>
+    <article>
       <section>
         <div className="container w-full px-5 py-24 mx-auto lg:px-32">
           <h1 className={styles.title}>{title}</h1>
@@ -27,7 +27,7 @@ function BlogPost(props) {
               <GatsbyImage
                 alt="content"
                 className="w-16 h-16 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                image={author.image.asset.gatsbyImageData}
+                image={author.mainImage?.asset?.gatsbyImageData}
               />
               <div className="float-left">
                 <h2 className="text-white title-font font-medium">
@@ -38,11 +38,10 @@ function BlogPost(props) {
                 </h5>
               </div>
             </div>
-
             <GatsbyImage
               alt="content"
               className={`object-cover object-center ${styles.mainImage}`}
-              image={mainImage.asset.gatsbyImageData}
+              image={mainImage.asset?.gatsbyImageData}
             />
             <section className={styles.mainContent}>
               {_rawBody && <PortableText blocks={_rawBody} />}

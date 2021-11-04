@@ -1,9 +1,9 @@
 import ExternalImagePreview from "../previews/externalImage";
 
 export default {
-  type: "object",
   name: "externalImage",
   title: "External Image",
+  type: "object",
   fields: [
     {
       name: "url",

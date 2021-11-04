@@ -7,6 +7,8 @@ export default function resolveProductionUrl(document) {
   switch (document._type) {
     case "post":
       return `${baseUrl}/blog/${document?.slug?.current}`;
+    case "note":
+      return `${baseUrl}/note/${document?.slug?.current}`;
 
     default:
       return null;

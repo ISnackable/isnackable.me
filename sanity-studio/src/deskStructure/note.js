@@ -17,15 +17,15 @@ const previewURL =
   window.location.hostname === "localhost" ? localURL : remoteURL;
 
 export default S.listItem()
-  .title("Blog")
-  .schemaType("post")
+  .title("Note")
+  .schemaType("note")
   .child(
-    S.documentTypeList("post")
-      .title("Blog Post")
+    S.documentTypeList("note")
+      .title("Note Post")
       .child((documentId) =>
         S.document()
           .documentId(documentId)
-          .schemaType("post")
+          .schemaType("note")
           .views([
             S.view.form().icon(EditIcon),
             S.view

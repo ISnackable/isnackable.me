@@ -81,28 +81,17 @@ export default {
     // You can add additional types here. Note that you can't use
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
+    { type: "break" },
     {
-      name: "break",
-      type: "object",
-      title: "Break",
-      fields: [
-        {
-          name: "style",
-          type: "string",
-          options: {
-            list: ["break", "readMore"],
-          },
-        },
-      ],
-    },
-    {
-      type: "image",
-      options: { hotspot: true },
+      type: "figure",
     },
     {
       title: "Code Block",
       name: "code",
       type: "code",
+      options: {
+        withFilename: true,
+      },
     },
     { type: "externalImage" },
   ],
