@@ -11,8 +11,6 @@ const NotesPage = (props) => {
     ? mapEdgesToNodes(data.allSanityNote)
     : [];
 
-  console.log(noteNodes);
-
   return (
     <Layout>
       <Seo

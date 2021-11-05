@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useMediaQuery } from "react-responsive";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as style from "./codeBlock.module.css";
@@ -15,6 +16,7 @@ const highlightLine = (lineNumber, linesToHighlight, color = "#455770") => {
 
 const CodeBlock = ({ node }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
   const handleCopy = () => {
     setIsCopied(true);
@@ -82,6 +84,12 @@ const CodeBlock = ({ node }) => {
           marginTop: 0,
           borderTopLeftRadius: !filename ? "0.3em" : 0,
           borderTopRightRadius: !filename ? "0.3em" : 0,
+          lineheight: !isMobile ? "1.5rem" : "1.75rem",
+          fontSize: !isMobile ? "1.125rem" : "1rem",
+        }}
+        codeTagProps={{
+          lineheight: "inherit",
+          fontSize: "inherit",
         }}
         language={language || "text"}
         style={dracula}

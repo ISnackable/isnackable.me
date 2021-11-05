@@ -19,14 +19,15 @@
 
 .filename {
   display: block;
+  margin-bottom: -1px;
   background-color: #282a36;
   color: #cccccc;
   padding-top: 0.45em;
   font-size: 1.1em;
   border-top-left-radius: 0.3em;
   border-top-right-radius: 0.3em;
-  padding-left: 1.3888888888888888rem;
-  padding-right: 1.3888888888888888rem;
+  padding-left: 1.38rem;
+  padding-right: 1.38rem;
 }
 
 .filename::before {
