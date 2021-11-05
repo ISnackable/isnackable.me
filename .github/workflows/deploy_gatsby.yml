@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Setup Node.js environment 💻
         uses: actions/setup-node@v2
@@ -47,8 +47,8 @@ jobs:
           GATSBY_SANITY_PROJECT_ID: ${{ secrets.GATSBY_SANITY_PROJECT_ID }}
           GATSBY_SANITY_DATASET: ${{ secrets.GATSBY_SANITY_DATASET }}
 
-    - name: Deploy Gatsby application 🚀
-      uses: JamesIves/github-pages-deploy-action@4.1.5
-      with:
-        branch: gh-pages
-        folder: gatsby-web/public
+      - name: Deploy Gatsby application 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages
+          folder: gatsby-web/public
