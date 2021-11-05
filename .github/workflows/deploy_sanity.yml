@@ -1,0 +1,33 @@
+name: Deploy Sanity application
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "sanity-studio/**"
+
+defaults:
+  run:
+    working-directory: sanity-studio
+
+jobs:
+  deploy:
+    name: Deploy Sanity application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js environment 💻
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies 📦
+        run: yarn install
+
+      - name: Deploy Sanity application 🚀
+        run: "./node_modules/.bin/sanity deploy"
+        env:
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}

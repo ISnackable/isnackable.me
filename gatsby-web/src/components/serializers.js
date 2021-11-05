@@ -30,28 +30,28 @@ const serializers = {
       switch (style) {
         case "h1":
           return (
-            <h1 className="text-4xl font-medium title-font mt-4">
+            <h1 className="text-4xl font-medium title-font mt-5">
               {props.children}
             </h1>
           );
 
         case "h2":
           return (
-            <h2 className="text-3xl font-medium title-font mt-2">
+            <h2 className="text-3xl font-medium title-font mt-12">
               {props.children}
             </h2>
           );
 
         case "h3":
           return (
-            <h3 className="text-2xl font-medium title-font mt-1">
+            <h3 className="text-2xl font-medium title-font mt-10">
               {props.children}
             </h3>
           );
 
         case "h4":
           return (
-            <h4 className="text-xl font-medium title-font mt-0.5">
+            <h4 className="text-xl font-medium title-font mt-5">
               {props.children}
             </h4>
           );
@@ -61,7 +61,9 @@ const serializers = {
 
         default:
           return (
-            <p className="text-lg leading-relaxed mt-4">{props.children}</p>
+            <p className="text-lg leading-relaxed mt-4 mb-6">
+              {props.children}
+            </p>
           );
       }
     },

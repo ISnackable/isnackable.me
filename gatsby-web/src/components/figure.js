@@ -14,14 +14,16 @@ const Figure = ({ node }) => {
   );
 
   return (
-    <figure className="relative max-w-5xl my-4 mx-auto">
-      <GatsbyImage
-        className="object-cover mx-auto"
-        image={imageDate}
-        alt={node?.alt ?? "figure"}
-      />
-      <figcaption className="pt-2 text-center">{node?.caption}</figcaption>
-    </figure>
+    <div className="flex items-center justify-center my-4">
+      <figure className="relative cursor-pointer">
+        <GatsbyImage
+          className="object-cover mx-auto"
+          image={imageDate}
+          alt={node?.alt ?? "figure"}
+        />
+        <figcaption className="pt-2 text-center">{node?.caption}</figcaption>
+      </figure>
+    </div>
   );
 };
 

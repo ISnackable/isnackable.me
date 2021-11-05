@@ -33,7 +33,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-manifest",
       options: {
-        name: "ISnackable's Blog",
+        name: "ISnackable Personal Site",
         short_name: "ISnackable",
         start_url: "/",
         background_color: "#141414",
@@ -78,8 +78,12 @@ module.exports = {
             type: "image/png",
           },
         ],
+        icon_options: {
+          purpose: `any maskable`,
+        },
       },
     },
+    "gatsby-plugin-offline",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {

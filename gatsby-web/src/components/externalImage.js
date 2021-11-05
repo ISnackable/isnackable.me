@@ -1,7 +1,4 @@
 import React from "react";
-import { GatsbyImage } from "gatsby-plugin-image";
-import { getGatsbyImageData } from "gatsby-source-sanity";
-import clientConfig from "../../client-config";
 
 const Figure = ({ node }) => {
   if (!node || !node._key || !node.url) {
@@ -9,16 +6,18 @@ const Figure = ({ node }) => {
   }
 
   return (
-    <figure className="relative max-w-5xl my-4 mx-auto">
-      <img
-        className="object-cover mx-auto"
-        src={node?.url}
-        alt={node?.alt ?? ""}
-      />
-      {node?.caption && (
-        <figcaption className="pt-2 text-center">{node?.caption}</figcaption>
-      )}
-    </figure>
+    <div className="flex items-center justify-center my-4">
+      <figure className="relative cursor-pointer">
+        <img
+          className="object-cover mx-auto"
+          src={node?.url}
+          alt={node?.alt ?? ""}
+        />
+        {node?.caption && (
+          <figcaption className="pt-2 text-center">{node?.caption}</figcaption>
+        )}
+      </figure>
+    </div>
   );
 };
 

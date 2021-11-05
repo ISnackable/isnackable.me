@@ -95,6 +95,8 @@ const IndexPage = (props) => {
             >
               <img
                 className="object-cover object-center w-full rounded-xl"
+                width={"100%"}
+                height={"100%"}
                 alt="hero"
                 src={hero}
               />

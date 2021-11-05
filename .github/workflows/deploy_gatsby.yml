@@ -1,0 +1,54 @@
+name: Deploy Gatsby application
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "sanity-studio/**"
+  repository_dispatch:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: gatsby-web
+
+jobs:
+  deploy:
+    name: Build Gatsby Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js environment 💻
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Caching Gatsby 🔖
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            gatsby-web/public
+            gatsby-web/.cache
+          key: ${{ runner.os }}-gatsby-build-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-
+
+      - name: Installing dependencies 📦
+        run: yarn install
+
+      - name: Building Gatsby site 🔧
+        run: yarn build --log-pages
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          GATSBY_SANITY_PROJECT_ID: ${{ secrets.GATSBY_SANITY_PROJECT_ID }}
+          GATSBY_SANITY_DATASET: ${{ secrets.GATSBY_SANITY_DATASET }}
+
+    - name: Deploy Gatsby application 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        branch: gh-pages
+        folder: gatsby-web/public
