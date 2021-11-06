@@ -56,7 +56,9 @@ const BlogPage = (props) => {
                         <GatsbyImage
                           className="w-full rounded-md sm:h-32 sm:w-32"
                           image={post.mainImage?.asset?.gatsbyImageData}
-                          alt={`${post.title} main image`}
+                          alt={
+                            post.mainImage?.alt ?? `${post.title} main image`
+                          }
                         />
                       </div>
                       <div>
@@ -106,6 +108,7 @@ export const query = graphql`
             asset {
               gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
             }
+            alt
           }
           title
           slug {

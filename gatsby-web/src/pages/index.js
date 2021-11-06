@@ -116,7 +116,7 @@ const IndexPage = (props) => {
                     <GatsbyImage
                       className="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl"
                       image={post.mainImage.asset.gatsbyImageData}
-                      alt={`${post.title} main image`}
+                      alt={post.mainImage?.alt ?? `${post.title} main image`}
                     />
                     <h1 className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
                       {post.title}
@@ -298,6 +298,7 @@ export const query = graphql`
             asset {
               gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
             }
+            alt
           }
           title
           slug {

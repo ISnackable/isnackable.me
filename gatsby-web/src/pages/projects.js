@@ -36,7 +36,10 @@ const ProjectsPage = (props) => {
                       <GatsbyImage
                         className="h-40 rounded w-full object-cover object-center mb-6"
                         image={project.mainImage.asset.gatsbyImageData}
-                        alt={`${project.title} main image`}
+                        alt={
+                          project.mainImage?.alt ??
+                          `${project.title} main image`
+                        }
                       />
                       <h2 className="text-lg text-white font-medium title-font mb-4">
                         <a
@@ -73,6 +76,7 @@ export const query = graphql`
             asset {
               gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
             }
+            alt
           }
           title
           description

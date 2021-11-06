@@ -27,6 +27,7 @@ export const query = graphql`
         asset {
           gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
         }
+        alt
       }
       description
     }

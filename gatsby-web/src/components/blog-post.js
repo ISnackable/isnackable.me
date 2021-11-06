@@ -25,7 +25,7 @@ function BlogPost(props) {
           <div className="flex flex-col w-full mx-autoprose text-left prose-md">
             <div className="h-full flex items-center my-4 rounded-lg">
               <GatsbyImage
-                alt="content"
+                alt="Author logo"
                 className="w-16 h-16 object-cover object-center flex-shrink-0 rounded-full mr-4"
                 image={author.mainImage?.asset?.gatsbyImageData}
               />
@@ -39,7 +39,7 @@ function BlogPost(props) {
               </div>
             </div>
             <GatsbyImage
-              alt="content"
+              alt={mainImage?.alt ?? `${title} main image`}
               className={`object-cover object-center ${styles.mainImage}`}
               image={mainImage.asset?.gatsbyImageData}
             />

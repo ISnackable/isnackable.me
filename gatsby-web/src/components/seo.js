@@ -50,7 +50,10 @@ const SEO = ({ title, description, image, article }) => {
       )}
       {seo.image && <meta name="twitter:image" content={seo.image} />}
       {/* Algolia IE11 support */}
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CObject.assign%2CObject.entries"></script>
+      <script
+        async
+        src="https://polyfill.io/v3/polyfill.min.js?features=default%2CArray.prototype.find%2CArray.prototype.includes%2CPromise%2CObject.assign%2CObject.entries"
+      ></script>
     </Helmet>
   );
 };

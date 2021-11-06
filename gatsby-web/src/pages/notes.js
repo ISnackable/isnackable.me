@@ -37,7 +37,7 @@ const NotesPage = (props) => {
                       <GatsbyImage
                         className="w-10 h-10 inline-flex items-center justify-center rounded-full mb-4"
                         image={note.mainImage.asset.gatsbyImageData}
-                        alt={`${note.title} main image`}
+                        alt={note.mainImage?.alt ?? `${note.title} main image`}
                       />
                       <h2 className="text-lg text-white font-medium title-font mb-2">
                         <Link
@@ -75,6 +75,7 @@ export const query = graphql`
             asset {
               gatsbyImageData(fit: FILLMAX, placeholder: BLURRED)
             }
+            alt
           }
           title
           slug {
