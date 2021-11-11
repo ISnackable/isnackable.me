@@ -1,6 +1,7 @@
 // import { format, differenceInDays } from "date-fns";
 import React from "react";
 import { GatsbyImage } from "gatsby-plugin-image";
+import { Giscus } from "@giscus/react";
 import PortableText from "./portableText";
 import * as styles from "./blog-post.module.css";
 import { toDateString } from "../lib/helpers";
@@ -22,7 +23,7 @@ function BlogPost(props) {
         <div className="container w-full px-5 py-24 mx-auto lg:px-32">
           <h1 className={styles.title}>{title}</h1>
           <p>{description}</p>
-          <div className="flex flex-col w-full mx-autoprose text-left prose-md">
+          <div className="flex flex-col w-full mx-autoprose text-left prose-md mb-8">
             <div className="h-full flex items-center my-4 rounded-lg">
               <GatsbyImage
                 alt="Author logo"
@@ -47,6 +48,16 @@ function BlogPost(props) {
               {_rawBody && <PortableText blocks={_rawBody} />}
             </section>
           </div>
+          <Giscus
+            repo="ISnackable/isnackable.github.io"
+            repoId="MDEwOlJlcG9zaXRvcnkzNTEwNjU5NzY="
+            category="Announcements"
+            categoryId="DIC_kwDOFOzXeM4B_0gD"
+            mapping="pathname"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            theme="dark"
+          />
         </div>
       </section>
     </article>
