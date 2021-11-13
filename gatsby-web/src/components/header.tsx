@@ -4,9 +4,9 @@ import React, { useRef, useState, useEffect } from "react";
 // import { Canvas, useFrame } from "@react-three/fiber";
 import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import * as style from "./header.module.css";
-import useScrollListener from "./useScrollListener";
 import { useMediaQuery } from "react-responsive";
+import * as style from "./header.module.css";
+import useScrollListener from "../hooks/useScrollListener";
 
 const MINIMUM_SCROLL = 80;
 const TIMEOUT_DELAY = 100;

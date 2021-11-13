@@ -25,8 +25,8 @@ export const getBlogUrl = (slug) => {
   return `/blog/${slug.current || slug}/`;
 };
 
-export const buildImageObj = (source = { asset: {} }) => {
-  const imageObj = {
+export const buildImageObj = (source: any = { asset: {} }) => {
+  const imageObj: any = {
     asset: { _ref: source.asset._ref || source.asset._id },
   };
 
@@ -36,7 +36,7 @@ export const buildImageObj = (source = { asset: {} }) => {
   return imageObj;
 };
 
-export const toPlainText = (blocks) => {
+export const toPlainText = (blocks: Array<any>) => {
   if (!blocks) {
     return "";
   }
@@ -50,7 +50,7 @@ export const toPlainText = (blocks) => {
     .join("\n\n");
 };
 
-export const toDateString = (iso) => {
+export const toDateString = (iso: string) => {
   if (!iso) {
     return "";
   }

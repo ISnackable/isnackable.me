@@ -7,9 +7,9 @@ const Figure = ({ node }) => {
   if (!node || !node.asset || !node.asset._id) {
     return null;
   }
-  const imageDate = getGatsbyImageData(
+  const imageData = getGatsbyImageData(
     node,
-    { maxWidth: 675 },
+    { width: 675 },
     clientConfig.sanity
   );
 
@@ -18,7 +18,7 @@ const Figure = ({ node }) => {
       <figure className="relative cursor-pointer">
         <GatsbyImage
           className="object-cover mx-auto"
-          image={imageDate}
+          image={imageData}
           alt={node?.alt ?? "figure"}
         />
         <figcaption className="pt-2 text-center">{node?.caption}</figcaption>

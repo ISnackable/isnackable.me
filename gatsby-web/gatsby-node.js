@@ -35,7 +35,7 @@ async function createNotePostPages(
       reporter.info(`Creating note post page: ${path}`);
       createPage({
         path,
-        component: require.resolve("./src/templates/note-post.js"),
+        component: require.resolve("./src/templates/note-post.tsx"),
         context: { id },
       });
     });
@@ -76,7 +76,7 @@ async function createBlogPostPages(
       reporter.info(`Creating blog post page: ${path}`);
       createPage({
         path,
-        component: require.resolve("./src/templates/blog-post.js"),
+        component: require.resolve("./src/templates/blog-post.tsx"),
         context: { id },
       });
     });

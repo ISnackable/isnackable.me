@@ -6,7 +6,7 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import * as style from "./codeBlock.module.css";
 
 const highlightLine = (lineNumber, linesToHighlight, color = "#455770") => {
-  const style = { display: "block", width: "auto" };
+  const style = { display: "block", width: "auto", backgroundColor: "" };
 
   if (linesToHighlight.includes(lineNumber)) {
     style.backgroundColor = color;

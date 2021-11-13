@@ -4,7 +4,6 @@ import Layout from "../components/layout";
 import Seo from "../components/seo";
 import logo from "../images/undraw_page_not_found_su-7-k-cropped.svg";
 
-// markup
 const NotFoundPage = () => {
   return (
     <Layout>
