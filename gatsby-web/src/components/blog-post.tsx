@@ -4,6 +4,7 @@ import { Giscus } from "@giscus/react";
 import PortableText from "./portableText";
 import * as styles from "./blog-post.module.css";
 import { toDateString } from "../lib/helpers";
+import SimpleReactLightbox from "simple-react-lightbox";
 
 const BlogPost = (props: any) => {
   const {
@@ -39,7 +40,9 @@ const BlogPost = (props: any) => {
               </div>
             </div>
             <section className={styles.mainContent}>
-              {_rawBody && <PortableText blocks={_rawBody} />}
+              <SimpleReactLightbox>
+                {_rawBody && <PortableText blocks={_rawBody} />}
+              </SimpleReactLightbox>
             </section>
           </div>
           <Giscus

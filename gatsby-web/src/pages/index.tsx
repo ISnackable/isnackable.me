@@ -55,7 +55,6 @@ const IndexPage = (props: any) => {
                   font-bold
                   leading-none
                   tracking-tighter
-                  
                   md:text-5xl
                   lg:text-6xl lg:max-w-7xl
                 "
@@ -203,7 +202,6 @@ const IndexPage = (props: any) => {
                 font-semibold
                 leading-none
                 tracking-tighter
-                
                 lg:text-3xl
               "
               >
@@ -261,7 +259,6 @@ const IndexPage = (props: any) => {
                 font-semibold
                 leading-none
                 tracking-tighter
-                
                 lg:text-3xl
               "
               >
