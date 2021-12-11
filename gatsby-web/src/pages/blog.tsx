@@ -10,8 +10,9 @@ import {
   filterOutDocsWithoutSlugs,
   filterOutDocsPublishedInTheFuture,
 } from "../lib/helpers";
+import { Node } from "../@types/allSanityPost";
 
-const BlogPage = (props) => {
+const BlogPage = (props: any) => {
   const { data } = props;
   const postNodes = (data || {}).allSanityPost
     ? mapEdgesToNodes(data.allSanityPost)
@@ -46,7 +47,7 @@ const BlogPage = (props) => {
 
             <div className="space-y-8 lg:divide-y lg:divide-gray-800">
               {postNodes &&
-                postNodes.map((post) => {
+                postNodes.map((post: Node) => {
                   return (
                     <div
                       key={post.id}
@@ -71,7 +72,7 @@ const BlogPage = (props) => {
                           <Link
                             to={getBlogUrl(post.slug)}
                             className="
-                        text-xl text-neutral-600
+                        text-xl
                         group-hover:text-gray-300
                         lg:text-2xl"
                             aria-label={`Read "${post.title}"`}

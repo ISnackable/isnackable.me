@@ -11,10 +11,10 @@ import {
   filterOutDocsWithoutSlugs,
   filterOutDocsPublishedInTheFuture,
 } from "../lib/helpers";
+import { Node } from "../@types/allSanityPost";
 
-const IndexPage = (props) => {
+const IndexPage = (props: any) => {
   const { data } = props;
-  // console.error(errors);
 
   const site = (data || {}).site;
   const { twitterUsername } = site.siteMetadata;
@@ -55,7 +55,7 @@ const IndexPage = (props) => {
                   font-bold
                   leading-none
                   tracking-tighter
-                  text-neutral-600
+                  
                   md:text-5xl
                   lg:text-6xl lg:max-w-7xl
                 "
@@ -110,7 +110,7 @@ const IndexPage = (props) => {
           <p className="m-5 font-bold text-lg">Some Recent Blog Posts</p>
           <div className="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-4">
             {postNodes &&
-              postNodes.map((post) => {
+              postNodes.map((post: Node) => {
                 return (
                   <div key={post.id} className="p-6">
                     <GatsbyImage
@@ -118,7 +118,7 @@ const IndexPage = (props) => {
                       image={post.mainImage.asset.gatsbyImageData}
                       alt={post.mainImage?.alt ?? `${post.title} main image`}
                     />
-                    <h1 className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
+                    <h1 className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter  lg:text-3xl">
                       {post.title}
                     </h1>
                     <p className="mx-auto text-base leading-relaxed text-gray-300">
@@ -129,7 +129,7 @@ const IndexPage = (props) => {
                     <div className="mt-4">
                       <Link
                         to={getBlogUrl(post.slug)}
-                        className="inline-flex items-center mt-4 font-semibold text-blue-400 lg:mb-0 hover:text-neutral-600"
+                        className="inline-flex items-center mt-4 font-semibold text-blue-400 lg:mb-0 hover:"
                         title="read more"
                         aria-label={`Read "${post.title}"`}
                       >
@@ -203,7 +203,7 @@ const IndexPage = (props) => {
                 font-semibold
                 leading-none
                 tracking-tighter
-                text-neutral-600
+                
                 lg:text-3xl
               "
               >
@@ -261,7 +261,7 @@ const IndexPage = (props) => {
                 font-semibold
                 leading-none
                 tracking-tighter
-                text-neutral-600
+                
                 lg:text-3xl
               "
               >

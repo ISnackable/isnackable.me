@@ -4,8 +4,9 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 import { mapEdgesToNodes } from "../lib/helpers";
+import { Node } from "../@types/allSanityProject";
 
-const ProjectsPage = (props) => {
+const ProjectsPage = (props: any) => {
   const { data } = props;
   const projectNodes = (data || {}).allSanityProject
     ? mapEdgesToNodes(data.allSanityProject)
@@ -29,7 +30,7 @@ const ProjectsPage = (props) => {
           </div>
           <div className="flex flex-wrap -m-4">
             {projectNodes &&
-              projectNodes.map((project) => {
+              projectNodes.map((project: Node) => {
                 return (
                   <div key={project.id} className="xl:w-1/4 md:w-1/2 p-4">
                     <div className="bg-gray-800 bg-opacity-40 p-6 rounded-lg">

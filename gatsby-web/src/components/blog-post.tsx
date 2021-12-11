@@ -1,4 +1,3 @@
-// import { format, differenceInDays } from "date-fns";
 import React from "react";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { Giscus } from "@giscus/react";
@@ -6,7 +5,7 @@ import PortableText from "./portableText";
 import * as styles from "./blog-post.module.css";
 import { toDateString } from "../lib/helpers";
 
-function BlogPost(props) {
+const BlogPost = (props: any) => {
   const {
     _rawBody,
     author,
@@ -39,11 +38,6 @@ function BlogPost(props) {
                 </h5>
               </div>
             </div>
-            <GatsbyImage
-              alt={mainImage?.alt ?? `${title} main image`}
-              className={`object-cover object-center ${styles.mainImage}`}
-              image={mainImage.asset?.gatsbyImageData}
-            />
             <section className={styles.mainContent}>
               {_rawBody && <PortableText blocks={_rawBody} />}
             </section>
@@ -62,6 +56,6 @@ function BlogPost(props) {
       </section>
     </article>
   );
-}
+};
 
 export default BlogPost;

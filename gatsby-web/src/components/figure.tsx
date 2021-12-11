@@ -3,7 +3,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import { getGatsbyImageData } from "gatsby-source-sanity";
 import clientConfig from "../../client-config";
 
-const Figure = ({ node }) => {
+const Figure = ({ node }: any) => {
   if (!node || !node.asset || !node.asset._id) {
     return null;
   }

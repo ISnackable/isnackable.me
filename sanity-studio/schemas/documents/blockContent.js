@@ -28,7 +28,10 @@ export default {
         { title: "H4", value: "h4" },
         { title: "Quote", value: "blockquote" },
       ],
-      lists: [{ title: "Bullet", value: "bullet" }],
+      lists: [
+        { title: "Bullet", value: "bullet" },
+        { title: "Numbered", value: "number" },
+      ],
       // Marks let you mark up inline text in the block editor.
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
@@ -98,6 +101,7 @@ export default {
           { title: "C++", value: "cpp" },
           { title: "C#", value: "csharp" },
           { title: "CSS", value: "css" },
+          { title: "Diff", value: "diff" },
           { title: "Docker", value: "docker" },
           { title: "Go", value: "golang" },
           { title: "GraphQL", value: "graphql" },
@@ -111,6 +115,7 @@ export default {
           { title: "Lua", value: "lua" },
           { title: "Markdown", value: "markdown" },
           { title: "MySQL", value: "mysql" },
+          { title: "Nginx", value: "nginx" },
           { title: "PHP", value: "php" },
           { title: "Plain text", value: "text" },
           { title: "Powershell", value: "powershell" },

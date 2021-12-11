@@ -3,7 +3,7 @@ import BasePortableText from "@sanity/block-content-to-react";
 import clientConfig from "../../client-config";
 import serializers from "./serializers";
 
-const PortableText = ({ blocks }) => (
+const PortableText = ({ blocks }: any) => (
   <BasePortableText
     blocks={blocks}
     serializers={serializers}

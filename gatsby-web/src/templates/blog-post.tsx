@@ -38,7 +38,7 @@ export const query = graphql`
   }
 `;
 
-const BlogPostTemplate = (props) => {
+const BlogPostTemplate = (props: any) => {
   const { data, errors } = props;
   const post = data && data.post;
 

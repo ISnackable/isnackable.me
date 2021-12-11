@@ -4,7 +4,7 @@ import InlineCode from "./inlineCode";
 import Figure from "./figure";
 import ExternalImage from "./externalImage";
 
-const AuthorReference = ({ node }) => {
+const AuthorReference = ({ node }: any) => {
   if (node && node.author && node.author.name) {
     return <span>{node.author.name}</span>;
   }
@@ -17,7 +17,7 @@ const serializers = {
     code: CodeBlock,
     figure: Figure,
     externalImage: ExternalImage,
-    break: ({ node }) => {
+    break: ({ node }: any) => {
       const { style } = node;
       if (style === "break") {
         return <br />;
@@ -25,7 +25,7 @@ const serializers = {
 
       return null;
     },
-    block: (props) => {
+    block: (props: any) => {
       const style = props.node.style || "normal";
       switch (style) {
         case "h1":
@@ -72,20 +72,20 @@ const serializers = {
       }
     },
   },
-  list: (props) =>
+  list: (props: any) =>
     props.type === "bullet" ? (
       <ul className="list-disc my-4 pl-10">{props.children}</ul>
     ) : (
       <ol className="list-decimal">{props.children}</ol>
     ),
-  listItem: (props) => {
+  listItem: (props: any) => {
     return <li>{props.children}</li>;
   },
   marks: {
-    strong: (props) => <strong>{props.children}</strong>,
-    em: (props) => <em>{props.children}</em>,
+    strong: (props: any) => <strong>{props.children}</strong>,
+    em: (props: any) => <em>{props.children}</em>,
     code: InlineCode,
-    internalLink: ({ mark, children }) => {
+    internalLink: ({ mark, children }: any) => {
       const { slug = {} } = mark?.reference;
       const href = `/blog/${slug.current}`;
       return (
@@ -94,7 +94,7 @@ const serializers = {
         </a>
       );
     },
-    link: ({ mark, children }) => {
+    link: ({ mark, children }: any) => {
       const { blank, href } = mark;
       return blank ? (
         <a

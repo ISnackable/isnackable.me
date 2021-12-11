@@ -1,6 +1,6 @@
 import React from "react";
 
-const Figure = ({ node }) => {
+const Figure = ({ node }: any) => {
   if (!node || !node._key || !node.url) {
     return null;
   }

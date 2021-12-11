@@ -2,10 +2,6 @@
   font-size: var(--font-title1-size);
 }
 
-.mainImage {
-  height: 300px;
-}
-
 .mainContent {
   margin-top: 42px;
   color: #dddddd;
@@ -14,8 +10,10 @@
   word-wrap: break-word;
 }
 
+/*
 .metaContent {
 }
+*/
 
 .publishedAt {
   color: #cccccc;
@@ -23,5 +21,11 @@
   font-weight: 600;
 }
 
+/*
 .categories {
+}
+*/
+
+.mainContent img {
+  cursor: zoom-in;
 }

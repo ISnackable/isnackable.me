@@ -34,7 +34,7 @@ export const query = graphql`
   }
 `;
 
-const NotePostTemplate = (props) => {
+const NotePostTemplate = (props: any) => {
   const { data, errors } = props;
   const post = data && data.post;
 

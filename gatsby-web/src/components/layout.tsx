@@ -4,7 +4,7 @@ import Header from "./header";
 import Footer from "./footer";
 import * as styles from "./layout.module.css";
 
-const Layout = (props) => {
+const Layout = (props: any) => {
   const { children } = props;
 
   return (
