@@ -7,9 +7,10 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+/* Android devices doesn't use prefers-color-scheme */
 body {
-  color: #141414;
-  background-color: #fff;
+  color: #fff;
+  background-color: #141414;
 }
 
 @media (prefers-color-scheme: dark) {
