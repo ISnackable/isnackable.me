@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 import logo from "../images/undraw_personal_information_re_vw8a.svg";
@@ -12,7 +11,7 @@ const PrivacyPage = () => {
         <div className="container flex flex-col items-center px-5 py-8 mx-auto  max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col w-full max-w-3xl mx-auto prose text-left prose-blue">
             <div className="w-full mx-auto">
-              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-white mb-5">
+              <h1 className="sm:text-3xl text-2xl font-medium title-font text-white mb-5">
                 Privacy Policy
               </h1>
               <h2 className="text-white title-font font-medium mb-4">

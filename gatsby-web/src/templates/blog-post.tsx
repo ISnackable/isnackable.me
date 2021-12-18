@@ -50,6 +50,7 @@ const BlogPostTemplate = (props: any) => {
           title={post.title || "Untitled"}
           description={toPlainText(post?._rawBody)}
           image={post?.mainImage?.asset?.gatsbyImageData?.images?.fallback?.src}
+          article={true}
         />
       )}
 

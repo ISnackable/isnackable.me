@@ -1,19 +1,23 @@
 import { format, isFuture, parseISO } from "date-fns";
 
-export const cn = (...args) => {
+export const cn = (...args: any) => {
   return args.filter(Boolean).join(" ");
 };
 
-export const mapEdgesToNodes = (data) => {
+export const mapEdgesToNodes = (data: any) => {
   if (!data?.edges) return [];
-  return data.edges.map((edge) => edge.node);
+  return data.edges.map((edge: any) => edge.node);
 };
 
-export const filterOutDocsWithoutSlugs = ({ slug }) => {
+export const filterOutDocsWithoutSlugs = ({ slug }: any) => {
   return (slug || {}).current;
 };
 
-export const filterOutDocsPublishedInTheFuture = ({ publishedAt }) => {
+export const filterOutDocsPublishedInTheFuture = ({
+  publishedAt,
+}: {
+  publishedAt: string;
+}) => {
   try {
     return !isFuture(parseISO(publishedAt));
   } catch (error) {
@@ -21,7 +25,7 @@ export const filterOutDocsPublishedInTheFuture = ({ publishedAt }) => {
   }
 };
 
-export const getBlogUrl = (slug) => {
+export const getBlogUrl = (slug: any) => {
   return `/blog/${slug.current || slug}/`;
 };
 
@@ -45,7 +49,7 @@ export const toPlainText = (blocks: Array<any>) => {
       if (block?._type !== "block" || !block?.children) {
         return "";
       }
-      return block?.children.map((child) => child?.text).join("");
+      return block?.children.map((child: any) => child?.text).join("");
     })
     .join("\n\n");
 };

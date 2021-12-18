@@ -11,6 +11,11 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
         />
+        <meta
+          name="theme-color"
+          content="#141414"
+          media="(prefers-color-scheme: dark)"
+        />
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

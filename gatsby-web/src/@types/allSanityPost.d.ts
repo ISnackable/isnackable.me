@@ -15,6 +15,7 @@ export interface Node {
   title: string;
   slug: Slug;
   description: string;
+  categories: Categories[];
 }
 
 export interface MainImage {
@@ -28,4 +29,8 @@ export interface Asset {
 
 export interface Slug {
   current: string;
+}
+
+export interface Categories {
+  title: string;
 }
