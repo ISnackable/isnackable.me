@@ -117,9 +117,12 @@ const IndexPage = (props: any) => {
                       image={post.mainImage.asset.gatsbyImageData}
                       alt={post.mainImage?.alt ?? `${post.title} main image`}
                     />
-                    <h1 className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter  lg:text-3xl">
+                    <Link
+                      to={getBlogUrl(post.slug)}
+                      className="mx-auto mb-2 text-xl font-semibold leading-none tracking-tighter lg:text-3xl"
+                    >
                       {post.title}
-                    </h1>
+                    </Link>
                     <p className="mx-auto text-base leading-relaxed text-gray-300">
                       <time dateTime={post.publishedAt}>
                         {toDateString(post.publishedAt)}

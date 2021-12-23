@@ -198,28 +198,29 @@ const BlogPage = (props: any) => {
                           }
                         />
                       </div>
-                      <div>
-                        <span className="text-sm text-gray-300">
-                          <time dateTime={post.publishedAt}>
-                            {toDateString(post.publishedAt)}
-                          </time>
-                        </span>
-                        <p className="mt-2 text-lg font-medium leading-6">
-                          <Link
-                            to={getBlogUrl(post.slug)}
-                            className="
+                      <Link to={getBlogUrl(post.slug)}>
+                        <div>
+                          <span className="text-sm text-gray-300">
+                            <time dateTime={post.publishedAt}>
+                              {toDateString(post.publishedAt)}
+                            </time>
+                          </span>
+                          <p className="mt-2 text-lg font-medium leading-6">
+                            <p
+                              className="
                         text-xl
                         group-hover:text-gray-300
                         lg:text-2xl"
-                            aria-label={`Read "${post.title}"`}
-                          >
-                            {post.title}
-                          </Link>
-                        </p>
-                        <p className="mt-2 text-lg text-gray-300">
-                          {post?.description}
-                        </p>
-                      </div>
+                              aria-label={`Read "${post.title}"`}
+                            >
+                              {post.title}
+                            </p>
+                          </p>
+                          <p className="mt-2 text-lg text-gray-300">
+                            {post?.description}
+                          </p>
+                        </div>
+                      </Link>
                     </div>
                   );
                 })

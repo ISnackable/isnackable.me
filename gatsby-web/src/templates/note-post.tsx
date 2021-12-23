@@ -48,8 +48,9 @@ const NotePostTemplate = (props: any) => {
           image={post?.mainImage?.asset?.gatsbyImageData?.images?.fallback?.src}
         />
       )}
+      <h1 className="text-center text-6xl mt-6">Work in progress</h1>
 
-      {post && <BlogPost {...post} />}
+      {/* {post && <BlogPost {...post} />} */}
     </Layout>
   );
 };
