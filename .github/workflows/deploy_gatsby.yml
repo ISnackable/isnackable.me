@@ -14,7 +14,7 @@ defaults:
     working-directory: gatsby-web
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
