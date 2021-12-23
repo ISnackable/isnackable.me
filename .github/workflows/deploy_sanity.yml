@@ -11,6 +11,10 @@ defaults:
   run:
     working-directory: sanity-studio
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy Sanity application

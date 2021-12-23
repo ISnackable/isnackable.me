@@ -13,6 +13,10 @@ defaults:
   run:
     working-directory: gatsby-web
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Build Gatsby Application
