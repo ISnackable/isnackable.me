@@ -6,7 +6,6 @@ on:
       - main
     paths-ignore:
       - "sanity-studio/**"
-  repository_dispatch:
   workflow_dispatch:
 
 defaults:
