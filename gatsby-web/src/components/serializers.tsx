@@ -76,7 +76,7 @@ const serializers = {
     props.type === "bullet" ? (
       <ul className="list-disc my-4 pl-10">{props.children}</ul>
     ) : (
-      <ol className="list-decimal">{props.children}</ol>
+      <ol className="list-decimal my-4 pl-10">{props.children}</ol>
     ),
   listItem: (props: any) => {
     return <li>{props.children}</li>;

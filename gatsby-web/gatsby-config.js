@@ -9,7 +9,7 @@ const isProd = process.env.NODE_ENV === "production";
 module.exports = {
   siteMetadata: {
     title: "ISnackable, Cybersecurity",
-    titleTemplate: "%s — ISnackable, Cybersecurity",
+    titleTemplate: "%s – ISnackable, Cybersecurity",
     description: "A personal site",
     siteUrl: "https://www.isnackable.me",
     image: "icons/icon-512x512.png", // Path to your image you placed in the 'static' folder
