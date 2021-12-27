@@ -12,7 +12,7 @@ defaults:
     working-directory: sanity-studio
 
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: sanity-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
