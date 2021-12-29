@@ -1,7 +1,7 @@
 module.exports = {
   sanity: {
     projectId:
-      process.env.GATSBY_SANITY_PROJECT_ID || "<#< sanity.projectId >#>",
-    dataset: process.env.GATSBY_SANITY_DATASET || "<#< sanity.dataset >#>",
+      process.env.SANITY_STUDIO_API_PROJECT_ID || "<#< sanity.projectId >#>",
+    dataset: process.env.SANITY_STUDIO_API_DATASET || "<#< sanity.dataset >#>",
   },
 };

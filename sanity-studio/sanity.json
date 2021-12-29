@@ -4,8 +4,8 @@
     "name": "ISnackable's Site"
   },
   "api": {
-    "projectId": "dbozi5wf",
-    "dataset": "production"
+    "projectId": "SANITY_STUDIO_API_PROJECT_ID",
+    "dataset": "SANITY_STUDIO_API_DATASET"
   },
   "plugins": [
     "@sanity/base",
@@ -23,9 +23,7 @@
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
