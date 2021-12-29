@@ -47,8 +47,9 @@ jobs:
         run: yarn build --log-pages
         env:
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-          SANITY_STUDIO_API_PROJECT_ID: ${{ secrets.SANITY_STUDIO_API_PROJECT_ID }}
-          SANITY_STUDIO_API_DATASET: ${{ secrets.SANITY_STUDIO_API_DATASET }}
+          GATSBY_SANITY_STUDIO_API_PROJECT_ID: ${{ secrets.SANITY_STUDIO_API_PROJECT_ID }}
+          GATSBY_SANITY_STUDIO_API_DATASET: ${{ secrets.SANITY_STUDIO_API_DATASET }}
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
 
       - name: Deploy Gatsby application 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
