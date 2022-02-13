@@ -9,7 +9,7 @@
 
 ![Personal site preview](./gatsby-web/static/preview.png)
 
-A personal site created with Gatsby as the frontend framework and Sanity.io as the headless content management system.
+A personal site created with Next.js as the frontend framework and Sanity.io as the headless content management system.
 
 ## Authors
 
