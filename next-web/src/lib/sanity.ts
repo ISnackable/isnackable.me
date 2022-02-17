@@ -1,15 +1,15 @@
 import {
-  createImageUrlBuilder,
   createPreviewSubscriptionHook,
   createCurrentUserHook,
 } from "next-sanity";
+import createImageUrlBuilder from "@sanity/image-url";
 import { sanityConfig } from "./sanity.server";
 
 /**
  * Set up a helper function for generating Image URLs with only the asset reference data in your documents.
  * Read more: https://www.sanity.io/docs/image-url
  **/
-export const urlFor = (source) =>
+export const urlFor = (source: String | Object) =>
   createImageUrlBuilder(sanityConfig).image(source);
 
 // Set up the live preview subscription hook

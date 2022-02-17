@@ -12,16 +12,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^3.6.8",
+    "@mantine/hooks": "^3.6.8",
+    "@mantine/next": "^3.6.8",
+    "@mantine/prism": "^3.6.8",
+    "@portabletext/react": "^1.0.3",
     "next": "12.0.10",
     "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-responsive": "^9.0.0-beta.6"
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.18",
     "@types/react": "17.0.39",
-    "@types/react-responsive": "^8.0.5",
     "autoprefixer": "^10.4.2",
     "eslint": "8.9.0",
     "eslint-config-next": "12.0.10",

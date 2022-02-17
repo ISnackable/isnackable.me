@@ -6,15 +6,8 @@
 import { createClient } from "next-sanity";
 
 export const sanityConfig = {
-  /**
-   * Find your project ID and dataset in `sanity.json` in your studio project.
-   * These are considered “public”, but you can use environment variables
-   * if you want differ between local dev and production.
-   *
-   * https://nextjs.org/docs/basic-features/environment-variables
-   **/
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
   apiVersion: "2021-10-21", // Learn more: https://www.sanity.io/docs/api-versioning
   /**
    * Set useCdn to `false` if your application require the freshest possible
@@ -26,17 +19,20 @@ export const sanityConfig = {
 
 export const sanityClient = createClient(sanityConfig);
 
+// Set up a preview client with serverless authentication for drafts
 export const previewClient = createClient({
   ...sanityConfig,
   useCdn: false,
   token: process.env.SANITY_API_TOKEN,
 });
 
-export const getClient = (preview) => (preview ? previewClient : sanityClient);
+// Helper function for easily switching between normal client and preview client
+export const getClient = (usePreview?: Boolean) =>
+  usePreview ? previewClient : sanityClient;
 
-export function overlayDrafts(docs) {
+export function overlayDrafts(docs: any) {
   const documents = docs || [];
-  const overlayed = documents.reduce((map, doc) => {
+  const overlayed = documents.reduce((map: any, doc: any) => {
     if (!doc._id) {
       throw new Error("Ensure that `_id` is included in query projection");
     }

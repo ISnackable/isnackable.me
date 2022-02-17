@@ -2,8 +2,6 @@ html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  color: #fff;
-  background-color: #141414;
 }
 
 a {
@@ -13,6 +11,12 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .navbar--hidden {
+    transform: translateY(108px) translateZ(100px);
+  }
 }
 
 :root {
