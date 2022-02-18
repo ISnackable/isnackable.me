@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
-import { Container, Title, Text, Image } from "@mantine/core";
+import Image from "next/image";
+import { Container, Title, Text } from "@mantine/core";
 import Seo from "@components/seo";
 
 const Projects: NextPage = () => {
@@ -15,20 +16,19 @@ const Projects: NextPage = () => {
             In short
           </Title>
           <Text size="md" my="md">
-            I don't store you data.
+            I don&apos;t store you data.
           </Text>
           <Text size="md" my="md">
             This website is hosted on GitHub Pages, which is just a static site.
-            There isn't any place to store any information collected. GitHub
-            might see your IP address when visiting to my website, but that is
-            the nature of visiting a website.
+            There isn&apos;t any place to store any information collected.
+            GitHub might see your IP address when visiting to my website, but
+            that is the nature of visiting a website.
           </Text>
           <Image
-            width={100}
-            height={100}
-            src={null}
+            width={1051}
+            height={704}
+            src="/undraw_personal_information_re_vw8a.svg"
             alt="Undraw personal information logo"
-            withPlaceholder
           />
         </Container>
       </section>

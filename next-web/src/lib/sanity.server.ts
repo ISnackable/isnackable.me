@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* eslint-disable */
 /**
  * Server-side Sanity utilities. By having these in a separate file from the
  * utilities we use on the client side, we are able to tree-shake (remove)
@@ -27,7 +29,7 @@ export const previewClient = createClient({
 });
 
 // Helper function for easily switching between normal client and preview client
-export const getClient = (usePreview?: Boolean) =>
+export const getClient = (usePreview?: boolean) =>
   usePreview ? previewClient : sanityClient;
 
 export function overlayDrafts(docs: any) {

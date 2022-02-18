@@ -19,9 +19,10 @@ interface FilterButtonProps extends UnstyledButtonProps {
 }
 
 const BlogPage: NextPage = (props) => {
-  const UserButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
+  const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     ({ icon, ...others }: FilterButtonProps, ref) => (
       <UnstyledButton
+        aria-label="Filter button"
         ref={ref}
         sx={(theme) => ({
           display: "block",
@@ -73,7 +74,7 @@ const BlogPage: NextPage = (props) => {
             <Grid.Col span={1}>
               <Menu
                 control={
-                  <UserButton
+                  <FilterButton
                     icon={
                       <svg
                         width="32"
