@@ -27,7 +27,7 @@ const Projects: NextPage = () => {
           <Image
             width={1051}
             height={704}
-            src="/undraw_personal_information_re_vw8a.svg"
+            src="/svg/undraw_personal_information_re_vw8a.svg"
             alt="Undraw personal information logo"
           />
         </Container>
