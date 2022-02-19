@@ -7,7 +7,7 @@ export const filterOutDocsWithoutSlugs = ({ slug }: { slug: string }) => {
 };
 
 export const filterOutDocsPublishedInTheFuture = ({
-  publishedAt,
+  publishedAt
 }: {
   publishedAt: string;
 }) => {
