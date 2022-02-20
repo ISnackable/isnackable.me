@@ -1,17 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { Image } from "@mantine/core";
+import Image from "next/image";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import useScrollListener from "@hooks/useScrollListener";
 import style from "./header.module.css";
+import Logo from "../../public/icon.png";
 
 const MINIMUM_SCROLL = 80;
-const TIMEOUT_DELAY = 100;
 
 const Header = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const _isMounted = useRef(true);
-  const [shouldHideHeader, setShouldHideHeader] = useState(false);
+  const [visible, setVisible] = useState(false);
   const isMobile = useMediaQuery("(max-width: 900px)");
+  const dark = colorScheme === "dark";
 
   useEffect(() => {
     return () => {
@@ -20,9 +24,6 @@ const Header = () => {
   }, []);
 
   useScrollListener((callbackData) => {
-    if (!_isMounted.current) {
-      return;
-    }
     const { previousScrollTop, currentScrollTop } = callbackData;
     const isScrolledDown = previousScrollTop < currentScrollTop;
     const isMinimumScrolled = currentScrollTop > MINIMUM_SCROLL;
@@ -30,17 +31,17 @@ const Header = () => {
       Math.ceil(window.innerHeight + currentScrollTop) >=
       document.documentElement.scrollHeight;
 
-    setTimeout(() => {
-      setShouldHideHeader(
-        isScrolledDown && isMinimumScrolled && isMobile && !isBottom
-      );
-    }, TIMEOUT_DELAY);
+    if (_isMounted.current)
+      setVisible(isScrolledDown && isMinimumScrolled && isMobile && !isBottom);
   });
 
-  const hiddenStyle = shouldHideHeader ? "navbar--hidden" : "";
-
   return (
-    <nav className={`${style.navbar} ${hiddenStyle}`}>
+    <nav
+      className={`${style.navbar}`}
+      style={{
+        transform: visible ? "translateY(108px) translateZ(100px)" : ""
+      }}
+    >
       <Link href="/">
         <a className={style.tab}>
           <svg
@@ -88,13 +89,8 @@ const Header = () => {
         </a>
       </Link>
       <div className={style.logo}>
-        <Image
-          src="/icon.png"
-          height={63}
-          width={63}
-          alt="Logo"
-          withPlaceholder
-        />
+        {/* TODO: Can't perform a React state update on an unmounted component. */}
+        <Image src={Logo} height={64} width={64} alt="Logo" layout="fixed" />
       </div>
       <Link href="/notes">
         <a className={style.tab}>
@@ -141,22 +137,46 @@ const Header = () => {
           Blog
         </a>
       </Link>
-      <div className={style.contact}>
-        <svg
-          className={style.icon}
-          width="28"
-          height="28"
-          viewBox="0 0 22 22"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+      <div className={style.switch}>
+        <ActionIcon
+          variant="transparent"
+          color={dark ? "yellow" : "blue"}
+          onClick={() => toggleColorScheme()}
+          title="Toggle color scheme"
         >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <polyline points="3 7 12 13 21 7" />
-        </svg>
+          {dark ? (
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 9a3 3 0 0 0 0 6v-6z" />
+              <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z" />
+            </svg>
+          ) : (
+            <svg
+              width="35"
+              height="35"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+              <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+              <path d="M19 11h2m-1 -1v2" />
+            </svg>
+          )}
+        </ActionIcon>
       </div>
     </nav>
   );

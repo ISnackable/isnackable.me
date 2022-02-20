@@ -38,7 +38,6 @@
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     flex-direction: row;
-    font-size: var(--font-base-size);
     height: auto;
     margin: 1em auto;
   }
@@ -60,7 +59,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: var(--font-micro-size);
   opacity: 0.6;
   transition: opacity 0.2s linear, transform 0.3s ease-out,
     box-shadow 0.2s linear;
@@ -96,7 +94,6 @@
 @media (min-width: 900px) {
   .tab {
     display: flex;
-    font-size: var(--font-micro-size);
     flex-grow: 0;
     order: 0;
     justify-content: center;
@@ -155,7 +152,7 @@
   }
 }
 
-.contact {
+.switch {
   min-width: 56px;
   margin: 0 4px;
   flex-grow: 1;
@@ -168,7 +165,7 @@
 }
 
 @media (min-width: 900px) {
-  .contact {
+  .switch {
     display: flex;
     font-size: 15px;
     flex-grow: 1;

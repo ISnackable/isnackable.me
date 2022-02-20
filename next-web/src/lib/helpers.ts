@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 /* eslint-disable */
-import { format, isFuture, parseISO } from "date-fns";
+import format from "date-fns/format";
+import isFuture from "date-fns/isFuture";
+import parseISO from "date-fns/parseISO";
 
 export const filterOutDocsWithoutSlugs = ({ slug }: { slug: string }) => {
   return slug;

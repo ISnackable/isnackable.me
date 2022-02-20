@@ -13,12 +13,6 @@ a {
   box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
-  .navbar--hidden {
-    transform: translateY(108px) translateZ(100px);
-  }
-}
-
 :root {
   --font-family-sans: "Source Sans Pro", sans-serif;
 
