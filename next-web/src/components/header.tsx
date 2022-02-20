@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { useRouter } from "next/router";
+import { ActionIcon, useMantineColorScheme, Image } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import useScrollListener from "@hooks/useScrollListener";
 import style from "./header.module.css";
-import Logo from "../../public/icon.png";
 
 const MINIMUM_SCROLL = 80;
 
@@ -16,6 +15,10 @@ const Header = () => {
   const [visible, setVisible] = useState(false);
   const isMobile = useMediaQuery("(max-width: 900px)");
   const dark = colorScheme === "dark";
+  const router = useRouter();
+
+  const activeLink = (url: string, pathname: string) =>
+    pathname === url ? "page" : undefined;
 
   useEffect(() => {
     return () => {
@@ -37,13 +40,16 @@ const Header = () => {
 
   return (
     <nav
-      className={`${style.navbar}`}
+      className={style.navbar}
       style={{
         transform: visible ? "translateY(108px) translateZ(100px)" : ""
       }}
     >
-      <Link href="/">
-        <a className={style.tab}>
+      <Link href="/" passHref>
+        <a
+          className={style.tab}
+          aria-current={activeLink("/", router.pathname)}
+        >
           <svg
             className={style.icon}
             width="1em"
@@ -64,8 +70,11 @@ const Header = () => {
           About
         </a>
       </Link>
-      <Link href="/projects">
-        <a className={style.tab}>
+      <Link href="/projects" passHref>
+        <a
+          className={style.tab}
+          aria-current={activeLink("/projects", router.pathname)}
+        >
           <svg
             className={style.icon}
             width="1em"
@@ -89,11 +98,13 @@ const Header = () => {
         </a>
       </Link>
       <div className={style.logo}>
-        {/* TODO: Can't perform a React state update on an unmounted component. */}
-        <Image src={Logo} height={64} width={64} alt="Logo" layout="fixed" />
+        <Image src="/icon.png" height={64} width={64} alt="Logo" />
       </div>
-      <Link href="/notes">
-        <a className={style.tab}>
+      <Link href="/notes" passHref>
+        <a
+          className={style.tab}
+          aria-current={activeLink("/notes", router.pathname)}
+        >
           <svg
             className={style.icon}
             width="1em"
@@ -116,8 +127,11 @@ const Header = () => {
           Notes
         </a>
       </Link>
-      <Link href="/blog">
-        <a className={style.tab}>
+      <Link href="/blog" passHref>
+        <a
+          className={style.tab}
+          aria-current={activeLink("/blog", router.pathname)}
+        >
           <svg
             className={style.icon}
             width="1em"
