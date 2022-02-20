@@ -30,10 +30,6 @@ const headers = async () => {
 const nextConfig = withBundleAnalyzer(
   withPWA({
     reactStrictMode: true,
-    i18n: {
-      locales: ["en"],
-      defaultLocale: "en"
-    },
     pwa: {
       dest: "public",
       runtimeCaching,

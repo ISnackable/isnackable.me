@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
-import Image from "next/image";
-import { Container, Title, Text } from "@mantine/core";
+import { Container, Title, Text, Image } from "@mantine/core";
 import Seo from "@components/seo";
 
 const Projects: NextPage = () => {
@@ -25,8 +24,6 @@ const Projects: NextPage = () => {
             that is the nature of visiting a website.
           </Text>
           <Image
-            width={1051}
-            height={704}
             src="/svg/undraw_personal_information_re_vw8a.svg"
             alt="Undraw personal information logo"
           />
