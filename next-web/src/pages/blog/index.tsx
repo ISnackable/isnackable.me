@@ -10,7 +10,7 @@ import {
   Menu,
   Space,
   UnstyledButton,
-  UnstyledButtonProps,
+  UnstyledButtonProps
 } from "@mantine/core";
 import Seo from "@components/seo";
 
@@ -22,21 +22,23 @@ const BlogPage: NextPage = (props) => {
   const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     ({ icon, ...others }: FilterButtonProps, ref) => (
       <UnstyledButton
-        aria-label="Filter button"
+        aria-labelledby="Filter button"
         ref={ref}
         sx={(theme) => ({
           display: "block",
           padding: 5,
           borderRadius: "100%",
           color:
-            theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+            theme.colorScheme === "dark"
+              ? theme.colors.gray[5]
+              : theme.colors.gray[6],
 
           "&:hover": {
             backgroundColor:
               theme.colorScheme === "dark"
                 ? theme.colors.dark[8]
-                : theme.colors.gray[0],
-          },
+                : theme.colors.gray[0]
+          }
         })}
         {...others}
       >
@@ -73,6 +75,7 @@ const BlogPage: NextPage = (props) => {
             </Grid.Col>
             <Grid.Col span={1}>
               <Menu
+                menuButtonLabel="Filter button"
                 control={
                   <FilterButton
                     icon={
@@ -81,7 +84,7 @@ const BlogPage: NextPage = (props) => {
                         height="32"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
-                        stroke="#ffffff"
+                        stroke="currentColor"
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"

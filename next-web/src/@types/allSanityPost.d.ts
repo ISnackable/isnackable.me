@@ -5,6 +5,7 @@ export interface AllSanityPost {
   publishedAt: string;
   slug: string;
   title: string;
+  categories: Categories[];
 }
 
 export interface MainImage {
@@ -35,4 +36,7 @@ export interface Hotspot {
   width: number;
   x: number;
   y: number;
+}
+export interface Categories {
+  title: string;
 }

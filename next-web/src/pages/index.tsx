@@ -1,45 +1,32 @@
 import type { NextPage } from "next";
-import { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticProps } from "next";
 import Link from "next/link";
 import {
   Container,
   Center,
+  Card,
   Title,
   Text,
   Image,
   SimpleGrid,
   ThemeIcon,
+  Group,
+  Space
 } from "@mantine/core";
-import { groq } from "next-sanity";
 import Seo from "@components/seo";
 import { getClient, overlayDrafts } from "@lib/sanity.server";
-// import { urlFor } from "@lib/sanity";
+import { urlFor } from "@lib/sanity";
+import { toDateString } from "@lib/helpers";
+import { indexPagePosts } from "@lib/groqQueries";
 import type { AllSanityPost } from "../@types/allSanityPost";
 import siteConfig from "../../site.config";
 
 interface Props {
-  data: Posts;
+  allPosts: AllSanityPost[];
   preview: boolean;
 }
 
-interface Posts {
-  posts: AllSanityPost[];
-}
-
-const postQuery = groq`
-*[_type == "post"]{
-  _id,
-  publishedAt,
-  mainImage,
-  title,
-  "slug": slug.current,
-  description
-}|order(publishedAt desc)[0..4]
-`;
-
-const Home: NextPage<Props> = ({ data, preview }) => {
-  console.log(data?.posts);
-
+const Home: NextPage<Props> = ({ allPosts }) => {
   return (
     <>
       <Seo
@@ -52,14 +39,14 @@ const Home: NextPage<Props> = ({ data, preview }) => {
           padding: "96px 64px",
 
           "@media (max-width: 900px)": {
-            padding: 48,
-          },
+            padding: 48
+          }
         })}
       >
         <section id="intro">
           <Center>
             <Title order={1} my="md" sx={{ fontSize: 48 }} align="center">
-              Hey there I'm{" "}
+              Hey there I&apos;m{" "}
               <Text color="blue" inherit component="span">
                 {siteConfig.socialUsername}
               </Text>
@@ -67,56 +54,117 @@ const Home: NextPage<Props> = ({ data, preview }) => {
             </Title>
           </Center>
           <Center>
-            <Text size="md" mb="md" align="center">
-              An aspiring Cyber Specialist and an open-source advocate. I'm also
-              a full-time student studying cybersecurity. P.S. Tommy is just an
-              online alias.
+            <Text
+              size="lg"
+              mb="md"
+              align="center"
+              style={{ maxWidth: "36rem" }}
+            >
+              An aspiring Cyber Specialist and an open-source advocate. I&apos;m
+              also a full-time student studying cybersecurity. P.S. Tommy is
+              just an online alias.
             </Text>
           </Center>
 
+          <Space h={96} />
+
           <Image
+            src="/svg/undraw_hacker_mind_-6-y85.svg"
+            radius="md"
+            alt="Hero"
+            fit="cover"
             width="100%"
             height="100%"
-            src="/undraw_hacker_mind_-6-y85.svg"
-            alt="Hero"
-            withPlaceholder
           />
         </section>
 
+        <Space h={96} />
+
         <section>
-          <Title order={3}>Some Recent Blog Posts</Title>
-          <SimpleGrid
-            cols={4}
-            spacing={48}
-            breakpoints={[{ maxWidth: 980, cols: 1 }]}
-          >
-            {/* TODO: Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak */}
-            {data.posts.length &&
-              data.posts.map((post) => {
-                return (
-                  <div key={post._id}>
+          <Title order={3} ml={20}>
+            Some Recent Blog Posts
+          </Title>
+          <Center>
+            <SimpleGrid
+              cols={4}
+              spacing={48}
+              breakpoints={[
+                { maxWidth: 980, cols: 2, spacing: "md" },
+                { maxWidth: 768, cols: 1, spacing: "sm" }
+              ]}
+            >
+              {allPosts.length > 0 &&
+                allPosts.map((post) => (
+                  <Card
+                    key={post._id}
+                    padding="lg"
+                    sx={(theme) => ({
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[7]
+                          : theme.white
+                    })}
+                  >
+                    <Image
+                      radius="md"
+                      style={{ marginBottom: 32 }}
+                      src={urlFor(post.mainImage).auto("format").url()!}
+                      fit="contain"
+                      width="100%"
+                      height="100%"
+                      alt={post.mainImage?.alt ?? `${post.title} main image`}
+                      withPlaceholder
+                    />
+
+                    <Group position="apart" style={{ marginBottom: 5 }}>
+                      <Link
+                        href={{
+                          pathname: "/blog/[slug]",
+                          query: { slug: post.slug }
+                        }}
+                        passHref
+                      >
+                        <Text weight={500} component="a">
+                          {post.title}
+                        </Text>
+                      </Link>
+                    </Group>
+
+                    <Text mb={16}>
+                      <time dateTime={post.publishedAt}>
+                        {toDateString(post.publishedAt)}
+                      </time>
+                    </Text>
                     <Link
                       href={{
                         pathname: "/blog/[slug]",
-                        query: { slug: post.slug },
+                        query: { slug: post.slug }
                       }}
+                      aria-label={`Read "${post.title}"`}
+                      passHref
                     >
-                      <a>{post.title}</a>
+                      <Text color="blue" inherit component="a">
+                        Read More »
+                      </Text>
                     </Link>
-                  </div>
-                );
-              })}
-          </SimpleGrid>
+                  </Card>
+                ))}
+            </SimpleGrid>
+          </Center>
         </section>
 
+        <Space h={96} />
+
         <section>
-          <Title order={3}>Experience &amp; Awards</Title>
+          <Title order={3} ml={20}>
+            Experience &amp; Awards
+          </Title>
           <SimpleGrid
             cols={2}
             spacing={48}
             breakpoints={[{ maxWidth: 980, cols: 1 }]}
           >
-            <div>
+            <div style={{ padding: 20 }}>
               <ThemeIcon variant="light" radius="xl" size="xl" mb={20}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +194,7 @@ const Home: NextPage<Props> = ({ data, preview }) => {
                 Cybersecurity forensic incident response intern.
               </Text>
             </div>
-            <div>
+            <div style={{ padding: 20 }}>
               <ThemeIcon variant="light" radius="xl" size="xl" mb={20}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +223,7 @@ const Home: NextPage<Props> = ({ data, preview }) => {
                 Outstanding awards received from others
               </Title>
               <Text size="md">
-                Director's Honour Roll, Scholarship &amp; Edusave Awards.
+                Director&apos;s Honour Roll, Scholarship &amp; Edusave Awards.
               </Text>
             </div>
           </SimpleGrid>
@@ -186,14 +234,13 @@ const Home: NextPage<Props> = ({ data, preview }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const posts = overlayDrafts(await getClient(preview).fetch(postQuery));
+  const allPosts = overlayDrafts(
+    await getClient(preview).fetch(indexPagePosts)
+  );
 
   return {
-    props: {
-      preview,
-      data: { posts },
-    },
-    revalidate: 1,
+    props: { allPosts, preview },
+    revalidate: 1
   };
 };
 
