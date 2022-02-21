@@ -40,7 +40,10 @@ const Header = () => {
     <nav
       className={style.navbar}
       style={{
-        transform: visible ? "translateY(108px) translateZ(100px)" : ""
+        WebkitTransform: visible
+          ? "translateY(108px) translateZ(100px)"
+          : undefined,
+        transform: visible ? "translateY(108px) translateZ(100px)" : undefined
       }}
     >
       <Link href="/" passHref>
@@ -96,7 +99,7 @@ const Header = () => {
         </a>
       </Link>
       <div className={style.logo}>
-        <Image src={Icon} height={64} width={64} alt="Logo" />
+        <Image src={Icon} layout="fixed" height={64} width={64} alt="Logo" />
       </div>
       <Link href="/notes" passHref>
         <a

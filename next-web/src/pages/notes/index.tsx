@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Container, Center, Title, Text, Space } from "@mantine/core";
+import { Container, Center, Title, Text } from "@mantine/core";
 import Seo from "@components/seo";
 
 const Notes: NextPage = () => {
@@ -10,8 +10,7 @@ const Notes: NextPage = () => {
         description={"A collection of notes I find useful"}
       />
       <section>
-        <Space h={96} />
-        <Container size="xl" padding={20}>
+        <Container size="xl" padding={20} my={96}>
           <Center>
             <Title order={1} my="md">
               Collection of notes
@@ -23,7 +22,6 @@ const Notes: NextPage = () => {
             </Text>
           </Center>
         </Container>
-        <Space h={96} />
       </section>
     </>
   );

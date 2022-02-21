@@ -8,7 +8,6 @@ import {
   Text,
   TextInput,
   Menu,
-  Space,
   UnstyledButton,
   UnstyledButtonProps
 } from "@mantine/core";
@@ -18,7 +17,7 @@ interface FilterButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode;
 }
 
-const BlogPage: NextPage = (props) => {
+const BlogPage: NextPage = () => {
   const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     ({ icon, ...others }: FilterButtonProps, ref) => (
       <UnstyledButton
@@ -51,27 +50,21 @@ const BlogPage: NextPage = (props) => {
     <>
       <Seo title={"Blog"} description={"A collection of my blog posts"} />
       <section>
-        <Space h={96} />
-        <Container size="xl" padding={20}>
+        <Container size="xl" padding={20} my={96}>
           <Center>
             <Title order={1} my="md">
               Blog Post
             </Title>
           </Center>
-          <Center>
+          <Center mb={80}>
             <Text size="md" mb="md">
               I write stuff I find interesting.
             </Text>
           </Center>
-          <Space h={80} />
 
           <Grid justify="center" align="center">
             <Grid.Col span={11}>
-              <TextInput
-                placeholder="Search..."
-                aria-label="Search"
-                type="search"
-              />
+              <TextInput placeholder="Search..." aria-label="Search" />
             </Grid.Col>
             <Grid.Col span={1}>
               <Menu
@@ -104,7 +97,6 @@ const BlogPage: NextPage = (props) => {
             </Grid.Col>
           </Grid>
         </Container>
-        <Space h={96} />
       </section>
     </>
   );

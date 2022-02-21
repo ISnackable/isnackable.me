@@ -1,11 +1,11 @@
-import { GetStaticProps, GetStaticPaths } from "next";
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import { GetStaticProps, GetStaticPaths } from "next";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 import { Affix, Button, Text, Transition } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
-import { PortableText } from "@portabletext/react";
-import { getClient } from "@lib/sanity.server";
-import { urlFor, usePreviewSubscription } from "@lib/sanity";
+// import { PortableText } from "@portabletext/react";
+// import { getClient } from "@lib/sanity.server";
+// import { urlFor, usePreviewSubscription } from "@lib/sanity";
 
 // type Props = {
 //   speaker: String;
@@ -25,64 +25,64 @@ const BlogPost = () => {
           )}
         </Transition>
       </Affix>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
-      <div>BlogPage</div>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
+      <Text>BlogPage</Text>
     </>
   );
 };
