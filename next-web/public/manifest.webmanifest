@@ -2,8 +2,8 @@
   "name": "ISnackable Personal Site",
   "short_name": "ISnackable",
   "start_url": "/",
-  "background_color": "#141414",
-  "theme_color": "#ffffff",
+  "background_color": "#1a1b1e",
+  "theme_color": "#c1c2c5",
   "display": "standalone",
   "lang": "en",
   "icons": [

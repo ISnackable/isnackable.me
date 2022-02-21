@@ -1,42 +1,33 @@
 import "@styles/globals.css";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import {
-  MantineProvider,
-  ColorSchemeProvider,
-  ColorScheme
+  MantineProvider
+  // ColorSchemeProvider,
+  // ColorScheme
 } from "@mantine/core";
-import { useHotkeys, useLocalStorageValue } from "@mantine/hooks";
+// import { useHotkeys, useLocalStorageValue } from "@mantine/hooks";
 import Layout from "@components/layout";
-import NoSsr from "@components/NoSsr";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: "dark"
-  });
-
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-
-  useHotkeys([["mod+J", () => toggleColorScheme()]]);
-
   return (
-    <NoSsr>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+        />
+      </Head>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme: "dark" }}
       >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme }}
-        >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </NoSsr>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </MantineProvider>
+    </>
   );
 };
 
