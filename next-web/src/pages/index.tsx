@@ -1,25 +1,25 @@
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Container,
   Center,
   Card,
   Title,
   Text,
-  Image,
   SimpleGrid,
   ThemeIcon,
-  Group,
-  Space
+  Group
 } from "@mantine/core";
 import Seo from "@components/seo";
 import { getClient, overlayDrafts } from "@lib/sanity.server";
-import { urlFor } from "@lib/sanity";
+import { GetNextSanityImage } from "@lib/sanity";
 import { toDateString } from "@lib/helpers";
 import { indexPagePosts } from "@lib/groqQueries";
 import type { AllSanityPost } from "../@types/allSanityPost";
 import siteConfig from "../../site.config";
+import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
 interface Props {
   allPosts: AllSanityPost[];
@@ -40,6 +40,10 @@ const Home: NextPage<Props> = ({ allPosts }) => {
 
           "@media (max-width: 900px)": {
             padding: 48
+          },
+
+          "@media (max-width: 640px)": {
+            padding: "48px 20px"
           }
         })}
       >
@@ -53,7 +57,7 @@ const Home: NextPage<Props> = ({ allPosts }) => {
               , Tommy
             </Title>
           </Center>
-          <Center>
+          <Center mb={96}>
             <Text
               size="lg"
               mb="md"
@@ -66,21 +70,10 @@ const Home: NextPage<Props> = ({ allPosts }) => {
             </Text>
           </Center>
 
-          <Space h={96} />
-
-          <Image
-            src="/svg/undraw_hacker_mind_-6-y85.svg"
-            radius="md"
-            alt="Hero"
-            fit="cover"
-            width="100%"
-            height="100%"
-          />
+          <Image src={svgImage} alt="Hero" layout="responsive" priority />
         </section>
 
-        <Space h={96} />
-
-        <section>
+        <section style={{ margin: "96px 0px" }}>
           <Title order={3} ml={20}>
             Some Recent Blog Posts
           </Title>
@@ -94,68 +87,68 @@ const Home: NextPage<Props> = ({ allPosts }) => {
               ]}
             >
               {allPosts.length > 0 &&
-                allPosts.map((post) => (
-                  <Card
-                    key={post._id}
-                    padding="lg"
-                    sx={(theme) => ({
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white
-                    })}
-                  >
-                    <Image
-                      radius="md"
-                      style={{ marginBottom: 32 }}
-                      src={urlFor(post.mainImage).auto("format").url()!}
-                      fit="contain"
-                      width="100%"
-                      height="100%"
-                      alt={post.mainImage?.alt ?? `${post.title} main image`}
-                      withPlaceholder
-                    />
+                allPosts.map((post) => {
+                  const imageProps = GetNextSanityImage(post.mainImage);
 
-                    <Group position="apart" style={{ marginBottom: 5 }}>
+                  return (
+                    <Card
+                      key={post._id}
+                      padding="lg"
+                      sx={(theme) => ({
+                        backgroundColor: theme.colors.dark[7]
+                      })}
+                    >
+                      <Image
+                        {...imageProps}
+                        className="rounded-lg"
+                        placeholder="blur"
+                        layout="responsive"
+                        sizes="(max-width: 800px) 100vw, 800px"
+                        alt={post.mainImage?.alt ?? `${post.title} main image`}
+                      />
+
+                      <Group
+                        position="apart"
+                        style={{ margin: "32px 0px 5px 0px" }}
+                      >
+                        <Link
+                          href={{
+                            pathname: "/blog/[slug]",
+                            query: { slug: post.slug }
+                          }}
+                          passHref
+                        >
+                          <Text weight={500} component="a">
+                            {post.title}
+                          </Text>
+                        </Link>
+                      </Group>
+
+                      <Text mb={16}>
+                        <time dateTime={post.publishedAt}>
+                          {toDateString(post.publishedAt)}
+                        </time>
+                      </Text>
                       <Link
                         href={{
                           pathname: "/blog/[slug]",
                           query: { slug: post.slug }
                         }}
+                        aria-label={`Read "${post.title}"`}
                         passHref
                       >
-                        <Text weight={500} component="a">
-                          {post.title}
+                        <Text color="blue" inherit component="a">
+                          Read More »
                         </Text>
                       </Link>
-                    </Group>
-
-                    <Text mb={16}>
-                      <time dateTime={post.publishedAt}>
-                        {toDateString(post.publishedAt)}
-                      </time>
-                    </Text>
-                    <Link
-                      href={{
-                        pathname: "/blog/[slug]",
-                        query: { slug: post.slug }
-                      }}
-                      aria-label={`Read "${post.title}"`}
-                      passHref
-                    >
-                      <Text color="blue" inherit component="a">
-                        Read More »
-                      </Text>
-                    </Link>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
             </SimpleGrid>
           </Center>
         </section>
 
-        <Space h={96} />
-
-        <section>
+        <section style={{ margin: "96px 0px" }}>
           <Title order={3} ml={20}>
             Experience &amp; Awards
           </Title>

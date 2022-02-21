@@ -16,8 +16,7 @@ export const sanityConfig = {
    * data always (potentially slightly slower and a bit more expensive).
    * Authenticated request (like preview) will always bypass the CDN
    **/
-  useCdn: process.env.NODE_ENV === "production",
-  token: process.env.SANITY_API_TOKEN
+  useCdn: process.env.NODE_ENV === "production"
 };
 
 export const sanityClient = createClient(sanityConfig);
@@ -25,7 +24,8 @@ export const sanityClient = createClient(sanityConfig);
 // Set up a preview client with serverless authentication for drafts
 export const previewClient = createClient({
   ...sanityConfig,
-  useCdn: false
+  useCdn: false,
+  token: process.env.SANITY_API_TOKEN
 });
 
 // Helper function for easily switching between normal client and preview client
