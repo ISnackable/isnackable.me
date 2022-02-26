@@ -13,20 +13,19 @@ import {
   Group
 } from "@mantine/core";
 import Seo from "@components/seo";
-import { getClient, overlayDrafts } from "@lib/sanity.server";
+import { getAllPosts } from "@lib/sanity.server";
 import { GetNextSanityImage } from "@lib/sanity";
 import { toDateString } from "@lib/helpers";
-import { indexPagePosts } from "@lib/groqQueries";
 import type { AllSanityPost } from "../@types/allSanityPost";
 import siteConfig from "../../site.config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
 interface Props {
-  allPosts: AllSanityPost[];
+  posts: AllSanityPost[];
   preview: boolean;
 }
 
-const Home: NextPage<Props> = ({ allPosts }) => {
+const Home: NextPage<Props> = ({ posts }) => {
   return (
     <>
       <Seo
@@ -86,8 +85,8 @@ const Home: NextPage<Props> = ({ allPosts }) => {
                 { maxWidth: 768, cols: 1, spacing: "sm" }
               ]}
             >
-              {allPosts.length > 0 &&
-                allPosts.map((post) => {
+              {posts.length > 0 &&
+                posts.map((post) => {
                   const imageProps = GetNextSanityImage(post.mainImage);
 
                   return (
@@ -227,13 +226,11 @@ const Home: NextPage<Props> = ({ allPosts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const allPosts = overlayDrafts(
-    await getClient(preview).fetch(indexPagePosts)
-  );
+  const posts = (await getAllPosts()).slice(0, 4);
 
   return {
-    props: { allPosts, preview },
-    revalidate: 1
+    props: { posts, preview },
+    revalidate: 60
   };
 };
 
