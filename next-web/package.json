@@ -12,8 +12,7 @@
     "lint": "next lint",
     "export": "next export",
     "analyze": "ANALYZE=true next build",
-    "cache-posts": "node .next/server/cache.js",
-    "pre-commit": "yarn cache-posts && git add cache/blog.js"
+    "cache-posts": "node .next/server/cache.js"
   },
   "dependencies": {
     "@mantine/core": "^3.6.11",
