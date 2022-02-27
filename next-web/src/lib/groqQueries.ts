@@ -14,8 +14,14 @@ export const getAllPostsQuery = groq`
     categories[]->{title},
 }|order(publishedAt desc)`;
 
-export const getAllProjectQuery = groq`
+export const getAllCategoriesQuery = groq`
+*[_type == "category" ${filterDrafts}]{
+    _id,
+    _type,
+    title,
+    description
+}
 `;
 
-export const getAllCategoriesQuery = groq`
+export const getAllProjectQuery = groq`
 `;

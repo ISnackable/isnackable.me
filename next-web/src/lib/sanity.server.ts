@@ -6,8 +6,9 @@
  * code that is not used on the client side.
  */
 import { createClient } from "next-sanity";
-import { getAllPostsQuery } from "./groqQueries";
+import { getAllPostsQuery, getAllCategoriesQuery } from "./groqQueries";
 import type { AllSanityPost } from "../@types/allSanityPost";
+import type { AllSanityCategory } from "../@types/allSanityCategory";
 
 export const sanityConfig = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -52,6 +53,16 @@ export function overlayDrafts<T>(docs: T[]): T[] {
 export async function getAllPosts(preview?: boolean): Promise<AllSanityPost[]> {
   const data: AllSanityPost[] = overlayDrafts(
     await getClient(preview).fetch(getAllPostsQuery)
+  );
+
+  return data;
+}
+
+export async function getAllCategories(
+  preview?: boolean
+): Promise<AllSanityCategory[]> {
+  const data: AllSanityCategory[] = overlayDrafts(
+    await getClient(preview).fetch(getAllCategoriesQuery)
   );
 
   return data;
