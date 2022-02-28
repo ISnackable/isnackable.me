@@ -13,8 +13,8 @@ import {
   Group
 } from "@mantine/core";
 import SEO from "@components/SEO";
+import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts } from "@lib/sanity.server";
-import { GetNextSanityImage } from "@lib/sanity";
 import { toDateString } from "@lib/helpers";
 import type { AllSanityPost } from "../@types/sanity";
 import siteConfig from "../../site.config";
@@ -87,8 +87,6 @@ const Home: NextPage<Props> = ({ posts }) => {
             >
               {posts.length > 0 &&
                 posts.map((post) => {
-                  const imageProps = GetNextSanityImage(post.mainImage);
-
                   return (
                     <Card
                       key={post._id}
@@ -100,13 +98,19 @@ const Home: NextPage<Props> = ({ posts }) => {
                             : theme.white
                       })}
                     >
-                      <Image
-                        {...imageProps}
-                        className="rounded-lg"
-                        placeholder="blur"
-                        layout="responsive"
-                        sizes="(max-width: 800px) 100vw, 800px"
-                        alt={post.mainImage?.alt ?? `${post.title} main image`}
+                      <SanityNextImage
+                        image={post.mainImage}
+                        options={{
+                          className: "rounded-lg",
+                          alt:
+                            post.mainImage?.alt ?? `${post.title} main image`,
+                          layout: "responsive",
+                          placeholder: post.mainImage?.lqip
+                            ? "blur"
+                            : undefined,
+                          blurDataURL: post.mainImage?.lqip,
+                          sizes: "(max-width: 800px) 100vw, 800px"
+                        }}
                       />
 
                       <Group

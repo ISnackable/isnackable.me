@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
-import { forwardRef } from "react";
+import { useCallback, useState, forwardRef } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Container,
   Center,
@@ -14,12 +13,11 @@ import {
   UnstyledButton,
   UnstyledButtonProps
 } from "@mantine/core";
-import Seo from "@components/seo";
+import SEO from "@components/SEO";
+import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts, getAllCategories } from "@lib/sanity.server";
-import { GetNextSanityImage } from "@lib/sanity";
 import { toDateString } from "@lib/helpers";
-import type { AllSanityPost } from "../../@types/allSanityPost";
-import type { AllSanityCategory } from "../../@types/allSanityCategory";
+import type { AllSanityPost, AllSanityCategory } from "../../@types/sanity";
 
 interface Props {
   data: {
@@ -35,6 +33,33 @@ interface FilterButtonProps extends UnstyledButtonProps {
 
 const BlogPage: NextPage<Props> = ({ data, preview }) => {
   const { posts, categories } = data;
+  const [state, setState] = useState({
+    filteredData: posts,
+    query: ""
+  });
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const query = event.target.value.trim();
+
+      const filteredData = posts.filter((post) => {
+        const { description, title, categories } = post;
+        const tag = categories && categories[0]?.title;
+
+        return (
+          description.toLowerCase().includes(query.toLowerCase()) ||
+          title.toLowerCase().includes(query.toLowerCase()) ||
+          (tag && tag.toLowerCase().includes(query.toLowerCase()))
+        );
+      });
+
+      setState({
+        query,
+        filteredData
+      });
+    },
+    [posts]
+  );
 
   const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
     ({ icon, ...others }: FilterButtonProps, ref) => (
@@ -66,7 +91,7 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
 
   return (
     <>
-      <Seo title={"Blog"} description={"A collection of my blog posts"} />
+      <SEO title={"Blog"} description={"A collection of my blog posts"} />
       <section>
         <Container size="xl" padding={20} my={96}>
           <Center>
@@ -80,9 +105,13 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
             </Text>
           </Center>
 
-          <Grid justify="center" align="center">
+          <Grid>
             <Grid.Col span={11}>
-              <TextInput placeholder="Search..." aria-label="Search" />
+              <TextInput
+                placeholder="Search..."
+                aria-label="Search"
+                onChange={handleInputChange}
+              />
             </Grid.Col>
             <Grid.Col span={1}>
               <Menu
@@ -119,20 +148,21 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
             </Grid.Col>
           </Grid>
 
-          {posts.length > 0 &&
-            posts.map((post) => {
-              const imageProps = GetNextSanityImage(post.mainImage);
-
+          {state.filteredData.length > 0 &&
+            state.filteredData.map((post) => {
               return (
                 <Grid key={post._id} my={32}>
                   <Grid.Col xs={2}>
-                    <Image
-                      {...imageProps}
-                      className="rounded-lg"
-                      placeholder="blur"
-                      layout="responsive"
-                      sizes="(max-width: 800px) 100vw, 800px"
-                      alt={post.mainImage?.alt ?? `${post.title} main image`}
+                    <SanityNextImage
+                      image={post.mainImage}
+                      options={{
+                        className: "rounded-lg",
+                        alt: post.mainImage?.alt ?? `${post.title} main image`,
+                        layout: "responsive",
+                        placeholder: post.mainImage?.lqip ? "blur" : undefined,
+                        blurDataURL: post.mainImage?.lqip,
+                        sizes: "(max-width: 800px) 100vw, 800px"
+                      }}
                     />
                   </Grid.Col>
                   <Grid.Col xs={10}>

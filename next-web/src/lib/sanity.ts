@@ -1,11 +1,8 @@
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import {
-  createClient,
   createPreviewSubscriptionHook,
   createCurrentUserHook
 } from "next-sanity";
 import createImageUrlBuilder from "@sanity/image-url";
-import { UseNextSanityImageProps, useNextSanityImage } from "next-sanity-image";
 import { sanityConfig } from "./sanity.server";
 
 /**
@@ -15,12 +12,6 @@ import { sanityConfig } from "./sanity.server";
 export const urlFor = (source: string | object) =>
   createImageUrlBuilder(sanityConfig).image(source);
 
-export const GetNextSanityImage = (
-  source: SanityImageSource
-): UseNextSanityImageProps => {
-  const imageProps = useNextSanityImage(createClient(sanityConfig), source);
-  return imageProps;
-};
 // Set up the live preview subscription hook
 export const usePreviewSubscription =
   createPreviewSubscriptionHook(sanityConfig);

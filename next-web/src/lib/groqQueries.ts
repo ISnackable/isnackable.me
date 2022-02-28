@@ -7,7 +7,10 @@ export const getAllPostsQuery = groq`
 *[_type == "post" ${filterDrafts}]{
     _id,
     publishedAt,
-    mainImage,
+    mainImage{
+        ...,
+        "lqip": asset->metadata.lqip
+    },
     title,
     "slug": slug.current,
     description,

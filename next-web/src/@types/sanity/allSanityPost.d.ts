@@ -1,3 +1,9 @@
+import {
+  SanityAsset,
+  SanityImageObject,
+  SanityImageSource
+} from "@sanity/image-url/lib/types/types";
+
 export interface AllSanityPost {
   _id: string;
   categories: Category[] | null;
@@ -11,14 +17,8 @@ export interface Category {
   title: string;
 }
 
-export interface MainImage {
-  _type: string;
+export interface MainImage extends SanityImageObject {
   alt: string;
-  asset: Asset;
   caption?: string;
-}
-
-export interface Asset {
-  _ref: string;
-  _type: string;
+  lqip?: string;
 }
