@@ -13,6 +13,10 @@ a {
   box-sizing: border-box;
 }
 
+.white {
+  background-color: #fff !important;
+}
+
 .rounded-sm {
   border-radius: 0.125rem;
 }

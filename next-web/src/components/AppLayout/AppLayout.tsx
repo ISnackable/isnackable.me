@@ -3,12 +3,17 @@ import Header from "../Header";
 import Footer from "../Footer";
 import styles from "./layout.module.css";
 
-const AppLayout: NextPage = (props) => {
-  const { children } = props;
+interface Props {
+  colorScheme: string;
+  toggleColorScheme: () => void;
+}
+
+const AppLayout: NextPage<Props> = (props) => {
+  const { children, colorScheme, toggleColorScheme } = props;
 
   return (
     <>
-      <Header />
+      <Header colorScheme={colorScheme} toggleColorScheme={toggleColorScheme} />
       <main className={styles.main}>{children}</main>
       <Footer />
     </>

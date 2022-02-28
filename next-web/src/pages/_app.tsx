@@ -1,15 +1,18 @@
 import "@styles/globals.css";
+import { useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import {
-  MantineProvider
-  // ColorSchemeProvider,
-  // ColorScheme
-} from "@mantine/core";
-// import { useHotkeys, useLocalStorageValue } from "@mantine/hooks";
+import { MantineProvider, ColorScheme } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
 import AppLayout from "@components/AppLayout";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
+
   return (
     <>
       <Head>
@@ -21,9 +24,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme: "dark" }}
+        theme={{ colorScheme }}
       >
-        <AppLayout>
+        <AppLayout
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
+        >
           <Component {...pageProps} />
         </AppLayout>
       </MantineProvider>

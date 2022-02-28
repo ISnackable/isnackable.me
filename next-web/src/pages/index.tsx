@@ -94,7 +94,10 @@ const Home: NextPage<Props> = ({ posts }) => {
                       key={post._id}
                       padding="lg"
                       sx={(theme) => ({
-                        backgroundColor: theme.colors.dark[7]
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white
                       })}
                     >
                       <Image
