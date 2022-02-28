@@ -12,11 +12,11 @@ import {
   ThemeIcon,
   Group
 } from "@mantine/core";
-import Seo from "@components/seo";
+import SEO from "@components/SEO";
 import { getAllPosts } from "@lib/sanity.server";
 import { GetNextSanityImage } from "@lib/sanity";
 import { toDateString } from "@lib/helpers";
-import type { AllSanityPost } from "../@types/allSanityPost";
+import type { AllSanityPost } from "../@types/sanity";
 import siteConfig from "../../site.config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
@@ -28,7 +28,7 @@ interface Props {
 const Home: NextPage<Props> = ({ posts }) => {
   return (
     <>
-      <Seo
+      <SEO
         title={"Home"}
         description={"Home page of ISnackable personal site"}
       />

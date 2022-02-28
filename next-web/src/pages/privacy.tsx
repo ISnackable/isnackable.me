@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { Container, Title, Text } from "@mantine/core";
-import Seo from "@components/seo";
+import SEO from "@components/SEO";
 import svgImage from "../../public/svg/undraw_personal_information_re_vw8a.svg";
 
 const Projects: NextPage = () => {
   return (
     <>
-      <Seo title={"Privacy"} />
+      <SEO title={"Privacy"} />
       <section>
         <Container size="sm">
           <Title order={1} my="xl">

@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import { Container, Center, Title, Text } from "@mantine/core";
-import Seo from "@components/seo";
+import SEO from "@components/SEO";
 
 const Projects: NextPage = () => {
   return (
     <>
-      <Seo
+      <SEO
         title={"Projects"}
         description={"A quick collection of my open-source projects"}
       />

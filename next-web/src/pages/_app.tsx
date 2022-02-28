@@ -7,7 +7,7 @@ import {
   // ColorScheme
 } from "@mantine/core";
 // import { useHotkeys, useLocalStorageValue } from "@mantine/hooks";
-import Layout from "@components/layout";
+import AppLayout from "@components/AppLayout";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -23,9 +23,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         withNormalizeCSS
         theme={{ colorScheme: "dark" }}
       >
-        <Layout>
+        <AppLayout>
           <Component {...pageProps} />
-        </Layout>
+        </AppLayout>
       </MantineProvider>
     </>
   );

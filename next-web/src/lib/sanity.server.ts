@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/* eslint-disable */
 /**
  * Server-side Sanity utilities. By having these in a separate file from the
  * utilities we use on the client side, we are able to tree-shake (remove)
@@ -7,8 +5,11 @@
  */
 import { createClient } from "next-sanity";
 import { getAllPostsQuery, getAllCategoriesQuery } from "./groqQueries";
-import type { AllSanityPost } from "../@types/allSanityPost";
-import type { AllSanityCategory } from "../@types/allSanityCategory";
+import type {
+  GenericSanityDocument,
+  AllSanityPost,
+  AllSanityCategory
+} from "../@types/sanity";
 
 export const sanityConfig = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -35,9 +36,9 @@ export const previewClient = createClient({
 export const getClient = (usePreview?: boolean) =>
   usePreview ? previewClient : sanityClient;
 
-export function overlayDrafts<T>(docs: T[]): T[] {
+export function overlayDrafts<T extends GenericSanityDocument>(docs: T[]): T[] {
   const documents = docs || [];
-  const overlayed = documents.reduce((map: any, doc: any) => {
+  const overlayed: Map<string, T> = documents.reduce((map, doc) => {
     if (!doc._id) {
       throw new Error("Ensure that `_id` is included in query projection");
     }

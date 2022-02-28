@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "../Header";
+import Footer from "../Footer";
 import styles from "./layout.module.css";
 
-const Layout: NextPage = (props) => {
+const AppLayout: NextPage = (props) => {
   const { children } = props;
 
   return (
@@ -15,4 +15,4 @@ const Layout: NextPage = (props) => {
   );
 };
 
-export default Layout;
+export default AppLayout;

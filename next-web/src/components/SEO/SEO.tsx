@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import siteConfig from "../../site.config";
+import siteConfig from "../../../site.config";
 
 interface SEOProps {
   title: string;
