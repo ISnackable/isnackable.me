@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useEffect } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +13,8 @@ import {
   ThemeIcon,
   Group
 } from "@mantine/core";
+import { useNotifications } from "@mantine/notifications";
+import { useLocalStorageValue } from "@mantine/hooks";
 import SEO from "@components/SEO";
 import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts } from "@lib/sanity.server";
@@ -20,12 +23,30 @@ import type { AllSanityPost } from "../@types/sanity";
 import siteConfig from "../../site.config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
+type NewVisitor = "true" | "false";
+
 interface Props {
   posts: AllSanityPost[];
   preview: boolean;
 }
 
 const Home: NextPage<Props> = ({ posts }) => {
+  const [newVisitor, setNewVisitor] = useLocalStorageValue<NewVisitor>({
+    key: "new-visitor",
+    defaultValue: "true"
+  });
+  const notifications = useNotifications();
+
+  useEffect(() => {
+    if (newVisitor === "true") {
+      notifications.showNotification({
+        title: `Hey there! Thanks for checking out my site.`,
+        message: `To change the theme of the site, you can use Ctrl+J or switch icon at the side.`
+      });
+      setNewVisitor("false");
+    }
+  }, []);
+
   return (
     <>
       <SEO

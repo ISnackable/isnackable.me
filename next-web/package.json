@@ -17,6 +17,7 @@
   "dependencies": {
     "@mantine/core": "^3.6.11",
     "@mantine/hooks": "^3.6.11",
+    "@mantine/notifications": "^3.6.11",
     "@mantine/prism": "^3.6.11",
     "@portabletext/react": "^1.0.3",
     "@sanity/asset-utils": "^1.2.3",
