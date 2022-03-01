@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider, ColorScheme } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import { useHotkeys } from "@mantine/hooks";
 import AppLayout from "@components/AppLayout";
 
@@ -26,12 +27,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         withNormalizeCSS
         theme={{ colorScheme }}
       >
-        <AppLayout
-          colorScheme={colorScheme}
-          toggleColorScheme={toggleColorScheme}
-        >
-          <Component {...pageProps} />
-        </AppLayout>
+        <NotificationsProvider>
+          <AppLayout
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
+          >
+            <Component {...pageProps} />
+          </AppLayout>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );

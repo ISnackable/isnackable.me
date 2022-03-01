@@ -100,17 +100,12 @@ const Home: NextPage<Props> = ({ posts }) => {
                     >
                       <SanityNextImage
                         image={post.mainImage}
-                        options={{
-                          className: "rounded-lg",
-                          alt:
-                            post.mainImage?.alt ?? `${post.title} main image`,
-                          layout: "responsive",
-                          placeholder: post.mainImage?.lqip
-                            ? "blur"
-                            : undefined,
-                          blurDataURL: post.mainImage?.lqip,
-                          sizes: "(max-width: 800px) 100vw, 800px"
-                        }}
+                        className="rounded-lg"
+                        alt={post.mainImage?.alt ?? `${post.title} main image`}
+                        layout="responsive"
+                        placeholder={post.mainImage?.lqip ? "blur" : undefined}
+                        blurDataURL={post.mainImage?.lqip}
+                        sizes="(min-width: 1200px) 1200px, 100vw"
                       />
 
                       <Group

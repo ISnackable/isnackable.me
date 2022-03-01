@@ -13,14 +13,9 @@ import Image, { ImageLoader } from "next/image";
 import { urlFor } from "@lib/sanity";
 import { isReference, getImageDimensions } from "@sanity/asset-utils";
 
-interface Props {
+interface Props extends Omit<ImageProps, "src"> {
   image: SanityImageObject;
-  options: SanityNextImageOptions;
-}
-
-interface SanityNextImageOptions extends Omit<ImageProps, "src"> {
   src?: string;
-  lqip?: string;
 }
 
 interface SanityNextImageDimensions {
@@ -36,6 +31,11 @@ interface SanityNextImageBuilderOptions {
   quality: number | null;
 }
 
+interface SanityNextBlurUpImageBuilderOptions
+  extends SanityNextImageBuilderOptions {
+  blurAmount: number | null;
+}
+
 type SanityNextImageBuilderBase<Options> = (
   imageUrlBuilder: ImageUrlBuilder,
   options: Options
@@ -44,7 +44,25 @@ type SanityNextImageBuilderBase<Options> = (
 type SanityNextImageBuilder =
   SanityNextImageBuilderBase<SanityNextImageBuilderOptions>;
 
+type SanityNextBlurUpImageBuilder =
+  SanityNextImageBuilderBase<SanityNextBlurUpImageBuilderOptions>;
+
+const DEFAULT_BLUR_UP_IMAGE_WIDTH = 64;
+const DEFAULT_BLUR_UP_IMAGE_QUALITY = 30;
+const DEFAULT_BLUR_UP_AMOUNT = 50;
+
 const DEFAULT_FALLBACK_IMAGE_QUALITY = 75;
+
+const blurUpImageBuilder: SanityNextBlurUpImageBuilder = (
+  imageUrlBuilder,
+  options
+) => {
+  return imageUrlBuilder
+    .width(options.width || DEFAULT_BLUR_UP_IMAGE_WIDTH)
+    .quality(options.quality || DEFAULT_BLUR_UP_IMAGE_QUALITY)
+    .blur(options.blurAmount || DEFAULT_BLUR_UP_AMOUNT)
+    .fit("clip");
+};
 
 const imageBuilder: SanityNextImageBuilder = (imageUrlBuilder, options) => {
   const result = imageUrlBuilder
@@ -80,7 +98,8 @@ const getCroppedDimensions = (
 };
 
 const SanityNextImage: NextPage<Props> = React.memo((props) => {
-  const { image, options } = props;
+  let blurImgBuilderInstance;
+  const { image, ...imageProps } = props;
   if (!image) {
     return null;
   }
@@ -116,7 +135,7 @@ const SanityNextImage: NextPage<Props> = React.memo((props) => {
   });
 
   const width =
-    (options?.width as number) ||
+    (imageProps?.width as number) ||
     baseImgBuilderInstance.options.width ||
     (baseImgBuilderInstance.options.maxWidth
       ? Math.min(
@@ -126,7 +145,7 @@ const SanityNextImage: NextPage<Props> = React.memo((props) => {
       : croppedImageDimensions.width);
 
   const height =
-    options?.height ||
+    imageProps?.height ||
     baseImgBuilderInstance.options.height ||
     (baseImgBuilderInstance.options.maxHeight
       ? Math.min(
@@ -135,17 +154,32 @@ const SanityNextImage: NextPage<Props> = React.memo((props) => {
         )
       : Math.round(width / croppedImageDimensions.aspectRatio));
 
+  if (
+    imageProps?.placeholder === "blur" &&
+    imageProps?.blurDataURL === undefined
+  ) {
+    blurImgBuilderInstance = blurUpImageBuilder(urlFor(image).auto("format"), {
+      width: null,
+      originalImageDimensions,
+      croppedImageDimensions,
+      quality: null,
+      blurAmount: null
+    });
+  }
+
   return (
-    <div className="sanity-image">
-      <Image
-        loader={loader}
-        src={options?.src ?? baseImgBuilderInstance.url()}
-        alt={options?.alt}
-        width={width}
-        height={height}
-        {...options}
-      />
-    </div>
+    <Image
+      loader={loader}
+      src={imageProps?.src ?? baseImgBuilderInstance.url()}
+      alt={imageProps?.alt}
+      width={width}
+      height={height}
+      placeholder={blurImgBuilderInstance ? "blur" : undefined}
+      blurDataURL={
+        blurImgBuilderInstance ? blurImgBuilderInstance.url() : undefined
+      }
+      {...imageProps}
+    />
   );
 });
 

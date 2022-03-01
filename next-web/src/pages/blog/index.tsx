@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
-import { useCallback, useState, forwardRef } from "react";
+import React, { useCallback, useState, forwardRef } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import {
   Container,
   Center,
+  Divider,
   Grid,
   Title,
   Text,
@@ -38,9 +39,14 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
     query: ""
   });
 
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const query = event.target.value.trim();
+  const handleFilterEvent = useCallback(
+    (event: React.SyntheticEvent) => {
+      let query: string;
+      if (event.type === "change") {
+        query = (event.target as HTMLInputElement).value.trim();
+      } else {
+        query = (event.currentTarget as HTMLElement).innerText;
+      }
 
       const filteredData = posts.filter((post) => {
         const { description, title, categories } = post;
@@ -110,7 +116,7 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
               <TextInput
                 placeholder="Search..."
                 aria-label="Search"
-                onChange={handleInputChange}
+                onChange={handleFilterEvent}
               />
             </Grid.Col>
             <Grid.Col span={1}>
@@ -137,11 +143,19 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
                 }
               >
                 <Menu.Label>Filter</Menu.Label>
-                <Menu.Item>all posts</Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setState({ query: "", filteredData: posts });
+                  }}
+                >
+                  all posts
+                </Menu.Item>
                 {categories.length > 0 &&
                   categories.map((category) => {
                     return (
-                      <Menu.Item key={category._id}>{category.title}</Menu.Item>
+                      <Menu.Item key={category._id} onClick={handleFilterEvent}>
+                        {category.title}
+                      </Menu.Item>
                     );
                   })}
               </Menu>
@@ -151,36 +165,49 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
           {state.filteredData.length > 0 &&
             state.filteredData.map((post) => {
               return (
-                <Grid key={post._id} my={32}>
-                  <Grid.Col xs={2}>
-                    <SanityNextImage
-                      image={post.mainImage}
-                      options={{
-                        className: "rounded-lg",
-                        alt: post.mainImage?.alt ?? `${post.title} main image`,
-                        layout: "responsive",
-                        placeholder: post.mainImage?.lqip ? "blur" : undefined,
-                        blurDataURL: post.mainImage?.lqip,
-                        sizes: "(max-width: 800px) 100vw, 800px"
-                      }}
-                    />
-                  </Grid.Col>
-                  <Grid.Col xs={10}>
-                    <Link
-                      href={{
-                        pathname: "/blog/[slug]",
-                        query: { slug: post.slug }
-                      }}
-                      passHref
-                    >
-                      <a>
-                        <Title order={3}>{post.title}</Title>
-                        <Text size="md">{toDateString(post.publishedAt)}</Text>
-                        <Text size="md">{post.description}</Text>
-                      </a>
-                    </Link>
-                  </Grid.Col>
-                </Grid>
+                <React.Fragment key={post._id}>
+                  <Grid my={32} align="center">
+                    <Grid.Col xs={2}>
+                      <SanityNextImage
+                        image={post.mainImage}
+                        className="rounded-lg"
+                        alt={post.mainImage?.alt ?? `${post.title} main image`}
+                        layout="responsive"
+                        placeholder={post.mainImage?.lqip ? "blur" : undefined}
+                        blurDataURL={post.mainImage?.lqip}
+                        sizes="(min-width: 282px) 282px, 100vw"
+                      />
+                    </Grid.Col>
+                    <Grid.Col xs={10}>
+                      <Link
+                        href={{
+                          pathname: "/blog/[slug]",
+                          query: { slug: post.slug }
+                        }}
+                        passHref
+                      >
+                        <a>
+                          <Text size="sm">
+                            {toDateString(post.publishedAt)}
+                          </Text>
+                          <Text
+                            size="xl"
+                            weight={700}
+                            sx={(theme) => ({
+                              "&:hover": {
+                                color: theme.colors.gray[4]
+                              }
+                            })}
+                          >
+                            {post.title}
+                          </Text>
+                          <Text size="md">{post.description}</Text>
+                        </a>
+                      </Link>
+                    </Grid.Col>
+                  </Grid>
+                  <Divider variant="dotted" />
+                </React.Fragment>
               );
             })}
         </Container>
