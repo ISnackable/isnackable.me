@@ -27,4 +27,13 @@ export const getAllCategoriesQuery = groq`
 `;
 
 export const getAllProjectQuery = groq`
-`;
+*[_type == "project" ${filterDrafts}]{
+    _id,
+    mainImage{
+        ...,
+        "lqip": asset->metadata.lqip
+    },
+    title,
+    description,
+    projectUrl,
+}|order(publishedAt desc)`;

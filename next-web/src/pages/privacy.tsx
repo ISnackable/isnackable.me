@@ -20,10 +20,10 @@ const Projects: NextPage = () => {
             I don&apos;t store you data.
           </Text>
           <Text size="md" my="md">
-            This website is hosted on GitHub Pages, which is just a static site.
-            There isn&apos;t any place to store any information collected.
-            GitHub might see your IP address when visiting to my website, but
-            that is the nature of visiting a website.
+            This website is hosted on Vercel, which is just a static site. There
+            isn&apos;t any place to store any information collected. Vercel
+            might see your IP address when visiting to my website, but that is
+            the nature of visiting a website.
           </Text>
           <Image
             src={svgImage}

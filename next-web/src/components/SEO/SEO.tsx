@@ -16,7 +16,7 @@ const SEO: NextPage<SEOProps> = ({ title, description, image, article }) => {
   const seo = {
     title: title || siteConfig.title,
     description: description || siteConfig.description,
-    image: `${siteConfig.siteUrl}/${image || siteConfig.image}`,
+    image: image || `${siteConfig.siteUrl}/${image || siteConfig.image}`,
     url: `${siteConfig.siteUrl}${asPath}`
   };
 

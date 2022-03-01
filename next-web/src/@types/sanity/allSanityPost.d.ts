@@ -1,8 +1,4 @@
-import {
-  SanityAsset,
-  SanityImageObject,
-  SanityImageSource
-} from "@sanity/image-url/lib/types/types";
+import { SanityImageObject } from "@sanity/image-url/lib/types/types";
 
 export interface AllSanityPost {
   _id: string;

@@ -45,7 +45,7 @@ const Home: NextPage<Props> = ({ posts }) => {
       });
       setNewVisitor("false");
     }
-  }, []);
+  }, [newVisitor, notifications, setNewVisitor]);
 
   return (
     <>

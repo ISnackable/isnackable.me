@@ -12,7 +12,8 @@ import {
   TextInput,
   Menu,
   UnstyledButton,
-  UnstyledButtonProps
+  UnstyledButtonProps,
+  Pagination
 } from "@mantine/core";
 import SEO from "@components/SEO";
 import SanityNextImage from "@components/SanityNextImage";
@@ -33,11 +34,27 @@ interface FilterButtonProps extends UnstyledButtonProps {
 }
 
 const BlogPage: NextPage<Props> = ({ data, preview }) => {
+  const dataLimit = 8;
   const { posts, categories } = data;
+  const [activePage, setPage] = useState(1);
   const [state, setState] = useState({
-    filteredData: posts,
+    filteredData: posts.slice(0, dataLimit),
     query: ""
   });
+
+  const getPaginatedData = useCallback(
+    (page: number) => {
+      const startIndex = page * dataLimit - dataLimit;
+      const endIndex = startIndex + dataLimit;
+
+      setPage(page);
+      setState({
+        query: "",
+        filteredData: posts.slice(startIndex, endIndex)
+      });
+    },
+    [posts]
+  );
 
   const handleFilterEvent = useCallback(
     (event: React.SyntheticEvent) => {
@@ -59,9 +76,10 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
         );
       });
 
+      setPage(1);
       setState({
         query,
-        filteredData
+        filteredData: query !== "" ? filteredData : posts.slice(0, dataLimit)
       });
     },
     [posts]
@@ -145,7 +163,10 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
                 <Menu.Label>Filter</Menu.Label>
                 <Menu.Item
                   onClick={() => {
-                    setState({ query: "", filteredData: posts });
+                    setState({
+                      query: "",
+                      filteredData: posts.slice(0, dataLimit)
+                    });
                   }}
                 >
                   all posts
@@ -210,6 +231,32 @@ const BlogPage: NextPage<Props> = ({ data, preview }) => {
                 </React.Fragment>
               );
             })}
+
+          <Center my={36}>
+            <Pagination
+              align="center"
+              size="lg"
+              total={Math.round(posts.length / dataLimit)}
+              page={activePage}
+              onChange={getPaginatedData}
+              getItemAriaLabel={(page) => {
+                switch (page) {
+                  case "dots":
+                    return "dots element aria-label";
+                  case "prev":
+                    return "previous page button aria-label";
+                  case "next":
+                    return "next page button aria-label";
+                  case "first":
+                    return "first page button aria-label";
+                  case "last":
+                    return "last page button aria-label";
+                  default:
+                    return `${page} item aria-label`;
+                }
+              }}
+            />
+          </Center>
         </Container>
       </section>
     </>

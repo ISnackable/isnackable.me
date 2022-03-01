@@ -33,6 +33,11 @@ a {
   border-radius: 9999px;
 }
 
+.object-cover {
+  object-fit: cover;
+  -o-object-fit: cover;
+}
+
 :root {
   --font-family-sans: "Source Sans Pro", sans-serif;
 

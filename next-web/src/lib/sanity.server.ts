@@ -4,11 +4,16 @@
  * code that is not used on the client side.
  */
 import { createClient } from "next-sanity";
-import { getAllPostsQuery, getAllCategoriesQuery } from "./groqQueries";
+import {
+  getAllPostsQuery,
+  getAllCategoriesQuery,
+  getAllProjectQuery
+} from "./groqQueries";
 import type {
   GenericSanityDocument,
   AllSanityPost,
-  AllSanityCategory
+  AllSanityCategory,
+  AllSanityProject
 } from "../@types/sanity";
 
 export const sanityConfig = {
@@ -64,6 +69,16 @@ export async function getAllCategories(
 ): Promise<AllSanityCategory[]> {
   const data: AllSanityCategory[] = overlayDrafts(
     await getClient(preview).fetch(getAllCategoriesQuery)
+  );
+
+  return data;
+}
+
+export async function getAllProjects(
+  preview?: boolean
+): Promise<AllSanityProject[]> {
+  const data: AllSanityProject[] = await getClient(preview).fetch(
+    getAllProjectQuery
   );
 
   return data;
