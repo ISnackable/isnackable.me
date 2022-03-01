@@ -1,4 +1,5 @@
 // import { GetStaticProps, GetStaticPaths } from "next";
+import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
 // import ErrorPage from "next/error";
 // import { useRouter } from "next/router";
 import { Affix, Button, Text, Transition } from "@mantine/core";

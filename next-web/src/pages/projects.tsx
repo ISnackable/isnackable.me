@@ -1,5 +1,4 @@
-import type { NextPage } from "next";
-import { GetStaticProps } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import Link from "next/link";
 import {
   ActionIcon,
@@ -17,7 +16,7 @@ import SEO from "@components/SEO";
 import SanityNextImage from "@components/SanityNextImage";
 import { getAllProjects } from "@lib/sanity.server";
 import type { AllSanityProject } from "../@types/sanity";
-import siteConfig from "../../site.config";
+import { socialUsername } from "@lib/config";
 
 interface Props {
   projects: AllSanityProject[];
@@ -101,10 +100,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
               ))}
           </Grid>
           <Center my={64}>
-            <Link
-              href={`https://github.com/${siteConfig.socialUsername}`}
-              passHref
-            >
+            <Link href={`https://github.com/${socialUsername}`} passHref>
               <Button
                 component="a"
                 size="md"

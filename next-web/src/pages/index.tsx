@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import { useEffect } from "react";
-import { GetStaticProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -20,7 +19,7 @@ import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts } from "@lib/sanity.server";
 import { toDateString } from "@lib/helpers";
 import type { AllSanityPost } from "../@types/sanity";
-import siteConfig from "../../site.config";
+import { socialUsername } from "@lib/config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
 type NewVisitor = "true" | "false";
@@ -51,7 +50,7 @@ const Home: NextPage<Props> = ({ posts }) => {
     <>
       <SEO
         title={"Home"}
-        description={`Home page of ${siteConfig.socialUsername} personal site`}
+        description={`Home page of ${socialUsername} personal site`}
       />
       <Container
         size="xl"
@@ -72,7 +71,7 @@ const Home: NextPage<Props> = ({ posts }) => {
             <Title order={1} my="md" sx={{ fontSize: 48 }} align="center">
               Hey there I&apos;m{" "}
               <Text color="blue" inherit component="span">
-                @{siteConfig.socialUsername}
+                @{socialUsername}
               </Text>
               , Tommy
             </Title>

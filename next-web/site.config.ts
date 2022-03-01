@@ -11,5 +11,14 @@ export default {
 
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
-  rootNotionSpaceId: null
+  rootNotionSpaceId: null,
+
+  // Giscus.app comments via GitHub discussions (optional)
+  repo: "ISnackable/isnackable.github.io",
+  repoId: "MDEwOlJlcG9zaXRvcnkzNTEwNjU5NzY=",
+  category: "Announcements",
+  categoryId: "DIC_kwDOFOzXeM4B_0gD",
+  mapping: "pathname",
+  reactionsEnabled: "1",
+  emitMetadata: "0"
 };

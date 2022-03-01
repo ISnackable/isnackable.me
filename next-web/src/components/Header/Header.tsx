@@ -17,7 +17,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import useScrollListener from "@hooks/useScrollListener";
 import style from "./header.module.css";
 import Icon from "../../../public/icon.png";
-import siteConfig from "../../../site.config";
+import { title, description, socialUsername } from "@lib/config";
 
 interface Props {
   colorScheme: string;
@@ -76,22 +76,26 @@ const Header: NextPage<Props> = (props) => {
         size="md"
       >
         <Center my="lg">
-          <Title order={2}>{siteConfig.socialUsername}</Title>
+          <Title order={2}>{socialUsername}</Title>
         </Center>
         <Center>
           <Button
             variant="outline"
             onClick={() => toggleColorScheme()}
             leftIcon={
-              <ActionIcon
-                variant="transparent"
-                color={dark ? "yellow" : "blue"}
-                title="Toggle color scheme"
+              <span
+                style={{
+                  minWidth: "28px",
+                  minHeight: "28px",
+                  width: "28px",
+                  height: "28px",
+                  color: dark ? "#ffd43b" : "#1c7ed6"
+                }}
               >
                 {dark ? (
                   <svg
-                    width="40"
-                    height="40"
+                    width="28"
+                    height="28"
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
@@ -105,8 +109,8 @@ const Header: NextPage<Props> = (props) => {
                   </svg>
                 ) : (
                   <svg
-                    width="35"
-                    height="35"
+                    width="28"
+                    height="28"
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
@@ -120,7 +124,7 @@ const Header: NextPage<Props> = (props) => {
                     <path d="M19 11h2m-1 -1v2" />
                   </svg>
                 )}
-              </ActionIcon>
+              </span>
             }
           >
             Toggle Theme
@@ -131,7 +135,7 @@ const Header: NextPage<Props> = (props) => {
             mt="xl"
             align="center"
             order={3}
-          >{`${siteConfig.title} - ${siteConfig.description}`}</Title>
+          >{`${title} - ${description}`}</Title>
         </Center>
         <Divider />
         <Center mt="xl">
@@ -264,8 +268,8 @@ const Header: NextPage<Props> = (props) => {
         >
           {dark ? (
             <svg
-              width="40"
-              height="40"
+              width="28"
+              height="28"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
@@ -279,8 +283,8 @@ const Header: NextPage<Props> = (props) => {
             </svg>
           ) : (
             <svg
-              width="35"
-              height="35"
+              width="28"
+              height="28"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"

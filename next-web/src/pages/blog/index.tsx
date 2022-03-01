@@ -1,6 +1,5 @@
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import React, { useCallback, useState, forwardRef } from "react";
-import { GetStaticProps } from "next";
 import Link from "next/link";
 import {
   Container,
