@@ -46,7 +46,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
           <Grid gutter="xl" align="flex-start">
             {projects.length > 0 &&
               projects.map((project) => (
-                <Grid.Col key={project._id} sm={6} lg={4}>
+                <Grid.Col key={project._id} xs={6} lg={4}>
                   <Card shadow="sm" padding="lg">
                     <Card.Section>
                       <div style={{ margin: 24 }}>

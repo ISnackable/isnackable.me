@@ -3,11 +3,21 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { ActionIcon } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Center,
+  Drawer,
+  Divider,
+  Title,
+  Text,
+  Kbd
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import useScrollListener from "@hooks/useScrollListener";
 import style from "./header.module.css";
 import Icon from "../../../public/icon.png";
+import siteConfig from "../../../site.config";
 
 interface Props {
   colorScheme: string;
@@ -22,6 +32,7 @@ const Header: NextPage<Props> = (props) => {
 
   const _isMounted = useRef(true);
   const [visible, setVisible] = useState(false);
+  const [opened, setOpened] = useState(false);
   const isMobile = useMediaQuery("(max-width: 900px)");
   const router = useRouter();
 
@@ -56,6 +67,80 @@ const Header: NextPage<Props> = (props) => {
         transform: visible ? "translateY(108px) translateZ(100px)" : undefined
       }}
     >
+      <Drawer
+        hideCloseButton
+        opened={opened}
+        onClose={() => setOpened(false)}
+        padding="xl"
+        position="bottom"
+        size="md"
+      >
+        <Center my="lg">
+          <Title order={2}>{siteConfig.socialUsername}</Title>
+        </Center>
+        <Center>
+          <Button
+            variant="outline"
+            onClick={() => toggleColorScheme()}
+            leftIcon={
+              <ActionIcon
+                variant="transparent"
+                color={dark ? "yellow" : "blue"}
+                title="Toggle color scheme"
+              >
+                {dark ? (
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 9a3 3 0 0 0 0 6v-6z" />
+                    <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z" />
+                  </svg>
+                ) : (
+                  <svg
+                    width="35"
+                    height="35"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+                    <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+                    <path d="M19 11h2m-1 -1v2" />
+                  </svg>
+                )}
+              </ActionIcon>
+            }
+          >
+            Toggle Theme
+          </Button>
+        </Center>
+        <Center mb={24}>
+          <Title
+            mt="xl"
+            align="center"
+            order={3}
+          >{`${siteConfig.title} - ${siteConfig.description}`}</Title>
+        </Center>
+        <Divider />
+        <Center mt="xl">
+          <Text align="center">
+            Tip: Use <Kbd>Ctrl</Kbd> + <Kbd>J</Kbd> to quickly toggle between
+            light and dark theme.
+          </Text>
+        </Center>
+      </Drawer>
       <Link href="/" passHref>
         <a
           className={style.tab}
@@ -110,6 +195,7 @@ const Header: NextPage<Props> = (props) => {
       </Link>
       <div className={style.logo}>
         <Image
+          onClick={() => setOpened(true)}
           src={Icon}
           layout="fixed"
           height={64}

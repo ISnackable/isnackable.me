@@ -103,7 +103,7 @@ const Home: NextPage<Props> = ({ posts }) => {
               spacing={48}
               breakpoints={[
                 { maxWidth: 980, cols: 2, spacing: "md" },
-                { maxWidth: 768, cols: 1, spacing: "sm" }
+                { maxWidth: 576, cols: 1, spacing: "sm" }
               ]}
             >
               {posts.length > 0 &&
