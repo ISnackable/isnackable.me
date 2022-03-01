@@ -4,7 +4,7 @@ export default {
   description: "A personal site",
   siteUrl: "https://www.isnackable.me",
   image: "icons/icon-512x512.png", // Path to your image you placed in the 'static' folder
-  socialUsername: "@ISnackable",
+  socialUsername: "ISnackable",
 
   // the site's root Notion page (required)
   rootNotionPageId: "",

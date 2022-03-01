@@ -51,7 +51,7 @@ const Home: NextPage<Props> = ({ posts }) => {
     <>
       <SEO
         title={"Home"}
-        description={"Home page of ISnackable personal site"}
+        description={`Home page of ${siteConfig.socialUsername} personal site`}
       />
       <Container
         size="xl"
@@ -72,7 +72,7 @@ const Home: NextPage<Props> = ({ posts }) => {
             <Title order={1} my="md" sx={{ fontSize: 48 }} align="center">
               Hey there I&apos;m{" "}
               <Text color="blue" inherit component="span">
-                {siteConfig.socialUsername}
+                @{siteConfig.socialUsername}
               </Text>
               , Tommy
             </Title>

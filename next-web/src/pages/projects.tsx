@@ -17,6 +17,7 @@ import SEO from "@components/SEO";
 import SanityNextImage from "@components/SanityNextImage";
 import { getAllProjects } from "@lib/sanity.server";
 import type { AllSanityProject } from "../@types/sanity";
+import siteConfig from "../../site.config";
 
 interface Props {
   projects: AllSanityProject[];
@@ -100,7 +101,10 @@ const Projects: NextPage<Props> = ({ projects }) => {
               ))}
           </Grid>
           <Center my={64}>
-            <Link href="https://github.com/ISnackable/" passHref>
+            <Link
+              href={`https://github.com/${siteConfig.socialUsername}`}
+              passHref
+            >
               <Button
                 component="a"
                 size="md"

@@ -109,7 +109,14 @@ const Header: NextPage<Props> = (props) => {
         </a>
       </Link>
       <div className={style.logo}>
-        <Image src={Icon} layout="fixed" height={64} width={64} alt="Logo" />
+        <Image
+          src={Icon}
+          layout="fixed"
+          height={64}
+          width={64}
+          alt="Logo"
+          priority
+        />
       </div>
       <Link href="/notes" passHref>
         <a
