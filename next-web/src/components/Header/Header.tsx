@@ -9,25 +9,22 @@ import {
   Center,
   Drawer,
   Divider,
+  Kbd,
   Title,
   Text,
-  Kbd
+  useMantineColorScheme
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import useScrollListener from "@hooks/useScrollListener";
+import { title, description, socialUsername } from "@lib/config";
 import style from "./header.module.css";
 import Icon from "../../../public/icon.png";
-import { title, description, socialUsername } from "@lib/config";
-
-interface Props {
-  colorScheme: string;
-  toggleColorScheme: () => void;
-}
 
 const MINIMUM_SCROLL = 80;
 
-const Header: NextPage<Props> = (props) => {
-  const { colorScheme, toggleColorScheme } = props;
+const Header: NextPage = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
   const _isMounted = useRef(true);
@@ -74,6 +71,8 @@ const Header: NextPage<Props> = (props) => {
         padding="xl"
         position="bottom"
         size="md"
+        aria-labelledby="drawer"
+        aria-describedby="drawer-body"
       >
         <Center my="lg">
           <Title order={2}>{socialUsername}</Title>
