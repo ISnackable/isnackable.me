@@ -32,7 +32,7 @@ interface FilterButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode;
 }
 
-const BlogPage: NextPage<Props> = ({ data, preview }) => {
+const BlogPage: NextPage<Props> = ({ data }) => {
   const dataLimit = 8;
   const { posts, categories } = data;
   const [activePage, setPage] = useState(1);

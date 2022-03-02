@@ -17,6 +17,36 @@ export const getAllPostsQuery = groq`
     categories[]->{title},
 }|order(publishedAt desc)`;
 
+export const getSinglePostQuery = groq`
+*[_type == "post" && slug.current == $slug ${filterDrafts}]{
+    _id,
+    publishedAt,
+    mainImage{
+        ...,
+        "lqip": asset->metadata.lqip
+    },
+    title,
+    description,
+    author->{
+        _id,
+        name,
+        mainImage{
+            ...,
+            "lqip": asset->metadata.lqip
+        },
+    },
+    categories[]->{title},
+    body[]{
+        ...,
+        markDefs[]{
+            ...,
+            _type == "internalLink" => {
+              "slug": @.reference->slug
+            }
+          }
+    },
+}`;
+
 export const getAllCategoriesQuery = groq`
 *[_type == "category" ${filterDrafts}]{
     _id,

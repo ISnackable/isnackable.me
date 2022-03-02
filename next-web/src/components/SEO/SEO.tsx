@@ -29,14 +29,14 @@ const SEO: NextPage<SEOProps> = ({ title, description, image, article }) => {
   return (
     <Head>
       <title>{`${seo.title} – ${titleConfig}`}</title>
-      <meta name="description" content={seo.description} />
-      {seo.image && <meta property="og:image" content={seo.image} />}
-      {seo.title && <meta property="og:title" content={seo.title} />}
       <meta property="og:type" content={article ? "article" : "website"} />
+      {seo.title && <meta property="og:title" content={seo.title} />}
       {seo.description && (
         <meta property="og:description" content={seo.description} />
       )}
+      <meta property="og:site_name" content={titleConfig} />
       {seo.url && <meta property="og:url" content={seo.url} />}
+      {seo.image && <meta property="og:image" content={seo.image} />}
       <meta property="og:site_name" content={title} />
       <meta name="twitter:card" content="summary_large_image" />
       {socialUsername && (

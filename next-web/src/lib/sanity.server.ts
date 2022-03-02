@@ -6,6 +6,7 @@
 import { createClient } from "next-sanity";
 import {
   getAllPostsQuery,
+  getSinglePostQuery,
   getAllCategoriesQuery,
   getAllProjectQuery
 } from "./groqQueries";
@@ -56,12 +57,43 @@ export function overlayDrafts<T extends GenericSanityDocument>(docs: T[]): T[] {
   return Array.from(overlayed.values());
 }
 
+export function filterDataToSingleItem<T extends GenericSanityDocument>(
+  data: T[],
+  preview?: boolean
+): T {
+  if (!Array.isArray(data)) {
+    return data;
+  }
+
+  if (data.length === 1) {
+    return data[0];
+  }
+
+  if (preview) {
+    return data.find((item) => item._id.startsWith(`drafts.`)) || data[0];
+  }
+
+  return data[0];
+}
+
 export async function getAllPosts(preview?: boolean): Promise<AllSanityPost[]> {
   const data: AllSanityPost[] = overlayDrafts(
     await getClient(preview).fetch(getAllPostsQuery)
   );
 
   return data;
+}
+
+export async function getSinglePost(preview = false, slug: string) {
+  const queryParams = { slug: slug };
+  const data: AllSanityPost[] = overlayDrafts(
+    await getClient(preview).fetch(getSinglePostQuery, queryParams)
+  );
+
+  if (!data) return { notFound: true };
+  const page = filterDataToSingleItem(data, preview);
+
+  return page;
 }
 
 export async function getAllCategories(
