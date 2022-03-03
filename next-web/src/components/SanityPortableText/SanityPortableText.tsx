@@ -93,6 +93,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       return (
         <Center my={50}>
           <Box
+            component="figure"
             sx={() => ({
               width: "50%",
 
@@ -102,13 +103,17 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
             })}
           >
             <SanityNextImage
-              // className="half-image"
               image={value}
               alt={value.alt}
               placeholder="blur"
               blurDataURL={value.lqip}
               objectFit="contain"
             />
+            {value?.caption && (
+              <Text align="center" component="figcaption">
+                {value?.caption}
+              </Text>
+            )}
           </Box>
         </Center>
       );
@@ -119,6 +124,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
           radius="md"
           src={value.url}
           alt={value.alt}
+          caption={value?.caption}
           withPlaceholder
           sx={() => ({
             width: "50%",
