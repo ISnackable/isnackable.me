@@ -38,12 +38,16 @@ export const getSinglePostQuery = groq`
     categories[]->{title},
     body[]{
         ...,
+        _type == "figure" => {
+            ...,
+            "lqip": asset->metadata.lqip
+        },
         markDefs[]{
             ...,
             _type == "internalLink" => {
               "slug": @.reference->slug
             }
-          }
+        }
     },
 }`;
 

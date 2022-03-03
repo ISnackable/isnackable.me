@@ -1,20 +1,17 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
-import { Affix, Button, Transition } from "@mantine/core";
-import { useWindowScroll } from "@mantine/hooks";
+import dynamic from "next/dynamic";
 import { toPlainText } from "@portabletext/react";
 import SEO from "@components/SEO";
-import BlogPost from "@components/BlogPost";
 import { getAllPosts, getSinglePost } from "@lib/sanity.server";
 import { urlFor } from "@lib/sanity";
 import type { AllSanityPost } from "../../@types/sanity";
+const BlogPost = dynamic(() => import("@components/BlogPost"));
 
 type Props = {
   post: AllSanityPost;
 };
 
 const BlogPostPage: NextPage<Props> = ({ post }) => {
-  const [scroll, scrollTo] = useWindowScroll();
-
   return (
     <>
       <SEO
@@ -23,15 +20,6 @@ const BlogPostPage: NextPage<Props> = ({ post }) => {
         image={urlFor(post.mainImage).url()}
         article={true}
       />
-      <Affix position={{ bottom: 20, right: 20 }}>
-        <Transition transition="slide-up" mounted={scroll.y > 200}>
-          {(transitionStyles) => (
-            <Button style={transitionStyles} onClick={() => scrollTo({ y: 0 })}>
-              Scroll to top
-            </Button>
-          )}
-        </Transition>
-      </Affix>
       <article>{post && <BlogPost post={post} />}</article>
     </>
   );

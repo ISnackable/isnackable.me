@@ -5,7 +5,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <meta charSet="utf-8" />
         <meta name="application-name" content={title} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

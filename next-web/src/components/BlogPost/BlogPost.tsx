@@ -60,7 +60,8 @@ const BlogPost: NextPage<Props> = (props) => {
             marginTop: 32,
             maxWidth: "60rem",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            wordWrap: "break-word"
           }}
         >
           {post.body.length > 0 && (

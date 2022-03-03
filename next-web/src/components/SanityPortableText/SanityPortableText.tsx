@@ -5,7 +5,16 @@ import type {
   PortableTextReactComponents,
   PortableTextProps
 } from "@portabletext/react";
-import { Blockquote, Code, Image, Mark, Text, Title } from "@mantine/core";
+import {
+  Blockquote,
+  Box,
+  Center,
+  Code,
+  Image,
+  Mark,
+  Text,
+  Title
+} from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import { PortableText } from "@portabletext/react";
 import SanityNextImage from "@components/SanityNextImage";
@@ -81,10 +90,45 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       );
     },
     figure: ({ value }) => {
-      return <SanityNextImage image={value} alt={value.alt} />;
+      return (
+        <Center my={50}>
+          <Box
+            sx={() => ({
+              width: "50%",
+
+              "@media (max-width: 640px)": {
+                width: "100%"
+              }
+            })}
+          >
+            <SanityNextImage
+              // className="half-image"
+              image={value}
+              alt={value.alt}
+              placeholder="blur"
+              blurDataURL={value.lqip}
+              objectFit="contain"
+            />
+          </Box>
+        </Center>
+      );
     },
     externalImage: ({ value }) => (
-      <Image radius="md" src={value.url} alt={value.alt} withPlaceholder />
+      <Center my={50}>
+        <Image
+          radius="md"
+          src={value.url}
+          alt={value.alt}
+          withPlaceholder
+          sx={() => ({
+            width: "50%",
+
+            "@media (max-width: 640px)": {
+              width: "100%"
+            }
+          })}
+        />
+      </Center>
     ),
     break: () => <br />
   },

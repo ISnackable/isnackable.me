@@ -1,5 +1,6 @@
 import type { NextPage, GetStaticProps } from "next";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,12 +16,12 @@ import {
 import { useNotifications } from "@mantine/notifications";
 import { useLocalStorageValue } from "@mantine/hooks";
 import SEO from "@components/SEO";
-import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts } from "@lib/sanity.server";
 import { toDateString } from "@lib/helpers";
 import type { AllSanityPost } from "../@types/sanity";
 import { socialUsername } from "@lib/config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
+const SanityNextImage = dynamic(() => import("@components/SanityNextImage"));
 
 type NewVisitor = "true" | "false";
 

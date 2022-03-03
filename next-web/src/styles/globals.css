@@ -38,6 +38,18 @@ a {
   -o-object-fit: cover;
 }
 
+.half-image {
+  margin: 0 !important;
+  width: 50% !important;
+  min-width: 50% !important;
+}
+
+@media (max-width: 640px) {
+  .half-image {
+    width: 100% !important;
+  }
+}
+
 :root {
   --font-family-sans: "Source Sans Pro", sans-serif;
 

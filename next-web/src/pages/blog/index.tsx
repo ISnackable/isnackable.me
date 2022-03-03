@@ -1,5 +1,6 @@
 import type { NextPage, GetStaticProps } from "next";
 import React, { useCallback, useState, forwardRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   Container,
@@ -15,10 +16,10 @@ import {
   Pagination
 } from "@mantine/core";
 import SEO from "@components/SEO";
-import SanityNextImage from "@components/SanityNextImage";
 import { getAllPosts, getAllCategories } from "@lib/sanity.server";
 import { toDateString } from "@lib/helpers";
 import type { AllSanityPost, AllSanityCategory } from "../../@types/sanity";
+const SanityNextImage = dynamic(() => import("@components/SanityNextImage"));
 
 interface Props {
   data: {

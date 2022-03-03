@@ -1,5 +1,16 @@
 import Prism from "prism-react-renderer/prism";
 (typeof global !== "undefined" ? global : (window as any)).Prism = Prism;
+require("prismjs/components/prism-nasm.min");
+require("prismjs/components/prism-batch.min");
+require("prismjs/components/prism-csharp.min");
+require("prismjs/components/prism-docker.min");
+require("prismjs/components/prism-java.min");
+require("prismjs/components/prism-nginx.min");
+require("prismjs/components/prism-php.min");
+require("prismjs/components/prism-powershell.min");
+require("prismjs/components/prism-ruby.min");
+require("prismjs/components/prism-rust.min");
+require("prismjs/components/prism-swift.min");
 
 interface Languages {
   [key: string]: {
@@ -882,19 +893,19 @@ export const loadLanguage = (lang: string) => {
     }
   }
 
-  // check if the language has already been loaded
-  if (Prism.languages[prismLang] !== undefined) return prismLang;
+  // // check if the language has already been loaded
+  // if (Prism.languages[prismLang] !== undefined) return prismLang;
 
-  // if language is found either from the key or the associated names then require
-  if (prismLang !== "plain") {
-    // not sure if needed see prismjs/components/index.js
-    delete require.cache[
-      require.resolve(`prismjs/components/prism-${prismLang}.min`)
-    ];
-    delete Prism.languages[prismLang];
+  // // if language is found either from the key or the associated names then require
+  // if (prismLang !== "plain") {
+  //   // not sure if needed see prismjs/components/index.js
+  //   delete require.cache[
+  //     require.resolve(`prismjs/components/prism-${prismLang}.min`)
+  //   ];
+  //   delete Prism.languages[prismLang];
 
-    require(`prismjs/components/prism-${prismLang}.min`);
-  }
+  //   import(`prismjs/components/prism-${prismLang}.min`);
+  // }
 
   return prismLang;
 };
