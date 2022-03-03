@@ -5,11 +5,11 @@ import type {
   PortableTextReactComponents,
   PortableTextProps
 } from "@portabletext/react";
-import type { Language } from "prism-react-renderer";
 import { Blockquote, Code, Image, Mark, Text, Title } from "@mantine/core";
-import { Prism as PrismReact } from "@mantine/prism";
+import { Prism } from "@mantine/prism";
 import { PortableText } from "@portabletext/react";
 import SanityNextImage from "@components/SanityNextImage";
+import { loadLanguage } from "@lib/prismDeps";
 
 // const deleted = { color: "red", label: "-" };
 // const added = { color: "green", label: "+" };
@@ -27,7 +27,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
     }: {
       value: {
         code: string;
-        language: Language;
+        language: string;
         filename: string;
         highlightedLines: [number];
       };
@@ -41,23 +41,25 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         {}
       );
 
+      const prismLang = loadLanguage(value.language);
+
       if (!value.filename) {
         return (
-          <PrismReact
+          <Prism
             my={8}
-            language={value.language}
+            language={prismLang as any}
             withLineNumbers
             highlightLines={highlightedLines}
             copyLabel="Copy code to clipboard"
             styles={styles}
           >
             {value.code}
-          </PrismReact>
+          </Prism>
         );
       }
 
       return (
-        <PrismReact.Tabs
+        <Prism.Tabs
           my={8}
           styles={{
             tab: { fontSize: 15 },
@@ -65,24 +67,24 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
             ...styles
           }}
         >
-          <PrismReact.Tab
+          <Prism.Tab
             label={value.filename}
             icon="📁"
-            language={value.language}
+            language={prismLang as any}
             withLineNumbers
             highlightLines={highlightedLines}
             copyLabel="Copy code to clipboard"
           >
             {value.code}
-          </PrismReact.Tab>
-        </PrismReact.Tabs>
+          </Prism.Tab>
+        </Prism.Tabs>
       );
     },
     figure: ({ value }) => {
       return <SanityNextImage image={value} alt={value.alt} />;
     },
     externalImage: ({ value }) => (
-      <Image radius="md" src={value.url} alt={value.alt} />
+      <Image radius="md" src={value.url} alt={value.alt} withPlaceholder />
     ),
     break: () => <br />
   },
