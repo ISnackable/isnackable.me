@@ -48,6 +48,8 @@ const Home: NextPage<Props> = ({ posts }) => {
 
     return () => setNewVisitor("false");
   }, [newVisitor, notifications, setNewVisitor]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

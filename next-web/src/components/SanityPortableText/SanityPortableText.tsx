@@ -93,6 +93,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       return (
         <Center my={50}>
           <Box
+            mx={0}
             component="figure"
             sx={() => ({
               width: "50%",
