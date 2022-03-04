@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
+import dynamic from "next/dynamic";
 import { Avatar, Center, Container, Text, Title } from "@mantine/core";
-import { Giscus } from "@giscus/react";
 import SanityNextImage from "@components/SanityNextImage";
-import SanityPortableText from "@components/SanityPortableText";
-import type { AllSanityPost } from "../../@types/sanity";
 import { toDateString } from "@lib/helpers";
 import { urlFor } from "@lib/sanity";
 import {
@@ -15,7 +13,12 @@ import {
   giscusReactionsEnabled,
   giscusEmitMetadata
 } from "@lib/config";
+import type { AllSanityPost } from "../../@types/sanity";
 
+const SanityPortableText = dynamic(
+  () => import("@components/SanityPortableText")
+);
+const Giscus = dynamic(async () => (await import("@giscus/react")).Giscus);
 interface Props {
   post: AllSanityPost;
 }
@@ -36,7 +39,7 @@ const BlogPost: NextPage<Props> = (props) => {
               radius="xl"
               size="lg"
               mr="1rem"
-              style={{ float: "left" }}
+              sx={() => ({ float: "left" })}
             />
 
             <div>

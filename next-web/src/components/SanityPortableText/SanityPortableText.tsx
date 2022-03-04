@@ -104,7 +104,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
           >
             <SanityNextImage
               image={value}
-              alt={value.alt}
+              alt={value.alt ?? "default alt text"}
               placeholder="blur"
               blurDataURL={value.lqip}
               objectFit="contain"
@@ -123,7 +123,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         <Image
           radius="md"
           src={value.url}
-          alt={value.alt}
+          alt={value.alt ?? "default alt text"}
           caption={value?.caption}
           withPlaceholder
           sx={() => ({
@@ -174,16 +174,34 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       const { blank, href } = value!;
       const rel = !href.startsWith("/") ? "noreferrer noopener" : undefined;
       return (
-        <Link href={href} passHref>
-          <Text
-            variant="link"
-            component="a"
-            rel={blank ? rel : undefined}
-            target={blank ? "_blank" : undefined}
+        <>
+          <Link href={href} passHref>
+            <Text
+              variant="link"
+              component="a"
+              rel={blank ? rel : undefined}
+              target={blank ? "_blank" : undefined}
+            >
+              {children}
+            </Text>
+          </Link>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 25 25"
+            strokeWidth="1.5"
+            stroke="#1c7ed6"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            {children}
-          </Text>
-        </Link>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" />
+            <line x1="10" y1="14" x2="20" y2="4" />
+            <polyline points="15 4 20 4 20 9" />
+          </svg>
+        </>
       );
     },
     code: ({ children }) => (

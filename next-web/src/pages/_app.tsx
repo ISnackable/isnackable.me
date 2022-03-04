@@ -1,6 +1,5 @@
-import "@styles/globals.css";
-import { useState } from "react";
 import type { AppProps } from "next/app";
+import { useState } from "react";
 import Head from "next/head";
 import {
   ColorScheme,
@@ -11,8 +10,9 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { useHotkeys } from "@mantine/hooks";
 import { AnimatePresence } from "framer-motion";
 import AppLayout from "@components/AppLayout";
+import "@styles/globals.css";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps) => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
@@ -49,4 +49,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default MyApp;
+export default App;

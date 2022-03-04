@@ -68,7 +68,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
                       </div>
                     </Card.Section>
 
-                    <Group position="apart" style={{ marginBottom: 5 }}>
+                    <Group position="apart" sx={() => ({ marginBottom: 5 })}>
                       <Link href={project.projectUrl} passHref>
                         <Text
                           component="a"
@@ -92,7 +92,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
                       </Badge>
                     </Group>
 
-                    <Text size="md" style={{ lineHeight: 1.5 }}>
+                    <Text size="md" sx={() => ({ lineHeight: 1.5 })}>
                       {project.description}
                     </Text>
                   </Card>
@@ -101,32 +101,33 @@ const Projects: NextPage<Props> = ({ projects }) => {
           </Grid>
           <Center my={64}>
             <Link href={`https://github.com/${socialUsername}`} passHref>
-              <Button
-                component="a"
-                size="md"
-                leftIcon={
-                  <ActionIcon variant="transparent">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="40"
-                      height="40"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="#2c3e50"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" />
-                      <line x1="10" y1="14" x2="20" y2="4" />
-                      <polyline points="15 4 20 4 20 9" />
-                    </svg>
-                  </ActionIcon>
-                }
-              >
-                More at GitHub
-              </Button>
+              <a target="_blank" rel="noreferrer noopener">
+                <Button
+                  size="md"
+                  leftIcon={
+                    <ActionIcon variant="transparent" component="i">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="#2c3e50"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" />
+                        <line x1="10" y1="14" x2="20" y2="4" />
+                        <polyline points="15 4 20 4 20 9" />
+                      </svg>
+                    </ActionIcon>
+                  }
+                >
+                  More at GitHub
+                </Button>
+              </a>
             </Link>
           </Center>
         </Container>

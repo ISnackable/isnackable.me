@@ -21,6 +21,7 @@ import { toDateString } from "@lib/helpers";
 import type { AllSanityPost } from "../@types/sanity";
 import { socialUsername } from "@lib/config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
+
 const SanityNextImage = dynamic(() => import("@components/SanityNextImage"));
 
 type NewVisitor = "true" | "false";
@@ -43,8 +44,9 @@ const Home: NextPage<Props> = ({ posts }) => {
         title: `Hey there! Thanks for checking out my site.`,
         message: `To change the theme of the site, you can use Ctrl+J or switch icon at the side.`
       });
-      setNewVisitor("false");
     }
+
+    return () => setNewVisitor("false");
   }, [newVisitor, notifications, setNewVisitor]);
 
   return (
@@ -82,7 +84,9 @@ const Home: NextPage<Props> = ({ posts }) => {
               size="lg"
               mb="md"
               align="center"
-              style={{ maxWidth: "36rem" }}
+              sx={() => ({
+                maxWidth: "36rem"
+              })}
             >
               An aspiring Cyber Specialist and an open-source advocate. I&apos;m
               also a full-time student studying cybersecurity. P.S. Tommy is
@@ -131,7 +135,7 @@ const Home: NextPage<Props> = ({ posts }) => {
 
                       <Group
                         position="apart"
-                        style={{ margin: "32px 0px 5px 0px" }}
+                        sx={() => ({ margin: "32px 0px 5px 0px" })}
                       >
                         <Link
                           href={{

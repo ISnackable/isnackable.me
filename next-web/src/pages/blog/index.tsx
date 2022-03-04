@@ -1,11 +1,9 @@
 import type { NextPage, GetStaticProps } from "next";
-import React, { useCallback, useState, forwardRef } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import React, { useCallback, useState, forwardRef } from "react";
 import {
   Container,
   Center,
-  Divider,
   Grid,
   Title,
   Text,
@@ -17,9 +15,9 @@ import {
 } from "@mantine/core";
 import SEO from "@components/SEO";
 import { getAllPosts, getAllCategories } from "@lib/sanity.server";
-import { toDateString } from "@lib/helpers";
 import type { AllSanityPost, AllSanityCategory } from "../../@types/sanity";
-const SanityNextImage = dynamic(() => import("@components/SanityNextImage"));
+
+const Blog = dynamic(() => import("@components/Blog"));
 
 interface Props {
   data: {
@@ -183,54 +181,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
             </Grid.Col>
           </Grid>
 
-          {state.filteredData.length > 0 &&
-            state.filteredData.map((post) => {
-              return (
-                <React.Fragment key={post._id}>
-                  <Grid my={32} align="center">
-                    <Grid.Col xs={2}>
-                      <SanityNextImage
-                        image={post.mainImage}
-                        className="rounded-lg"
-                        alt={post.mainImage?.alt ?? `${post.title} main image`}
-                        layout="responsive"
-                        placeholder={post.mainImage?.lqip ? "blur" : undefined}
-                        blurDataURL={post.mainImage?.lqip}
-                        sizes="(min-width: 282px) 282px, 100vw"
-                      />
-                    </Grid.Col>
-                    <Grid.Col xs={10}>
-                      <Link
-                        href={{
-                          pathname: "/blog/[slug]",
-                          query: { slug: post.slug }
-                        }}
-                        passHref
-                      >
-                        <a>
-                          <Text size="sm">
-                            {toDateString(post.publishedAt)}
-                          </Text>
-                          <Text
-                            size="xl"
-                            weight={700}
-                            sx={(theme) => ({
-                              "&:hover": {
-                                color: theme.colors.gray[4]
-                              }
-                            })}
-                          >
-                            {post.title}
-                          </Text>
-                          <Text size="md">{post.description}</Text>
-                        </a>
-                      </Link>
-                    </Grid.Col>
-                  </Grid>
-                  <Divider variant="dotted" />
-                </React.Fragment>
-              );
-            })}
+          {state.filteredData.length > 0 && <Blog state={state} />}
 
           <Center my={36}>
             <Pagination

@@ -1,11 +1,10 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
-import dynamic from "next/dynamic";
 import { toPlainText } from "@portabletext/react";
 import SEO from "@components/SEO";
+import BlogPost from "@components/BlogPost";
 import { getAllPosts, getSinglePost } from "@lib/sanity.server";
 import { urlFor } from "@lib/sanity";
 import type { AllSanityPost } from "../../@types/sanity";
-const BlogPost = dynamic(() => import("@components/BlogPost"));
 
 type Props = {
   post: AllSanityPost;
