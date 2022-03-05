@@ -1,29 +1,30 @@
 import type { NextPage, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   ActionIcon,
-  Badge,
   Button,
-  Card,
   Center,
   Container,
-  Group,
-  Grid,
   Title,
   Text
 } from "@mantine/core";
 import SEO from "@components/SEO";
-import SanityNextImage from "@components/SanityNextImage";
 import { getAllProjects } from "@lib/sanity.server";
 import type { AllSanityProject } from "../@types/sanity";
 import { socialUsername } from "@lib/config";
+
+const Projects = dynamic(() => import("@components/Projects"), {
+  ssr: false,
+  loading: () => <p>loading...</p>
+});
 
 interface Props {
   projects: AllSanityProject[];
   preview: boolean;
 }
 
-const Projects: NextPage<Props> = ({ projects }) => {
+const ProjectsPage: NextPage<Props> = ({ projects }) => {
   return (
     <>
       <SEO
@@ -42,63 +43,7 @@ const Projects: NextPage<Props> = ({ projects }) => {
               Open-sourced projects, made with love.
             </Text>
           </Center>
-          <Grid gutter="xl" align="flex-start">
-            {projects.length > 0 &&
-              projects.map((project) => (
-                <Grid.Col key={project._id} xs={6} lg={4}>
-                  <Card shadow="sm" padding="lg">
-                    <Card.Section>
-                      <div style={{ margin: 24 }}>
-                        <SanityNextImage
-                          image={project.mainImage}
-                          width={320}
-                          height={160}
-                          className="rounded-lg object-cover"
-                          alt={
-                            project.mainImage?.alt ??
-                            `${project.title} main image`
-                          }
-                          layout="responsive"
-                          placeholder={
-                            project.mainImage?.lqip ? "blur" : undefined
-                          }
-                          blurDataURL={project.mainImage?.lqip}
-                          sizes="(min-width: 3200px) 3200px, 100vw"
-                        />
-                      </div>
-                    </Card.Section>
-
-                    <Group position="apart" sx={() => ({ marginBottom: 5 })}>
-                      <Link href={project.projectUrl} passHref>
-                        <Text
-                          component="a"
-                          weight={500}
-                          size="lg"
-                          sx={(theme) => ({
-                            "&:hover": {
-                              color:
-                                theme.colorScheme === "dark"
-                                  ? theme.colors.gray[3]
-                                  : theme.colors.gray[8]
-                            }
-                          })}
-                        >
-                          {project.title}
-                        </Text>
-                      </Link>
-
-                      <Badge variant="light">
-                        {projects[0] === project && "Latest | "}Open source
-                      </Badge>
-                    </Group>
-
-                    <Text size="md" sx={() => ({ lineHeight: 1.5 })}>
-                      {project.description}
-                    </Text>
-                  </Card>
-                </Grid.Col>
-              ))}
-          </Grid>
+          {projects.length > 0 && <Projects projects={projects} />}
           <Center my={64}>
             <Link href={`https://github.com/${socialUsername}`} passHref>
               <a target="_blank" rel="noreferrer noopener">
@@ -145,4 +90,4 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   };
 };
 
-export default Projects;
+export default ProjectsPage;

@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { LazyMotion, m } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import styles from "./layout.module.css";
 
-const domAnimation = async () => (await import("./features")).default;
+// this is causing some issue with unmount memory leak warning
+// const domAnimation = async () => (await import("./features")).default;
 const Header = dynamic(() => import("../Header"));
 const Footer = dynamic(() => import("../Footer"));
 

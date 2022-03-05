@@ -17,7 +17,10 @@ import SEO from "@components/SEO";
 import { getAllPosts, getAllCategories } from "@lib/sanity.server";
 import type { AllSanityPost, AllSanityCategory } from "../../@types/sanity";
 
-const Blog = dynamic(() => import("@components/Blog"));
+const Blog = dynamic(() => import("@components/Blog"), {
+  ssr: false,
+  loading: () => <p>loading...</p>
+});
 
 interface Props {
   data: {

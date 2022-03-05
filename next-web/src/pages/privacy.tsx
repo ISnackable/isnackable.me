@@ -4,7 +4,7 @@ import { Container, Title, Text } from "@mantine/core";
 import SEO from "@components/SEO";
 import svgImage from "../../public/svg/undraw_personal_information_re_vw8a.svg";
 
-const Projects: NextPage = () => {
+const PrivacyPage: NextPage = () => {
   return (
     <>
       <SEO title={"Privacy"} />
@@ -37,4 +37,4 @@ const Projects: NextPage = () => {
   );
 };
 
-export default Projects;
+export default PrivacyPage;

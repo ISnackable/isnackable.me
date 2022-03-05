@@ -1,0 +1,42 @@
+.toc {
+  position: sticky;
+  position: -webkit-sticky; /* For Safari */
+  top: 7rem; /* How far down the page you want your ToC to live */
+  z-index: 3;
+  float: right;
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+  max-width: 17rem;
+}
+
+@media (max-width: 1600px) {
+  .toc {
+    display: none;
+  }
+}
+
+.toc::-webkit-scrollbar,
+.toc::-webkit-scrollbar-thumb {
+  width: 26px;
+  border-radius: 13px;
+  background-clip: padding-box;
+  border: 10px solid transparent;
+}
+
+.toc::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 0 10px;
+}
+
+.toc a[aria-current="true"]:not([aria-current="false"]) {
+  color: #4dabf7;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+.toc a:hover {
+  text-shadow: rgb(0, 195, 255) 0px 0px 5px;
+  -webkit-font-smoothing: antialiased;
+}

@@ -22,7 +22,9 @@ import type { AllSanityPost } from "../@types/sanity";
 import { socialUsername } from "@lib/config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
 
-const SanityNextImage = dynamic(() => import("@components/SanityNextImage"));
+const SanityNextImage = dynamic(() => import("@components/SanityNextImage"), {
+  ssr: false
+});
 
 type NewVisitor = "true" | "false";
 
@@ -31,7 +33,7 @@ interface Props {
   preview: boolean;
 }
 
-const Home: NextPage<Props> = ({ posts }) => {
+const HomePage: NextPage<Props> = ({ posts }) => {
   const [newVisitor, setNewVisitor] = useLocalStorageValue<NewVisitor>({
     key: "new-visitor",
     defaultValue: "true"
@@ -47,7 +49,6 @@ const Home: NextPage<Props> = ({ posts }) => {
     }
 
     return () => setNewVisitor("false");
-  }, [newVisitor, notifications, setNewVisitor]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -263,4 +264,4 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   };
 };
 
-export default Home;
+export default HomePage;

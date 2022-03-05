@@ -19,6 +19,7 @@ import { Prism } from "@mantine/prism";
 import { PortableText } from "@portabletext/react";
 import SanityNextImage from "@components/SanityNextImage";
 import { loadLanguage } from "@lib/prismDeps";
+import styles from "./styles.module.css";
 
 // const deleted = { color: "red", label: "-" };
 // const added = { color: "green", label: "+" };
@@ -237,36 +238,138 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         </Text>
       );
     },
-    h1: ({ children }) => (
-      <Title order={1} my="0.67em">
-        {children}
-      </Title>
-    ),
-    h2: ({ children }) => (
-      <Title order={2} my="0.83em">
-        {children}
-      </Title>
-    ),
-    h3: ({ children }) => (
-      <Title order={3} my="1em">
-        {children}
-      </Title>
-    ),
-    h4: ({ children }) => (
-      <Title order={4} my="1.33em">
-        {children}
-      </Title>
-    ),
-    h5: ({ children }) => (
-      <Title order={5} my="1.67em">
-        {children}
-      </Title>
-    ),
-    h6: ({ children }) => (
-      <Title order={6} my="2.33em">
-        {children}
-      </Title>
-    ),
+    h1: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={1}
+          my="0.67em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
+    h2: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={2}
+          my="0.83em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
+    h3: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={3}
+          my="1em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
+    h4: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={4}
+          my="1.33em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
+    h5: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={5}
+          my="1.67em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
+    h6: ({ value, children }) => {
+      const headingId = `h-${value._key}`;
+      return (
+        <Title
+          order={6}
+          my="2.33em"
+          className={`blog-h ${styles.heading}`}
+          id={headingId}
+          data-id={headingId}
+        >
+          {children}{" "}
+          <a href={`#${headingId}`} aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+              ></path>
+            </svg>
+          </a>
+        </Title>
+      );
+    },
     blockquote: ({ children }) => (
       <Blockquote className="border-l-purple-500">{children}</Blockquote>
     )

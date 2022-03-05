@@ -1,10 +1,16 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from "next";
+import dynamic from "next/dynamic";
 import { toPlainText } from "@portabletext/react";
 import SEO from "@components/SEO";
 import BlogPost from "@components/BlogPost";
 import { getAllPosts, getSinglePost } from "@lib/sanity.server";
 import { urlFor } from "@lib/sanity";
 import type { AllSanityPost } from "../../@types/sanity";
+
+const TableOfContent = dynamic(() => import("@components/TableOfContent"), {
+  ssr: false,
+  loading: () => <p>loading...</p>
+});
 
 type Props = {
   post: AllSanityPost;
@@ -19,7 +25,14 @@ const BlogPostPage: NextPage<Props> = ({ post }) => {
         image={urlFor(post.mainImage).url()}
         article={true}
       />
-      <article>{post && <BlogPost post={post} />}</article>
+      <article>
+        {post && (
+          <>
+            <TableOfContent post={post} />
+            <BlogPost post={post} />
+          </>
+        )}
+      </article>
     </>
   );
 };

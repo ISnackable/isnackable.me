@@ -16,9 +16,13 @@ import {
 import type { AllSanityPost } from "../../@types/sanity";
 
 const SanityPortableText = dynamic(
-  () => import("@components/SanityPortableText")
+  () => import("@components/SanityPortableText"),
+  { ssr: false, loading: () => <p>loading...</p> }
 );
-const Giscus = dynamic(async () => (await import("@giscus/react")).Giscus);
+const Giscus = dynamic(async () => (await import("@giscus/react")).Giscus, {
+  ssr: false,
+  loading: () => <p>loading...</p>
+});
 interface Props {
   post: AllSanityPost;
 }
@@ -61,7 +65,7 @@ const BlogPost: NextPage<Props> = (props) => {
         <section
           style={{
             marginTop: 32,
-            maxWidth: "60rem",
+            maxWidth: "55rem",
             marginLeft: "auto",
             marginRight: "auto",
             wordWrap: "break-word"

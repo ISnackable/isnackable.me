@@ -5,7 +5,7 @@ import { Button, Container, SimpleGrid, Title, Text } from "@mantine/core";
 import SEO from "@components/SEO";
 import svgImage from "../../public/svg/undraw_page_not_found_su-7-k-cropped.svg";
 
-const Custom404: NextPage = () => {
+const FourOhFourPage: NextPage = () => {
   return (
     <>
       <SEO title={"Page Not Found"} />
@@ -41,4 +41,4 @@ const Custom404: NextPage = () => {
   );
 };
 
-export default Custom404;
+export default FourOhFourPage;
