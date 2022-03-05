@@ -1,3 +1,6 @@
 {
-  "origins": ["https://isnackable.github.io", "https://isnackable.me"]
+  "origins": [
+    "https://isnackable-github-io.vercel.app",
+    "https://isnackable.me"
+  ]
 }
