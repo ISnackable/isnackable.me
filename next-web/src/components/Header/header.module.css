@@ -1,0 +1,184 @@
+.navbar {
+  position: fixed;
+  z-index: 3;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 68px;
+  padding: 4px 1em 24px 1em;
+  background-color: #1a1b1e;
+  transition: background-color 0.2s linear, transform 0.15s ease-in;
+}
+
+/* Bigger screen size, move to side */
+@media (min-width: 900px) {
+  .navbar {
+    width: 4rem;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 1em 6px 1em 4px;
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 900px) {
+  /* Svg icons hide */
+  .navbar > a.tab > svg.icon {
+    display: none;
+    transform: rotate(180deg);
+    width: 20px;
+    height: 32px;
+  }
+
+  .navbar > a.tab {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    flex-direction: row;
+    height: auto;
+    margin: 1em auto;
+  }
+
+  .navbar > div > button:after {
+    background: none;
+  }
+}
+
+.tab {
+  background-image: none;
+  min-width: 56px;
+  margin: 0 4px;
+  flex-grow: 1;
+  min-height: 48px;
+  border-width: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.2s linear, transform 0.3s ease-out,
+    box-shadow 0.2s linear;
+  cursor: pointer;
+  display: flex;
+}
+
+.tab > * {
+  transition: transform 0.8s ease;
+  transform-origin: 50% 80%;
+}
+
+@media (min-width: 900px) {
+  .tab > * {
+    transform-origin: 15% 15%;
+  }
+}
+
+.tab svg.icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1;
+  transition: all 0.2s linear;
+  margin-bottom: 2px;
+}
+
+@media (min-width: 900px) {
+  .tab svg.icon {
+    margin-bottom: 6px;
+  }
+}
+
+@media (min-width: 900px) {
+  .tab {
+    display: flex;
+    flex-grow: 0;
+    order: 0;
+    justify-content: center;
+  }
+}
+
+.tab:hover,
+.tab:focus {
+  opacity: 1;
+  outline: 2px solid transparent;
+}
+
+.tab:hover > *,
+.tab:focus > * {
+  transition: transform 0.4s ease-out;
+}
+
+.tab:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 -2px 0 0 var(--color-bg), 0 -4px 0 0 var(--color-ink);
+}
+
+@media (min-width: 900px) {
+  .tab:focus-visible {
+    box-shadow: -2px 0 0 0 var(--color-bg) inset,
+      -4px 0 0 0 var(--color-ink) inset;
+  }
+}
+
+.tab:active {
+  opacity: 0.7;
+}
+
+.tab:active > * {
+  transition: transform 0.4s ease-out;
+}
+
+.tab[aria-current="page"]:not([aria-current="false"]) {
+  opacity: 1;
+  outline: 2px solid transparent;
+}
+
+.logo {
+  /* min-width: 56px; */
+  margin: -12px 12px 0 12px;
+  flex-grow: 1;
+  /* min-height: 48px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.logo > span {
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .logo {
+    display: flex;
+    flex-grow: 1;
+    order: -1;
+    justify-content: flex-start;
+  }
+}
+
+.switch {
+  min-width: 56px;
+  margin: 0 4px;
+  flex-grow: 1;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .switch {
+    display: flex;
+    font-size: 15px;
+    flex-grow: 1;
+    order: 0;
+    justify-content: flex-end;
+  }
+}

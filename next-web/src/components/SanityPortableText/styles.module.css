@@ -1,0 +1,7 @@
+.heading svg {
+  display: none;
+  cursor: pointer;
+}
+.heading:hover svg {
+  display: inline;
+}
