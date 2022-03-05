@@ -7,7 +7,7 @@ export default {
         data: [
           {
             title: "GitHub repo",
-            value: "https://github.com/ISnackable/isnackable.github.io/",
+            value: "https://github.com/ISnackable/isnackable.me/",
             category: "Code",
           },
           {

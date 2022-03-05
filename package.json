@@ -2,7 +2,7 @@
   "private": true,
   "name": "isnackable-jamstack",
   "version": "1.0.0",
-  "description": "A personal site created with Gatsby as the frontend framework and Sanity.io and the headless content management system.",
+  "description": "A personal site created with NextJS as the frontend framework and Sanity.io and the headless content management system.",
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ISnackable/isnackable.github.io.git"
+    "url": "git+https://github.com/ISnackable/isnackable.me.git"
   },
   "author": "ISnackable",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/ISnackable/isnackable.github.io/issues"
+    "url": "https://github.com/ISnackable/isnackable.me/issues"
   },
-  "homepage": "https://github.com/ISnackable/isnackable.github.io#readme",
+  "homepage": "https://github.com/ISnackable/isnackable.me#readme",
   "devDependencies": {
     "@sanity/cli": "^2.27.3",
     "husky": "^7.0.4",

@@ -1,13 +1,13 @@
 <p align="center">
   <a href="https://www.github.com/ISnackable">
-    <img alt="Logo" src="gatsby-web/src/images/icon.png" width="60" />
+    <img alt="Logo" src="next-web/public/icon.png" width="60" />
   </a>
 </p>
 <h1 align="center">
   ISnackable Personal Site
 </h1>
 
-![Personal site preview](./gatsby-web/static/preview.png)
+![Personal site preview](./next-web/public/preview.png)
 
 A personal site created with Next.js as the frontend framework and Sanity.io as the headless content management system.
 
@@ -25,4 +25,5 @@ This project is [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) licens
 
 ## References
 
+https://github.com/sanity-io/sanity-template-nextjs-event-starter
 https://github.com/sanity-io/gatsby-portfolio-preview-poc

@@ -14,7 +14,7 @@ export default {
   rootNotionSpaceId: null,
 
   // Giscus.app comments via GitHub discussions (optional)
-  repo: "ISnackable/isnackable.github.io",
+  repo: "ISnackable/isnackable.me",
   repoId: "MDEwOlJlcG9zaXRvcnkzNTEwNjU5NzY=",
   category: "Announcements",
   categoryId: "DIC_kwDOFOzXeM4B_0gD",

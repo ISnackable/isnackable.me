@@ -11,7 +11,7 @@ import SeoPreview from "../components/previews/seo/SeoPreviews";
 import ColorblindPreview from "../components/previews/a11y/colorblind-filter/ColorblindPreview";
 
 // Web preview configuration
-const remoteURL = "https://isnackable.github.io";
+const remoteURL = "https://isnackable.me";
 const localURL = "http://localhost:8000";
 const previewURL =
   window.location.hostname === "localhost" ? localURL : remoteURL;
