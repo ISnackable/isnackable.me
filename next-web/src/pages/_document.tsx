@@ -3,7 +3,7 @@ import { title, description } from "@lib/config";
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html>
       <Head>
         <meta name="application-name" content={title} />
         <meta name="apple-mobile-web-app-capable" content="yes" />

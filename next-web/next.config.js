@@ -31,6 +31,10 @@ const headers = async () => {
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer(
   withPWA({
+    i18n: {
+      locales: ["en"],
+      defaultLocale: "en"
+    },
     reactStrictMode: true,
     pwa: {
       dest: "public",
@@ -43,6 +47,15 @@ const nextConfig = withBundleAnalyzer(
     headers,
     images: {
       domains: ["cdn.sanity.io"]
+    },
+    async redirects() {
+      return [
+        {
+          source: "/files",
+          destination: "https://files.isnackable.me",
+          permanent: false
+        }
+      ];
     }
   })
 );
