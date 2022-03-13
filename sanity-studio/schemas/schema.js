@@ -10,7 +10,6 @@ import author from "./documents/author";
 import post from "./documents/post";
 import category from "./documents/category";
 import project from "./documents/project";
-import note from "./documents/note";
 import externalImage from "./objects/externalImage";
 import figure from "./objects/figure";
 import mainImage from "./objects/mainImage";
@@ -29,7 +28,6 @@ export default createSchema({
     post,
     category,
     project,
-    note,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,

@@ -4,11 +4,10 @@ import author from "./authors";
 import blog from "./blog";
 import categories from "./categories";
 import projects from "./projects";
-import note from "./note";
 
 // Hide document types that we already have a structure definition for
 const hiddenDocTypes = (listItem) =>
-  !["author", "post", "category", "project", "note"].includes(listItem.getId());
+  !["author", "post", "category", "project"].includes(listItem.getId());
 
 export default () =>
   S.list()
@@ -18,6 +17,5 @@ export default () =>
       blog,
       categories,
       projects,
-      note,
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ]);
