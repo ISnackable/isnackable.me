@@ -118,7 +118,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
     <>
       <SEO title={"Blog"} description={"A collection of my blog posts"} />
       <section>
-        <Container size="xl" padding={20} my={96}>
+        <Container size="xl" px={20} my={96}>
           <Center>
             <Title order={1} my="md">
               Blog Post
@@ -184,7 +184,20 @@ const BlogPage: NextPage<Props> = ({ data }) => {
             </Grid.Col>
           </Grid>
 
-          {state.filteredData.length > 0 && <Blog state={state} />}
+          {state.filteredData.length > 0 ? (
+            <Blog state={state} />
+          ) : (
+            <Text
+              align="center"
+              size="md"
+              my="lg"
+              sx={() => ({
+                overflowWrap: "break-word"
+              })}
+            >
+              No result for &quot;{state.query}&quot;
+            </Text>
+          )}
 
           <Center my={36}>
             <Pagination

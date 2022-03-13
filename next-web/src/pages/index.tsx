@@ -118,7 +118,7 @@ const HomePage: NextPage<Props> = ({ posts }) => {
                   return (
                     <Card
                       key={post._id}
-                      padding="lg"
+                      p="lg"
                       sx={(theme) => ({
                         backgroundColor:
                           theme.colorScheme === "dark"

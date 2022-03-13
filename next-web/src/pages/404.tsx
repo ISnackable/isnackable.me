@@ -10,7 +10,7 @@ const FourOhFourPage: NextPage = () => {
     <>
       <SEO title={"Page Not Found"} />
       <section>
-        <Container size="xl" padding={20} my={96}>
+        <Container size="xl" px={20} my={96}>
           <SimpleGrid
             cols={2}
             breakpoints={[{ maxWidth: 1020, cols: 1, spacing: "sm" }]}

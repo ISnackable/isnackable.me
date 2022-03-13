@@ -16,7 +16,7 @@ const Projects: NextPage<Props> = (props) => {
       {projects.map((project) => {
         return (
           <Grid.Col key={project._id} xs={6} lg={4}>
-            <Card shadow="sm" padding="lg">
+            <Card shadow="sm" p="lg">
               <Card.Section>
                 <div style={{ margin: 24 }}>
                   <SanityNextImage

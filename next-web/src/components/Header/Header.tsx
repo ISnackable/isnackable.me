@@ -65,7 +65,7 @@ const Header: NextPage = () => {
       }}
     >
       <Drawer
-        hideCloseButton
+        withCloseButton={false}
         opened={opened}
         onClose={() => setOpened(false)}
         padding="xl"

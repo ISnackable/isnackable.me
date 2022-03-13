@@ -32,7 +32,7 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
         description={"A quick collection of my open-source projects"}
       />
       <section>
-        <Container size="xl" padding={20} my={96}>
+        <Container size="xl" px={20} my={96}>
           <Center>
             <Title order={1} my="md">
               My Projects
