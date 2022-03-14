@@ -14,7 +14,7 @@ import {
   Group
 } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
-import { useLocalStorageValue } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 import SEO from "@components/SEO";
 import { getAllPosts } from "@lib/sanity.server";
 import { toDateString } from "@lib/helpers";
@@ -34,7 +34,7 @@ interface Props {
 }
 
 const HomePage: NextPage<Props> = ({ posts }) => {
-  const [newVisitor, setNewVisitor] = useLocalStorageValue<NewVisitor>({
+  const [newVisitor, setNewVisitor] = useLocalStorage<NewVisitor>({
     key: "new-visitor",
     defaultValue: "true"
   });
@@ -76,7 +76,12 @@ const HomePage: NextPage<Props> = ({ posts }) => {
           <Center>
             <Title order={1} my="md" sx={{ fontSize: 48 }} align="center">
               Hey there I&apos;m{" "}
-              <Text color="blue" inherit component="span">
+              <Text
+                component="span"
+                variant="gradient"
+                gradient={{ from: "blue", to: "cyan" }}
+                inherit
+              >
                 @{socialUsername}
               </Text>
               , Tommy

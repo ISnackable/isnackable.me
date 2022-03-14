@@ -1053,43 +1053,43 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mantine/core@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-4.0.2.tgz#499ff56883b2360c646815d47d0d441638c01e48"
-  integrity sha512-Q1pMaRUlcmoZCZpjNVtxih96iIqjjCzUhBg3EN++cdal6WDhtt+XmHPjiP4PR8Oh41kLK0eO1GEyE0wUI5Slhg==
+"@mantine/core@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-4.0.4.tgz#407274b33cd33198d25071f907cdfcc167de5109"
+  integrity sha512-ktMXI0fI3tTE4ULyNLq0xVWm+okHTmsxXbwQU9zOcxQo9FsSA+tt7FKbzq2gTxuwezflEbjIHm81Mq6DmkAo9g==
   dependencies:
-    "@mantine/styles" "4.0.2"
+    "@mantine/styles" "4.0.4"
     "@popperjs/core" "^2.9.3"
     "@radix-ui/react-scroll-area" "^0.1.1"
     clsx "^1.1.1"
     react-popper "^2.2.5"
     react-textarea-autosize "^8.3.2"
 
-"@mantine/hooks@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-4.0.2.tgz#a97a9a4f01b89e11c2dd9010cb303cf9fda4aab8"
-  integrity sha512-uyhJGD8ajlhJw/7TitFoy3qrdK1EhCY8rVVfAE0CBhWBTPubAnJJm3Ua74bMZk3oYtStbSwCI5hDkaPEpfOMug==
+"@mantine/hooks@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-4.0.4.tgz#6c70c6e01fad8c94d700df2f0942713184c63b09"
+  integrity sha512-gSbdoKDxxNVQpssTL25n7VUK/U6PQdWOilP041ygZ7k2sPt6PD4FzLLwbKtB0Be6MUiyvW3zAOKh3y2/NjZ40w==
 
-"@mantine/notifications@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-4.0.2.tgz#b7fcbbde9826942f529171a691e1922c199cde92"
-  integrity sha512-06xfOD5irZ+426VnxeMIc50KT4vmGbJI0iKWARCyLPuY5hrKhhzOpxfth5vAyZfhy4buoW/uIpRWVCM89eH6RQ==
+"@mantine/notifications@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-4.0.4.tgz#6e9644ac1556d38ffebed73728b2afa862a2dc5f"
+  integrity sha512-B9gC0bHFbUcUZLB/Muv6vLVAocN44o7zXvqGmu5epVIBQ036Up+jqqqoxm7vmD8REqM/sJ4Q4zfPjeDIFBpX0g==
   dependencies:
     clsx "^1.1.1"
     react-transition-group "^4.4.2"
 
-"@mantine/prism@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mantine/prism/-/prism-4.0.2.tgz#2c4b67eff35b2d402ec585b6a53e14a8050a9920"
-  integrity sha512-VE4yLdvnemcfG1eKRBfMlVx67YDmf+xHLioCkvIvyMWlikGpG25pFkOzbELivWntIcEwPJQMfcSASUZZdVFbng==
+"@mantine/prism@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mantine/prism/-/prism-4.0.4.tgz#0db69f6cbb13e81bac858ebf3135b80e739d22f4"
+  integrity sha512-v12saNb8KcmuFq5lj6eAjkEzk/8BAWI7RmvBe2+0UJoHp2dgywiSHR+79cTD5WiOJDD8F+Ek4x9Rc4mNwG/j7g==
   dependencies:
     clsx "^1.1.1"
     prism-react-renderer "^1.2.1"
 
-"@mantine/styles@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-4.0.2.tgz#ff99910f476e18eaabc73623fc97c18b60ead524"
-  integrity sha512-r0Ti9UTJB7OKxzOinAFcsub7J7v7F9zaUDYNgCfs+t/vU/8S5S3C7K9ohRUYBoNIvm+MJYsn+zs6jWy0ku3i4A==
+"@mantine/styles@4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-4.0.4.tgz#dcac61bcfd73d39127212a028a77de018a89ba96"
+  integrity sha512-tQny97sUkoGJQ/fPKEXPR4114qoKm6isMmNtA+0/KtLFvlzFK4orNxV1n0yiW702uiZEegiHjpInheLCWOAedg==
   dependencies:
     "@emotion/cache" "^11.7.1"
     "@emotion/react" "^11.7.1"
@@ -2458,10 +2458,10 @@ eslint-plugin-react@^7.27.0:
     semver "^6.3.0"
     string.prototype.matchall "^4.0.6"
 
-eslint-plugin-react@^7.29.3:
-  version "7.29.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.29.3.tgz#f4eab757f2756d25d6d4c2a58a9e20b004791f05"
-  integrity sha512-MzW6TuCnDOcta67CkpDyRfRsEVx9FNMDV8wZsDqe1luHPdGTrQIUaUXD27Ja3gHsdOIs/cXzNchWGlqm+qRVRg==
+eslint-plugin-react@^7.29.4:
+  version "7.29.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.29.4.tgz#4717de5227f55f3801a5fd51a16a4fa22b5914d2"
+  integrity sha512-CVCXajliVh509PcZYRFyu/BoUEz452+jtQJq2b3Bae4v3xBUWPLCmtmBM+ZinG4MzwmxJgJ2M5rMqhqLVn7MtQ==
   dependencies:
     array-includes "^3.1.4"
     array.prototype.flatmap "^1.2.5"
