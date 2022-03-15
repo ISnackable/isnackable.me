@@ -1,6 +1,5 @@
 {
-    "github": {
-        "silent": true
-    },
-    "collectMetrics": false
+  "github": {
+    "silent": true
+  }
 }

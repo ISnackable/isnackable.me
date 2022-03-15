@@ -103,7 +103,6 @@ const TableOfContent: NextPage<Props> = (props) => {
   ));
 
   const actionSectionScrollSpy = throttle(() => {
-    console.log(activeSection);
     const sections = document.getElementsByClassName("blog-h");
 
     let prevBBox: DOMRect | null = null;
