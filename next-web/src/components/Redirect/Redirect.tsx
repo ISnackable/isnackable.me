@@ -70,7 +70,7 @@ const Redirect: NextPage<Props> = (props) => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [link, timer]);
 
   return (
     <Paper
@@ -115,14 +115,16 @@ const Redirect: NextPage<Props> = (props) => {
         <Loader variant="bars" />
       </Center>
       <Text size="lg" my="lg">
-        You're being redirected to another page, it may takes up to 10 seconds.
+        You&apos;re being redirected to another page, it may takes up to 10
+        seconds.
       </Text>
       <Skeleton height={8} radius="xl" />
       <Skeleton height={8} mt={6} radius="xl" />
       <Skeleton height={8} mt={6} radius="xl" />
 
       <Text size="xs" mt="xl" mb="sm">
-        If you haven't been redirected in 30 seconds, please click this button.
+        If you haven&apos;t been redirected in 30 seconds, please click this
+        button.
       </Text>
       <Button
         fullWidth
