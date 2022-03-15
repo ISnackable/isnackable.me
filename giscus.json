@@ -1,6 +1,10 @@
 {
   "origins": [
-    "https://isnackable-github-io.vercel.app",
-    "https://isnackable.me"
+    "https://isnackable.me",
+    "https://isnackableme-isnackable.vercel.app"
+  ],
+  "originsRegex": [
+    "https://isnackableme-git-([A-z0-9]|-)*isnackable\\.vercel\\.app",
+    "http://localhost:[0-9]+"
   ]
 }
