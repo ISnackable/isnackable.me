@@ -4,7 +4,10 @@ import EyeIcon from "part:@sanity/base/eye-icon";
 import EditIcon from "part:@sanity/base/edit-icon";
 
 // Web preview
-import IframePreview from "../components/previews/iframe/IframePreview";
+import Iframe from "sanity-plugin-iframe-pane";
+import resolveProductionUrl from "../resolveProductionUrl";
+
+// Seo preview
 import SeoPreview from "../components/previews/seo/SeoPreviews";
 
 // a11y preview
@@ -12,7 +15,7 @@ import ColorblindPreview from "../components/previews/a11y/colorblind-filter/Col
 
 // Web preview configuration
 const remoteURL = "https://isnackable.me";
-const localURL = "http://localhost:8000";
+const localURL = "http://localhost:3000";
 const previewURL =
   window.location.hostname === "localhost" ? localURL : remoteURL;
 
@@ -29,8 +32,10 @@ export default S.listItem()
           .views([
             S.view.form().icon(EditIcon),
             S.view
-              .component(IframePreview)
-              .options({ previewURL })
+              .component(Iframe)
+              .options({
+                url: (doc) => resolveProductionUrl(doc),
+              })
               .title("Web Preview")
               .icon(EyeIcon),
             S.view

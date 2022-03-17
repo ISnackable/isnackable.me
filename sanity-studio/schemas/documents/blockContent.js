@@ -54,6 +54,7 @@ export default {
           { title: "Inline Code", value: "code" },
           { title: "Underline", value: "underline" },
           { title: "Strike", value: "strike-through" },
+          // { title: 'Highlight', value: 'highlight' }
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [

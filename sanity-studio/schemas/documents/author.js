@@ -4,6 +4,7 @@ export default {
   name: "author",
   title: "Author",
   type: "document",
+  liveEdit: true,
   icon: BsPersonCircle,
   fields: [
     {

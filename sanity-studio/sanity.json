@@ -1,31 +1,32 @@
 {
   "root": true,
   "project": {
-    "name": "ISnackable's Site"
+    "name": "ISnackable's Studio"
   },
   "api": {
     "projectId": "SANITY_STUDIO_API_PROJECT_ID",
     "dataset": "SANITY_STUDIO_API_DATASET"
   },
-  "plugins": [
-    "@sanity/base",
-    "@sanity/default-layout",
-    "@sanity/default-login",
-    "@sanity/desk-tool",
-    "@sanity/code-input",
-    "media",
-    "asset-source-unsplash",
-    "dashboard-widget-structure-menu",
-    "dashboard-widget-document-list",
-    "@sanity/dashboard",
-    "@sanity/production-preview",
-    "computed-field"
-  ],
   "env": {
     "development": {
       "plugins": ["@sanity/vision"]
     }
   },
+  "plugins": [
+    "@sanity/base",
+    "@sanity/code-input",
+    "@sanity/dashboard",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "@sanity/production-preview",
+    "asset-source-unsplash",
+    "computed-field",
+    "dashboard-widget-document-list",
+    "dashboard-widget-structure-menu",
+    "iframe-pane",
+    "media"
+  ],
   "parts": [
     {
       "name": "part:@sanity/base/schema",

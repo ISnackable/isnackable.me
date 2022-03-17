@@ -1,14 +1,29 @@
 const env = process.env.NODE_ENV || "development";
+const previewSecret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
+
+const remoteUrl = `https://isnackable.me`;
+const localUrl = `http://localhost:3000`;
 
 export default function resolveProductionUrl(document) {
-  const baseUrl =
-    env === "development" ? "http://localhost:8000" : "https://isnackable.me";
+  const baseUrl = env === "development" ? localUrl : remoteUrl;
+
+  const previewUrl = new URL(baseUrl);
+
+  previewUrl.pathname = `/api/preview`;
+  previewUrl.searchParams.append(`secret`, previewSecret);
 
   switch (document._type) {
     case "post":
-      return `${baseUrl}/blog/${document?.slug?.current}`;
+      previewUrl.searchParams.append(
+        `slug`,
+        `blog/${document?.slug?.current}` ?? `/`
+      );
+      break;
 
     default:
-      return null;
+      previewUrl.searchParams.append(`slug`, document?.slug?.current ?? `/`);
+      break;
   }
+
+  return previewUrl.toString();
 }

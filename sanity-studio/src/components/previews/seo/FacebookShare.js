@@ -30,7 +30,7 @@ class FacebookShare extends React.PureComponent {
       excerpt: description = [],
       mainImage: openGraphImage,
     } = document;
-    const websiteUrl = "http://localhost:8000";
+    const websiteUrl = "http://localhost:3000";
     const websiteUrlWithoutProtocol = websiteUrl.split("://")[1];
 
     return (
