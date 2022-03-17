@@ -47,6 +47,20 @@ const nextConfig = withBundleAnalyzer(
     headers,
     images: {
       domains: ["cdn.sanity.io"]
+    },
+    webpack: (config, { dev, isServer }) => {
+      // Replace React with Preact only in client production build.
+      // Preact breaks some component (RadixUI ScrollArea)
+      if (!dev && !isServer) {
+        Object.assign(config.resolve.alias, {
+          react: "preact/compat",
+          "react-dom/test-utils": "preact/test-utils",
+          "react-dom": "preact/compat",
+          "react/jsx-runtime": "preact/jsx-runtime"
+        });
+      }
+
+      return config;
     }
   })
 );

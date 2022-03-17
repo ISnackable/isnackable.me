@@ -12,7 +12,7 @@ const FilesPage: NextPage = () => {
     <>
       <SEO title={"Files"} />
       <section>
-        <Container size="sm" mb="xl">
+        <Container size="sm" my="xl">
           <Redirect link="https://files.isnackable.me/" timer={3000} />
         </Container>
       </section>

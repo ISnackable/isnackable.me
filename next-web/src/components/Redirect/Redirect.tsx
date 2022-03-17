@@ -76,17 +76,18 @@ const Redirect: NextPage<Props> = (props) => {
     <Paper
       shadow="xs"
       radius="md"
-      p={64}
       withBorder
       sx={() => ({
         margin: 96,
+        padding: 64,
 
         "@media (max-width: 900px)": {
           margin: 48
         },
 
         "@media (max-width: 640px)": {
-          margin: 0
+          margin: 0,
+          padding: 48
         }
       })}
     >

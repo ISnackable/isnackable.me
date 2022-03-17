@@ -14,16 +14,3 @@
     display: none;
   }
 }
-
-.toc::-webkit-scrollbar,
-.toc::-webkit-scrollbar-thumb {
-  width: 26px;
-  border-radius: 13px;
-  background-clip: padding-box;
-  border: 10px solid transparent;
-}
-
-.toc::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 0 10px;
-  color: #c1c2c5;
-}

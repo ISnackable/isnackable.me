@@ -34,6 +34,34 @@ interface FilterButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode;
 }
 
+const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
+  ({ icon, ...others }: FilterButtonProps, ref) => (
+    <UnstyledButton
+      aria-labelledby="Filter button"
+      ref={ref}
+      sx={(theme) => ({
+        display: "block",
+        padding: 5,
+        borderRadius: "100%",
+        color:
+          theme.colorScheme === "dark"
+            ? theme.colors.gray[5]
+            : theme.colors.gray[6],
+
+        "&:hover": {
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0]
+        }
+      })}
+      {...others}
+    >
+      {icon}
+    </UnstyledButton>
+  )
+);
+
 const BlogPage: NextPage<Props> = ({ data }) => {
   const dataLimit = 8;
   const { posts, categories } = data;
@@ -59,11 +87,12 @@ const BlogPage: NextPage<Props> = ({ data }) => {
 
   const handleFilterEvent = useCallback(
     (event: React.SyntheticEvent) => {
+      // Note that Preact and React return different event object.
       let query: string;
-      if (event.type === "change") {
-        query = (event.target as HTMLInputElement).value.trim();
-      } else {
+      if (event.type === "click") {
         query = (event.currentTarget as HTMLElement).innerText;
+      } else {
+        query = (event.target as HTMLInputElement).value.trim();
       }
 
       const filteredData = posts.filter((post) => {
@@ -84,34 +113,6 @@ const BlogPage: NextPage<Props> = ({ data }) => {
       });
     },
     [posts]
-  );
-
-  const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
-    ({ icon, ...others }: FilterButtonProps, ref) => (
-      <UnstyledButton
-        aria-labelledby="Filter button"
-        ref={ref}
-        sx={(theme) => ({
-          display: "block",
-          padding: 5,
-          borderRadius: "100%",
-          color:
-            theme.colorScheme === "dark"
-              ? theme.colors.gray[5]
-              : theme.colors.gray[6],
-
-          "&:hover": {
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[8]
-                : theme.colors.gray[0]
-          }
-        })}
-        {...others}
-      >
-        {icon}
-      </UnstyledButton>
-    )
   );
 
   return (
@@ -140,6 +141,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
             </Grid.Col>
             <Grid.Col span={1}>
               <Menu
+                withinPortal={false}
                 menuButtonLabel="Filter button"
                 control={
                   <FilterButton

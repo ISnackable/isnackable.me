@@ -4,7 +4,7 @@
     "https://isnackableme-isnackable.vercel.app"
   ],
   "originsRegex": [
-    "https://isnackableme-git-([A-z0-9]|-)*isnackable\\.vercel\\.app",
+    "https://isnackableme(-git)?-([A-z0-9]|-)*isnackable\\.vercel\\.app",
     "http://localhost:[0-9]+"
   ]
 }

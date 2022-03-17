@@ -62,6 +62,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
             highlightLines={highlightedLines}
             copyLabel="Copy code to clipboard"
             styles={styles}
+            scrollAreaComponent="div" // default scrollArea broken on preact
           >
             {value.code}
           </Prism>
@@ -84,6 +85,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
             withLineNumbers
             highlightLines={highlightedLines}
             copyLabel="Copy code to clipboard"
+            scrollAreaComponent="div" // default scrollArea broken on preact
           >
             {value.code}
           </Prism.Tab>
