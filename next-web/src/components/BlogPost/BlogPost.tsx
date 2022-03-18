@@ -1,13 +1,7 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import {
-  Avatar,
-  Center,
-  Container,
-  Text,
-  Title,
-  useMantineColorScheme
-} from "@mantine/core";
+import { Avatar, Center, Container, Text, Title } from "@mantine/core";
+import { useMantineColorScheme } from "@components/ColorSchemeProvider";
 import SanityNextImage from "@components/SanityNextImage";
 import { toDateString } from "@lib/helpers";
 import { urlFor } from "@lib/sanity";

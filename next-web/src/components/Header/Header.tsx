@@ -11,10 +11,10 @@ import {
   Divider,
   Kbd,
   Title,
-  Text,
-  useMantineColorScheme
+  Text
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { useMantineColorScheme } from "@components/ColorSchemeProvider";
 import useScrollListener from "@hooks/useScrollListener";
 import { title, description, socialUsername } from "@lib/config";
 import style from "./header.module.css";

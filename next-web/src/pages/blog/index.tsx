@@ -90,7 +90,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
       // Note that Preact and React return different event object.
       let query: string;
       if (event.type === "click") {
-        query = (event.currentTarget as HTMLElement).innerText;
+        query = (event.currentTarget as HTMLElement).innerText.trim();
       } else {
         query = (event.target as HTMLInputElement).value.trim();
       }
