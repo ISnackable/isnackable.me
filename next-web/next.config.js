@@ -40,6 +40,14 @@ const nextConfig = withBundleAnalyzer(
       skipWaiting: true,
       disable: process.env.NODE_ENV === "development"
     },
+    async rewrites() {
+      return [
+        {
+          source: "/sitemap.xml",
+          destination: "/api/sitemap"
+        }
+      ];
+    },
     headers,
     images: {
       domains: ["cdn.sanity.io"]
