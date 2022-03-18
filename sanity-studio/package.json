@@ -7,10 +7,10 @@
   "author": "ISnackable",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "eval $(grep '^SANITY_STUDIO_API_*' .env) sanity start",
+    "dev": "sanity start",
     "format": "prettier-eslint --write \"**/*.js\" \"!node_modules/**\"",
     "build": "sanity build",
-    "graphql-deploy": "eval $(grep '^SANITY_STUDIO_API_*' .env) sanity graphql deploy --playground",
+    "graphql-deploy": "sanity graphql deploy --playground",
     "lint": "eslint .",
     "test": "sanity check"
   },

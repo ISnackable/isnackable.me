@@ -3,8 +3,13 @@ import dynamic from "next/dynamic";
 import { toPlainText } from "@portabletext/react";
 import SEO from "@components/SEO";
 import BlogPost from "@components/BlogPost";
-import { getAllPosts, getSinglePost } from "@lib/sanity.server";
-import { urlFor } from "@lib/sanity";
+import PreviewBar from "@components/PreviewBar";
+import {
+  getAllPosts,
+  getSinglePost,
+  filterDataToSingleItem
+} from "@lib/sanity.server";
+import { urlFor, usePreviewSubscription } from "@lib/sanity";
 import type { AllSanityPost } from "../../@types/sanity";
 
 const TableOfContent = dynamic(() => import("@components/TableOfContent"), {
@@ -12,17 +17,35 @@ const TableOfContent = dynamic(() => import("@components/TableOfContent"), {
   loading: () => <p>loading...</p>
 });
 
-type Props = {
-  post: AllSanityPost;
-};
+interface Props {
+  data: Data;
+  preview: boolean;
+}
 
-const BlogPostPage: NextPage<Props> = ({ post }) => {
+interface Data {
+  post: AllSanityPost[];
+  query: string;
+  queryParams: { slug: string };
+}
+
+const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
+  const slug = data?.queryParams?.slug;
+  const { data: previewPost } = usePreviewSubscription(data?.query, {
+    params: data?.queryParams ?? {},
+    initialData: data?.post,
+    enabled: preview
+  });
+
+  const post = filterDataToSingleItem(previewPost, preview);
+
   return (
     <>
+      {preview && <PreviewBar href={`/api/exit-preview?slug=/blog/${slug}`} />}
+
       <SEO
-        title={post.title}
-        description={toPlainText(post.body)}
-        image={urlFor(post.mainImage).url()}
+        title={post?.title ? post.title : ""}
+        description={post?.body ? toPlainText(post.body) : undefined}
+        image={post?.mainImage ? urlFor(post.mainImage).url() : undefined}
         article={true}
       />
       <article>
@@ -42,9 +65,9 @@ export const getStaticProps: GetStaticProps = async ({
   preview = false
 }) => {
   const slug = params?.slug as string;
-  const post = await getSinglePost(preview, slug);
+  const data = await getSinglePost(preview, slug);
 
-  return { props: { post }, revalidate: 60 };
+  return { props: { data, preview }, revalidate: 60 };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

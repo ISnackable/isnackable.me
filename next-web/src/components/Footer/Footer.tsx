@@ -1,8 +1,9 @@
+import type { NextPage } from "next";
 import Link from "next/link";
 import styles from "./footer.module.css";
 import { socialUsername } from "@lib/config";
 
-const Footer = () => {
+const Footer: NextPage = () => {
   return (
     <footer className={styles.footer}>
       <Link href="/privacy">Privacy</Link>

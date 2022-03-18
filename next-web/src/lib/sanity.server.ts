@@ -91,9 +91,8 @@ export async function getSinglePost(preview = false, slug: string) {
   );
 
   if (!data) return { notFound: true };
-  const page = filterDataToSingleItem(data, preview);
 
-  return page;
+  return { post: data, query: getSinglePostQuery, queryParams };
 }
 
 export async function getAllCategories(
