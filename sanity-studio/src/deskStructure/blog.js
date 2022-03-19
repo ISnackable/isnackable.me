@@ -8,7 +8,7 @@ import Iframe from "sanity-plugin-iframe-pane";
 import resolveProductionUrl from "../resolveProductionUrl";
 
 // Seo preview
-import SeoPreview from "../components/previews/seo/SeoPreviews";
+import SocialPreview from "part:social-preview/component";
 
 // a11y preview
 import ColorblindPreview from "../components/previews/a11y/colorblind-filter/ColorblindPreview";
@@ -39,9 +39,25 @@ export default S.listItem()
               .title("Web Preview")
               .icon(EyeIcon),
             S.view
-              .component(SeoPreview)
-              .options({ previewURL })
-              .icon(EyeIcon)
+              .component(
+                SocialPreview({
+                  // Overwrite prepareFunction to pick the right fields
+                  prepareFunction: (
+                    {
+                      title,
+                      description,
+                      mainImage,
+                      slug,
+                    } /* this object is the currently active document */
+                  ) => ({
+                    title,
+                    description: description,
+                    siteUrl: previewURL,
+                    ogImage: mainImage,
+                    slug: `/${slug?.current}`,
+                  }),
+                })
+              )
               .title("SEO Preview"),
             S.view
               .component(ColorblindPreview)
