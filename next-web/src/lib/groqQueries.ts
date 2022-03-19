@@ -26,6 +26,7 @@ export const getSinglePostQuery = groq`
         "lqip": asset->metadata.lqip
     },
     title,
+    "slug": slug.current,
     description,
     author->{
         _id,
