@@ -46,7 +46,6 @@
     "@sanity/eslint-config-studio": "^2.0.0",
     "eslint": "^8.11.0",
     "prettier": "^2.6.0",
-    "sanity-codegen": "^0.9.8",
     "typescript": "^4.6.2"
   },
   "repository": {

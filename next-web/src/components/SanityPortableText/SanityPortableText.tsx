@@ -35,7 +35,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
     code: ({
       value
     }: {
-      value: {
+      value?: {
         code: string;
         language: string;
         filename: string;
@@ -46,50 +46,56 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         line: { fontSize: 15 },
         lineNumber: { fontSize: 15 }
       };
-      const highlightedLines = value?.highlightedLines?.reduce(
-        (a: object, v: number) => ({ ...a, [v]: { color: "blue" } }),
-        {}
-      );
+      const highlightedLines = value?.highlightedLines
+        ? value?.highlightedLines?.reduce(
+            (a: object, v: number) => ({ ...a, [v]: { color: "blue" } }),
+            {}
+          )
+        : undefined;
 
-      const prismLang = loadLanguage(value.language);
+      const prismLang = value?.language
+        ? loadLanguage(value.language)
+        : "plain";
 
-      if (!value.filename) {
+      const code = value?.code ? value.code : "";
+
+      if (value?.filename) {
         return (
-          <Prism
+          <Prism.Tabs
             my={8}
-            language={prismLang as any}
-            withLineNumbers
-            highlightLines={highlightedLines}
-            copyLabel="Copy code to clipboard"
-            styles={styles}
-            scrollAreaComponent="div" // default scrollArea broken on preact
+            styles={{
+              tab: { fontSize: 15 },
+              tabActive: { fontSize: 15 },
+              ...styles
+            }}
           >
-            {value.code}
-          </Prism>
+            <Prism.Tab
+              label={value.filename}
+              icon="📁"
+              language={prismLang as any}
+              withLineNumbers
+              highlightLines={highlightedLines}
+              copyLabel="Copy code to clipboard"
+              scrollAreaComponent="div" // default scrollArea broken on preact
+            >
+              {code}
+            </Prism.Tab>
+          </Prism.Tabs>
         );
       }
 
       return (
-        <Prism.Tabs
+        <Prism
           my={8}
-          styles={{
-            tab: { fontSize: 15 },
-            tabActive: { fontSize: 15 },
-            ...styles
-          }}
+          language={prismLang as any}
+          withLineNumbers
+          highlightLines={highlightedLines}
+          copyLabel="Copy code to clipboard"
+          styles={styles}
+          scrollAreaComponent="div" // default scrollArea broken on preact
         >
-          <Prism.Tab
-            label={value.filename}
-            icon="📁"
-            language={prismLang as any}
-            withLineNumbers
-            highlightLines={highlightedLines}
-            copyLabel="Copy code to clipboard"
-            scrollAreaComponent="div" // default scrollArea broken on preact
-          >
-            {value.code}
-          </Prism.Tab>
-        </Prism.Tabs>
+          {code}
+        </Prism>
       );
     },
     figure: ({ value }) => {
@@ -126,8 +132,8 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       <Center my={50}>
         <Image
           radius="md"
-          src={value.url}
-          alt={value.alt ?? "default alt text"}
+          src={value?.url}
+          alt={value?.alt ?? "default alt text"}
           caption={value?.caption}
           withPlaceholder
           sx={() => ({
@@ -155,8 +161,8 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       </Text>
     ),
     highlight: ({ children }) => <Mark>{children}</Mark>,
-    internalLink: ({ children, value }: any) => {
-      const href = `/blog/${value.slug.current}`;
+    internalLink: ({ children, value }) => {
+      const href = value?.slug ? `/blog/${value?.slug?.current}` : "/";
       return (
         <Link href={href} passHref>
           <Text variant="link" component="a">
@@ -165,25 +171,15 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         </Link>
       );
     },
-    link: ({
-      children,
-      value
-    }: {
-      children: ReactNode;
-      value?: {
-        blank: boolean;
-        href: string;
-      };
-    }) => {
-      const { blank, href } = value!;
-      const rel = !href.startsWith("/") ? "noreferrer noopener" : undefined;
+    link: ({ children, value }) => {
+      const { blank, href } = value;
       return (
         <>
-          <Link href={href} passHref>
+          <Link href={href ?? ""} passHref>
             <Text
               variant="link"
               component="a"
-              rel={blank ? rel : undefined}
+              rel={blank ? "noreferrer noopener" : undefined}
               target={blank ? "_blank" : undefined}
             >
               {children}
