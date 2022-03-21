@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import { PortableText } from "@portabletext/react";
+import { IconExternalLink, IconLink } from "@tabler/icons";
 import SanityNextImage from "@components/SanityNextImage";
 import { loadLanguage } from "@lib/prismDeps";
 import styles from "./styles.module.css";
