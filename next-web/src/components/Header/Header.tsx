@@ -14,6 +14,13 @@ import {
   Text
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import {
+  IconBrandOpenSource,
+  IconMoonStars,
+  IconBrightnessHalf,
+  IconCloud,
+  IconNotebook
+} from "@tabler/icons";
 import { useMantineColorScheme } from "@components/ColorSchemeProvider";
 import useScrollListener from "@hooks/useScrollListener";
 import { title, description, socialUsername } from "@lib/config";
@@ -82,46 +89,11 @@ const Header: NextPage = () => {
             variant="outline"
             onClick={() => toggleColorScheme()}
             leftIcon={
-              <span
-                style={{
-                  minWidth: "28px",
-                  minHeight: "28px",
-                  width: "28px",
-                  height: "28px",
-                  color: dark ? "#ffd43b" : "#1c7ed6"
-                }}
-              >
+              <span>
                 {dark ? (
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 9a3 3 0 0 0 0 6v-6z" />
-                    <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z" />
-                  </svg>
+                  <IconBrightnessHalf color="#ffd43b" stroke={1.5} size={28} />
                 ) : (
-                  <svg
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-                    <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
-                    <path d="M19 11h2m-1 -1v2" />
-                  </svg>
+                  <IconMoonStars color="#1c7ed6" stroke={1.5} size={28} />
                 )}
               </span>
             }
@@ -174,25 +146,7 @@ const Header: NextPage = () => {
           className={style.tab}
           aria-current={activeLink("/projects", router.pathname)}
         >
-          <svg
-            className={style.icon}
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path
-              stroke="none"
-              d="M0 0h24v24H0z"
-              fill="none"
-              fillRule="evenodd"
-            />
-            <path d="M12 3a9 9 0 0 1 3.618 17.243l-2.193 -5.602a3 3 0 1 0 -2.849 0l-2.193 5.603a9 9 0 0 1 3.617 -17.244z" />
-          </svg>
+          <IconBrandOpenSource className={style.icon} stroke={1.5} />
           Projects
         </a>
       </Link>
@@ -212,20 +166,7 @@ const Header: NextPage = () => {
           className={style.tab}
           aria-current={activeLink("/files", router.pathname)}
         >
-          <svg
-            className={style.icon}
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-12" />
-          </svg>
+          <IconCloud className={style.icon} stroke={1.5} />
           Files
         </a>
       </Link>
@@ -234,22 +175,7 @@ const Header: NextPage = () => {
           className={style.tab}
           aria-current={activeLink("/blog", router.pathname)}
         >
-          <svg
-            className={style.icon}
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" />
-            <line x1="13" y1="8" x2="15" y2="8" />
-            <line x1="13" y1="12" x2="15" y2="12" />
-          </svg>
+          <IconNotebook className={style.icon} stroke={1.5} />
           Blog
         </a>
       </Link>
@@ -261,36 +187,9 @@ const Header: NextPage = () => {
           title="Toggle color scheme"
         >
           {dark ? (
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M12 9a3 3 0 0 0 0 6v-6z" />
-              <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z" />
-            </svg>
+            <IconBrightnessHalf stroke={1.5} size={28} />
           ) : (
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-              <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
-              <path d="M19 11h2m-1 -1v2" />
-            </svg>
+            <IconMoonStars stroke={1.5} size={28} />
           )}
         </ActionIcon>
       </div>

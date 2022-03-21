@@ -16,21 +16,8 @@ export const socialUsername: string | null = getSiteConfig(
   null
 );
 
-// Notion
-// export const rootNotionPageId: string = parsePageId(
-//   getSiteConfig("rootNotionPageId"),
-//   { uuid: false }
-// );
-
-// if (!rootNotionPageId) {
-//   throw new Error('Config error invalid "rootNotionPageId"');
-// }
-
-// // if you want to restrict pages to a single notion workspace (optional)
-// export const rootNotionSpaceId: string | null = parsePageId(
-//   getSiteConfig("rootNotionSpaceId", null),
-//   { uuid: true }
-// );
+// Public directory listing
+export const directoryUrl: string = getSiteConfig("directoryUrl");
 
 // Optional Giscus.app comments via GitHub discussions
 export const giscusRepo: `${string}/${string}` | null = getSiteConfig(

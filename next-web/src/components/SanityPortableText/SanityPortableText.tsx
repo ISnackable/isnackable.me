@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import type { NextPage } from "next";
 import Link from "next/link";
 import type {
@@ -23,6 +22,11 @@ import styles from "./styles.module.css";
 
 // const deleted = { color: "red", label: "-" };
 // const added = { color: "green", label: "+" };
+
+// const codeDiffParser = (code: string) => {
+//   const codeLines = code.split("\\n")
+
+// }
 
 const myPortableTextComponents: Partial<PortableTextReactComponents> = {
   types: {
@@ -185,22 +189,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
               {children}
             </Text>
           </Link>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 25 25"
-            strokeWidth="1.5"
-            stroke="#1c7ed6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" />
-            <line x1="10" y1="14" x2="20" y2="4" />
-            <polyline points="15 4 20 4 20 9" />
-          </svg>
+          <IconExternalLink stroke={1.5} size={14} color="#1c7ed6" />
         </>
       );
     },
@@ -248,12 +237,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );
@@ -270,12 +254,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );
@@ -292,12 +271,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );
@@ -314,12 +288,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );
@@ -336,12 +305,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );
@@ -358,12 +322,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         >
           {children}{" "}
           <a href={`#${headingId}`} aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
-              ></path>
-            </svg>
+            <IconLink size={18} />
           </a>
         </Title>
       );

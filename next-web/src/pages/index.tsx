@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { useLocalStorage } from "@mantine/hooks";
+import { IconAffiliate, IconAward } from "@tabler/icons";
 import SEO from "@components/SEO";
 import { getAllPosts } from "@lib/sanity.server";
 import { toDateString } from "@lib/helpers";
@@ -193,25 +194,7 @@ const HomePage: NextPage<Props> = ({ posts }) => {
           >
             <div style={{ padding: 20 }}>
               <ThemeIcon variant="light" radius="xl" size="xl" mb={20}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="#60a5fa"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
-                  <path d="M11.683 12.317l5.759 -5.759" />
-                  <circle cx="5.5" cy="5.5" r="1.5" />
-                  <circle cx="18.5" cy="5.5" r="1.5" />
-                  <circle cx="18.5" cy="18.5" r="1.5" />
-                  <circle cx="8.5" cy="15.5" r="4.5" />
-                </svg>
+                <IconAffiliate size={32} stroke={1.5} color="#60a5fa" />
               </ThemeIcon>
               <Title order={4} mb={32}>
                 Internship in the Cybersecurity industry
@@ -223,28 +206,7 @@ const HomePage: NextPage<Props> = ({ posts }) => {
             </div>
             <div style={{ padding: 20 }}>
               <ThemeIcon variant="light" radius="xl" size="xl" mb={20}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="#60a5fa"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <circle cx="12" cy="9" r="6" />
-                  <polyline
-                    points="9 14.2 9 21 12 19 15 21 15 14.2"
-                    transform="rotate(-30 12 9)"
-                  />
-                  <polyline
-                    points="9 14.2 9 21 12 19 15 21 15 14.2"
-                    transform="rotate(30 12 9)"
-                  />
-                </svg>
+                <IconAward size={32} stroke={1.5} color="#60a5fa" />
               </ThemeIcon>
               <Title order={4} mb={32}>
                 Outstanding awards received from others
