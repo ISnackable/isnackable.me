@@ -6,10 +6,10 @@ import type {
 } from "@portabletext/react";
 import {
   Blockquote,
-  Box,
   Center,
   Code,
   Image,
+  Paper,
   Mark,
   Text,
   Title
@@ -17,9 +17,11 @@ import {
 import { Prism } from "@mantine/prism";
 import { PortableText } from "@portabletext/react";
 import { IconExternalLink, IconLink } from "@tabler/icons";
+import Zoom from "react-medium-image-zoom";
 import SanityNextImage from "@components/SanityNextImage";
 import { loadLanguage } from "@lib/prismDeps";
 import styles from "./styles.module.css";
+import "react-medium-image-zoom/dist/styles.css";
 
 // const deleted = { color: "red", label: "-" };
 // const added = { color: "green", label: "+" };
@@ -106,49 +108,63 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
     figure: ({ value }) => {
       return (
         <Center my={50}>
-          <Box
-            mx={0}
+          <Paper
             component="figure"
             sx={() => ({
-              width: "50%",
+              margin: "0rem 8rem",
 
-              "@media (max-width: 640px)": {
-                width: "100%"
+              "@media (max-width: 900px)": {
+                margin: 0
               }
             })}
           >
-            <SanityNextImage
-              image={value}
-              alt={value.alt ?? "default alt text"}
-              placeholder="blur"
-              blurDataURL={value.lqip}
-              objectFit="contain"
-            />
+            <Zoom
+              overlayBgColorStart="transparent"
+              overlayBgColorEnd="transparent"
+              zoomMargin={20}
+            >
+              <SanityNextImage
+                image={value}
+                alt={value.alt ?? "default alt text"}
+                placeholder="blur"
+                blurDataURL={value.lqip}
+                objectFit="contain"
+              />
+            </Zoom>
             {value?.caption && (
               <Text align="center" component="figcaption">
                 {value?.caption}
               </Text>
             )}
-          </Box>
+          </Paper>
         </Center>
       );
     },
     externalImage: ({ value }) => (
       <Center my={50}>
-        <Image
-          radius="md"
-          src={value?.url}
-          alt={value?.alt ?? "default alt text"}
-          caption={value?.caption}
-          withPlaceholder
+        <Paper
           sx={() => ({
-            width: "50%",
+            margin: "0rem 8rem",
 
-            "@media (max-width: 640px)": {
-              width: "100%"
+            "@media (max-width: 900px)": {
+              margin: 0
             }
           })}
-        />
+        >
+          <Zoom
+            overlayBgColorStart="transparent"
+            overlayBgColorEnd="transparent"
+            zoomMargin={20}
+          >
+            <Image
+              radius="md"
+              src={value?.url}
+              alt={value?.alt ?? "default alt text"}
+              caption={value?.caption}
+              withPlaceholder
+            />
+          </Zoom>
+        </Paper>
       </Center>
     ),
     break: () => <br />

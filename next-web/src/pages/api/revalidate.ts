@@ -1,23 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isValidRequest } from "@sanity/webhook";
-
-type Data = {
-  message: string;
-};
+import { JSend } from "../../@types/JSend";
 
 const SANITY_REVALIDATE_SECRET = process.env.SANITY_REVALIDATE_SECRET ?? "";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<JSend>
 ) {
   if (req.method !== "POST") {
     console.error("Must be a POST request");
-    return res.status(401).json({ message: "Must be a POST request" });
+    return res
+      .status(401)
+      .json({ status: "fail", message: "Must be a POST request" });
   }
 
   if (!isValidRequest(req, SANITY_REVALIDATE_SECRET)) {
-    res.status(401).json({ message: "Invalid signature" });
+    res.status(401).json({ status: "fail", message: "Invalid signature" });
     return;
   }
 
@@ -30,12 +29,15 @@ export default async function handler(
       case "post":
         await res.unstable_revalidate(`/blog/${slug}`);
         return res.json({
+          status: "success",
           message: `Revalidated "${type}" with slug "${slug}"`
         });
     }
 
-    return res.json({ message: "No managed type" });
+    return res.json({ status: "fail", message: "No managed type" });
   } catch (err) {
-    return res.status(500).send({ message: "Error revalidating" });
+    return res
+      .status(500)
+      .send({ status: "error", message: "Error revalidating" });
   }
 }

@@ -25,14 +25,14 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.md}px ${theme.spacing.md}px`,
 
     [theme.fn.smallerThan("sm")]: {
-      flexDirection: "column"
+      flexDirection: "column-reverse"
     }
   },
 
   links: {
     [theme.fn.smallerThan("sm")]: {
-      marginTop: theme.spacing.lg,
-      marginBottom: theme.spacing.sm
+      marginTop: theme.spacing.sm,
+      marginBottom: theme.spacing.lg
     }
   }
 }));
