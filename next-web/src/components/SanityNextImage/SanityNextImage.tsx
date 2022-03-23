@@ -1,3 +1,10 @@
+/**
+ * This file is part of the isnackable.me project.
+ * Copyright © 2021-2022 isnackable.me. All rights reserved.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 // INSPIRED FROM https://github.com/bundlesandbatches/next-sanity-image
 // https://gist.github.com/kmelve/e047d40e24d92f1b4751535a4cee1e59
 import type { NextPage } from "next";
