@@ -52,6 +52,10 @@ const nextConfig = withBundleAnalyzer(
         {
           source: "/sitemap.xml",
           destination: "/api/sitemap"
+        },
+        {
+          source: "/feed",
+          destination: "/api/feed"
         }
       ];
     },

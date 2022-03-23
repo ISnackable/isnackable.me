@@ -12,8 +12,10 @@ import { ColorScheme, MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useColorScheme, useHotkeys } from "@mantine/hooks";
 import { AnimatePresence } from "framer-motion";
+import PlausibleProvider from "next-plausible";
 import { ColorSchemeProvider } from "@components/ColorSchemeProvider";
 import AppLayout from "@components/AppLayout";
+import { siteUrl } from "@lib/config";
 import "@styles/globals.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -36,24 +38,26 @@ const App = ({ Component, pageProps }: AppProps) => {
           content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
         />
       </Head>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme }}
+      <PlausibleProvider domain={siteUrl.replace("https://", "")}>
+        <ColorSchemeProvider
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
         >
-          <NotificationsProvider>
-            <AnimatePresence exitBeforeEnter initial={false}>
-              <AppLayout>
-                <Component {...pageProps} />
-              </AppLayout>
-            </AnimatePresence>
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{ colorScheme }}
+          >
+            <NotificationsProvider>
+              <AnimatePresence exitBeforeEnter initial={false}>
+                <AppLayout>
+                  <Component {...pageProps} />
+                </AppLayout>
+              </AnimatePresence>
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </PlausibleProvider>
     </>
   );
 };

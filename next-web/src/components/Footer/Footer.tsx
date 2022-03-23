@@ -50,6 +50,10 @@ const links = [
     label: "Blog"
   },
   {
+    link: "/feed",
+    label: "RSS Feed"
+  },
+  {
     link: "/privacy",
     label: "Privacy"
   },

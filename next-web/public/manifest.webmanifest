@@ -1,7 +1,7 @@
 {
   "name": "ISnackable Personal Site",
   "short_name": "ISnackable",
-  "description": "A personal site by ISnackable.",
+  "description": "A personal site by ISnackable",
   "start_url": "/",
   "background_color": "#1a1b1e",
   "theme_color": "#c1c2c5",

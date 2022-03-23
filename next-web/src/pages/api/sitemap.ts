@@ -56,9 +56,7 @@ export default async function handler(
   ${urlSet}
 </urlset>`;
 
-  // set response content header to xml
   res.setHeader("Content-Type", "text/xml");
-  // write the sitemap
   res.write(sitemap);
   res.end();
 }

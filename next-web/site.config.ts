@@ -8,7 +8,7 @@
 export default {
   // Basic site info (required)
   title: "ISnackable, Cybersecurity",
-  description: "A personal site",
+  description: "A personal site by ISnackable",
   siteUrl: "https://isnackable.me",
   image: "icons/icon-512x512.png", // Path to your image you placed in the 'static' folder
   socialUsername: "ISnackable",
