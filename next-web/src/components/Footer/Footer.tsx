@@ -7,9 +7,9 @@
  */
 import type { NextPage } from "next";
 import Link from "next/link";
-import { createStyles, Group, ActionIcon } from "@mantine/core";
+import { ActionIcon, createStyles, Group } from "@mantine/core";
 import { IconBrandLinkedin, IconBrandGithub } from "@tabler/icons";
-import { directoryUrl, socialUsername } from "@lib/config";
+import { socialUsername } from "@lib/config";
 import styles from "./footer.module.css";
 
 const useStyles = createStyles((theme) => ({
@@ -51,15 +51,15 @@ const links = [
   },
   {
     link: "/feed",
-    label: "RSS Feed"
+    label: "RSS"
   },
   {
     link: "/privacy",
     label: "Privacy"
   },
   {
-    link: `${directoryUrl}/resume.pdf`,
-    label: "Resume"
+    link: `/stats`,
+    label: "Stats"
   }
 ];
 

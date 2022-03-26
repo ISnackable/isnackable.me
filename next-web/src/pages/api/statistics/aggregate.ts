@@ -16,7 +16,7 @@ export default async function handler(
   res: NextApiResponse<JSend>
 ) {
   const result = await fetch(
-    `https://plausible.io/api/v1/stats/realtime/visitors?site_id=${SITE_ID}`,
+    `https://plausible.io/api/v1/stats/aggregate?site_id=${SITE_ID}&period=30d&metrics=visitors,pageviews,bounce_rate,visit_duration&compare=previous_period`,
     {
       method: "GET",
       headers: {
@@ -28,10 +28,16 @@ export default async function handler(
   const data = await result.json();
 
   if (!result.ok) {
-    return res
-      .status(500)
-      .json({ status: "error", message: "Error retrieving realtime visitors" });
+    return res.status(500).json({
+      status: "error",
+      message: "Error retrieving aggregates metrics"
+    });
   }
+
+  const bounceRate = data.results?.bounce_rate;
+  const pageviews = data.results?.pageviews;
+  const visitDuration = data.results?.visit_duration;
+  const visitors = data.results?.visitors;
 
   res.setHeader(
     "Cache-Control",
@@ -41,8 +47,11 @@ export default async function handler(
   return res.status(200).json({
     status: "success",
     data: {
-      visitors: data
+      bounce_rate: bounceRate,
+      pageviews: pageviews,
+      visit_duration: visitDuration,
+      visitors: visitors
     },
-    message: "Successfully retrieved realtime visitors data"
+    message: "Successfully retrieved aggregates metrics"
   });
 }

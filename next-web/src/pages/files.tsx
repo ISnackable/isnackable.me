@@ -18,7 +18,10 @@ const Redirect = dynamic(() => import("@components/Redirect"), {
 const FilesPage: NextPage = () => {
   return (
     <>
-      <SEO title={"Files"} />
+      <SEO
+        title="Files"
+        description="Files page to redirect you my public directory listing."
+      />
       <section>
         <Container size="sm" my="xl">
           <Redirect link={directoryUrl} timer={3000} />

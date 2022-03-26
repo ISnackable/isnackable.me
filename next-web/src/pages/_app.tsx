@@ -18,6 +18,8 @@ import AppLayout from "@components/AppLayout";
 import { siteUrl } from "@lib/config";
 import "@styles/globals.css";
 
+const SITE_ID = siteUrl.replace("https://", "");
+
 const App = ({ Component, pageProps }: AppProps) => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -38,7 +40,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
         />
       </Head>
-      <PlausibleProvider domain={siteUrl.replace("https://", "")}>
+      <PlausibleProvider domain={SITE_ID}>
         <ColorSchemeProvider
           colorScheme={colorScheme}
           toggleColorScheme={toggleColorScheme}

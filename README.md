@@ -9,7 +9,7 @@
 
 ![Personal site preview](./next-web/public/preview.png)
 
-A personal site created with Next.js as the frontend framework and Sanity.io as the headless content management system.
+A personal site created with [Next.js](https://nextjs.org/) as the frontend framework and [Sanity.io](https://www.sanity.io/) as the headless content management system. Structured content powered by [<img alt="Sanity.io Logo" src="./next-web/public/svg/sanity-logo.svg" height="13px" />](https://www.sanity.io/) and frontend workflow powered by [<img alt="Vercel Logo" src="./next-web/public/svg/vercel.svg" height="15px" class="filter-green" />](https://vercel.com/).
 
 ## Introduction
 
