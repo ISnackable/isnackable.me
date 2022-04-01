@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/ISnackable/isnackable.me#readme",
   "devDependencies": {
-    "@sanity/cli": "^2.28.0",
+    "@sanity/cli": "^2.29.3",
     "husky": "^7.0.4",
     "lerna": "^4.0.0"
   }

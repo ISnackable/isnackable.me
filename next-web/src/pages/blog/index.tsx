@@ -38,7 +38,7 @@ interface Props {
   preview: boolean;
 }
 
-interface FilterButtonProps extends UnstyledButtonProps {
+interface FilterButtonProps extends UnstyledButtonProps<"button"> {
   icon?: React.ReactNode;
 }
 

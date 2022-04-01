@@ -18,15 +18,15 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/base": "^2.29.1",
-    "@sanity/code-input": "^2.29.1",
-    "@sanity/core": "^2.28.1",
-    "@sanity/dashboard": "^2.29.1",
-    "@sanity/default-layout": "^2.29.1",
-    "@sanity/default-login": "^2.29.1",
-    "@sanity/desk-tool": "^2.29.1",
-    "@sanity/production-preview": "^2.15.0",
-    "@sanity/vision": "^2.29.1",
+    "@sanity/base": "^2.29.3",
+    "@sanity/code-input": "^2.29.3",
+    "@sanity/core": "^2.29.3",
+    "@sanity/dashboard": "^2.29.3",
+    "@sanity/default-layout": "^2.29.3",
+    "@sanity/default-login": "^2.29.3",
+    "@sanity/desk-tool": "^2.29.4",
+    "@sanity/production-preview": "^2.29.3",
+    "@sanity/vision": "^2.29.3",
     "prop-types": "^15.8.0",
     "react": "^17.0",
     "react-dom": "^17.0",
@@ -42,7 +42,7 @@
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
-    "@sanity/cli": "^2.28.0",
+    "@sanity/cli": "^2.29.3",
     "@sanity/eslint-config-studio": "^2.0.0",
     "eslint": "^8.11.0",
     "prettier": "^2.6.0",

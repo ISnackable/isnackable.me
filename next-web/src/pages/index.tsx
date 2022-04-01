@@ -20,7 +20,7 @@ import {
   ThemeIcon,
   Group
 } from "@mantine/core";
-import { useNotifications } from "@mantine/notifications";
+import { showNotification } from "@mantine/notifications";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconAffiliate, IconAward } from "@tabler/icons";
 import SEO from "@components/SEO";
@@ -46,11 +46,10 @@ const HomePage: NextPage<Props> = ({ posts }) => {
     key: "new-visitor",
     defaultValue: "true"
   });
-  const notifications = useNotifications();
 
   useEffect(() => {
     if (newVisitor === "true") {
-      notifications.showNotification({
+      showNotification({
         title: `Hey there! Thanks for checking out my site.`,
         message: `To change the theme of the site, you can use Ctrl+J or switch icon at the side.`
       });
