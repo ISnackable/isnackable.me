@@ -69,7 +69,7 @@ export default function generateSocialImage({
     `x_${textLeftOffset}`,
     `y_${textBottomOffset}`,
     `l_text:${titleFont}_${titleFontSize}${titleExtraConfig}:${encodeURIComponent(
-      title.replaceAll(",", "%2C").replaceAll("/", "%2F")
+      title.replace(/,/g, "%2C").replace(/\//g, "%2F")
     )}`
   ].join(",");
 
