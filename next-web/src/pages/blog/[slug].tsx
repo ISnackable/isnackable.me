@@ -17,6 +17,8 @@ import {
   filterDataToSingleItem
 } from "@lib/sanity.server";
 import { urlFor, usePreviewSubscription } from "@lib/sanity";
+import generateSocialImage from "@lib/generateSocialImage";
+import { cloudName, imagePublicID } from "@lib/config";
 import type { AllSanityPost } from "../../@types/sanity";
 
 const TableOfContent = dynamic(() => import("@components/TableOfContent"), {
@@ -44,6 +46,12 @@ const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
   });
 
   const post = filterDataToSingleItem(previewPost, preview);
+  const socialImage = generateSocialImage({
+    title: post.title,
+    underlayImage: urlFor(post.mainImage).url(),
+    cloudName: cloudName!,
+    imagePublicID: imagePublicID!
+  });
 
   return (
     <>
@@ -52,7 +60,11 @@ const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
       <SEO
         title={post?.title ? post.title : ""}
         description={post?.body ? toPlainText(post.body) : undefined}
-        image={post?.mainImage ? urlFor(post.mainImage).url() : undefined}
+        image={
+          post?.mainImage && socialImage
+            ? socialImage
+            : urlFor(post.mainImage).url()
+        }
         article={true}
       />
       <article>

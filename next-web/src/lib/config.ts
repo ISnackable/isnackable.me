@@ -26,6 +26,13 @@ export const socialUsername: string | null = getSiteConfig(
 // Public directory listing
 export const directoryUrl: string = getSiteConfig("directoryUrl");
 
+// Optional Cloudinary config
+export const cloudName: string | null = getSiteConfig("cloudName", null);
+export const imagePublicID: string | null = getSiteConfig(
+  "imagePublicID",
+  null
+);
+
 // Optional Giscus.app comments via GitHub discussions
 export const giscusRepo: `${string}/${string}` | null = getSiteConfig(
   "repo",

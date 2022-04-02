@@ -16,6 +16,10 @@ export default {
   // Public directory listing (required)
   directoryUrl: "https://files.isnackable.me",
 
+  // Cloudinary config (optional)
+  cloudName: "dq9jtcrcj",
+  imagePublicID: "og_social_large_w5z312.png",
+
   // Giscus.app comments via GitHub discussions (optional)
   repo: "ISnackable/isnackable.me",
   repoId: "MDEwOlJlcG9zaXRvcnkzNTEwNjU5NzY=",

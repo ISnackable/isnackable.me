@@ -61,7 +61,7 @@ const nextConfig = withBundleAnalyzer(
     },
     headers,
     images: {
-      domains: ["cdn.sanity.io"]
+      domains: ["cdn.sanity.io", "res.cloudinary.com"]
     },
     webpack: (config, { dev, isServer }) => {
       // Replace React with Preact only in client production build.

@@ -67,6 +67,7 @@ const BlogPost: NextPage<Props> = (props) => {
           <SanityNextImage
             image={post.mainImage}
             height={200}
+            width={1200}
             className="rounded-lg object-cover"
             alt={post.mainImage?.alt ?? `${post.title} main image`}
           />
