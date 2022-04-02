@@ -59,7 +59,9 @@ const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
 
       <SEO
         title={post?.title ? post.title : ""}
-        description={post?.body ? toPlainText(post.body) : undefined}
+        description={
+          post?.body ? toPlainText(post.body).slice(0, 200) : undefined
+        }
         image={
           post?.mainImage && socialImage
             ? socialImage
