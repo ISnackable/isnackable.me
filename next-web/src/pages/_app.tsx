@@ -8,12 +8,15 @@
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { ColorScheme, MantineProvider } from "@mantine/core";
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider
+} from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useColorScheme, useHotkeys } from "@mantine/hooks";
 import { AnimatePresence } from "framer-motion";
 import PlausibleProvider from "next-plausible";
-import { ColorSchemeProvider } from "@components/ColorSchemeProvider";
 import AppLayout from "@components/AppLayout";
 import { siteUrl } from "@lib/config";
 import "@styles/globals.css";

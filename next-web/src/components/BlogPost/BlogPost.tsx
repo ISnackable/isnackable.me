@@ -7,8 +7,14 @@
  */
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { Avatar, Center, Container, Text, Title } from "@mantine/core";
-import { useMantineColorScheme } from "@components/ColorSchemeProvider";
+import {
+  Avatar,
+  Center,
+  Container,
+  Text,
+  Title,
+  useMantineColorScheme
+} from "@mantine/core";
 import SanityNextImage from "@components/SanityNextImage";
 import { toDateString } from "@lib/helpers";
 import { urlFor } from "@lib/sanity";
@@ -27,7 +33,7 @@ const SanityPortableText = dynamic(
   () => import("@components/SanityPortableText"),
   { ssr: false, loading: () => <p>loading...</p> }
 );
-const Giscus = dynamic(async () => (await import("@giscus/react")).Giscus, {
+const Giscus = dynamic(async () => await import("@giscus/react"), {
   ssr: false,
   loading: () => <p>loading...</p>
 });

@@ -18,7 +18,8 @@ import {
   Divider,
   Kbd,
   Title,
-  Text
+  Text,
+  useMantineColorScheme
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import {
@@ -28,7 +29,6 @@ import {
   IconCloud,
   IconNotebook
 } from "@tabler/icons";
-import { useMantineColorScheme } from "@components/ColorSchemeProvider";
 import useScrollListener from "@hooks/useScrollListener";
 import { title, description, socialUsername } from "@lib/config";
 import style from "./header.module.css";
