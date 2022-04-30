@@ -70,6 +70,10 @@ const Aggregate: NextPage = () => {
     fetcherJSON
   );
 
+  const visitDuration = aggregatesMetrics?.data?.visit_duration?.value || 0;
+  const visitMinutes = Math.floor(visitDuration / 60);
+  const visitSeconds = visitDuration - visitMinutes * 60;
+
   const data = [
     {
       title: "Total Visitors",
@@ -85,12 +89,12 @@ const Aggregate: NextPage = () => {
     },
     {
       title: "Bounce Rate",
-      value: aggregatesMetrics?.data.bounce_rate.value,
+      value: `${aggregatesMetrics?.data.bounce_rate.value}%`,
       icon: "bounceRate"
     },
     {
       title: "Visit Duration",
-      value: aggregatesMetrics?.data.visit_duration.value,
+      value: `${visitMinutes}m ${visitSeconds}s`,
       icon: "visitDuration",
       diff: aggregatesMetrics?.data.visit_duration.change
     }
