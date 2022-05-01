@@ -77,19 +77,19 @@ const Aggregate: NextPage = () => {
   const data = [
     {
       title: "Total Visitors",
-      value: aggregatesMetrics?.data.visitors.value,
+      value: aggregatesMetrics?.data.visitors.value ?? 0,
       icon: "totalVisitor",
       diff: aggregatesMetrics?.data.visitors.change
     },
     {
       title: "Page Views",
-      value: aggregatesMetrics?.data.pageviews.value,
+      value: aggregatesMetrics?.data.pageviews.value ?? 0,
       icon: "pageView",
       diff: aggregatesMetrics?.data.pageviews.change
     },
     {
       title: "Bounce Rate",
-      value: `${aggregatesMetrics?.data.bounce_rate.value}%`,
+      value: `${aggregatesMetrics?.data.bounce_rate.value ?? 0}%`,
       icon: "bounceRate"
     },
     {
