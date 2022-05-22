@@ -25,7 +25,7 @@ import { useLocalStorage } from "@mantine/hooks";
 import { IconAffiliate, IconAward } from "@tabler/icons";
 import SEO from "@components/SEO";
 import { getAllPosts } from "@lib/sanity.server";
-import { toDateString } from "@lib/helpers";
+// import { toDateString } from "@lib/helpers";
 import type { AllSanityPost } from "../@types/sanity";
 import { socialUsername } from "@lib/config";
 import svgImage from "../../public/svg/undraw_hacker_mind_-6-y85.svg";
@@ -165,11 +165,12 @@ const HomePage: NextPage<Props> = ({ posts }) => {
                         </Link>
                       </Group>
 
-                      <Text mb={16}>
-                        <time dateTime={post.publishedAt}>
-                          {toDateString(post.publishedAt)}
-                        </time>
-                      </Text>
+                      {/* <Text mb={16}> */}
+                      {/* Test: Seem to cause hydartion error */}
+                      {/* <time dateTime={post.publishedAt}> */}
+                      {/* {toDateString(post.publishedAt)} */}
+                      {/* </time> */}
+                      {/* </Text> */}
                       <Link
                         href={{
                           pathname: "/blog/[slug]",
