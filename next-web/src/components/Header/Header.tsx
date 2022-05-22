@@ -36,7 +36,7 @@ import Icon from "../../../public/icon.png";
 
 const MINIMUM_SCROLL = 80;
 
-const Header: NextPage = () => {
+const Header: NextPage = (): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";

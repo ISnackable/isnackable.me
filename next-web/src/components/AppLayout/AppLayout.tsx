@@ -16,7 +16,9 @@ import styles from "./layout.module.css";
 const Header = dynamic(() => import("../Header"));
 const Footer = dynamic(() => import("../Footer"));
 
-const AppLayout: NextPage = (props): JSX.Element => {
+const AppLayout: NextPage<{ children: React.ReactNode }> = (
+  props
+): JSX.Element => {
   const router = useRouter();
   const { children } = props;
 
