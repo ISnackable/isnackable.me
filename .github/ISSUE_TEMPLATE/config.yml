@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contact me
+    url: https://isnackable.me/
+    about: Please contact me through my email address.
+  - name: Report security vulnerabilities
+    url: https://bounty.github.com/
+    about: Please report security vulnerabilities here.
