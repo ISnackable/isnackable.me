@@ -5,9 +5,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import format from "date-fns/format";
+import { formatInTimeZone, toDate } from "date-fns-tz";
 import isFuture from "date-fns/isFuture";
-import parseISO from "date-fns/parseISO";
 
 export const filterOutDocsWithoutSlugs = ({ slug }: { slug: string }) => {
   return slug;
@@ -19,7 +18,7 @@ export const filterOutDocsPublishedInTheFuture = ({
   publishedAt: string;
 }) => {
   try {
-    return !isFuture(parseISO(publishedAt));
+    return !isFuture(toDate(publishedAt, { timeZone: "Asia/Singapore" }));
   } catch (error) {
     return;
   }
@@ -29,5 +28,5 @@ export const toDateString = (iso: string) => {
   if (!iso) {
     return "";
   }
-  return format(parseISO(iso), "EEEE, dd MMMM yyyy");
+  return formatInTimeZone(iso, "Asia/Singapore", "EEEE, dd MMMM yyyy");
 };
