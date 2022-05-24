@@ -166,10 +166,9 @@ const HomePage: NextPage<Props> = ({ posts }) => {
                       </Group>
 
                       <Text mb={16}>
-                      {/* Test: Seem to cause hydartion error */}
-                      {/* <time dateTime={post.publishedAt}> */}
-                      {toDateString(post.publishedAt)}
-                      {/* </time> */}
+                        <time dateTime={post.publishedAt}>
+                          {toDateString(post.publishedAt)}
+                        </time>
                       </Text>
                       <Link
                         href={{
