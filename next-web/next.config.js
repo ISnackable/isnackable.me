@@ -19,6 +19,10 @@ const headers = async () => {
       source: "/(.*)",
       headers: [
         {
+          key: "X-DNS-Prefetch-Control",
+          value: "on"
+        },
+        {
           key: "X-Content-Type-Options",
           value: "nosniff"
         },
@@ -38,6 +42,7 @@ const nextConfig = withBundleAnalyzer(
       locales: ["en"],
       defaultLocale: "en"
     },
+    swcMinify: true,
     reactStrictMode: true,
     pwa: {
       dest: "public",
