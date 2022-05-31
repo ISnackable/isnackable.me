@@ -1,15 +1,9 @@
-# Dependabot configuration file with updates for GitHub Actions and yarn
+# Dependabot configuration file with updates for GitHub Actions
 
 version: 2
 updates:
   # Configuration for GitHub Actions
   - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
-
-  # Configuration for npm/yarn
-  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
