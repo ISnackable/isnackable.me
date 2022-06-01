@@ -38,7 +38,7 @@ type NewVisitor = "true" | "false";
 
 interface Props {
   posts: AllSanityPost[];
-  preview: boolean;
+  preview?: boolean;
 }
 
 const HomePage: NextPage<Props> = ({ posts }) => {

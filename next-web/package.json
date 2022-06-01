@@ -12,6 +12,7 @@
     "lint": "next lint",
     "export": "next export",
     "analyze": "ANALYZE=true next build",
+    "test:e2e": "playwright test",
     "cache-posts": "ts-node --skip-project ./scripts/cache.ts"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^12.1.6",
     "@next/eslint-plugin-next": "^12.1.6",
+    "@playwright/test": "^1.22.2",
     "@sanity/types": "^2.29.5",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.38",
