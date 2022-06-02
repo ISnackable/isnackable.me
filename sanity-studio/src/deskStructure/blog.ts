@@ -7,8 +7,7 @@
  */
 import S from "@sanity/desk-tool/structure-builder";
 
-import EyeIcon from "part:@sanity/base/eye-icon";
-import EditIcon from "part:@sanity/base/edit-icon";
+import { EyeOpenIcon, EditIcon } from "@sanity/icons";
 
 // Web preview
 import Iframe from "sanity-plugin-iframe-pane";
@@ -16,9 +15,6 @@ import resolveProductionUrl from "../resolveProductionUrl";
 
 // Seo preview
 import SocialPreview from "part:social-preview/component";
-
-// a11y preview
-import ColorblindPreview from "../components/previews/a11y/colorblind-filter/ColorblindPreview";
 
 // Web preview configuration
 const remoteURL = "https://isnackable.me";
@@ -44,7 +40,7 @@ export default S.listItem()
                 url: (doc) => resolveProductionUrl(doc),
               })
               .title("Web Preview")
-              .icon(EyeIcon),
+              .icon(EyeOpenIcon),
             S.view
               .component(
                 SocialPreview({
@@ -66,11 +62,6 @@ export default S.listItem()
                 })
               )
               .title("SEO Preview"),
-            S.view
-              .component(ColorblindPreview)
-              .options({ previewURL })
-              .icon(EyeIcon)
-              .title("Colorblind"),
           ])
       )
   );

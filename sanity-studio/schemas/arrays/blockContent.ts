@@ -28,8 +28,8 @@ import "ace-builds/src-noconflict/mode-swift";
  *  }
  */
 export default {
-  title: "Block Content",
   name: "blockContent",
+  title: "Block Content",
   type: "array",
   of: [
     {

@@ -12,7 +12,7 @@ import createSchema from "part:@sanity/base/schema-creator";
 import schemaTypes from "all:part:@sanity/base/schema-type";
 
 // We import object and document schemas
-import blockContent from "./documents/blockContent";
+import blockContent from "./arrays/blockContent";
 import author from "./documents/author";
 import post from "./documents/post";
 import category from "./documents/category";

@@ -6,6 +6,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import React from "react";
+import { withDocument } from "part:@sanity/form-builder";
 
 const imageStyle = {
   width: "auto",
@@ -23,4 +24,4 @@ const ExternalImagePreview = ({ value }) => {
   return <img src={url} alt="" style={imageStyle} />;
 };
 
-export default ExternalImagePreview;
+export default withDocument(ExternalImagePreview);
