@@ -28,23 +28,11 @@ export default function Document() {
           media="(prefers-color-scheme: dark)"
         />
 
-        <link rel="apple-touch-icon" href="/icon.png" />
-        <link
-          rel="apple-touch-icon"
-          sizes="120x120"
-          href="/icons/apple-icon-120x120.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="152x152"
-          href="/icons/apple-icon-152x152.png"
-        />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/icons/apple-icon-180x180.png"
+          href="/apple-touch-icon.png"
         />
-
         <link
           href="/icons/favicon-32x32.png"
           rel="icon"
