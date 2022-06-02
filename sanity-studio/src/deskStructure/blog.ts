@@ -6,6 +6,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import S from "@sanity/desk-tool/structure-builder";
+import { env, rootURLs } from "../urlResolver";
 
 import { EyeOpenIcon, EditIcon } from "@sanity/icons";
 
@@ -17,10 +18,7 @@ import resolveProductionUrl from "../resolveProductionUrl";
 import SocialPreview from "part:social-preview/component";
 
 // Web preview configuration
-const remoteURL = "https://isnackable.me";
-const localURL = "http://localhost:3000";
-const previewURL =
-  window.location.hostname === "localhost" ? localURL : remoteURL;
+const previewURL = rootURLs[env].web;
 
 export default S.listItem()
   .title("Blog")

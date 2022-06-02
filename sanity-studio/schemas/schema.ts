@@ -13,14 +13,8 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 // We import object and document schemas
 import blockContent from "./arrays/blockContent";
-import author from "./documents/author";
-import post from "./documents/post";
-import category from "./documents/category";
-import project from "./documents/project";
-import externalImage from "./objects/externalImage";
-import figure from "./objects/figure";
-import mainImage from "./objects/mainImage";
-import pageBreak from "./objects/pageBreak";
+import { author, post, category, project } from "./documents";
+import { externalImage, figure, mainImage, pageBreak } from "./objects";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({

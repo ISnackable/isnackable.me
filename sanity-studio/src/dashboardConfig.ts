@@ -5,6 +5,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { env, rootURLs } from "./urlResolver";
+
 export default {
   widgets: [
     { name: "structure-menu" },
@@ -14,12 +16,12 @@ export default {
         data: [
           {
             title: "GitHub repo",
-            value: "https://github.com/ISnackable/isnackable.me/",
+            value: rootURLs.repo.web,
             category: "Code",
           },
           {
             title: "Frontend",
-            value: "https://isnackable.me",
+            value: rootURLs[env].web,
             category: "apps",
           },
         ],

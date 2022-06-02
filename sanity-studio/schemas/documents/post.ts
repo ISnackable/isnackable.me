@@ -110,8 +110,18 @@ export default {
       slug: "slug",
       media: "mainImage",
     },
-    prepare({ title = "No title", publishedAt, slug = {}, media }) {
-      const path = `/blog/${slug.current}`;
+    prepare({
+      title = "No title",
+      publishedAt,
+      slug,
+      media,
+    }: {
+      title: string;
+      publishedAt: string;
+      slug: { current: string };
+      media: any;
+    }) {
+      const path = `/blog/${slug?.current}`;
       return {
         title,
         media,

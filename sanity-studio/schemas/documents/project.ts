@@ -14,6 +14,7 @@ export default {
   icon: RiMiniProgramFill,
   initialValue: () => ({
     author: {
+      // You may want to change this to your user ID
       _ref: "4a55f40a-2011-4ee8-8bab-45bac88f88df",
       _type: "reference",
     },

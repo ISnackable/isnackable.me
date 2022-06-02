@@ -17,6 +17,9 @@ import "ace-builds/src-noconflict/mode-powershell";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-swift";
 
+import { LinkIcon } from "@sanity/icons";
+import { BiLinkExternal } from "react-icons/bi";
+
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -65,10 +68,34 @@ export default {
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
+          // {
+          //   name: "link",
+          //   type: "link",
+          //   title: "Link to internal or external content",
+          // },
           {
+            name: "internalLink",
+            type: "object",
+            title: "Internal link",
+            icon: LinkIcon,
+            fields: [
+              {
+                name: "reference",
+                type: "reference",
+                title: "Reference",
+                to: [
+                  { type: "post" },
+                  // other types you may want to link to
+                ],
+              },
+            ],
+          },
+          {
+            // TODO: Rename link to externalLink
             name: "link",
             type: "object",
             title: "External link",
+            icon: BiLinkExternal,
             fields: [
               {
                 name: "href",
@@ -79,22 +106,6 @@ export default {
                 title: "Open in new tab",
                 name: "blank",
                 type: "boolean",
-              },
-            ],
-          },
-          {
-            name: "internalLink",
-            type: "object",
-            title: "Internal link",
-            fields: [
-              {
-                name: "reference",
-                type: "reference",
-                title: "Reference",
-                to: [
-                  { type: "post" },
-                  // other types you may want to link to
-                ],
               },
             ],
           },

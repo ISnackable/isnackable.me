@@ -5,17 +5,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-const env = process.env.NODE_ENV || "development";
+import { env, rootURLs } from "./urlResolver";
+
 const previewSecret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
 
-const remoteUrl = `https://isnackable.me`;
-const localUrl = `http://localhost:3000`;
-
 export default function resolveProductionUrl(document) {
-  const baseUrl = env === "development" ? localUrl : remoteUrl;
+  if (!["post"].includes(document._type)) {
+    return null;
+  }
 
-  const previewUrl = new URL(baseUrl);
-
+  const previewUrl = new URL(rootURLs[env].web);
   previewUrl.pathname = `/api/preview`;
   previewUrl.searchParams.append(`secret`, previewSecret);
 
