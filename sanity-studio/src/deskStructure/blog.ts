@@ -8,7 +8,7 @@
 import S from "@sanity/desk-tool/structure-builder";
 import { env, rootURLs } from "../urlResolver";
 
-import { EyeOpenIcon, EditIcon } from "@sanity/icons";
+import { EyeOpenIcon, EditIcon, Icon } from "@sanity/icons";
 import {
   GoMegaphone as BlogIcon,
   // GoChecklist as ApprovedIcon,
@@ -18,6 +18,7 @@ import {
   GoPerson as AuthorIcon,
 } from "react-icons/go";
 import { FaBloggerB } from "react-icons/fa";
+import { BsFilterSquare } from "react-icons/bs";
 
 // Web preview
 import Iframe from "sanity-plugin-iframe-pane";
@@ -97,6 +98,7 @@ export default S.listItem()
           ),
         S.listItem()
           .title("Posts by category")
+          .icon(BsFilterSquare)
           .child(
             // List out all categories
             S.documentTypeList("category")
@@ -107,6 +109,7 @@ export default S.listItem()
                 S.documentList()
                   .schemaType("post")
                   .title("Posts")
+                  .menuItems(S.documentTypeList("post").getMenuItems())
                   .filter('_type == "post" && $catId in categories[]._ref')
                   .params({ catId })
                   .child((documentId) => childDocument(documentId))

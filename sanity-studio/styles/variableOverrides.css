@@ -2,10 +2,6 @@
   /* Brand colors */
   --brand-primary: #339af0;
   --brand-primary--inverted: #ffffff;
-  --brand-secondary: #63e6be;
+  --brand-secondary: #6e87ec;
   --brand-secondary--inverted: #3c1609;
-
-  /* Main Navigation */
-  --main-navigation-color: var(--brand-secondary);
-  --main-navigation-color--inverted: var(--brand-secondary--inverted);
 }
