@@ -145,7 +145,7 @@
 
 .logo {
   /* min-width: 56px; */
-  margin: -12px 12px 0 12px;
+  margin: -8px 12px 0 12px;
   flex-grow: 1;
   /* min-height: 48px; */
   display: flex;

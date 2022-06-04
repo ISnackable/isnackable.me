@@ -32,7 +32,7 @@ import {
 import useScrollListener from "@hooks/useScrollListener";
 import { title, description, socialUsername } from "@lib/config";
 import style from "./header.module.css";
-import Icon from "../../../public/icon.png";
+import Icon from "../../../public/svg/logo.svg";
 
 const MINIMUM_SCROLL = 80;
 
@@ -162,8 +162,8 @@ const Header: NextPage = (): JSX.Element => {
           onClick={() => setOpened(true)}
           src={Icon}
           layout="fixed"
-          height={64}
-          width={64}
+          height={50}
+          width={50}
           alt="Logo"
           priority
         />
