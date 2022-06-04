@@ -5,8 +5,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-export { default as externalImage } from "./externalImage";
-export { default as figure } from "./figure";
-// export { default as link } from "./link";
-export { default as mainImage } from "./mainImage";
-export { default as pageBreak } from "./pageBreak";
+import React from "react";
+
+const myLogo = () => (
+  <img src="/static/icon.png" alt="Logo" width={30} height={30} />
+);
+
+export default myLogo;

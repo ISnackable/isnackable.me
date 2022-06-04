@@ -5,9 +5,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import S from "@sanity/desk-tool/structure-builder";
-
-export default S.listItem()
-  .title("Categories")
-  .schemaType("category")
-  .child(S.documentTypeList("category").title("Categories"));
+export default [
+  {
+    type: "boolean",
+    name: "disabled",
+  },
+];

@@ -6,8 +6,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import S from "@sanity/desk-tool/structure-builder";
+import { IoMdSettings } from "react-icons/io";
 
-export default S.listItem()
-  .title("Author")
-  .schemaType("author")
-  .child(S.documentTypeList("author").title("Author"));
+export default S.documentListItem()
+  .title("Site settings")
+  .icon(IoMdSettings)
+  .schemaType("siteSettings")
+  .child(
+    S.editor()
+      .title("Site settings")
+      .id("siteSettings")
+      .schemaType("siteSettings")
+      .documentId("siteSettings")
+  );

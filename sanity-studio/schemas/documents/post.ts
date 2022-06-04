@@ -88,10 +88,12 @@ export default {
     {
       name: "tags",
       title: "Tags",
-      type: "tags",
+      type: "array",
       group: "content",
+      description: "Add keywords that describes the post.",
+      of: [{ type: "string" }],
       options: {
-        includeFromReference: "category",
+        layout: "tags",
       },
     },
     {

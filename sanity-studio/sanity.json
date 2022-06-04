@@ -9,7 +9,9 @@
   },
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": [
+        "@sanity/vision"
+      ]
     }
   },
   "plugins": [
@@ -29,7 +31,7 @@
     "social-preview",
     "content-calendar",
     "table",
-    "tags"
+    "@sanity/color-input"
   ],
   "parts": [
     {
@@ -61,8 +63,8 @@
       "path": "./src/documentBadges"
     },
     {
-      "implements": "part:@sanity/base/theme/variables/override-style",
-      "path": "./styles/variableOverrides.css"
+      "implements": "part:@sanity/base/brand-logo",
+      "path": "./src/components/Logo.tsx"
     }
   ]
 }

@@ -13,8 +13,22 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 // We import object and document schemas
 import blockContent from "./arrays/blockContent";
-import { author, post, category, project, siteSettings } from "./documents";
+import {
+  author,
+  post,
+  category,
+  homePage,
+  project,
+  siteSettings,
+} from "./documents";
 import { externalImage, figure, mainImage, pageBreak } from "./objects";
+
+import * as plugs from "./plugs";
+import plugDefaultFields from "./plugs/_plugDefaultFields";
+
+const allPlugs = Object.values(plugs).map((plug) => {
+  return { ...plug, fields: plugDefaultFields.concat(plug.fields) };
+});
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -22,20 +36,23 @@ export default createSchema({
   name: "default",
   // Then proceed to concatenate our document type
   // to the ones provided by any plugins that are installed
-  types: schemaTypes.concat([
-    // The following are document types which will appear
-    // in the studio.
-    author,
-    post,
-    category,
-    project,
-    siteSettings,
-    // When added to this list, object types can be used as
-    // { type: 'typename' } in other document schemas
-    blockContent,
-    externalImage,
-    figure,
-    mainImage,
-    pageBreak,
-  ]),
+  types: schemaTypes
+    .concat([
+      // The following are document types which will appear
+      // in the studio.
+      author,
+      post,
+      category,
+      homePage,
+      project,
+      siteSettings,
+      // When added to this list, object types can be used as
+      // { type: 'typename' } in other document schemas
+      blockContent,
+      externalImage,
+      figure,
+      mainImage,
+      pageBreak,
+    ])
+    .concat(allPlugs),
 });
