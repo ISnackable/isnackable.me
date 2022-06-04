@@ -28,7 +28,8 @@
     "media",
     "social-preview",
     "content-calendar",
-    "table"
+    "table",
+    "tags"
   ],
   "parts": [
     {
@@ -46,6 +47,22 @@
     {
       "implements": "part:@sanity/production-preview/resolve-production-url",
       "path": "./src/resolveProductionUrl.ts"
+    },
+    {
+      "implements": "part:@sanity/base/tool",
+      "path": "./src/tools/board"
+    },
+    {
+      "implements": "part:@sanity/base/document-actions/resolver",
+      "path": "./src/documentActions"
+    },
+    {
+      "implements": "part:@sanity/base/document-badges/resolver",
+      "path": "./src/documentBadges"
+    },
+    {
+      "implements": "part:@sanity/base/theme/variables/override-style",
+      "path": "./styles/variableOverrides.css"
     }
   ]
 }

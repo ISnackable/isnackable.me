@@ -5,14 +5,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { BsPersonCircle } from "react-icons/bs";
-
 export default {
   name: "author",
   title: "Author",
   type: "document",
   liveEdit: true,
-  icon: BsPersonCircle,
   fields: [
     {
       name: "name",

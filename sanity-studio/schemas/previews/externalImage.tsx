@@ -5,8 +5,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import * as React from "react";
-import { withDocument } from "part:@sanity/form-builder";
+import React from "react";
 
 const imageStyle = {
   width: "auto",
@@ -15,7 +14,11 @@ const imageStyle = {
   maxHeight: "90vh",
 };
 
-const ExternalImagePreview = ({ value }) => {
+interface Props {
+  value: { url: string };
+}
+
+const ExternalImagePreview: React.FC<Props> = ({ value }) => {
   const { url } = value;
   if (!url) {
     return <p>Missing URL for Image link</p>;
@@ -24,4 +27,4 @@ const ExternalImagePreview = ({ value }) => {
   return <img src={url} alt="" style={imageStyle} />;
 };
 
-export default withDocument(ExternalImagePreview);
+export default ExternalImagePreview;

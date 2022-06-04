@@ -7,7 +7,10 @@
  */
 import S from "@sanity/desk-tool/structure-builder";
 
+import { RiMiniProgramFill } from "react-icons/ri";
+
 export default S.listItem()
   .title("Project")
+  .icon(RiMiniProgramFill)
   .schemaType("project")
-  .child(S.documentTypeList("project").title("Project"));
+  .child(S.documentTypeList("project").title("/projects"));

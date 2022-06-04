@@ -5,13 +5,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { RiMiniProgramFill } from "react-icons/ri";
-
 export default {
   name: "project",
   title: "Project",
   type: "document",
-  icon: RiMiniProgramFill,
   initialValue: () => ({
     author: {
       // You may want to change this to your user ID

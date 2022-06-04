@@ -7,9 +7,9 @@
  */
 import S from "@sanity/desk-tool/structure-builder";
 
-import author from "./authors";
+// import author from "./authors";
 import blog from "./blog";
-import categories from "./categories";
+// import categories from "./categories";
 import projects from "./projects";
 
 // Hide document types that we already have a structure definition for
@@ -20,9 +20,10 @@ export default () =>
   S.list()
     .title("Content")
     .items([
-      author,
+      // author,
       blog,
-      categories,
+      // categories,
       projects,
+      S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ]);

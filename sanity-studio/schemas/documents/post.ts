@@ -5,13 +5,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { FaBloggerB } from "react-icons/fa";
-
 export default {
   name: "post",
   title: "Blog",
   type: "document",
-  icon: FaBloggerB,
   initialValue: () => ({
     publishedAt: new Date().toISOString(),
     author: {
@@ -66,6 +63,14 @@ export default {
       title: "Categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
+    },
+    {
+      name: "tags",
+      title: "Tags",
+      type: "tags",
+      options: {
+        includeFromReference: "category",
+      },
     },
     {
       name: "body",
