@@ -9,4 +9,5 @@ export { default as externalImage } from "./externalImage";
 export { default as figure } from "./figure";
 // export { default as link } from "./link";
 export { default as mainImage } from "./mainImage";
+export { default as openGraph } from "./openGraph";
 export { default as pageBreak } from "./pageBreak";

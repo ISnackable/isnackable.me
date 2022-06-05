@@ -21,7 +21,13 @@ import {
   project,
   siteSettings,
 } from "./documents";
-import { externalImage, figure, mainImage, pageBreak } from "./objects";
+import {
+  externalImage,
+  figure,
+  mainImage,
+  openGraph,
+  pageBreak,
+} from "./objects";
 
 import * as plugs from "./plugs";
 import plugDefaultFields from "./plugs/_plugDefaultFields";
@@ -52,6 +58,7 @@ export default createSchema({
       externalImage,
       figure,
       mainImage,
+      openGraph,
       pageBreak,
     ])
     .concat(allPlugs),

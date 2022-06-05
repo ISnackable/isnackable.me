@@ -9,16 +9,18 @@ export default {
   name: "post",
   title: "Blog",
   type: "document",
-  groups: [
-    {
-      name: "seo",
-      title: "SEO",
-    },
-    {
-      name: "content",
-      title: "Content",
-    },
-  ],
+  // Groups causing an warning on the browser, disabling for now
+  // groups: [
+  //   {
+  //     name: "seo",
+  //     title: "SEO",
+  //   },
+  //   {
+  //     name: "content",
+  //     title: "Content",
+  //   },
+  // ],
+  // You might want to change this field
   initialValue: () => ({
     publishedAt: new Date().toISOString(),
     author: {
@@ -27,22 +29,17 @@ export default {
     },
   }),
   fields: [
-    { name: "seoTitle", title: "SEO title", type: "string", group: "seo" },
-    { name: "seoKeywords", title: "Keywords", type: "string", group: "seo" },
-    { name: "seoSlug", title: "Slug", type: "slug", group: "seo" },
-    { name: "seoImage", title: "Image", type: "image", group: "seo" },
+    { name: "seo", title: "SEO", type: "openGraph" },
     {
       name: "title",
       title: "Title",
       type: "string",
-      group: "content",
       description: "Titles should be catchy, descriptive, and not too long",
     },
     {
       name: "slug",
       title: "Slug",
       type: "slug",
-      group: "content",
       description:
         "Some frontends will require a slug to be set to be able to show the post",
       options: {
@@ -54,7 +51,6 @@ export default {
       name: "description",
       title: "Description",
       type: "text",
-      group: "content",
       description:
         "Description should be descriptive on what the blog post is about",
     },
@@ -62,34 +58,29 @@ export default {
       name: "publishedAt",
       title: "Published at",
       type: "datetime",
-      group: "content",
       description: "This can be used to schedule post for publishing",
     },
     {
       name: "author",
       title: "Author",
       type: "reference",
-      group: "content",
       to: { type: "author" },
     },
     {
       name: "mainImage",
       title: "Main Image",
       type: "mainImage",
-      group: "content",
     },
     {
       name: "categories",
       title: "Categories",
       type: "array",
-      group: "content",
       of: [{ type: "reference", to: { type: "category" } }],
     },
     {
       name: "tags",
       title: "Tags",
       type: "array",
-      group: "content",
       description: "Add keywords that describes the post.",
       of: [{ type: "string" }],
       options: {
@@ -100,7 +91,6 @@ export default {
       name: "body",
       title: "Body",
       type: "blockContent",
-      group: "content",
     },
   ],
   orderings: [

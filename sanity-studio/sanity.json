@@ -9,9 +9,7 @@
   },
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "plugins": [
@@ -53,6 +51,10 @@
     {
       "implements": "part:@sanity/base/tool",
       "path": "./src/tools/board"
+    },
+    {
+      "implements": "part:@sanity/base/tool",
+      "path": "./src/tools/ogImage"
     },
     {
       "implements": "part:@sanity/base/document-actions/resolver",
