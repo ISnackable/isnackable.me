@@ -6,3 +6,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 export { default as hero } from "./hero";
+export { default as experience } from "./experience";

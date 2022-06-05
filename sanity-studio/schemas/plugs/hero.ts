@@ -5,26 +5,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { AiFillRocket } from "react-icons/ai";
+
 export default {
   name: "hero",
   title: "Hero",
+  icon: AiFillRocket,
   type: "object",
   fields: [
     {
-      name: "label",
-      type: "string",
-    },
-    {
       name: "heading",
-      type: "string",
       title: "Heading",
+      type: "string",
     },
     {
       name: "tagline",
+      title: "Tagline",
       type: "text",
+      description:
+        "Give a short tag line to describe the the page. This will be displayed in the header of the page.",
     },
     {
-      name: "mainImage",
+      name: "heroImage",
+      title: "Hero image",
       type: "mainImage",
     },
   ],

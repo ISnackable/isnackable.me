@@ -14,13 +14,15 @@ export default {
       name: "title",
       type: "string",
       title: "Title",
+      description: "The title of the page",
     },
     {
       name: "content",
       type: "array",
       title: "Page sections",
       description: "Add, edit, and reorder sections",
-      of: [{ type: "hero" }],
+      of: [{ type: "hero" }, { type: "experience" }],
+      validation: (Rule) => Rule.unique(),
     },
   ],
 };

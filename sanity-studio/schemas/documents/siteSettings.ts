@@ -10,12 +10,12 @@ export default {
   title: "Site Settings",
   type: "document",
   __experimental_actions: ["update", /* 'create', 'delete', */ "publish"],
-
   fields: [
     {
       name: "title",
       type: "string",
       title: "Title",
+      description: "Website title",
     },
     {
       name: "description",
@@ -41,13 +41,13 @@ export default {
       title: "Author",
       to: [{ type: "author" }],
     },
-    // {
-    //   title: "Open graph",
-    //   name: "openGraph",
-    //   description:
-    //     "These will be the default meta tags on all pages that have not set their own",
-    //   type: "openGraph",
-    // },
+    {
+      title: "Open graph",
+      name: "openGraph",
+      description:
+        "These will be the default meta tags on all pages that have not set their own",
+      type: "openGraph",
+    },
     {
       type: "color",
       name: "primaryColor",

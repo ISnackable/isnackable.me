@@ -24,14 +24,14 @@ export default {
         "Description should be descriptive on what the project is about",
     },
     {
-      title: "Project URL",
       name: "projectUrl",
+      title: "Project URL",
       type: "url",
       description: "The link to the project",
     },
     {
       name: "mainImage",
-      title: "Main Image",
+      title: "Main image",
       type: "mainImage",
     },
   ],
