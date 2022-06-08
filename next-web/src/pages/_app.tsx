@@ -6,7 +6,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import {
   ColorScheme,
