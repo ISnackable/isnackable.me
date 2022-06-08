@@ -43,16 +43,16 @@ export default class _Document extends Document {
             href="/apple-touch-icon.png"
           />
           <link
-            href="/icons/favicon-32x32.png"
+            href="/icons/favicon-72x72.png"
             rel="icon"
             type="image/png"
-            sizes="32x32"
+            sizes="72x72"
           />
           <link
-            href="/icons/favicon-16x16.png"
+            href="/icons/favicon-48x48.png"
             rel="icon"
             type="image/png"
-            sizes="16x16"
+            sizes="48x48"
           />
           <link rel="manifest" href="/manifest.webmanifest" />
           <link rel="shortcut icon" href="/favicon.ico" />

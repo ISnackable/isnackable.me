@@ -9,6 +9,7 @@
 
 const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
+const { withPlausibleProxy } = require("next-plausible");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 });
@@ -36,39 +37,41 @@ const headers = async () => {
 };
 
 /** @type {import('next').NextConfig} */
-const nextConfig = withBundleAnalyzer(
-  withPWA({
-    i18n: {
-      locales: ["en"],
-      defaultLocale: "en"
-    },
-    swcMinify: true,
-    reactStrictMode: true,
-    pwa: {
-      dest: "public",
-      runtimeCaching,
-      buildExcludes: [/middleware-manifest.json$/],
-      register: true,
-      skipWaiting: true,
-      disable: process.env.NODE_ENV === "development"
-    },
-    async rewrites() {
-      return [
-        {
-          source: "/sitemap.xml",
-          destination: "/api/sitemap"
-        },
-        {
-          source: "/feed",
-          destination: "/api/feed"
-        }
-      ];
-    },
-    headers,
-    images: {
-      domains: ["cdn.sanity.io", "res.cloudinary.com"]
-    }
-  })
+const nextConfig = withPlausibleProxy()(
+  withBundleAnalyzer(
+    withPWA({
+      i18n: {
+        locales: ["en"],
+        defaultLocale: "en"
+      },
+      swcMinify: true,
+      reactStrictMode: true,
+      pwa: {
+        dest: "public",
+        runtimeCaching,
+        buildExcludes: [/middleware-manifest.json$/],
+        register: true,
+        skipWaiting: true,
+        disable: process.env.NODE_ENV === "development"
+      },
+      async rewrites() {
+        return [
+          {
+            source: "/sitemap.xml",
+            destination: "/api/sitemap"
+          },
+          {
+            source: "/feed",
+            destination: "/api/feed"
+          }
+        ];
+      },
+      headers,
+      images: {
+        domains: ["cdn.sanity.io", "res.cloudinary.com"]
+      }
+    })
+  )
 );
 
 module.exports = nextConfig;

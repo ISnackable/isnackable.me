@@ -83,6 +83,7 @@ const Footer: NextPage = (): JSX.Element => {
             component="a"
             href={`https://github.com/${socialUsername}`}
             size="lg"
+            aria-label="GitHub"
           >
             <IconBrandGithub size={20} />
           </ActionIcon>
@@ -90,6 +91,7 @@ const Footer: NextPage = (): JSX.Element => {
             component="a"
             href={`https://www.linkedin.com/in/${socialUsername}`}
             size="lg"
+            aria-label="LinkedIn"
           >
             <IconBrandLinkedin size={20} />
           </ActionIcon>
@@ -97,6 +99,7 @@ const Footer: NextPage = (): JSX.Element => {
             component="a"
             href={`https://hackerone.com/${socialUsername}`}
             size="lg"
+            aria-label="Hackerone"
           >
             <svg width="20" height="20">
               <g>
