@@ -29,10 +29,15 @@ const AppLayout: NextPage<{ children: React.ReactNode }> = (
         <m.main
           key={router.asPath}
           className={styles.main}
-          animate={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: 20 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.15 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            type: "tween",
+            ease: "linear",
+            duration: 300 / 1000,
+            delay: 0.1
+          }}
         >
           {children}
         </m.main>

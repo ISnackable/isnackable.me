@@ -19,6 +19,7 @@
     "@giscus/react": "^2.0.5",
     "@mantine/core": "^4.2.7",
     "@mantine/hooks": "^4.2.7",
+    "@mantine/next": "^4.2.8",
     "@mantine/notifications": "^4.2.7",
     "@mantine/prism": "^4.2.7",
     "@portabletext/react": "^1.0.6",
