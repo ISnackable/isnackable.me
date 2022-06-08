@@ -14,7 +14,7 @@ import {
   MantineProvider
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { useColorScheme, useHotkeys } from "@mantine/hooks";
+import { useHotkeys } from "@mantine/hooks";
 import { AnimatePresence } from "framer-motion";
 import PlausibleProvider from "next-plausible";
 import AppLayout from "@components/AppLayout";
@@ -27,13 +27,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-  const preferredColorScheme = useColorScheme();
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
-
-  useEffect(() => {
-    setColorScheme(preferredColorScheme);
-  }, [preferredColorScheme]);
 
   return (
     <>
