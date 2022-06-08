@@ -18,18 +18,17 @@ const useDocumentScrollThrottled = (
 ) => {
   const _isMounted = useRef(false);
 
-  const [, setScrollPosition] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   let previousScrollTop = 0;
 
   const handleDocumentScroll = () => {
     const { scrollTop: currentScrollTop } =
       document.documentElement || document.body;
 
-    if (_isMounted.current)
-      setScrollPosition((previousPosition) => {
-        previousScrollTop = previousPosition;
-        return currentScrollTop;
-      });
+    if (_isMounted.current) {
+      previousScrollTop = scrollPosition;
+      setScrollPosition(currentScrollTop);
+    }
 
     callback({ previousScrollTop, currentScrollTop });
   };

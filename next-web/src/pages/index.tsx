@@ -6,7 +6,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import type { NextPage, GetStaticProps } from "next";
-import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
@@ -20,8 +19,6 @@ import {
   ThemeIcon,
   Group
 } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
-import { useLocalStorage } from "@mantine/hooks";
 import { IconAffiliate, IconAward } from "@tabler/icons";
 import SEO from "@components/SEO";
 import { getAllPosts } from "@lib/sanity.server";
@@ -34,31 +31,12 @@ const SanityNextImage = dynamic(() => import("@components/SanityNextImage"), {
   ssr: false
 });
 
-type NewVisitor = "true" | "false";
-
 interface Props {
   posts: AllSanityPost[];
   preview?: boolean;
 }
 
 const HomePage: NextPage<Props> = ({ posts }) => {
-  const [newVisitor, setNewVisitor] = useLocalStorage<NewVisitor>({
-    key: "new-visitor",
-    defaultValue: "true"
-  });
-
-  useEffect(() => {
-    if (newVisitor === "true") {
-      showNotification({
-        title: `Hey there! Thanks for checking out my site.`,
-        message: `To change the theme of the site, you can use Ctrl+J or switch icon at the side.`
-      });
-    }
-
-    return () => setNewVisitor("false");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <>
       <SEO

@@ -149,7 +149,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
             </Grid.Col>
             <Grid.Col span={1}>
               <Menu
-                // withinPortal={false}
+                withinPortal={false}
                 menuButtonLabel="Filter button"
                 control={
                   <FilterButton icon={<IconFilter size={32} stroke={1.5} />} />

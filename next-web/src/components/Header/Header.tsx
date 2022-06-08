@@ -41,7 +41,7 @@ const Header: NextPage = (): JSX.Element => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
-  const _isMounted = useRef(true);
+  const _isMounted = useRef(false);
   const [visible, setVisible] = useState(false);
   const [opened, setOpened] = useState(false);
   const isMobile = useMediaQuery("(max-width: 900px)");
@@ -51,6 +51,7 @@ const Header: NextPage = (): JSX.Element => {
     pathname === url ? "page" : undefined;
 
   useEffect(() => {
+    _isMounted.current = true;
     return () => {
       _isMounted.current = false;
     };
