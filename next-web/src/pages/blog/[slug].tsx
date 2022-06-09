@@ -70,7 +70,7 @@ const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
         article={true}
       />
       <article>
-        {post && (
+        {post?.title && post?.body && (
           <>
             <TableOfContent post={post} />
             <BlogPost post={post} />

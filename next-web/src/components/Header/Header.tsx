@@ -30,7 +30,7 @@ import {
   IconNotebook
 } from "@tabler/icons";
 import useScrollListener from "@hooks/useScrollListener";
-import { title, description, socialUsername } from "@lib/config";
+import { description, socialUsername } from "@lib/config";
 import style from "./header.module.css";
 import Icon from "../../../public/svg/logo.svg";
 

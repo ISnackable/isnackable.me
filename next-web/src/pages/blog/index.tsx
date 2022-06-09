@@ -20,7 +20,7 @@ import {
   UnstyledButtonProps,
   Pagination
 } from "@mantine/core";
-import { IconFilter } from "@tabler/icons";
+import { IconFilter, IconSearch } from "@tabler/icons";
 import SEO from "@components/SEO";
 import { getAllPosts, getAllCategories } from "@lib/sanity.server";
 import type { AllSanityPost, AllSanityCategory } from "../../@types/sanity";
@@ -142,6 +142,7 @@ const BlogPage: NextPage<Props> = ({ data }) => {
           <Grid>
             <Grid.Col span={11}>
               <TextInput
+                icon={<IconSearch size={18} />}
                 placeholder="Search..."
                 aria-label="Search"
                 onChange={handleFilterEvent}
