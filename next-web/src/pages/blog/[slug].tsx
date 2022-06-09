@@ -47,8 +47,8 @@ const BlogPostPage: NextPage<Props> = ({ data, preview }) => {
 
   const post = filterDataToSingleItem(previewPost, preview);
   const socialImage = generateSocialImage({
-    title: post.title,
-    underlayImage: urlFor(post.mainImage).url(),
+    title: post?.title,
+    underlayImage: post?.mainImage ? urlFor(post?.mainImage).url() : "",
     cloudName: cloudName!,
     imagePublicID: imagePublicID!
   });

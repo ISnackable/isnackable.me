@@ -20,7 +20,7 @@ interface SocialImage {
 }
 
 export default function generateSocialImage({
-  title,
+  title = "Title missing",
   cloudName,
   imagePublicID,
   cloudinaryUrlBase = "https://res.cloudinary.com",

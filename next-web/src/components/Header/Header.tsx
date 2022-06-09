@@ -110,11 +110,9 @@ const Header: NextPage = (): JSX.Element => {
           </Button>
         </Center>
         <Center mb={24}>
-          <Title
-            mt="xl"
-            align="center"
-            order={3}
-          >{`${title} - ${description}`}</Title>
+          <Title mt="xl" align="center" order={3}>
+            {description}
+          </Title>
         </Center>
         <Divider />
         <Center mt="xl">
