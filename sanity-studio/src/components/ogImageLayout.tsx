@@ -22,7 +22,7 @@ interface LayoutProps {
 }
 
 interface Props {
-  image?: SanityImage;
+  image: SanityImage;
   width?: number;
   className?: string;
 }

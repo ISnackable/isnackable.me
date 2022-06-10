@@ -8,7 +8,7 @@
 import S from "@sanity/desk-tool/structure-builder";
 import { env, rootURLs } from "../urlResolver";
 
-import { EyeOpenIcon, EditIcon, Icon } from "@sanity/icons";
+import { EyeOpenIcon, EditIcon } from "@sanity/icons";
 import {
   GoMegaphone as BlogIcon,
   // GoChecklist as ApprovedIcon,
