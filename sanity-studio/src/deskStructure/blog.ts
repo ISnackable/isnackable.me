@@ -12,7 +12,7 @@ import { EyeOpenIcon, EditIcon } from "@sanity/icons";
 import {
   GoMegaphone as BlogIcon,
   // GoChecklist as ApprovedIcon,
-  // GoEye as ReviewIcon,
+  GoEye as ReviewIcon,
   // GoCircleSlash as RejectedIcon,
   GoArchive as AllIcon,
   GoPerson as AuthorIcon,
@@ -93,6 +93,20 @@ export default S.listItem()
               // Only show posts with publish date earlier than now and that is not drafts
               .filter(
                 '_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))'
+              )
+              .child((documentId) => childDocument(documentId))
+          ),
+        S.listItem()
+          .title("Unpublished posts")
+          .schemaType("post")
+          .icon(ReviewIcon)
+          .child(
+            S.documentList()
+              .title("Unpublished posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              // Only show unpublished posts that is newly created
+              .filter(
+                '_type == "post" && _id in path("drafts.**") && count(*[^._id == "drafts." + _id]) == 0'
               )
               .child((documentId) => childDocument(documentId))
           ),
