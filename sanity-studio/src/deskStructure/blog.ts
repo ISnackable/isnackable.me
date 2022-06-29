@@ -11,9 +11,10 @@ import { env, rootURLs } from "../urlResolver";
 import { EyeOpenIcon, EditIcon } from "@sanity/icons";
 import {
   GoMegaphone as BlogIcon,
-  // GoChecklist as ApprovedIcon,
-  GoEye as ReviewIcon,
-  // GoCircleSlash as RejectedIcon,
+  GoChecklist as ApprovedIcon,
+  GoEye as DraftIcon,
+  GoPencil as ReviewIcon,
+  GoRequestChanges as RequestChangesIcon,
   GoArchive as AllIcon,
   GoPerson as AuthorIcon,
 } from "react-icons/go";
@@ -83,34 +84,6 @@ export default S.listItem()
               .child((documentId) => childDocument(documentId))
           ),
         S.listItem()
-          .title("Published posts")
-          .schemaType("post")
-          .icon(BlogIcon)
-          .child(
-            S.documentList()
-              .title("Published posts")
-              .menuItems(S.documentTypeList("post").getMenuItems())
-              // Only show posts with publish date earlier than now and that is not drafts
-              .filter(
-                '_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))'
-              )
-              .child((documentId) => childDocument(documentId))
-          ),
-        S.listItem()
-          .title("Unpublished posts")
-          .schemaType("post")
-          .icon(ReviewIcon)
-          .child(
-            S.documentList()
-              .title("Unpublished posts")
-              .menuItems(S.documentTypeList("post").getMenuItems())
-              // Only show unpublished posts that is newly created
-              .filter(
-                '_type == "post" && _id in path("drafts.**") && count(*[^._id == "drafts." + _id]) == 0'
-              )
-              .child((documentId) => childDocument(documentId))
-          ),
-        S.listItem()
           .title("Posts by category")
           .icon(BsFilterSquare)
           .child(
@@ -128,6 +101,71 @@ export default S.listItem()
                   .params({ catId })
                   .child((documentId) => childDocument(documentId))
               )
+          ),
+        S.divider(),
+        S.listItem()
+          .title("Drafts")
+          .schemaType("post")
+          .icon(DraftIcon)
+          .child(
+            S.documentList()
+              .title("Drafts posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              // Only show unpublished posts that is newly created
+              .filter(
+                '_type == "post" && _id in path("drafts.**") && count(*[^._id == "drafts." + _id]) == 0'
+              )
+              .child((documentId) => childDocument(documentId))
+          ),
+        S.listItem()
+          .title("In Review")
+          .icon(ReviewIcon)
+          .child(
+            S.documentList()
+              .title("In review posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              .filter(
+                '_type == "post" && (*[ _type == "workflow.metadata" && documentId == ^._id ][0]{ state }.state == "inReview")'
+              )
+              .child((documentId) => childDocument(documentId))
+          ),
+        S.listItem()
+          .title("Approved")
+          .icon(ApprovedIcon)
+          .child(
+            S.documentList()
+              .title("Approved posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              .filter(
+                '_type == "post" && (*[ _type == "workflow.metadata" && documentId == ^._id ][0]{ state }.state == "approved")'
+              )
+              .child((documentId) => childDocument(documentId))
+          ),
+        S.listItem()
+          .title("Changes Requested")
+          .icon(RequestChangesIcon)
+          .child(
+            S.documentList()
+              .title("Changes requested posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              .filter(
+                '_type == "post" && (*[ _type == "workflow.metadata" && documentId == ^._id ][0]{ state }.state == "changesRequested")'
+              )
+              .child((documentId) => childDocument(documentId))
+          ),
+        S.listItem()
+          .title("Published posts")
+          .schemaType("post")
+          .icon(BlogIcon)
+          .child(
+            S.documentList()
+              .title("Published posts")
+              .menuItems(S.documentTypeList("post").getMenuItems())
+              // Only show posts with publish date earlier than now and that is not drafts
+              .filter(
+                '_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))'
+              )
+              .child((documentId) => childDocument(documentId))
           ),
         S.divider(),
         S.documentTypeListItem("author").title("Authors").icon(AuthorIcon),
