@@ -11,7 +11,7 @@ import React, { useCallback, useState, forwardRef } from "react";
 import {
   Container,
   Center,
-  Grid,
+  Group,
   Title,
   Text,
   TextInput,
@@ -139,45 +139,45 @@ const BlogPage: NextPage<Props> = ({ data }) => {
             </Text>
           </Center>
 
-          <Grid>
-            <Grid.Col span={11}>
-              <TextInput
-                icon={<IconSearch size={18} />}
-                placeholder="Search..."
-                aria-label="Search"
-                onChange={handleFilterEvent}
-              />
-            </Grid.Col>
-            <Grid.Col span={1}>
-              <Menu
-                withinPortal={false}
-                menuButtonLabel="Filter button"
-                control={
-                  <FilterButton icon={<IconFilter size={32} stroke={1.5} />} />
-                }
+          <Group>
+            <TextInput
+              sx={() => ({
+                flex: 1
+              })}
+              icon={<IconSearch size={18} />}
+              placeholder="Search..."
+              aria-label="Search"
+              onChange={handleFilterEvent}
+            />
+            <Menu
+              withinPortal={false}
+              menuButtonLabel="Filter button"
+              control={
+                <FilterButton icon={<IconFilter size={32} stroke={1.5} />} />
+              }
+              placement="end"
+            >
+              <Menu.Label>Filter</Menu.Label>
+              <Menu.Item
+                onClick={() => {
+                  setState({
+                    query: "",
+                    filteredData: posts.slice(0, dataLimit)
+                  });
+                }}
               >
-                <Menu.Label>Filter</Menu.Label>
-                <Menu.Item
-                  onClick={() => {
-                    setState({
-                      query: "",
-                      filteredData: posts.slice(0, dataLimit)
-                    });
-                  }}
-                >
-                  all posts
-                </Menu.Item>
-                {categories.length > 0 &&
-                  categories.map((category) => {
-                    return (
-                      <Menu.Item key={category._id} onClick={handleFilterEvent}>
-                        {category.title}
-                      </Menu.Item>
-                    );
-                  })}
-              </Menu>
-            </Grid.Col>
-          </Grid>
+                all posts
+              </Menu.Item>
+              {categories.length > 0 &&
+                categories.map((category) => {
+                  return (
+                    <Menu.Item key={category._id} onClick={handleFilterEvent}>
+                      {category.title}
+                    </Menu.Item>
+                  );
+                })}
+            </Menu>
+          </Group>
 
           {state.filteredData.length > 0 ? (
             <Blog state={state} />

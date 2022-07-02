@@ -34,7 +34,7 @@ export default async function handler(
 
     switch (type) {
       case "post":
-        await res.unstable_revalidate(`/blog/${slug}`);
+        await res.revalidate(`/blog/${slug}`);
         return res.json({
           status: "success",
           message: `Revalidated "${type}" with slug "${slug}"`
