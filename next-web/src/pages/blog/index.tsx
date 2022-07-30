@@ -38,7 +38,7 @@ interface Props {
   preview: boolean;
 }
 
-interface FilterButtonProps extends UnstyledButtonProps<"button"> {
+interface FilterButtonProps extends UnstyledButtonProps {
   icon?: React.ReactNode;
 }
 
@@ -149,33 +149,32 @@ const BlogPage: NextPage<Props> = ({ data }) => {
               aria-label="Search"
               onChange={handleFilterEvent}
             />
-            <Menu
-              withinPortal={false}
-              menuButtonLabel="Filter button"
-              control={
+            <Menu shadow="md" width={200} position="bottom-end">
+              <Menu.Target>
                 <FilterButton icon={<IconFilter size={32} stroke={1.5} />} />
-              }
-              placement="end"
-            >
-              <Menu.Label>Filter</Menu.Label>
-              <Menu.Item
-                onClick={() => {
-                  setState({
-                    query: "",
-                    filteredData: posts.slice(0, dataLimit)
-                  });
-                }}
-              >
-                all posts
-              </Menu.Item>
-              {categories.length > 0 &&
-                categories.map((category) => {
-                  return (
-                    <Menu.Item key={category._id} onClick={handleFilterEvent}>
-                      {category.title}
-                    </Menu.Item>
-                  );
-                })}
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Filter</Menu.Label>
+                <Menu.Item
+                  onClick={() => {
+                    setState({
+                      query: "",
+                      filteredData: posts.slice(0, dataLimit)
+                    });
+                  }}
+                >
+                  all posts
+                </Menu.Item>
+                {categories.length > 0 &&
+                  categories.map((category) => {
+                    return (
+                      <Menu.Item key={category._id} onClick={handleFilterEvent}>
+                        {category.title}
+                      </Menu.Item>
+                    );
+                  })}
+              </Menu.Dropdown>
             </Menu>
           </Group>
 

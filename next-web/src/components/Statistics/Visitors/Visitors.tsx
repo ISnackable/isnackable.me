@@ -57,7 +57,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Visitors: NextPage = () => {
-  const { data: liveVisitors } = useSWR<liveVisitors>(
+  const { data: liveVisitors } = useSWR<liveVisitors, JSON>(
     "/api/statistics/visitors",
     fetcherJSON
   );

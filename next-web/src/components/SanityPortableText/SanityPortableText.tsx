@@ -76,24 +76,30 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       if (value?.filename) {
         return (
           <Prism.Tabs
+            defaultValue={value.filename}
             my={8}
             styles={{
               tab: { fontSize: 15 },
-              tabActive: { fontSize: 15 },
               ...styles
             }}
           >
-            <Prism.Tab
-              label={value.filename}
-              icon="📁"
+            <Prism.TabsList>
+              <Prism.Tab value={value.filename} icon="📁">
+                {value.filename}
+              </Prism.Tab>
+            </Prism.TabsList>
+
+            {/* TODO: Prism.Tab doesn't support highlightedLines */}
+            <Prism.Panel
+              value={value.filename}
               language={prismLang as any}
-              withLineNumbers
-              highlightLines={highlightedLines}
-              copyLabel="Copy code to clipboard"
+              // withLineNumbers
+              // highlightLines={highlightedLines}
+              // copyLabel="Copy code to clipboard"
               // scrollAreaComponent="div" // default scrollArea broken on preact
             >
               {code}
-            </Prism.Tab>
+            </Prism.Panel>
           </Prism.Tabs>
         );
       }
@@ -102,7 +108,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         <Prism
           my={8}
           language={prismLang as any}
-          withLineNumbers
+          // withLineNumbers
           highlightLines={highlightedLines}
           copyLabel="Copy code to clipboard"
           styles={styles}
