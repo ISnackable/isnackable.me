@@ -89,13 +89,12 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
               </Prism.Tab>
             </Prism.TabsList>
 
-            {/* TODO: Prism.Tab doesn't support highlightedLines */}
             <Prism.Panel
               value={value.filename}
               language={prismLang as any}
-              // withLineNumbers
-              // highlightLines={highlightedLines}
-              // copyLabel="Copy code to clipboard"
+              withLineNumbers
+              highlightLines={highlightedLines}
+              copyLabel="Copy code to clipboard"
               // scrollAreaComponent="div" // default scrollArea broken on preact
             >
               {code}
@@ -108,7 +107,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
         <Prism
           my={8}
           language={prismLang as any}
-          // withLineNumbers
+          withLineNumbers
           highlightLines={highlightedLines}
           copyLabel="Copy code to clipboard"
           styles={styles}
@@ -131,11 +130,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
               }
             })}
           >
-            <Zoom
-              overlayBgColorStart="transparent"
-              overlayBgColorEnd="transparent"
-              zoomMargin={20}
-            >
+            <Zoom zoomMargin={20}>
               <SanityNextImage
                 image={value}
                 alt={value.alt ?? "default alt text"}
@@ -164,11 +159,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
             }
           })}
         >
-          <Zoom
-            overlayBgColorStart="transparent"
-            overlayBgColorEnd="transparent"
-            zoomMargin={20}
-          >
+          <Zoom zoomMargin={20}>
             <Image
               radius="md"
               src={value?.url}
