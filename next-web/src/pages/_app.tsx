@@ -49,7 +49,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             theme={{ colorScheme }}
           >
             <NotificationsProvider>
-              <AnimatePresence exitBeforeEnter initial={false}>
+              <AnimatePresence mode="wait" initial={false}>
                 <AppLayout>
                   <Component {...pageProps} />
                 </AppLayout>
