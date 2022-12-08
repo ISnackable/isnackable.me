@@ -44,7 +44,6 @@ const nextConfig = withPlausibleProxy()(
         locales: ["en"],
         defaultLocale: "en"
       },
-      swcMinify: true,
       reactStrictMode: true,
       pwa: {
         dest: "public",

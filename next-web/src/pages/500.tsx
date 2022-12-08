@@ -29,10 +29,8 @@ const Custom500: NextPage = () => {
               <Title order={1} mb={16}>
                 Internal Server Error
               </Title>
-              <Link href="/" passHref>
-                <Button component="a" color="gray">
-                  Back to homepage
-                </Button>
+              <Link href="/">
+                <Button color="gray">Back to homepage</Button>
               </Link>
             </div>
             <div>

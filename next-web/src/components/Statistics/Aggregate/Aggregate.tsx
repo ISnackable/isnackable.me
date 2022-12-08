@@ -77,26 +77,26 @@ const Aggregate: NextPage = () => {
   const data = [
     {
       title: "Total Visitors",
-      value: aggregatesMetrics?.data.visitors.value ?? 0,
+      value: aggregatesMetrics?.data?.visitors.value ?? 0,
       icon: "totalVisitor",
-      diff: aggregatesMetrics?.data.visitors.change
+      diff: aggregatesMetrics?.data?.visitors.change
     },
     {
       title: "Page Views",
-      value: aggregatesMetrics?.data.pageviews.value ?? 0,
+      value: aggregatesMetrics?.data?.pageviews.value ?? 0,
       icon: "pageView",
-      diff: aggregatesMetrics?.data.pageviews.change
+      diff: aggregatesMetrics?.data?.pageviews.change
     },
     {
       title: "Bounce Rate",
-      value: `${aggregatesMetrics?.data.bounce_rate.value ?? 0}%`,
+      value: `${aggregatesMetrics?.data?.bounce_rate.value ?? 0}%`,
       icon: "bounceRate"
     },
     {
       title: "Visit Duration",
       value: `${visitMinutes}m ${visitSeconds}s`,
       icon: "visitDuration",
-      diff: aggregatesMetrics?.data.visit_duration.change
+      diff: aggregatesMetrics?.data?.visit_duration.change
     }
   ];
 

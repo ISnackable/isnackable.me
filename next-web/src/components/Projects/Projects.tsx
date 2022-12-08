@@ -43,9 +43,8 @@ const Projects: NextPage<Props> = (props) => {
               </Card.Section>
 
               <Group position="apart" sx={() => ({ marginBottom: 5 })}>
-                <Link href={project.projectUrl} passHref>
+                <Link href={project.projectUrl}>
                   <Text
-                    component="a"
                     weight={500}
                     size="lg"
                     sx={(theme) => ({

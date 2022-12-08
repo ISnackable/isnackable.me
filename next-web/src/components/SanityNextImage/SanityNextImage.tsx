@@ -178,7 +178,6 @@ const SanityNextImage: NextPage<Props> = React.memo((props) => {
     <Image
       loader={loader}
       src={imageProps?.src ?? baseImgBuilderInstance.url()}
-      alt={imageProps?.alt}
       width={width}
       height={height}
       placeholder={blurImgBuilderInstance ? "blur" : undefined}

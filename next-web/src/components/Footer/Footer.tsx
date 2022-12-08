@@ -66,10 +66,8 @@ const links = [
 const Footer: NextPage = (): JSX.Element => {
   const { classes } = useStyles();
   const items = links.map((link) => (
-    <Link key={link.label} href={link.link} passHref>
-      <a className={styles.link} href={link.link}>
-        {link.label}
-      </a>
+    <Link key={link.label} href={link.link} className={styles.link}>
+      {link.label}
     </Link>
   ));
 

@@ -43,9 +43,8 @@ const PreviewBar: NextPage<Props> = (props) => {
         Preview Mode Activated!
       </Badge>
 
-      <Link href={href} passHref>
+      <Link href={href}>
         <Badge
-          component="a"
           variant="gradient"
           gradient={{ from: "indigo", to: "cyan" }}
           sx={{ float: "right", cursor: "pointer" }}

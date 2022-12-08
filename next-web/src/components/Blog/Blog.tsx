@@ -46,23 +46,20 @@ const Blog: NextPage<Props> = (props) => {
                     pathname: "/blog/[slug]",
                     query: { slug: post.slug }
                   }}
-                  passHref
                 >
-                  <a>
-                    <Text size="sm">{toDateString(post.publishedAt)}</Text>
-                    <Text
-                      size="xl"
-                      weight={700}
-                      sx={(theme) => ({
-                        "&:hover": {
-                          color: theme.colors.gray[4]
-                        }
-                      })}
-                    >
-                      {post.title}
-                    </Text>
-                    <Text size="md">{post.description}</Text>
-                  </a>
+                  <Text size="sm">{toDateString(post.publishedAt)}</Text>
+                  <Text
+                    size="xl"
+                    weight={700}
+                    sx={(theme) => ({
+                      "&:hover": {
+                        color: theme.colors.gray[4]
+                      }
+                    })}
+                  >
+                    {post.title}
+                  </Text>
+                  <Text size="md">{post.description}</Text>
                 </Link>
               </Grid.Col>
             </Grid>

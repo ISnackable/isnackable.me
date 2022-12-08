@@ -36,6 +36,8 @@ interface Props {
   preview?: boolean;
 }
 
+const responsiveImageStyle = { width: "100%", height: "auto" };
+
 const HomePage: NextPage<Props> = ({ posts }) => {
   return (
     <>
@@ -87,7 +89,13 @@ const HomePage: NextPage<Props> = ({ posts }) => {
             </Text>
           </Center>
 
-          <Image src={svgImage} alt="Hero" layout="responsive" priority />
+          <Image
+            src={svgImage}
+            alt="Hero"
+            sizes="100vw"
+            style={responsiveImageStyle}
+            priority
+          />
         </section>
 
         <section style={{ margin: "96px 0px" }}>
@@ -135,11 +143,8 @@ const HomePage: NextPage<Props> = ({ posts }) => {
                             pathname: "/blog/[slug]",
                             query: { slug: post.slug }
                           }}
-                          passHref
                         >
-                          <Text weight={500} component="a">
-                            {post.title}
-                          </Text>
+                          <Text weight={500}>{post.title}</Text>
                         </Link>
                       </Group>
 
@@ -154,9 +159,8 @@ const HomePage: NextPage<Props> = ({ posts }) => {
                           query: { slug: post.slug }
                         }}
                         aria-label={`Read "${post.title}"`}
-                        passHref
                       >
-                        <Text color="blue" inherit component="a">
+                        <Text color="blue" inherit>
                           Read More »
                         </Text>
                       </Link>

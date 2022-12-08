@@ -72,7 +72,7 @@ const Visitors: NextPage = () => {
 
       <Center>
         <Badge variant="dot" size="lg" className={classes.badge}>
-          {liveVisitors?.data.visitors}
+          {liveVisitors?.data?.visitors}
         </Badge>
       </Center>
       <Text align="center" weight={700} className={classes.title} mt="sm">

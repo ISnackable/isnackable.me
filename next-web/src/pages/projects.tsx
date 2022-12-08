@@ -33,45 +33,45 @@ interface Props {
 }
 
 const ProjectsPage: NextPage<Props> = ({ projects }) => {
-  return (
-    <>
-      <SEO
-        title={"Projects"}
-        description={"A quick collection of my open-source projects"}
-      />
-      <section>
-        <Container size="xl" px={20} my={96}>
-          <Center>
-            <Title order={1} my="md">
-              My Projects
-            </Title>
-          </Center>
-          <Center mb={80}>
-            <Text size="md" mb="md">
-              Open-sourced projects, made with love.
-            </Text>
-          </Center>
-          {projects.length > 0 && <Projects projects={projects} />}
-          <Center my={64}>
-            <Link href={`https://github.com/${socialUsername}`} passHref>
-              <a target="_blank" rel="noreferrer noopener">
-                <Button
-                  size="md"
-                  leftIcon={
-                    <ActionIcon variant="transparent" component="i">
-                      <IconExternalLink size={40} stroke={1.5} />
-                    </ActionIcon>
-                  }
-                >
-                  More at GitHub
-                </Button>
-              </a>
-            </Link>
-          </Center>
-        </Container>
-      </section>
-    </>
-  );
+  return <>
+    <SEO
+      title={"Projects"}
+      description={"A quick collection of my open-source projects"}
+    />
+    <section>
+      <Container size="xl" px={20} my={96}>
+        <Center>
+          <Title order={1} my="md">
+            My Projects
+          </Title>
+        </Center>
+        <Center mb={80}>
+          <Text size="md" mb="md">
+            Open-sourced projects, made with love.
+          </Text>
+        </Center>
+        {projects.length > 0 && <Projects projects={projects} />}
+        <Center my={64}>
+          <Link
+            href={`https://github.com/${socialUsername}`}
+            target="_blank"
+            rel="noreferrer noopener">
+            <Button
+              size="md"
+              leftIcon={
+                <ActionIcon variant="transparent" component="i">
+                  <IconExternalLink size={40} stroke={1.5} />
+                </ActionIcon>
+              }
+            >
+              More at GitHub
+            </Button>
+
+          </Link>
+        </Center>
+      </Container>
+    </section>
+  </>;
 };
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {

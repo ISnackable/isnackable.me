@@ -50,6 +50,8 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+const responsiveImageStyle = { width: "100%", height: "auto" };
+
 const FourOhFourPage: NextPage = () => {
   const { classes } = useStyles();
 
@@ -72,9 +74,8 @@ const FourOhFourPage: NextPage = () => {
                 mistyped the address, or the page has been moved to another URL.
                 If you think this is an error, please contact me.
               </Text>
-              <Link href="/" passHref>
+              <Link href="/">
                 <Button
-                  component="a"
                   variant="outline"
                   size="md"
                   mt="xl"
@@ -88,7 +89,8 @@ const FourOhFourPage: NextPage = () => {
               className={classes.mobileImage}
               src={svgImage}
               alt="Hero"
-              layout="responsive"
+              sizes="100vw"
+              style={responsiveImageStyle}
               priority
             />
           </SimpleGrid>

@@ -122,68 +122,63 @@ const Header: NextPage = (): JSX.Element => {
           </Text>
         </Center>
       </Drawer>
-      <Link href="/" passHref>
-        <a
-          className={style.tab}
-          aria-current={activeLink("/", router.pathname)}
+      <Link
+        href="/"
+        className={style.tab}
+        aria-current={activeLink("/", router.pathname)}
+      >
+        <svg
+          className={style.icon}
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
         >
-          <svg
-            className={style.icon}
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-          >
-            <g stroke="currentColor" fill="none" fillRule="evenodd">
-              <circle cx="12" cy="9" r="2"></circle>
-              <circle cx="12" cy="12" r="8"></circle>
-              <path
-                d="M6 17a3 3 0 013-3h6a3 3 0 013 3h0"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </g>
-          </svg>
-          About
-        </a>
+          <g stroke="currentColor" fill="none" fillRule="evenodd">
+            <circle cx="12" cy="9" r="2"></circle>
+            <circle cx="12" cy="12" r="8"></circle>
+            <path
+              d="M6 17a3 3 0 013-3h6a3 3 0 013 3h0"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            ></path>
+          </g>
+        </svg>
+        About
       </Link>
-      <Link href="/projects" passHref>
-        <a
-          className={style.tab}
-          aria-current={activeLink("/projects", router.pathname)}
-        >
-          <IconBrandOpenSource className={style.icon} stroke={1.5} />
-          Projects
-        </a>
+      <Link
+        href="/projects"
+        className={style.tab}
+        aria-current={activeLink("/projects", router.pathname)}
+      >
+        <IconBrandOpenSource className={style.icon} stroke={1.5} />
+        Projects
       </Link>
       <div className={style.logo}>
         <Image
           onClick={() => setOpened(true)}
           src={Icon}
-          layout="fixed"
           height={50}
           width={50}
           alt="Logo"
           priority
         />
       </div>
-      <Link href="/files" passHref>
-        <a
-          className={style.tab}
-          aria-current={activeLink("/files", router.pathname)}
-        >
-          <IconCloud className={style.icon} stroke={1.5} />
-          Files
-        </a>
+      <Link
+        href="/files"
+        className={style.tab}
+        aria-current={activeLink("/files", router.pathname)}
+      >
+        <IconCloud className={style.icon} stroke={1.5} />
+        Files
       </Link>
-      <Link href="/blog" passHref>
-        <a
-          className={style.tab}
-          aria-current={activeLink("/blog", router.pathname)}
-        >
-          <IconNotebook className={style.icon} stroke={1.5} />
-          Blog
-        </a>
+      <Link
+        href="/blog"
+        className={style.tab}
+        aria-current={activeLink("/blog", router.pathname)}
+      >
+        <IconNotebook className={style.icon} stroke={1.5} />
+        Blog
       </Link>
       <div className={style.switch}>
         <ActionIcon

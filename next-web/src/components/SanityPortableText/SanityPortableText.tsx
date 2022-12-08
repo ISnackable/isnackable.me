@@ -123,6 +123,7 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
           <Paper
             component="figure"
             sx={() => ({
+              position: "relative",
               margin: "0rem 8rem",
 
               "@media (max-width: 900px)": {
@@ -134,9 +135,11 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
               <SanityNextImage
                 image={value}
                 alt={value.alt ?? "default alt text"}
-                placeholder="blur"
+                // placeholder="blur"
                 blurDataURL={value.lqip}
-                objectFit="contain"
+                width={550}
+                height={430}
+                style={{ objectFit: "contain" }}
               />
             </Zoom>
             {value?.caption && (
@@ -166,6 +169,9 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
               alt={value?.alt ?? "default alt text"}
               caption={value?.caption}
               withPlaceholder
+              width={550}
+              height={430}
+              style={{ objectFit: "contain" }}
             />
           </Zoom>
         </Paper>
@@ -189,8 +195,8 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
     internalLink: ({ children, value }) => {
       const href = value?.slug ? `/blog/${value?.slug?.current}` : "/";
       return (
-        <Link href={href} passHref>
-          <Text variant="link" component="a">
+        <Link href={href}>
+          <Text variant="link" component="span">
             {children}
           </Text>
         </Link>
@@ -200,13 +206,12 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
       const { blank, href } = value;
       return (
         <>
-          <Link href={href ?? ""} passHref>
-            <Text
-              variant="link"
-              component="a"
-              rel={blank ? "noreferrer noopener" : undefined}
-              target={blank ? "_blank" : undefined}
-            >
+          <Link
+            href={href ?? ""}
+            rel={blank ? "noreferrer noopener" : undefined}
+            target={blank ? "_blank" : undefined}
+          >
+            <Text variant="link" component="span">
               {children}
             </Text>
           </Link>
