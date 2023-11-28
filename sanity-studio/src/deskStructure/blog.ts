@@ -32,7 +32,7 @@ import SocialPreview from "part:social-preview/component";
 const previewURL = rootURLs[env].web;
 
 const childDocument = (documentId) =>
-  S.document()
+S.documentList()
     .documentId(documentId)
     .schemaType("post")
     .views([
