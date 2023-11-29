@@ -7,8 +7,15 @@
  */
 "use strict";
 
-const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
+const withPWA = require("next-pwa")({
+  dest: "public",
+  runtimeCaching,
+  buildExcludes: [/middleware-manifest.json$/],
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development"
+});
 const { withPlausibleProxy } = require("next-plausible");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
@@ -45,14 +52,6 @@ const nextConfig = withPlausibleProxy()(
         defaultLocale: "en"
       },
       reactStrictMode: true,
-      pwa: {
-        dest: "public",
-        runtimeCaching,
-        buildExcludes: [/middleware-manifest.json$/],
-        register: true,
-        skipWaiting: true,
-        disable: process.env.NODE_ENV === "development"
-      },
       async rewrites() {
         return [
           {
