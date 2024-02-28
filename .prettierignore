@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+
+.gitignore
+pnpm-lock.yaml

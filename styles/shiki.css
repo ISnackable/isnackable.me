@@ -1,0 +1,219 @@
+:root {
+  --shiki-c-gray-1: #dddde3;
+  --shiki-c-gray-2: #e4e4e9;
+  --shiki-c-gray-3: #ebebef;
+  --shiki-c-gray-soft: rgba(142, 150, 170, 0.14);
+  --shiki-c-indigo-1: #3451b2;
+  --shiki-c-indigo-2: #3a5ccc;
+  --shiki-c-indigo-3: #5672cd;
+  --shiki-c-indigo-soft: rgba(100, 108, 255, 0.14);
+  --shiki-c-purple-1: #6f42c1;
+  --shiki-c-purple-2: #7e4cc9;
+  --shiki-c-purple-3: #8e5cd9;
+  --shiki-c-purple-soft: rgba(159, 122, 234, 0.14);
+  --shiki-c-green-1: #18794e;
+  --shiki-c-green-2: #299764;
+  --shiki-c-green-3: #30a46c;
+  --shiki-c-green-soft: rgba(16, 185, 129, 0.14);
+  --shiki-c-yellow-1: #915930;
+  --shiki-c-yellow-2: #946300;
+  --shiki-c-yellow-3: #9f6a00;
+  --shiki-c-yellow-soft: rgba(234, 179, 8, 0.14);
+  --shiki-c-red-1: #b8272c;
+  --shiki-c-red-2: #d5393e;
+  --shiki-c-red-3: #e0575b;
+  --shiki-c-red-soft: rgba(244, 63, 94, 0.14);
+  --shiki-c-sponsor: #db2777;
+}
+
+.dark {
+  --shiki-c-gray-1: #515c67;
+  --shiki-c-gray-2: #414853;
+  --shiki-c-gray-3: #32363f;
+  --shiki-c-gray-soft: rgba(101, 117, 133, 0.16);
+  --shiki-c-indigo-1: #a8b1ff;
+  --shiki-c-indigo-2: #5c73e7;
+  --shiki-c-indigo-3: #3e63dd;
+  --shiki-c-indigo-soft: rgba(100, 108, 255, 0.16);
+  --shiki-c-purple-1: #c8abfa;
+  --shiki-c-purple-2: #a879e6;
+  --shiki-c-purple-3: #8e5cd9;
+  --shiki-c-purple-soft: rgba(159, 122, 234, 0.16);
+  --shiki-c-green-1: #3dd68c;
+  --shiki-c-green-2: #30a46c;
+  --shiki-c-green-3: #298459;
+  --shiki-c-green-soft: rgba(16, 185, 129, 0.16);
+  --shiki-c-yellow-1: #f9b44e;
+  --shiki-c-yellow-2: #da8b17;
+  --shiki-c-yellow-3: #a46a0a;
+  --shiki-c-yellow-soft: rgba(234, 179, 8, 0.16);
+  --shiki-c-red-1: #f66f81;
+  --shiki-c-red-2: #f14158;
+  --shiki-c-red-3: #b62a3c;
+  --shiki-c-red-soft: rgba(244, 63, 94, 0.16);
+}
+
+:root {
+  --shiki-c-bg: #ffffff;
+  --shiki-c-border: #c2c2c4;
+}
+
+.dark {
+  --shiki-c-bg: #1b1b1f;
+  --shiki-c-border: #3c3f44;
+}
+
+:root {
+  --shiki-c-text-1: rgba(60, 60, 67);
+  --shiki-c-text-2: rgba(60, 60, 67, 0.78);
+  --shiki-c-text-3: rgba(60, 60, 67, 0.56);
+}
+
+:root {
+  --shiki-c-default-1: var(--shiki-c-gray-1);
+  --shiki-c-default-2: var(--shiki-c-gray-2);
+  --shiki-c-default-3: var(--shiki-c-gray-3);
+  --shiki-c-default-soft: var(--shiki-c-gray-soft);
+  --shiki-c-success-1: var(--shiki-c-green-1);
+  --shiki-c-success-2: var(--shiki-c-green-2);
+  --shiki-c-success-3: var(--shiki-c-green-3);
+  --shiki-c-success-soft: var(--shiki-c-green-soft);
+  --shiki-c-warning-1: var(--shiki-c-yellow-1);
+  --shiki-c-warning-2: var(--shiki-c-yellow-2);
+  --shiki-c-warning-3: var(--shiki-c-yellow-3);
+  --shiki-c-warning-soft: var(--shiki-c-yellow-soft);
+  --shiki-c-danger-1: var(--shiki-c-red-1);
+  --shiki-c-danger-2: var(--shiki-c-red-2);
+  --shiki-c-danger-3: var(--shiki-c-red-3);
+  --shiki-c-danger-soft: var(--shiki-c-red-soft);
+}
+
+:root {
+  --shiki-code-line-highlight-color: var(--shiki-c-default-soft);
+  --shiki-code-line-number-color: var(--shiki-c-text-3);
+  --shiki-code-line-diff-add-color: var(--shiki-c-success-soft);
+  --shiki-code-line-diff-add-symbol-color: var(--shiki-c-success-1);
+  --shiki-code-line-diff-remove-color: var(--shiki-c-danger-soft);
+  --shiki-code-line-diff-remove-symbol-color: var(--shiki-c-danger-1);
+  --shiki-code-line-warning-color: var(--shiki-c-warning-soft);
+  --shiki-code-line-error-color: var(--shiki-c-danger-soft);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  /* background-color: var(--shiki-dark-bg); */
+  /* Optional, if you also want font styles */
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
+
+html.light .shiki,
+html.light .shiki span {
+  color: var(--shiki-light);
+  /* background-color: var(--shiki-light-bg); */
+  /* Optional, if you also want font styles */
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+[class*='language-'] code .highlighted {
+  background-color: var(--shiki-code-line-highlight-color) !important;
+  transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 37.64px);
+  display: inline-block;
+}
+
+[class*='language-'] code .highlighted.error {
+  background-color: var(--shiki-code-line-error-color) !important;
+}
+
+[class*='language-'] code .highlighted.warning {
+  background-color: var(--shiki-code-line-warning-color) !important;
+}
+
+[class*='language-'] code .diff {
+  transition: background-color 0.5s;
+  margin: 0 -24px;
+  padding: 0 24px;
+  width: calc(100% + 37.64px);
+  display: inline-block;
+}
+
+[class*='language-'] .has-focused .line:not(.focused) {
+  filter: blur(0.095rem);
+  opacity: 0.4;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
+}
+
+[class*='language-'] .has-focused .line:not(.focused) {
+  opacity: 0.7;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
+}
+
+[class*='language-']:hover .has-focused .line:not(.focused) {
+  filter: blur(0);
+  opacity: 1;
+}
+
+[class*='language-'] code .diff.remove {
+  background-color: var(--shiki-code-line-diff-remove-color) !important;
+  opacity: 0.7;
+}
+
+[class*='language-'] code .diff.remove:before {
+  content: '-';
+  color: var(--shiki-code-line-diff-remove-symbol-color) !important;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+}
+
+[class*='language-'] code .diff.add {
+  background-color: var(--shiki-code-line-diff-add-color) !important;
+}
+
+[class*='language-'] code .diff.add:before {
+  content: '+';
+  color: var(--shiki-code-line-diff-add-symbol-color) !important;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+}
+
+div[class*='language-'].line-numbers-mode {
+  padding-left: 32px;
+}
+
+[class*='language-'] code .highlighted-word {
+  background-color: var(--shiki-c-bg-soft);
+  border: 1px solid var(--shiki-c-border);
+  padding: 1px 3px;
+  margin: -1px -3px;
+  border-radius: 4px;
+}
+
+code {
+  counter-reset: step;
+  counter-increment: step 0;
+}
+
+code .line::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+  color: rgba(115, 138, 148, 0.4);
+}
