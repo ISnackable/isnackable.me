@@ -1,4 +1,4 @@
-import * as types from '@/lib/types';
+import type * as types from '@/lib/types';
 
 export interface SiteConfig {
   rootNotionPageId: string;

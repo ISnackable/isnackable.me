@@ -48,11 +48,15 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
       suppressHydrationWarning
     >
-      <head />
+      <head>
+        <meta name='theme-color' content='#101214' />
+        <meta name='color-scheme' content='light dark' />
+      </head>
       <body className='min-h-screen bg-background font-sans text-foreground antialiased'>
         <ThemeProvider
+          value={{ light: 'light-mode', dark: 'dark-mode' }}
           attribute='class'
-          defaultTheme='dark'
+          defaultTheme='system'
           enableSystem
           disableTransitionOnChange
         >

@@ -12,7 +12,7 @@ export const wrapNextImage = (NextImage: any): React.FC<any> => {
     fill,
     ...rest
   }) {
-    if (fill === 'undefined') {
+    if (fill === undefined) {
       fill = !(width && height);
     }
 

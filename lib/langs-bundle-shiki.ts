@@ -236,8 +236,12 @@ export const bundledLanguagesInfo: BundledLanguageInfo[] = [
   {
     id: 'mermaid',
     name: 'Mermaid',
+    // import: (() =>
+    //   import('shiki/langs/mermaid.mjs')) as DynamicImportLanguageRegistration,
     import: (() =>
-      import('shiki/langs/mermaid.mjs')) as DynamicImportLanguageRegistration,
+      import('@/assets/mermaid.json').then(
+        (data) => data
+      )) as DynamicImportLanguageRegistration,
   },
   {
     id: 'nix',

@@ -13,8 +13,7 @@ import {
 import { db } from '@/lib/db';
 import { getSiteMap } from '@/lib/get-site-map';
 import { getPage } from '@/lib/notion';
-
-import { PageProps } from './types';
+import type { PageProps } from '@/lib/types';
 
 export async function resolveNotionPage(
   domain: string,

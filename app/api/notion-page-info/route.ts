@@ -10,7 +10,7 @@ import {
 import * as libConfig from '@/lib/config';
 import { mapImageUrl } from '@/lib/map-image-url';
 import { notion } from '@/lib/notion-api';
-import { NotionPageInfo } from '@/lib/types';
+import type { NotionPageInfo } from '@/lib/types';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -57,6 +57,7 @@ export async function POST(request: Request) {
     ? `center ${(1 - imageCoverPosition) * 100}%`
     : null;
 
+  // TODO: add support for custom social images
   const imageBlockUrl = mapImageUrl(
     getPageProperty<string>('Social Image', block, recordMap) || '',
     block

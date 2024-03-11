@@ -3,7 +3,7 @@ import type { Config } from 'tailwindcss';
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
 const config = {
-  darkMode: ['class', '[class$="dark"]'],
+  darkMode: ['selector', '.dark-mode'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -139,6 +139,10 @@ const config = {
         'fade-left': 'fade-left 3s ease-in-out forwards',
         'fade-right': 'fade-right 3s ease-in-out forwards',
         title: 'title 3s ease-out forwards',
+      },
+      boxShadow: {
+        'theme-switcher-label':
+          '0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.1)',
       },
     },
   },

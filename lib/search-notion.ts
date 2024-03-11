@@ -1,7 +1,7 @@
 import ExpiryMap from 'expiry-map';
 import pMemoize from 'p-memoize';
 
-import * as types from '@/lib/types';
+import type * as types from '@/lib/types';
 import { api } from '@/lib/config';
 
 export const searchNotion = pMemoize(searchNotionImpl, {

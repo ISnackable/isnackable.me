@@ -1,9 +1,10 @@
 import type { ExtendedRecordMap } from 'notion-types';
-import { parsePageId, uuidToId } from 'notion-utils';
+import { normalizeTitle, parsePageId, uuidToId } from 'notion-utils';
+
+import type { Site } from '@/lib/types';
 
 import { includeNotionIdInUrls } from './config';
 import { getCanonicalPageId } from './get-canonical-page-id';
-import type { Site } from './types';
 
 // include UUIDs in page URLs during local development but not in production
 // (they're nice for debugging and speed up local dev)
@@ -15,10 +16,15 @@ export const mapPageUrl =
     const pageUuid = parsePageId(pageId, { uuid: true });
 
     if (uuidToId(pageUuid) === site.rootNotionPageId) {
-      return createUrl('/blog', searchParams);
+      return createUrl('/', searchParams);
     } else {
+      const block = recordMap.block[pageId]?.value;
+      const collectionSlug = normalizeTitle(
+        recordMap.collection[block.parent_id]?.value?.name[0][0]
+      );
+
       return createUrl(
-        `/blog/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
+        `/${collectionSlug}/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
         searchParams
       );
     }

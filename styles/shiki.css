@@ -26,7 +26,7 @@
   --shiki-c-sponsor: #db2777;
 }
 
-.dark {
+.dark-mode {
   --shiki-c-gray-1: #515c67;
   --shiki-c-gray-2: #414853;
   --shiki-c-gray-3: #32363f;
@@ -58,7 +58,7 @@
   --shiki-c-border: #c2c2c4;
 }
 
-.dark {
+.dark-mode {
   --shiki-c-bg: #1b1b1f;
   --shiki-c-border: #3c3f44;
 }
@@ -99,8 +99,8 @@
   --shiki-code-line-error-color: var(--shiki-c-danger-soft);
 }
 
-html.dark .shiki,
-html.dark .shiki span {
+html.dark-mode .shiki,
+html.dark-mode .shiki span {
   color: var(--shiki-dark);
   /* background-color: var(--shiki-dark-bg); */
   /* Optional, if you also want font styles */
@@ -109,8 +109,8 @@ html.dark .shiki span {
   text-decoration: var(--shiki-dark-text-decoration);
 }
 
-html.light .shiki,
-html.light .shiki span {
+html.light-mode .shiki,
+html.light-mode .shiki span {
   color: var(--shiki-light);
   /* background-color: var(--shiki-light-bg); */
   /* Optional, if you also want font styles */

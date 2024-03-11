@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { PageProps } from './types';
+import type { PageProps } from '@/lib/types';
 
 export async function pageAcl({
   site,

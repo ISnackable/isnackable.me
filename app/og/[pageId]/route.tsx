@@ -8,19 +8,18 @@ import type { NotionPageInfo } from '@/lib/types';
 
 // Route segment config
 export const runtime = 'edge';
-export const alt = 'OG Image';
-export const size = {
+// export const alt = 'OG Image';
+const size = {
   width: 1200,
   height: 630,
 };
-export const contentType = 'image/png';
+// export const contentType = 'image/png';
 
-export default async function Image({
-  params,
-}: {
-  params: { pageId: string };
-}) {
-  const pageId = params.pageId || rootNotionPageId;
+export async function GET(
+  _request: Request,
+  context: { params: { pageId: string } }
+) {
+  const pageId = context.params.pageId || rootNotionPageId;
   if (!pageId) {
     return new Response('Invalid notion page id', { status: 400 });
   }
@@ -37,6 +36,7 @@ export default async function Image({
     return new Response(pageInfoRes.statusText, { status: pageInfoRes.status });
   }
   const pageInfo: NotionPageInfo = await pageInfoRes.json();
+  console.log('pageInfoRes', pageInfo);
 
   return new ImageResponse(
     (
@@ -88,7 +88,7 @@ export default async function Image({
             flexDirection: 'column',
             border: '16px solid rgba(0,0,0,0.3)',
             borderRadius: 8,
-            zIndex: '1',
+            zIndex: 1,
           }}
         >
           <div
@@ -137,7 +137,7 @@ export default async function Image({
               display: 'flex',
               borderRadius: '50%',
               border: '4px solid #fff',
-              zIndex: '5',
+              zIndex: 5,
             }}
           >
             <img

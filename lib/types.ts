@@ -1,7 +1,7 @@
 import type { ExtendedRecordMap, PageMap } from 'notion-types';
 import { ParsedUrlQuery } from 'querystring';
 
-export * from 'notion-types';
+export type * from 'notion-types';
 
 export type NavigationStyle = 'default' | 'custom';
 
@@ -43,6 +43,7 @@ export interface SiteMap {
   site: Site;
   pageMap: PageMap;
   canonicalPageMap: CanonicalPageMap;
+  slug: CanonicalPageMap;
 }
 
 export interface CanonicalPageMap {

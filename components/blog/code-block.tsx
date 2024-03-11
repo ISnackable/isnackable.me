@@ -8,8 +8,15 @@ import { getBlockTitle } from 'notion-utils';
 import { useNotionContext } from 'react-notion-x';
 
 import { cn } from '@/lib/utils';
+import '@/styles/shiki.css';
 
 import { CopyButton } from './copy-to-clipboard-button';
+
+export interface Format {
+  use_crdt: boolean;
+  code_wrap: boolean;
+  code_preview_format?: 'code' | 'preview';
+}
 
 // Notion only supports these languages
 const SUPPORTED_LANGUAGES = {
@@ -100,6 +107,29 @@ const SUPPORTED_LANGUAGES = {
   yaml: 'yaml',
 };
 
+// const SHIKI_TRANSFORMER_CLASSMAP = {
+//   '++': 'diff add',
+//   '--': 'diff remove',
+//   highlight: 'highlighted',
+//   hl: 'has-highlighted',
+//   error: ['highlighted', 'error'],
+//   warning: ['highlighted', 'warning'],
+//   focus: 'focused',
+// };
+
+// function escapeRegExp(str: string) {
+//   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// }
+
+// const SHIKI_TRANSFORMERS_REGEX = new RegExp(
+//   `(\\s*)(?://|/\\*|<!--|#)\\s+\\[!code (${Object.keys(SHIKI_TRANSFORMER_CLASSMAP).map(escapeRegExp).join('|')})(:\\d+)?\\](\\s*)(?:\\*/|-->)?`,
+//   'g'
+// );
+const SHIKI_TRANSFORMERS_REGEX = new RegExp(
+  `(\\s*)(?://|/\\*|<!--|#)\\s+\\[!code (?:word:)?(\\+\\+|--|\\w+)(:\\d+)?\\](\\s*)(?:\\*/|-->)?`,
+  'g'
+);
+
 export const CodeBlock: React.FC<{
   block: TCodeBlock;
   defaultLanguage?: string;
@@ -117,6 +147,7 @@ export const CodeBlock: React.FC<{
     SUPPORTED_LANGUAGES[_language as keyof typeof SUPPORTED_LANGUAGES] ||
     'plain';
   const caption = block.properties.caption;
+  const format: Format = block.format;
 
   React.useEffect(() => {
     if (codeRef.current) {
@@ -124,41 +155,77 @@ export const CodeBlock: React.FC<{
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              (async () => {
-                const { getHighlighter } = await import('@/lib/shiki');
-                const {
-                  transformerNotationDiff,
-                  transformerNotationHighlight,
-                  transformerNotationWordHighlight,
-                  transformerNotationFocus,
-                } = await import('@shikijs/transformers');
+              if (
+                language === 'mermaid' &&
+                format?.code_preview_format === 'preview'
+              ) {
+                (async () => {
+                  try {
+                    const { initialize, run } = await import('mermaid').then(
+                      (m) => m.default
+                    );
 
-                if (typeof window !== 'undefined') {
-                  const highlighter = await getHighlighter({
-                    themes: ['github-light', 'github-dark'],
-                    langs: ['javascript', language as any],
-                  });
+                    initialize({
+                      startOnLoad: false,
+                      theme: 'base',
+                      themeVariables: {
+                        primaryColor: '#BB2528',
+                        primaryTextColor: '#fff',
+                        primaryBorderColor: '#7C0000',
+                        lineColor: '#F8B229',
+                        secondaryColor: '#006100',
+                        tertiaryColor: '#fff',
+                      },
+                      flowchart: {
+                        useMaxWidth: false,
+                        htmlLabels: true,
+                        curve: 'linear',
+                      },
+                    });
+                    await run({
+                      querySelector: `.notion-block-${block.id} > div.notion-code > .language-mermaid code`,
+                    });
+                  } catch (err) {
+                    console.warn('mermaid highlight error', err);
+                  }
+                })();
+              } else {
+                (async () => {
+                  const { getHighlighter } = await import('@/lib/shiki');
+                  const {
+                    transformerNotationDiff,
+                    transformerNotationHighlight,
+                    transformerNotationWordHighlight,
+                    transformerNotationFocus,
+                  } = await import('@shikijs/transformers');
 
-                  await highlighter.loadLanguage(language as any);
+                  if (typeof window !== 'undefined') {
+                    const highlighter = await getHighlighter({
+                      themes: ['github-light', 'github-dark'],
+                      langs: ['javascript', language as any],
+                    });
 
-                  const html = highlighter.codeToHtml(content, {
-                    lang: language,
-                    themes: {
-                      light: 'github-light',
-                      dark: 'github-dark',
-                    },
-                    defaultColor: false,
-                    transformers: [
-                      transformerNotationDiff(),
-                      transformerNotationHighlight(),
-                      transformerNotationWordHighlight(),
-                      transformerNotationFocus(),
-                    ],
-                  });
+                    await highlighter.loadLanguage(language as any);
 
-                  setCodeHtml(html);
-                }
-              })();
+                    const html = highlighter.codeToHtml(content, {
+                      lang: language,
+                      themes: {
+                        light: 'github-light',
+                        dark: 'github-dark',
+                      },
+                      defaultColor: false,
+                      transformers: [
+                        transformerNotationDiff(),
+                        transformerNotationHighlight(),
+                        transformerNotationWordHighlight(),
+                        transformerNotationFocus(),
+                      ],
+                    });
+
+                    setCodeHtml(html);
+                  }
+                })();
+              }
 
               observer.disconnect();
             }
@@ -176,16 +243,20 @@ export const CodeBlock: React.FC<{
   }, []);
 
   return (
-    <>
-      <div
-        className={cn('notion-code', 'group relative', className)}
-        ref={codeRef}
-      >
-        <CopyButton
-          value={content}
-          className='invisible absolute right-3 top-3 group-hover:visible'
-        />
+    <div className={`notion-code-wrapper notion-block-${block.id} w-full`}>
+      <div className='notion-code-heaader relative flex w-full rounded-t-[3px] border border-[#bdbebe] text-xs leading-6 text-slate-400 dark:border-[#373838]'>
+        <div className='flex flex-none items-center px-4 py-1'>{language}</div>
+        <div className='flex flex-auto items-center border-l border-[#bdbebe] dark:border-[#373838]'>
+          <div className='flex flex-auto items-center justify-end space-x-4 px-4'>
+            <CopyButton
+              value={content.replace(SHIKI_TRANSFORMERS_REGEX, '$4')}
+              className='absolute right-1 top-1 group-hover:visible'
+            />
+          </div>
+        </div>
+      </div>
 
+      <div className={cn('notion-code', className)} ref={codeRef}>
         {!codeHtml ? (
           <div className={`language-${language}`}>
             <pre>
@@ -203,6 +274,6 @@ export const CodeBlock: React.FC<{
       {caption && (
         <figcaption className='notion-asset-caption'>{caption}</figcaption>
       )}
-    </>
+    </div>
   );
 };

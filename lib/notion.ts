@@ -1,5 +1,7 @@
 import 'server-only';
 
+import { cache } from 'react';
+
 import type {
   ExtendedRecordMap,
   SearchParams,
@@ -43,7 +45,9 @@ const getNavigationLinkPages = pMemoize(
   }
 );
 
-export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
+export const getPage = cache(async function (
+  pageId: string
+): Promise<ExtendedRecordMap> {
   let recordMap = await notion.getPage(pageId);
 
   if (navigationStyle !== 'default') {
@@ -68,7 +72,7 @@ export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
   }
 
   return recordMap;
-}
+});
 
 export async function search(params: SearchParams): Promise<SearchResults> {
   return notion.search(params);

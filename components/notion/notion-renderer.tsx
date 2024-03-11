@@ -6,28 +6,26 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import 'katex/dist/katex.min.css';
-import { useTheme } from 'next-themes';
-import { type PageBlock } from 'notion-types';
+import type { PageBlock } from 'notion-types';
 import { formatDate } from 'notion-utils';
+import { NotionRenderer as _NotionRenderer } from 'react-notion-x';
 import 'react-notion-x/src/styles.css';
 
-import * as types from '@/lib/types';
+import type * as types from '@/lib/types';
 import { wrapNextImage, wrapNextLink } from '@/components/notion/next';
 import { mapImageUrl } from '@/lib/map-image-url';
 import { mapPageUrl } from '@/lib/map-page-url';
+import '@/styles/notion.css';
 
 const CodeBlock = dynamic(
   () => import('@/components/blog/code-block').then((m) => m.CodeBlock),
   {
-    ssr: false,
-    loading: () => <pre className='notion-code' />,
+    loading: () => (
+      <pre className='notion-code'>
+        <code></code>
+      </pre>
+    ),
   }
-);
-
-const _NotionRenderer = dynamic(
-  () => import('react-notion-x').then((m) => m.NotionRenderer),
-  { ssr: false }
 );
 
 const Collection = dynamic(() =>
@@ -35,21 +33,9 @@ const Collection = dynamic(() =>
     (m) => m.Collection
   )
 );
-const Equation = dynamic(() =>
-  import('react-notion-x/build/third-party/equation').then((m) => m.Equation)
-);
+const Equation = dynamic(() => import('@/components/notion/equation'));
 const Pdf = dynamic(
   () => import('react-notion-x/build/third-party/pdf').then((m) => m.Pdf),
-  {
-    ssr: false,
-  }
-);
-const Modal = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/modal').then((m) => {
-      m.Modal.setAppElement('.notion-viewport');
-      return m.Modal;
-    }),
   {
     ssr: false,
   }
@@ -103,8 +89,6 @@ export function NotionRenderer({
   site: types.Site;
   recordMap: types.ExtendedRecordMap;
 }) {
-  const { theme } = useTheme();
-
   const siteMapPageUrl = React.useMemo(() => {
     const params: any = {};
 
@@ -112,12 +96,15 @@ export function NotionRenderer({
     return mapPageUrl(site, recordMap, searchParams);
   }, [site, recordMap]);
 
+  // estimatePageReadTime(recordMap.block, recordMap)
+
   return (
     <_NotionRenderer
-      darkMode={theme === 'dark'}
+      fullPage
+      disableHeader
       recordMap={recordMap}
       previewImages={!!recordMap.preview_images}
-      showCollectionViewDropdown={false}
+      showCollectionViewDropdown={true}
       components={{
         Image: wrapNextImage(Image),
         Link: wrapNextLink(Link),
@@ -125,13 +112,11 @@ export function NotionRenderer({
         Code: CodeBlock,
         Collection,
         Equation,
-        Modal,
         Pdf,
         propertyLastEditedTimeValue,
         propertyTextValue,
         propertyDateValue,
       }}
-      // fullPage={true}
       mapPageUrl={siteMapPageUrl}
       // @ts-expect-error mapImageUrl shouldn't return null
       mapImageUrl={mapImageUrl}

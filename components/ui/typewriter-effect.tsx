@@ -7,6 +7,8 @@ import { motion, stagger, useAnimate, useInView } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 
+/* eslint-disable react-hooks/exhaustive-deps */
+
 export const TypewriterEffect = ({
   words,
   className,
