@@ -58,6 +58,11 @@
     @apply bg-background text-foreground;
   }
 
+  /* If using React, set height on the root div as well (tailwindcss-safe-area) */
+  #root {
+    height: -webkit-fill-available;
+  }
+
   .text-edge-outline {
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   }

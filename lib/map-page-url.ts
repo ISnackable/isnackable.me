@@ -1,10 +1,10 @@
 import type { ExtendedRecordMap } from 'notion-types';
 import { normalizeTitle, parsePageId, uuidToId } from 'notion-utils';
 
+import { includeNotionIdInUrls } from '@/lib/config';
+import { getCanonicalPageBreadcrumbs } from '@/lib/get-canonical-page-breadcrumbs';
+import { getCanonicalPageId } from '@/lib/get-canonical-page-id';
 import type { Site } from '@/lib/types';
-
-import { includeNotionIdInUrls } from './config';
-import { getCanonicalPageId } from './get-canonical-page-id';
 
 // include UUIDs in page URLs during local development but not in production
 // (they're nice for debugging and speed up local dev)
@@ -19,12 +19,32 @@ export const mapPageUrl =
       return createUrl('/', searchParams);
     } else {
       const block = recordMap.block[pageId]?.value;
-      const collectionSlug = normalizeTitle(
-        recordMap.collection[block.parent_id]?.value?.name[0][0]
-      );
+      const breadcrumbs = getCanonicalPageBreadcrumbs(recordMap, pageId);
+
+      if (breadcrumbs) {
+        // Check if rootNotionPageId
+        breadcrumbs.shift();
+
+        const collectionSlug = normalizeTitle(
+          recordMap.collection[block.parent_id]?.value?.name[0][0] ||
+            recordMap.collection[breadcrumbs[0].block.parent_id]?.value
+              ?.name[0][0]
+        );
+
+        if (collectionSlug) {
+          breadcrumbs.unshift({
+            // title: collectionPages.get(block.parent_id) || collectionSlug,
+            title: collectionSlug,
+            id: block.parent_id,
+          });
+        }
+
+        const slug = breadcrumbs.map((b) => normalizeTitle(b.title)).join('/');
+        return createUrl(`/${slug}`, searchParams);
+      }
 
       return createUrl(
-        `/${collectionSlug}/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
+        `/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
         searchParams
       );
     }
@@ -38,6 +58,31 @@ export const getCanonicalPageUrl =
     if (uuidToId(pageId) === site.rootNotionPageId) {
       return `https://${site.domain}`;
     } else {
+      const block = recordMap.block[pageId]?.value;
+      const breadcrumbs = getCanonicalPageBreadcrumbs(recordMap, pageId);
+
+      if (breadcrumbs) {
+        // Check if rootNotionPageId
+        breadcrumbs.shift();
+
+        const collectionSlug = normalizeTitle(
+          recordMap.collection[block.parent_id]?.value?.name[0][0] ||
+            recordMap.collection[breadcrumbs[0].block.parent_id]?.value
+              ?.name[0][0]
+        );
+
+        if (collectionSlug) {
+          breadcrumbs.unshift({
+            // title: collectionPages.get(block.parent_id) || collectionSlug,
+            title: collectionSlug,
+            id: block.parent_id,
+          });
+        }
+
+        const slug = breadcrumbs.map((b) => normalizeTitle(b.title)).join('/');
+        return `https://${site.domain}/${slug}`;
+      }
+
       return `https://${site.domain}/${getCanonicalPageId(pageUuid, recordMap, {
         uuid,
       })}`;

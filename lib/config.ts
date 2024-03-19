@@ -16,7 +16,7 @@ import type {
 } from '@/lib/types';
 
 export const rootNotionPageId: string = parsePageId(
-  getSiteConfig('rootNotionPageId'),
+  getEnv('ROOT_NOTION_PAGE_ID', null) ?? getSiteConfig('rootNotionPageId'),
   { uuid: false }
 );
 
@@ -26,7 +26,8 @@ if (!rootNotionPageId) {
 
 // if you want to restrict pages to a single notion workspace (optional)
 export const rootNotionSpaceId: string | null = parsePageId(
-  getSiteConfig('rootNotionSpaceId', null),
+  getEnv('ROOT_NOTION_SPACE_ID', null) ??
+    getSiteConfig('rootNotionSpaceId', null),
   { uuid: true }
 );
 
@@ -145,6 +146,15 @@ export const site: Site = {
   rootNotionSpaceId,
   description,
 };
+
+export const enableVercelAnalytics: boolean = getSiteConfig(
+  'enableVercelAnalytics',
+  false
+);
+export const enableVercelSpeedInsights: boolean = getSiteConfig(
+  'enableVercelSpeedInsights',
+  false
+);
 
 function cleanPageUrlMap(
   pageUrlMap: PageUrlOverridesMap,

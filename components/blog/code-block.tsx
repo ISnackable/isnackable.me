@@ -1,16 +1,17 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 'use client';
 
 import * as React from 'react';
 
 import type { CodeBlock as TCodeBlock } from 'notion-types';
-import { getBlockTitle } from 'notion-utils';
+import { getBlockTitle, getTextContent } from 'notion-utils';
 import { useNotionContext } from 'react-notion-x';
 
 import { cn } from '@/lib/utils';
 import '@/styles/shiki.css';
 
 import { CopyButton } from './copy-to-clipboard-button';
+
+/* eslint-disable tailwindcss/no-custom-classname */
 
 export interface Format {
   use_crdt: boolean;
@@ -141,13 +142,12 @@ export const CodeBlock: React.FC<{
   const { recordMap } = useNotionContext();
   const content = getBlockTitle(block, recordMap);
   const _language = (
-    block.properties?.language?.[0]?.[0] || defaultLanguage
+    getTextContent(block.properties?.language) || defaultLanguage
   ).toLowerCase();
   const language =
     SUPPORTED_LANGUAGES[_language as keyof typeof SUPPORTED_LANGUAGES] ||
     'plain';
   const caption = block.properties.caption;
-  const format: Format = block.format;
 
   React.useEffect(() => {
     if (codeRef.current) {
@@ -155,77 +155,41 @@ export const CodeBlock: React.FC<{
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              if (
-                language === 'mermaid' &&
-                format?.code_preview_format === 'preview'
-              ) {
-                (async () => {
-                  try {
-                    const { initialize, run } = await import('mermaid').then(
-                      (m) => m.default
-                    );
+              (async () => {
+                const { getHighlighter } = await import('@/lib/shiki');
+                const {
+                  transformerNotationDiff,
+                  transformerNotationHighlight,
+                  transformerNotationWordHighlight,
+                  transformerNotationFocus,
+                } = await import('@shikijs/transformers');
 
-                    initialize({
-                      startOnLoad: false,
-                      theme: 'base',
-                      themeVariables: {
-                        primaryColor: '#BB2528',
-                        primaryTextColor: '#fff',
-                        primaryBorderColor: '#7C0000',
-                        lineColor: '#F8B229',
-                        secondaryColor: '#006100',
-                        tertiaryColor: '#fff',
-                      },
-                      flowchart: {
-                        useMaxWidth: false,
-                        htmlLabels: true,
-                        curve: 'linear',
-                      },
-                    });
-                    await run({
-                      querySelector: `.notion-block-${block.id} > div.notion-code > .language-mermaid code`,
-                    });
-                  } catch (err) {
-                    console.warn('mermaid highlight error', err);
-                  }
-                })();
-              } else {
-                (async () => {
-                  const { getHighlighter } = await import('@/lib/shiki');
-                  const {
-                    transformerNotationDiff,
-                    transformerNotationHighlight,
-                    transformerNotationWordHighlight,
-                    transformerNotationFocus,
-                  } = await import('@shikijs/transformers');
+                if (typeof window !== 'undefined') {
+                  const highlighter = await getHighlighter({
+                    themes: ['github-light', 'github-dark'],
+                    langs: ['javascript', language as any],
+                  });
 
-                  if (typeof window !== 'undefined') {
-                    const highlighter = await getHighlighter({
-                      themes: ['github-light', 'github-dark'],
-                      langs: ['javascript', language as any],
-                    });
+                  await highlighter.loadLanguage(language as any);
 
-                    await highlighter.loadLanguage(language as any);
+                  const html = highlighter.codeToHtml(content, {
+                    lang: language,
+                    themes: {
+                      light: 'github-light',
+                      dark: 'github-dark',
+                    },
+                    defaultColor: false,
+                    transformers: [
+                      transformerNotationDiff(),
+                      transformerNotationHighlight(),
+                      transformerNotationWordHighlight(),
+                      transformerNotationFocus(),
+                    ],
+                  });
 
-                    const html = highlighter.codeToHtml(content, {
-                      lang: language,
-                      themes: {
-                        light: 'github-light',
-                        dark: 'github-dark',
-                      },
-                      defaultColor: false,
-                      transformers: [
-                        transformerNotationDiff(),
-                        transformerNotationHighlight(),
-                        transformerNotationWordHighlight(),
-                        transformerNotationFocus(),
-                      ],
-                    });
-
-                    setCodeHtml(html);
-                  }
-                })();
-              }
+                  setCodeHtml(html);
+                }
+              })();
 
               observer.disconnect();
             }

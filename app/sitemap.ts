@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return routes;
   }
 
-  const notionPages = Object.keys(siteMap.slug).map((canonicalPagePath) => ({
+  const notionPages = siteMap.slug.map((canonicalPagePath) => ({
     url: `${host}/${canonicalPagePath}`,
     priority: 0.7,
     changeFrequency: 'monthly' as const,

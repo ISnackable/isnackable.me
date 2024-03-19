@@ -43,7 +43,7 @@ export interface SiteMap {
   site: Site;
   pageMap: PageMap;
   canonicalPageMap: CanonicalPageMap;
-  slug: CanonicalPageMap;
+  slug: string[];
 }
 
 export interface CanonicalPageMap {

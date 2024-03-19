@@ -1,5 +1,7 @@
 import 'server-only';
 
+import { cache } from 'react';
+
 import ExpiryMap from 'expiry-map';
 import {
   getAllPagesInSpace,
@@ -12,13 +14,14 @@ import pMemoize from 'p-memoize';
 import * as config from '@/lib/config';
 import type * as types from '@/lib/types';
 import { includeNotionIdInUrls } from '@/lib/config';
+import { getCanonicalPageBreadcrumbs } from '@/lib/get-canonical-page-breadcrumbs';
 import { getCanonicalPageId } from '@/lib/get-canonical-page-id';
 import { notion } from '@/lib/notion-api';
 
 const uuid = !!includeNotionIdInUrls;
-const cache = new ExpiryMap(10000);
+const expiryCache = new ExpiryMap(10000);
 
-export async function getSiteMap(): Promise<types.SiteMap> {
+export const getSiteMap = cache(async (): Promise<types.SiteMap> => {
   if (config.rootNotionSpaceId === null) return {} as types.SiteMap;
 
   const partialSiteMap = await getAllPages(
@@ -30,11 +33,11 @@ export async function getSiteMap(): Promise<types.SiteMap> {
     site: config.site,
     ...partialSiteMap,
   } as types.SiteMap;
-}
+});
 
 const getAllPages = pMemoize(getAllPagesImpl, {
   cacheKey: (...args) => JSON.stringify(args),
-  cache,
+  cache: expiryCache,
 });
 
 async function getAllPagesImpl(
@@ -59,11 +62,12 @@ async function getAllPagesImpl(
     console.error('error deleting rootNotionPageId', error);
   }
 
+  // const collectionPages = new Map<string, string>();
   const canonicalPageMap = Object.keys(pageMap).reduce(
     (
       map: {
         canonicalPageMap: { [key: string]: string };
-        slug: { [key: string]: string };
+        slug: string[];
       },
       pageId: string
     ) => {
@@ -73,6 +77,9 @@ async function getAllPagesImpl(
       }
 
       const block = recordMap.block[pageId]?.value;
+      // const isCollection =
+      //   (block.type === 'page' && block.parent_table === 'collection') ||
+      //   collectionPages.has(block.parent_id);
       const isCollection =
         block.type === 'page' && block.parent_table === 'collection';
 
@@ -88,11 +95,33 @@ async function getAllPagesImpl(
 
       if (canonicalPageId === null) return map;
 
-      const collectionSlug = normalizeTitle(
-        recordMap.collection[block.parent_id]?.value?.name[0][0]
-      );
-      const slug = collectionSlug
-        ? `${collectionSlug}/${canonicalPageId}`
+      // if (isCollection) collectionPages.set(pageId, collectionSlug);
+
+      const breadcrumbs = getCanonicalPageBreadcrumbs(recordMap, pageId);
+      if (breadcrumbs) {
+        breadcrumbs.shift();
+
+        const collectionSlug = normalizeTitle(
+          recordMap.collection[block.parent_id]?.value?.name[0][0] ||
+            recordMap.collection[breadcrumbs[0].block.parent_id]?.value
+              ?.name[0][0]
+        );
+
+        if (
+          isCollection ||
+          (breadcrumbs[0].block.type === 'page' &&
+            breadcrumbs[0].block.parent_table === 'collection')
+        ) {
+          breadcrumbs.unshift({
+            // title: collectionPages.get(block.parent_id) || collectionSlug,
+            title: collectionSlug,
+            id: block.parent_id,
+          });
+        }
+      }
+
+      const slug = breadcrumbs
+        ? breadcrumbs.map((b) => normalizeTitle(b.title)).join('/')
         : canonicalPageId;
 
       if (
@@ -119,16 +148,13 @@ async function getAllPagesImpl(
             ...map.canonicalPageMap,
             [canonicalPageId]: pageId,
           },
-          slug: {
-            ...map.slug,
-            [slug]: pageId,
-          },
+          slug: [...map.slug, slug],
         };
       }
     },
     {
       canonicalPageMap: {},
-      slug: {},
+      slug: [],
     }
   );
 

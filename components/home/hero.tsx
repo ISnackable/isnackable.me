@@ -33,7 +33,7 @@ const words = [
 
 export function Hero() {
   return (
-    <div className='flex h-[20rem] w-full flex-col items-center justify-center overflow-hidden rounded-md'>
+    <div className='flex h-80 w-full flex-col items-center justify-center overflow-hidden rounded-md'>
       <h1 className='relative z-20 text-center text-5xl font-bold text-foreground md:text-7xl lg:text-9xl'>
         {name || 'DEFAULT NAME'}
       </h1>
@@ -58,7 +58,7 @@ export function Hero() {
         <div className='absolute inset-0 size-full [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]'></div>
       </div>
 
-      <div className='flex h-[10rem] flex-col items-center justify-center '>
+      <div className='flex h-40 flex-col items-center justify-center '>
         <TypewriterEffect
           words={words}
           className='w-5/6 whitespace-pre-line break-words'

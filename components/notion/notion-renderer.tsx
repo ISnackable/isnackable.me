@@ -6,28 +6,50 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { PageBlock } from 'notion-types';
-import { formatDate } from 'notion-utils';
-import { NotionRenderer as _NotionRenderer } from 'react-notion-x';
+import { formatDate, getTextContent } from 'notion-utils';
+import {
+  NotionRenderer as _NotionRenderer,
+  useNotionContext,
+} from 'react-notion-x';
 import 'react-notion-x/src/styles.css';
 
 import type * as types from '@/lib/types';
+import type { Format } from '@/components/blog/mermaid';
 import { wrapNextImage, wrapNextLink } from '@/components/notion/next';
 import { mapImageUrl } from '@/lib/map-image-url';
 import { mapPageUrl } from '@/lib/map-page-url';
 import '@/styles/notion.css';
 
-const CodeBlock = dynamic(
-  () => import('@/components/blog/code-block').then((m) => m.CodeBlock),
-  {
-    loading: () => (
-      <pre className='notion-code'>
-        <code></code>
-      </pre>
-    ),
-  }
-);
+const CodeBlock = dynamic(async () => {
+  return function CodeSwitch({ block }: { block: types.CodeBlock }) {
+    const format: Format = block.format;
+    if (
+      getTextContent(block.properties.language) === 'Mermaid' &&
+      format.code_preview_format === 'preview'
+    ) {
+      return React.createElement(
+        dynamic(() => {
+          return import('@/components/blog/mermaid').then((m) => m.Mermaid);
+        }),
+        { block }
+      );
+    }
 
+    return React.createElement(
+      dynamic(
+        () => import('@/components/blog/code-block').then((m) => m.CodeBlock),
+        {
+          loading: () => (
+            <pre className='notion-code'>
+              <code></code>
+            </pre>
+          ),
+        }
+      ),
+      { block }
+    );
+  };
+});
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
     (m) => m.Collection
@@ -40,19 +62,6 @@ const Pdf = dynamic(
     ssr: false,
   }
 );
-
-const propertyLastEditedTimeValue = (
-  { block, pageHeader }: { block: PageBlock; pageHeader: boolean },
-  defaultFn: () => React.ReactNode
-) => {
-  if (pageHeader && block?.last_edited_time) {
-    return `Last updated ${formatDate(block?.last_edited_time, {
-      month: 'long',
-    })}`;
-  }
-
-  return defaultFn();
-};
 
 const propertyDateValue = (
   { data, schema, pageHeader }: { data: any; schema: any; pageHeader: boolean },
@@ -71,12 +80,22 @@ const propertyDateValue = (
   return defaultFn();
 };
 
-const propertyTextValue = (
-  { schema, pageHeader }: { schema: any; pageHeader: boolean },
+const PropertyPersonValue = (
+  { data, schema, pageHeader }: { data: any; schema: any; pageHeader: boolean },
   defaultFn: () => React.ReactNode
 ) => {
+  const ctx = useNotionContext();
+  const userId = data[0][1][0][1];
+  const user = ctx.recordMap.notion_user[userId];
+
   if (pageHeader && schema?.name?.toLowerCase() === 'author') {
-    return <b>{defaultFn()}</b>;
+    return (
+      <>
+        {defaultFn()}
+        {/* @ts-ignore */}
+        <b className='ml-1'>{user?.value.name}</b>
+      </>
+    );
   }
 
   return defaultFn();
@@ -104,7 +123,7 @@ export function NotionRenderer({
       disableHeader
       recordMap={recordMap}
       previewImages={!!recordMap.preview_images}
-      showCollectionViewDropdown={true}
+      showCollectionViewDropdown={false}
       components={{
         Image: wrapNextImage(Image),
         Link: wrapNextLink(Link),
@@ -113,8 +132,7 @@ export function NotionRenderer({
         Collection,
         Equation,
         Pdf,
-        propertyLastEditedTimeValue,
-        propertyTextValue,
+        propertyPersonValue: PropertyPersonValue,
         propertyDateValue,
       }}
       mapPageUrl={siteMapPageUrl}

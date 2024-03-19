@@ -2,11 +2,6 @@ import 'server-only';
 
 import { cache } from 'react';
 
-import type {
-  ExtendedRecordMap,
-  SearchParams,
-  SearchResults,
-} from 'notion-types';
 import { mergeRecordMaps } from 'notion-utils';
 import pMap from 'p-map';
 import pMemoize from 'p-memoize';
@@ -18,6 +13,14 @@ import {
 } from '@/lib/config';
 import { notion } from '@/lib/notion-api';
 import { getPreviewImageMap } from '@/lib/preview-images';
+import type {
+  ExtendedRecordMap,
+  RecordValues,
+  SearchParams,
+  SearchResults,
+  User,
+  UserMap,
+} from '@/lib/types';
 
 const getNavigationLinkPages = pMemoize(
   async (): Promise<ExtendedRecordMap[]> => {
@@ -77,3 +80,22 @@ export const getPage = cache(async function (
 export async function search(params: SearchParams): Promise<SearchResults> {
   return notion.search(params);
 }
+
+interface GetUsersResponse extends RecordValues<User> {
+  recordMapWithRoles: {
+    notion_user: UserMap;
+  };
+}
+
+export const getUsers = cache(async function (userIds: string[] = []) {
+  if (!userIds.length || userIds.some((id) => !id)) {
+    return {
+      results: [],
+      recordMapWithRoles: {
+        notion_user: {},
+      },
+    };
+  }
+
+  return notion.getUsers(userIds) as Promise<GetUsersResponse>;
+});

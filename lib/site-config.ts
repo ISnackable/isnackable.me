@@ -15,8 +15,6 @@ export interface SiteConfig {
   linkedin?: string;
   newsletter?: string;
   youtube?: string;
-  zhihu?: string;
-  mastodon?: string;
 
   defaultPageIcon?: string | null;
   defaultPageCover?: string | null;
@@ -33,6 +31,9 @@ export interface SiteConfig {
 
   navigationStyle?: types.NavigationStyle;
   navigationLinks?: Array<NavigationLink>;
+
+  enableVercelAnalytics?: boolean;
+  enableVercelSpeedInsights?: boolean;
 }
 
 export interface NavigationLink {

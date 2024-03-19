@@ -1,6 +1,5 @@
 import 'server-only';
 
-import type { ExtendedRecordMap } from 'notion-types';
 import { parsePageId } from 'notion-utils';
 
 import * as acl from '@/lib/acl';
@@ -13,7 +12,7 @@ import {
 import { db } from '@/lib/db';
 import { getSiteMap } from '@/lib/get-site-map';
 import { getPage } from '@/lib/notion';
-import type { PageProps } from '@/lib/types';
+import type { ExtendedRecordMap, PageProps } from '@/lib/types';
 
 export async function resolveNotionPage(
   domain: string,

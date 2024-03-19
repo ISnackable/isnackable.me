@@ -20,6 +20,7 @@ const nextConfig = withBundleAnalyzer({
   },
   experimental: {
     serverComponentsExternalPackages: ['react-notion-x', 'notion-client'],
+    optimizePackageImports: ['notion-utils'],
   },
   webpack: (config) => {
     config.externals.push(
