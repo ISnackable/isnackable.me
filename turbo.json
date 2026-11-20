@@ -1,0 +1,51 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["**/.env", "**/.env.*"],
+  "ui": "tui",
+  "envMode": "loose",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "test"],
+      "outputs": [".next/**", "!.next/cache/**", "**/generated/**"],
+      "env": [
+        "ANALYZE",
+        "CI",
+        "EXPOSE_TESTING_API",
+        "SENTRY_AUTH_TOKEN",
+        "SENTRY_ENVIRONMENT",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT",
+        "SENTRY_RELEASE",
+        "SKIP_ENV_VALIDATION",
+        "VERCEL",
+        "VERCEL_ENV",
+        "VERCEL_GIT_COMMIT_SHA",
+        "VERCEL_PROJECT_PRODUCTION_URL"
+      ]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "analyze": {
+      "dependsOn": ["^analyze"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "translate": {
+      "dependsOn": ["^translate"],
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    }
+  },
+  "cacheMaxSize": "2GB"
+}

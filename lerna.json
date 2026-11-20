@@ -1,5 +1,0 @@
-{
-  "packages": ["next-web", "sanity-studio"],
-  "version": "independent",
-  "npmClient": "yarn"
-}

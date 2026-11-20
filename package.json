@@ -1,35 +1,41 @@
 {
+  "name": "portfolio-workspace",
+  "version": "0.0.0",
   "private": true,
-  "name": "isnackable-jamstack",
-  "version": "1.0.0",
-  "description": "A personal site created with NextJS as the frontend framework and Sanity.io and the headless content management system.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "prepare": "husky install",
-    "init": "lerna init",
-    "build": "lerna run build --parallel",
-    "dev": "lerna run dev --parallel",
-    "format": "lerna run format",
-    "build-studio": "lerna bootstrap && cd studio && yarn run build",
-    "build-web": "lerna bootstrap && (cd studio && SANITY_AUTH_TOKEN=$SANITY_DEPLOY_STUDIO_TOKEN yarn run graphql-deploy) && (cd web && yarn run build)",
-    "graphql-deploy": "lerna run graphql-deploy",
-    "lint": "lerna run lint",
-    "postinstall": "lerna bootstrap",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "analyze": "turbo analyze",
+    "boundaries": "turbo boundaries",
+    "prebuild": "pnpm --filter web lanyard:inputs",
+    "build": "turbo build",
+    "bump-deps": "pnpm dlx npm-check-updates --cooldown 1d --deep -u && pnpm install",
+    "bump-ui": "pnpm dlx shadcn@latest add --all --overwrite -c packages/design-system",
+    "check": "ultracite check",
+    "clean": "git clean -xdf node_modules",
+    "dev": "turbo dev",
+    "fix": "ultracite fix",
+    "security:check": "pnpm audit --audit-level=moderate",
+    "test": "turbo test",
+    "test:browser": "playwright test",
+    "test:instant": "EXPOSE_TESTING_API=1 pnpm build && playwright test --config playwright.instant.config.ts",
+    "translate": "turbo translate",
+    "typecheck": "turbo typecheck"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ISnackable/isnackable.me.git"
-  },
-  "author": "ISnackable",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/ISnackable/isnackable.me/issues"
-  },
-  "homepage": "https://github.com/ISnackable/isnackable.me#readme",
   "devDependencies": {
-    "@sanity/cli": "^2.34.2",
-    "husky": "^8.0.1",
-    "lerna": "^6.0.1"
+    "@biomejs/biome": "2.6.6",
+    "@next/playwright": "16.4.5",
+    "@playwright/test": "^1.65.0",
+    "@repo/typescript-config": "workspace:*",
+    "@turbo/gen": "^2.11.10",
+    "@types/node": "^26.6.6",
+    "tsup": "^9.0.0",
+    "turbo": "^2.11.10",
+    "typescript": "^7.0.2",
+    "ultracite": "8.1.1",
+    "vitest": "^5.1.0"
+  },
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   }
 }

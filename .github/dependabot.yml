@@ -1,9 +1,12 @@
-# Dependabot configuration file with updates for GitHub Actions
-
 version: 2
 updates:
-  # Configuration for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/apps/*"
+      - "/packages/*"
+      - "/packages/cms/functions/*"
+    open-pull-requests-limit: 10
     schedule:
-      interval: "daily"
+      interval: "monthly"

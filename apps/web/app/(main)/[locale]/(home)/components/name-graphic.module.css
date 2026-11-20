@@ -1,0 +1,10 @@
+@media (prefers-reduced-motion: reduce) {
+  /* Reveal the filled signature before hydration can read the preference. */
+  .signature > g {
+    mask: none;
+  }
+
+  .signature > path {
+    display: none;
+  }
+}

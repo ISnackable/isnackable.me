@@ -1,0 +1,21 @@
+{
+  "name": "@repo/internationalization",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "translate": "npx -y languine@latest translate",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "next-intl": "^4.14.9",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "next": "16.4.5"
+  }
+}

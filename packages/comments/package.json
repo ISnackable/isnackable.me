@@ -1,0 +1,22 @@
+{
+  "name": "@repo/comments",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@giscus/react": "^3.1.0",
+    "@repo/design-system": "workspace:*",
+    "@t3-oss/env-nextjs": "^0.13.11",
+    "react": "19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "next": "16.4.5"
+  }
+}

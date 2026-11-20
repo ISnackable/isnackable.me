@@ -1,0 +1,158 @@
+{
+  "web": {
+    "errors": {
+      "notFoundTitle": "ページが見つかりません",
+      "notFoundDescription": "ページが移動したか、削除された可能性があります。",
+      "serverTitle": "問題が発生しました",
+      "serverDescription": "もう一度読み込むか、ホームに戻ってください。",
+      "home": "ホームに戻る",
+      "retry": "再試行"
+    },
+    "header": {
+      "home": "ホーム",
+      "blog": "ブログ",
+      "projects": "プロジェクト",
+      "switchLanguage": "言語を切り替える",
+      "toggleTheme": "テーマを切り替える",
+      "toggleMenu": "メニューを切り替える",
+      "closeMenu": "メニューを閉じる",
+      "navigation": "メインナビゲーション",
+      "footerNavigation": "フッターナビゲーション"
+    },
+    "home": {
+      "hero": {
+        "placeholderName": "あなたの名前"
+      },
+      "folder": {
+        "label": "ピックアップ",
+        "project": "プロジェクト",
+        "article": "記事"
+      },
+      "meta": {
+        "title": "ホーム"
+      },
+      "about": {
+        "heading": "について",
+        "ctaLabel": "履歴書",
+        "exploration": {
+          "selectorLabel": "興味のある分野を探る",
+          "placeholder": "イメージ図",
+          "captionPlaceholder": "画像のキャプション",
+          "artifacts": {
+            "software": "ワークスペース案",
+            "systems": "スマートフォンサーバーの構想",
+            "security": "制御フロー"
+          },
+          "media": "活動の記録"
+        }
+      },
+      "projects": {
+        "exploration": {
+          "preview": "{title}をプレビュー",
+          "previewLabel": "プロジェクトのプレビュー",
+          "placeholder": "イメージ図",
+          "canvasLabel": "プロジェクトの構想",
+          "caption": "選定プロジェクト",
+          "media": "プロジェクト画像"
+        }
+      },
+      "music": {
+        "toggleZoom": "拡大表示を切り替える",
+        "seek": "再生位置",
+        "shuffle": "シャッフル",
+        "previous": "前の曲",
+        "pause": "一時停止",
+        "play": "再生",
+        "next": "次の曲",
+        "loop": "リピート"
+      },
+      "lanyard": {
+        "placeholderName": "バッジの名前",
+        "flipBack": "クリックで戻る"
+      },
+      "contributionsUnavailable": "GitHubのコントリビューションを一時的に表示できません。",
+      "contributionsLabel": "GitHubのコントリビューション"
+    },
+    "blog": {
+      "meta": {
+        "title": "ブログ"
+      },
+      "discovery": {
+        "search": "記事を検索",
+        "topic": "トピック",
+        "allTopics": "すべてのトピック",
+        "apply": "検索",
+        "clear": "絞り込みを解除",
+        "results": "{count} 件の記事",
+        "noResults": "一致する記事がありません",
+        "noResultsBody": "別のキーワードを試すか、トピックの絞り込みを解除してください。",
+        "pagination": "記事のページ",
+        "previous": "前へ",
+        "next": "次へ",
+        "page": "{pages} ページ中 {page} ページ",
+        "comments": "コメント"
+      }
+    },
+    "projects": {
+      "meta": {
+        "title": "プロジェクト"
+      },
+      "detail": {
+        "backLabel": "プロジェクト一覧に戻る"
+      }
+    },
+    "content": {
+      "allWriting": "すべての記事",
+      "allProjects": "すべてのプロジェクト",
+      "featured": "注目",
+      "projectDetails": "プロジェクトの記録",
+      "exploreProject": "詳しく見る",
+      "readTime": "約{minutes}分",
+      "untitled": "無題",
+      "writingEmpty": "記事はまだありません",
+      "writingEmptyBody": "新しい記録や解説をここで公開します。",
+      "projectsEmpty": "準備中",
+      "projectsEmptyBody": "公開できるプロジェクトがここに表示されます。",
+      "writingLabel": "記録と解説",
+      "projectsLabel": "選定作品",
+      "role": "担当",
+      "organization": "組織",
+      "timeline": "期間",
+      "technologies": "使用技術",
+      "source": "ソースを見る",
+      "demo": "サイトを見る",
+      "moreProjects": "ほかのプロジェクト",
+      "backToBlog": "ブログに戻る",
+      "status": "状況",
+      "inProgress": "進行中",
+      "completed": "完了",
+      "archived": "アーカイブ",
+      "present": "現在",
+      "loading": "コンテンツを読み込み中",
+      "onThisPage": "このページの内容",
+      "tags": "タグ"
+    },
+    "footer": {
+      "copyrightHolder": "著作権者",
+      "builtBy": "制作",
+      "githubProfile": "{name}のGitHubプロフィール"
+    },
+    "resume": {
+      "placeholderName": "あなたの名前",
+      "downloadPdf": "PDFをダウンロード",
+      "visitWebsite": "{name}のウェブサイトを開く",
+      "meta": {
+        "title": "{name}の履歴書",
+        "description": "{name}の履歴書"
+      },
+      "sections": {
+        "professional": "職歴",
+        "projects": "主なプロジェクト",
+        "publications": "出版物",
+        "education": "学歴",
+        "certificates": "資格",
+        "skills": "スキル"
+      }
+    }
+  }
+}

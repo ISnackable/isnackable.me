@@ -1,0 +1,158 @@
+{
+  "web": {
+    "errors": {
+      "notFoundTitle": "Page not found",
+      "notFoundDescription": "This page may have moved or been removed.",
+      "serverTitle": "Something went wrong",
+      "serverDescription": "Try loading the page again, or return home.",
+      "home": "Back to home",
+      "retry": "Try again"
+    },
+    "header": {
+      "home": "Home",
+      "blog": "Blog",
+      "projects": "Projects",
+      "switchLanguage": "Switch language",
+      "toggleTheme": "Toggle theme",
+      "toggleMenu": "Toggle menu",
+      "closeMenu": "Close menu",
+      "navigation": "Main navigation",
+      "footerNavigation": "Footer navigation"
+    },
+    "home": {
+      "hero": {
+        "placeholderName": "Your name"
+      },
+      "folder": {
+        "label": "Selected work",
+        "project": "Project",
+        "article": "Article"
+      },
+      "meta": {
+        "title": "Home"
+      },
+      "about": {
+        "heading": "About",
+        "ctaLabel": "Resume",
+        "exploration": {
+          "selectorLabel": "Explore my interests",
+          "placeholder": "Illustrative artifact",
+          "captionPlaceholder": "Image caption",
+          "artifacts": {
+            "software": "Workspace sketch",
+            "systems": "Phone server sketch",
+            "security": "Control flow"
+          },
+          "media": "Personal artifact"
+        }
+      },
+      "projects": {
+        "exploration": {
+          "preview": "Preview {title}",
+          "previewLabel": "Project preview",
+          "placeholder": "Illustrative preview",
+          "canvasLabel": "Project study",
+          "caption": "Selected project",
+          "media": "Project image"
+        }
+      },
+      "music": {
+        "toggleZoom": "Toggle zoom",
+        "seek": "Seek",
+        "shuffle": "Shuffle",
+        "previous": "Previous",
+        "pause": "Pause",
+        "play": "Play",
+        "next": "Next",
+        "loop": "Loop"
+      },
+      "lanyard": {
+        "placeholderName": "Badge name",
+        "flipBack": "CLICK TO FLIP BACK"
+      },
+      "contributionsUnavailable": "GitHub contributions are temporarily unavailable.",
+      "contributionsLabel": "GitHub contributions"
+    },
+    "blog": {
+      "meta": {
+        "title": "Blog"
+      },
+      "discovery": {
+        "search": "Search articles",
+        "topic": "Topic",
+        "allTopics": "All topics",
+        "apply": "Search",
+        "clear": "Clear filters",
+        "results": "{count} articles",
+        "noResults": "No matching articles",
+        "noResultsBody": "Try different search words or clear the topic filter.",
+        "pagination": "Article pages",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {page} of {pages}",
+        "comments": "Comments"
+      }
+    },
+    "projects": {
+      "meta": {
+        "title": "Projects"
+      },
+      "detail": {
+        "backLabel": "Back to Projects"
+      }
+    },
+    "content": {
+      "allWriting": "All writing",
+      "allProjects": "All projects",
+      "featured": "Featured",
+      "projectDetails": "Project notes",
+      "exploreProject": "Explore project",
+      "readTime": "{minutes} min read",
+      "untitled": "Untitled",
+      "writingEmpty": "Nothing published yet",
+      "writingEmptyBody": "New notes and write-ups will appear here.",
+      "projectsEmpty": "Work in progress",
+      "projectsEmptyBody": "Projects will appear here when they are ready to share.",
+      "writingLabel": "Notes & write-ups",
+      "projectsLabel": "Selected work",
+      "role": "My role",
+      "organization": "Organization",
+      "timeline": "Timeline",
+      "technologies": "Built with",
+      "source": "View source",
+      "demo": "Visit project",
+      "moreProjects": "More to explore",
+      "backToBlog": "Back to Blog",
+      "status": "Status",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "archived": "Archived",
+      "present": "Present",
+      "loading": "Loading content",
+      "onThisPage": "On this page",
+      "tags": "Tags"
+    },
+    "footer": {
+      "copyrightHolder": "Copyright holder",
+      "builtBy": "Built by",
+      "githubProfile": "GitHub profile of {name}"
+    },
+    "resume": {
+      "placeholderName": "Your name",
+      "downloadPdf": "Download PDF",
+      "visitWebsite": "Visit {name}",
+      "meta": {
+        "title": "{name} Resume",
+        "description": "Resume of {name}"
+      },
+      "sections": {
+        "professional": "Work Experience",
+        "projects": "Featured Projects",
+        "publications": "Publications",
+        "education": "Education",
+        "certificates": "Certificates",
+        "skills": "Skills"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+diff --git a/lib/index.js b/lib/index.js
+index 29e3ed4d877ff79043c0ddc74cd7690e963dfe68..8227bce6646fa8a3fd1fad8a1f2e3e907043db1b 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -1225,7 +1225,7 @@ var Mutation = class Mutation {
+ 			else if (mutation.patch) {
+ 				if ("query" in mutation.patch) return;
+ 				let patch = new Patcher(mutation.patch);
+-				operations.push((doc) => patch.apply(doc));
++				operations.push((doc) => doc === null ? doc : patch.apply(doc));
+ 			} else throw Error(`Unsupported mutation ${JSON.stringify(mutation, null, 2)}`);
+ 		}), typeof this.params.timestamp == "string" && operations.push((doc) => doc ? Object.assign(doc, { _updatedAt: this.params.timestamp }) : null);
+ 		let prevRev = this.previousRev, rev = this.resultRev || this.transactionId;
