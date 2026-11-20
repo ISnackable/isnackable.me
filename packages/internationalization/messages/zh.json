@@ -1,0 +1,158 @@
+{
+  "web": {
+    "errors": {
+      "notFoundTitle": "找不到页面",
+      "notFoundDescription": "此页面可能已移动或被删除。",
+      "serverTitle": "出了点问题",
+      "serverDescription": "请重新加载页面，或返回首页。",
+      "home": "返回首页",
+      "retry": "重试"
+    },
+    "header": {
+      "home": "首页",
+      "blog": "博客",
+      "projects": "项目",
+      "switchLanguage": "切换语言",
+      "toggleTheme": "切换主题",
+      "toggleMenu": "切换菜单",
+      "closeMenu": "关闭菜单",
+      "navigation": "主导航",
+      "footerNavigation": "页脚导航"
+    },
+    "home": {
+      "hero": {
+        "placeholderName": "你的名字"
+      },
+      "folder": {
+        "label": "精选内容",
+        "project": "项目",
+        "article": "文章"
+      },
+      "meta": {
+        "title": "首页"
+      },
+      "about": {
+        "heading": "关于",
+        "ctaLabel": "简历",
+        "exploration": {
+          "selectorLabel": "探索我的兴趣领域",
+          "placeholder": "概念示意图",
+          "captionPlaceholder": "图片说明",
+          "artifacts": {
+            "software": "工作区草图",
+            "systems": "手机服务器草图",
+            "security": "控制流程"
+          },
+          "media": "个人实践"
+        }
+      },
+      "projects": {
+        "exploration": {
+          "preview": "预览{title}",
+          "previewLabel": "项目预览",
+          "placeholder": "概念示意图",
+          "canvasLabel": "项目构想",
+          "caption": "精选项目",
+          "media": "项目图片"
+        }
+      },
+      "music": {
+        "toggleZoom": "切换放大显示",
+        "seek": "播放位置",
+        "shuffle": "随机播放",
+        "previous": "上一首",
+        "pause": "暂停",
+        "play": "播放",
+        "next": "下一首",
+        "loop": "循环播放"
+      },
+      "lanyard": {
+        "placeholderName": "徽章姓名",
+        "flipBack": "点击翻回正面"
+      },
+      "contributionsUnavailable": "GitHub 贡献记录暂时不可用。",
+      "contributionsLabel": "GitHub 贡献记录"
+    },
+    "blog": {
+      "meta": {
+        "title": "博客"
+      },
+      "discovery": {
+        "search": "搜索文章",
+        "topic": "主题",
+        "allTopics": "所有主题",
+        "apply": "搜索",
+        "clear": "清除筛选",
+        "results": "{count} 篇文章",
+        "noResults": "没有匹配的文章",
+        "noResultsBody": "请尝试其他关键词或清除主题筛选。",
+        "pagination": "文章分页",
+        "previous": "上一页",
+        "next": "下一页",
+        "page": "第 {page} 页，共 {pages} 页",
+        "comments": "评论"
+      }
+    },
+    "projects": {
+      "meta": {
+        "title": "项目"
+      },
+      "detail": {
+        "backLabel": "返回项目列表"
+      }
+    },
+    "content": {
+      "allWriting": "所有文章",
+      "allProjects": "所有项目",
+      "featured": "精选",
+      "projectDetails": "项目记录",
+      "exploreProject": "探索项目",
+      "readTime": "阅读约{minutes}分钟",
+      "untitled": "无标题",
+      "writingEmpty": "暂无文章",
+      "writingEmptyBody": "新的笔记与技术文章将在这里发布。",
+      "projectsEmpty": "正在准备中",
+      "projectsEmptyBody": "准备好分享的项目将在这里展示。",
+      "writingLabel": "笔记与技术文章",
+      "projectsLabel": "精选作品",
+      "role": "我的角色",
+      "organization": "组织",
+      "timeline": "时间",
+      "technologies": "使用技术",
+      "source": "查看源码",
+      "demo": "访问项目",
+      "moreProjects": "更多项目",
+      "backToBlog": "返回博客",
+      "status": "状态",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "archived": "已归档",
+      "present": "至今",
+      "loading": "正在加载内容",
+      "onThisPage": "本页目录",
+      "tags": "标签"
+    },
+    "footer": {
+      "copyrightHolder": "版权持有人",
+      "builtBy": "制作",
+      "githubProfile": "{name}的GitHub主页"
+    },
+    "resume": {
+      "placeholderName": "你的名字",
+      "downloadPdf": "下载PDF",
+      "visitWebsite": "访问{name}的网站",
+      "meta": {
+        "title": "{name}的简历",
+        "description": "{name}的简历"
+      },
+      "sections": {
+        "professional": "工作经历",
+        "projects": "精选项目",
+        "publications": "出版物",
+        "education": "教育经历",
+        "certificates": "证书",
+        "skills": "技能"
+      }
+    }
+  }
+}

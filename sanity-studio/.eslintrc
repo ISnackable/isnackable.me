@@ -1,6 +1,0 @@
-{
-  "extends": "@sanity/eslint-config-studio",
-  "rules": {
-    "react/prop-types": "off"
-  }
-}

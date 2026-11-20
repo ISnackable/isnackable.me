@@ -1,0 +1,63 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/next"
+  ],
+  "css": {
+    "parser": {
+      "cssModules": true
+    }
+  },
+  "linter": {
+    "rules": {
+      // Preserve the existing lint policy across the Ultracite 8 upgrade.
+      // Adopt new style rules separately from dependency compatibility changes.
+      "complexity": {
+        "noRedundantDefaultExport": "off"
+      },
+      "nursery": {
+        "useTailwindSortedClasses": "off"
+      },
+      "style": {
+        "noNestedTernary": "off",
+        "noIncrementDecrement": "off",
+        "useConsistentMethodSignatures": "off",
+        "useDestructuring": "off",
+        "useNamedCaptureGroup": "off",
+        "useUnicodeRegex": "off"
+      },
+      "performance": {
+        "noBarrelFile": "off",
+        "noJsxPropsBind": "off"
+      },
+      "suspicious": {
+        "noLeakedRender": "off",
+        "noUnnecessaryConditions": "off",
+        "useBaseline": "off"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedKeys": "off"
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "**/*",
+      // Upstream skills contain example code, not project source.
+      "!.agents",
+      "!packages/design-system/components/ui",
+      "!packages/design-system/lib",
+      "!packages/design-system/hooks",
+      // Keep the downloaded upstream Typeset stylesheet unchanged.
+      "!packages/design-system/styles/typeset.css",
+      "!packages/cms/sanity.types.ts",
+      "!packages/design-system/components"
+    ]
+  }
+}

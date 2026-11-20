@@ -1,0 +1,72 @@
+.wrapper {
+  position: relative;
+}
+
+.canvas,
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas {
+  display: block;
+  opacity: 0;
+}
+
+.preview {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.preview div,
+.preview picture,
+.preview img {
+  width: 100%;
+  height: 100%;
+}
+
+.preview img {
+  display: block;
+  object-fit: contain;
+}
+
+.dark,
+.rest {
+  display: none;
+}
+
+.entrance {
+  display: block;
+}
+
+:global(.dark) .light {
+  display: none;
+}
+
+:global(.dark) .dark {
+  display: block;
+}
+
+.wrapper[data-state="static"] .entrance {
+  display: none;
+}
+
+.wrapper[data-state="static"] .rest {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrance {
+    display: none;
+  }
+
+  .rest {
+    display: block;
+  }
+}
+
+.wrapper[data-state="live"] .preview {
+  display: none;
+}

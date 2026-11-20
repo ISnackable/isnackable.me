@@ -1,35 +1,42 @@
 <p align="center">
-  <a href="https://www.github.com/ISnackable">
-    <img alt="Logo" src="next-web/public/icon.png" width="60" />
+  <a href="https://github.com/ISnackable">
+    <img alt="ISnackable" src="https://avatars.githubusercontent.com/u/52971804?s=120" width="60" />
   </a>
 </p>
-<h1 align="center">
-  ISnackable Personal Site
-</h1>
+<h1 align="center">ISnackable Personal Site</h1>
 
-![Personal site preview](./next-web/public/preview.png)
+[![Preview of the original ISnackable site](https://raw.githubusercontent.com/ISnackable/isnackable.me/e9fb7dd91dc48a3bb67bd1fdf9bdc838db792953/next-web/public/preview.png)](https://isnackable.me/)
 
-A personal site created with [Next.js](https://nextjs.org/) as the frontend framework and [Sanity.io](https://www.sanity.io/) as the headless content management system. Structured content powered by [<img alt="Sanity.io Logo" src="./next-web/public/svg/sanity-logo.svg" height="13px" />](https://www.sanity.io/) and frontend workflow powered by [<img alt="Vercel Logo" src="./next-web/public/svg/vercel.svg" height="15px" class="filter-green" />](https://vercel.com/).
+A personal portfolio, blog, and résumé built with [Next.js](https://nextjs.org/).
+Content by [<img alt="Sanity" src="https://raw.githubusercontent.com/ISnackable/isnackable.me/e9fb7dd91dc48a3bb67bd1fdf9bdc838db792953/next-web/public/svg/sanity-logo.svg" height="13" />](https://www.sanity.io/)
+and hosting by [<img alt="Vercel" src="https://raw.githubusercontent.com/ISnackable/isnackable.me/e9fb7dd91dc48a3bb67bd1fdf9bdc838db792953/next-web/public/svg/vercel.svg" height="15" />](https://vercel.com/).
 
 ## Introduction
 
-Although this project was created for my personal website. I tried to make it as easy to setup as possible. This only possible because of using a headless content management system and extensive configuration setup in the project.
+The portfolio and embedded Sanity Studio live in `apps/web`. Edit site
+identity, homepage sections, projects, posts, and résumé content in Studio.
+The monorepo also includes a separate Next.js starter in `apps/app` and shared
+packages for both apps.
 
-However, not everything is seamlessly configurable by editing the `next-web/site.config.ts` file yet. (In-progress)
+- [Local setup, tests, and deployment](docs/development.md)
+- [Editing content in Studio](docs/content-and-pages.md)
+- [Reusable content modules](docs/content-modules.md)
 
 ## Authors
 
-👤 ISnackable
-
-Github: [@ISnackable](https://www.github.com/ISnackable)
+👤 ISnackable · [@ISnackable](https://github.com/ISnackable)
 
 ## License
 
-Copyright (C) 2021-2022 ISnackable
+Copyright © ISnackable and contributors.
 
-This project is [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/) licensed. Which means you're free to use and modify them so long as you **credit the source**. Copyright and license notices **must be preserved**.
+Original project code is licensed under the [GNU General Public License v3.0](LICENSE).
+Third-party code retains its original terms, including [next-forge](LICENSE.next-forge),
+[shadcn/ui](LICENSE.shadcn), [ogimagecn](LICENSE.ogimagecn), the EasyUI notices
+in the adapted components, and the [React Bits Folder](packages/design-system/components/Folder.tsx).
+The collage artwork is included with permission.
 
 ## References
 
-https://github.com/sanity-io/sanity-template-nextjs-event-starter
-https://github.com/sanity-io/gatsby-portfolio-preview-poc
+- [next-forge](https://github.com/vercel/next-forge)
+- [Sanity with Next.js](https://www.sanity.io/docs/nextjs)

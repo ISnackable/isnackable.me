@@ -1,0 +1,5 @@
+node_modules
+
+# Sanity Functions
+functions/**/.build/
+functions/**/node_modules/

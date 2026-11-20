@@ -1,0 +1,13 @@
+{
+  "name": "auto-tag",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.15.0",
+    "@sanity/functions": "^1.11.0"
+  }
+}

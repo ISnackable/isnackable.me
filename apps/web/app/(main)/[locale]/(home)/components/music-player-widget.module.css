@@ -1,0 +1,497 @@
+.root {
+  --player-surface: #fcfaf6;
+  --player-ink: #17130f;
+  --player-muted: rgba(23, 19, 15, 0.58);
+  --player-soft: rgba(23, 19, 15, 0.42);
+  --player-line: rgba(23, 19, 15, 0.16);
+  --player-hover: rgba(23, 19, 15, 0.08);
+  --player-button-surface: var(--primary);
+  --player-button-ink: var(--primary-foreground);
+  --player-highlight-strong: rgba(237, 228, 207, 0.9);
+  --player-highlight-soft: rgba(237, 228, 207, 0.42);
+  --player-highlight-border: rgba(237, 228, 207, 0.38);
+  --player-highlight-glow: rgba(237, 228, 207, 0.28);
+  position: relative;
+  width: min(100%, 320px);
+  aspect-ratio: 320 / 410;
+
+  container-type: inline-size;
+  overflow: hidden;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  color: var(--player-ink);
+  background: var(--player-surface);
+  border-radius: clamp(10px, 4cqw, 14px);
+  box-shadow: 0 20px 60px -48px rgba(9, 9, 9, 0.55);
+  isolation: isolate;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root audio {
+  display: none;
+}
+
+.root :global(.mask) {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 50cqw;
+  padding: 0;
+  overflow: hidden;
+  cursor: default;
+  background: transparent;
+  border: 0;
+  border-radius: clamp(10px, 4cqw, 14px) clamp(10px, 4cqw, 14px) 50% 50%;
+}
+
+.root :global(.mask:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: -4px;
+}
+
+.root :global(.spin) {
+  position: absolute;
+  inset: -50cqw auto auto 0;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.root :global(.cover) {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  object-fit: cover;
+}
+
+.root :global(.cover-enter) {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: music-player-cover-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.root :global(.cover-exit) {
+  opacity: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: music-player-cover-out 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.root :global(.hole) {
+  position: absolute;
+  top: -10.5cqw;
+  left: 50%;
+  width: 21cqw;
+  height: 21cqw;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 48%,
+    var(--player-highlight-strong) 0 16%,
+    var(--player-highlight-soft) 17% 33%,
+    rgba(95, 72, 145, 0.18) 34% 100%
+  );
+  border: 1px solid var(--player-highlight-border);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -1px 8px rgba(52, 37, 95, 0.22),
+    0 1px 12px var(--player-highlight-glow);
+  transform: translateX(-50%);
+}
+
+.root :global(.hole-inner) {
+  position: absolute;
+  inset: 36%;
+  background: var(--player-highlight-soft);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 5px rgba(70, 57, 92, 0.18);
+}
+
+.root :global(.info) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding: 9.5cqw 7.5cqw 6cqw;
+}
+
+.root :global(.scales) {
+  display: block;
+  width: 14cqw;
+  height: 7cqw;
+  margin: 0 auto 4.5cqw;
+  overflow: visible;
+  color: var(--player-ink);
+  fill: currentColor;
+}
+
+.root :global(.track-info) {
+  position: relative;
+  width: 100%;
+  min-height: 17cqw;
+  text-align: center;
+}
+
+.root :global(.ti-layer) {
+  width: 100%;
+}
+
+.root :global(.ti-abs) {
+  position: absolute;
+  inset: 0;
+}
+
+.root :global(.artist) {
+  margin: 0 0 3.2cqw;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: clamp(7px, 3cqw, 10px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--player-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.root :global(.track) {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(11px, 5.9cqw, 19px);
+  font-weight: 650;
+  line-height: 1.18;
+  color: var(--player-ink);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.root :global(.ti-enter) {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: music-player-ti-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.root :global(.ti-exit) {
+  opacity: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: music-player-ti-out 340ms cubic-bezier(0.55, 0, 1, 0.45) both;
+  }
+}
+
+.root :global(.bar) {
+  position: relative;
+  width: 100%;
+  height: max(1px, 0.45cqw);
+  margin-top: 2cqw;
+  cursor: pointer;
+  background: var(--player-line);
+}
+
+/* Enlarge the seek target without enlarging the drawn rail or shifting the card. */
+.root :global(.bar)::before {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 44px;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.root :global(.bar:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 6px;
+}
+
+.root :global(.bar-fill) {
+  position: absolute;
+  inset: 0 auto 0 0;
+  min-width: 0;
+  background: var(--player-ink);
+}
+
+.root :global(.time) {
+  display: flex;
+  gap: 2.8cqw;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4cqw;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: clamp(8px, 3.6cqw, 12px);
+  line-height: 1;
+  color: var(--player-soft);
+  white-space: nowrap;
+}
+
+.root :global(.sep) {
+  color: var(--player-muted);
+}
+
+.root :global(.controls) {
+  display: flex;
+  gap: 3cqw;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 7cqw;
+}
+
+.root :global(.ctrl) {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: clamp(24px, 8.8cqw, 32px);
+  height: clamp(24px, 8.8cqw, 32px);
+  padding: 0;
+  font: inherit;
+  color: var(--player-muted);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.root :global(.ctrl:hover),
+.root :global(.ctrl:focus-visible) {
+  color: var(--player-ink);
+  background: var(--player-hover);
+}
+
+.root :global(.ctrl:active) {
+  @media (prefers-reduced-motion: no-preference) {
+    transform: scale(0.94);
+  }
+}
+
+.root :global(.ctrl svg) {
+  display: block;
+  width: 48%;
+  height: 48%;
+}
+
+.root :global(.ctrl-play) {
+  width: clamp(34px, 14cqw, 44px);
+  height: clamp(34px, 14cqw, 44px);
+  color: var(--player-button-ink);
+  background: var(--player-button-surface);
+}
+
+.root :global(.ctrl-play:hover),
+.root :global(.ctrl-play:focus-visible) {
+  color: var(--player-button-ink);
+  background: var(--player-button-surface);
+}
+
+.root :global(.ctrl-toggle.is-active) {
+  color: var(--player-ink);
+}
+
+.root :global(.loop-one) {
+  position: absolute;
+  right: 10%;
+  bottom: 4%;
+  display: none;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: 42%;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.root :global(.ctrl-loop.mode-one .loop-one) {
+  display: block;
+}
+
+:global(.dark) .root {
+  --player-surface: #181818;
+  --player-ink: #ede4cf;
+  --player-muted: rgba(237, 228, 207, 0.62);
+  --player-soft: rgba(237, 228, 207, 0.78);
+  --player-line: rgba(237, 228, 207, 0.22);
+  --player-hover: rgba(237, 228, 207, 0.12);
+  --player-button-surface: var(--primary);
+  --player-button-ink: var(--primary-foreground);
+  --player-highlight-strong: rgba(237, 228, 207, 0.82);
+  --player-highlight-soft: rgba(237, 228, 207, 0.34);
+  --player-highlight-border: rgba(237, 228, 207, 0.34);
+  --player-highlight-glow: rgba(237, 228, 207, 0.2);
+
+  box-shadow: 0 20px 60px -42px rgba(0, 0, 0, 0.9);
+}
+
+@media (max-width: 48rem) {
+  .root {
+    --player-surface: #0b0c0a;
+    --player-ink: #ede4cf;
+    --player-muted: rgba(237, 228, 207, 0.68);
+    --player-soft: rgba(237, 228, 207, 0.78);
+    --player-line: rgba(237, 228, 207, 0.32);
+    --player-hover: rgba(237, 228, 207, 0.14);
+    --player-button-surface: var(--primary);
+    --player-button-ink: var(--primary-foreground);
+
+    aspect-ratio: 1;
+    background: none;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px -30px rgba(9, 9, 9, 0.6);
+  }
+
+  .root::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02) 0%,
+      rgba(0, 0, 0, 0.1) 34%,
+      rgba(0, 0, 0, 0.74) 100%
+    );
+  }
+
+  .root :global(.mask) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    height: auto;
+    border-radius: inherit;
+  }
+
+  .root :global(.spin) {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: inherit;
+    transform: none !important;
+  }
+
+  .root :global(.cover) {
+    object-fit: cover;
+  }
+
+  .root :global(.hole) {
+    display: none;
+  }
+
+  .root :global(.info) {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 36cqw 4cqw 7cqw;
+  }
+
+  .root :global(.scales) {
+    display: none;
+  }
+
+  .root :global(.track-info) {
+    min-height: auto;
+    text-align: left;
+  }
+
+  .root :global(.artist) {
+    margin-bottom: 2cqw;
+    font-size: clamp(6px, 3.2cqw, 8px);
+  }
+
+  .root :global(.track) {
+    font-size: clamp(10px, 7cqw, 14px);
+    line-height: 1.1;
+  }
+
+  .root :global(.bar) {
+    margin-top: 5cqw;
+  }
+
+  .root :global(.time) {
+    justify-content: flex-start;
+    margin-top: 3.5cqw;
+    font-size: clamp(7px, 3.4cqw, 9px);
+  }
+
+  .root :global(.controls) {
+    gap: 1.5cqw;
+    margin-top: 5cqw;
+  }
+
+  .root :global(.ctrl) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .root :global(.ctrl-play) {
+    width: clamp(28px, 18cqw, 36px);
+    height: clamp(28px, 18cqw, 36px);
+  }
+}
+
+@keyframes music-player-cover-in {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes music-player-cover-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes music-player-ti-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--dx));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes music-player-ti-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(var(--dx));
+  }
+}
