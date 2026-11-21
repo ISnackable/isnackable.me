@@ -8,8 +8,9 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   metadataBase: getBaseUrl(
-    process.env.VERCEL_PROJECT_PRODUCTION_URL,
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_APP_URL ||
+      process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    "http://localhost:3000"
   ),
 };
 

@@ -267,6 +267,8 @@ $RECYCLE.BIN/
 .env.sentry-build-plugin
 
 # AI Rules
+/.agents/
+/skills-lock.json
 .cursorrules
 .github/copilot-instructions.md
 
