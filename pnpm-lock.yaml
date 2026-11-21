@@ -188,8 +188,8 @@ importers:
         specifier: workspace:*
         version: link:packages/typescript-config
       '@turbo/gen':
-        specifier: ^2.11.10
-        version: 2.11.10(@types/node@26.6.6)
+        specifier: ^2.11.11
+        version: 2.11.11(@types/node@26.6.6)
       '@types/node':
         specifier: ^26.6.6
         version: 26.6.6
@@ -4846,8 +4846,8 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/gen@2.11.10':
-    resolution: {integrity: sha512-PL/OEEJLdsmS8zF/ijMrG9yi/j+PYe0nOCcZ1XbKndcjdYmeALnqHaxwoGmOo73FwDzC8mnsy2KrqNV6biaGlA==}
+  '@turbo/gen@2.11.11':
+    resolution: {integrity: sha512-iBB76CFu3XyJj1QgXZmg3oZZCBjR1O5ZsjhP5iB8JxknywnGNIaipqJGlHlg23cyacVaFIjEkz9fvC0hYz0c/Q==}
     hasBin: true
 
   '@turbo/linux-64@2.11.10':
@@ -13012,7 +13012,7 @@ snapshots:
   '@turbo/darwin-arm64@2.11.10':
     optional: true
 
-  '@turbo/gen@2.11.10(@types/node@26.6.6)':
+  '@turbo/gen@2.11.11(@types/node@26.6.6)':
     dependencies:
       '@inquirer/prompts': 7.10.1(@types/node@26.6.6)
       esbuild: 0.28.2
