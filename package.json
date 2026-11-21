@@ -22,7 +22,7 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
+    "@biomejs/biome": "2.6.8",
     "@next/playwright": "16.4.5",
     "@playwright/test": "^1.65.0",
     "@repo/typescript-config": "workspace:*",
