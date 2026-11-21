@@ -6,13 +6,13 @@ Repo-specific guidance for AI agents working in this project. Read this before e
 
 All commands run from the repo root unless noted. Package manager is **pnpm** (workspaces in `apps/*` and `packages/*`).
 
-- `pnpm dev` — run both apps via Turborepo (app on :3000, web on :3001, persistent)
+- `pnpm dev` — run the app on :3000, portfolio on :3001, and Studio on :3333 via Turborepo. Access Studio through the portfolio's `/studio` path.
 - `pnpm build` — prepare the web build's CMS inputs, then run `turbo build`.
 - `pnpm test` — `turbo test` (both apps have regression tests)
 - `pnpm test:browser` — production browser regression tests (build first)
 - `pnpm test:instant` — build with the navigation testing API, then verify instant navigation on desktop and mobile. Ordinary builds leave this API disabled.
 - `pnpm check` / `pnpm fix` — lint + format via **Biome** (wrapped by `ultracite`). There is no ESLint/Prettier.
-- `pnpm typecheck` — check both apps, shared source packages, and the Sanity function via Turborepo. Per-package: `pnpm --filter <pkg> typecheck`.
+- `pnpm typecheck` — check the apps, shared source packages, and the Sanity function via Turborepo. Per-package: `pnpm --filter <pkg> typecheck`.
 - Single test: `pnpm --filter app test` (runs `NODE_ENV=test vitest run`) or `pnpm --filter app exec vitest run <path>`.
 - `pnpm --filter @repo/cms typegen` — regenerate Sanity types (see Generated files).
 - `pnpm bump-ui` — regenerate shadcn components in design-system.
@@ -21,10 +21,11 @@ Turborepo `build` depends on `^build` **and** `test`, so tests run as part of `p
 
 ## Architecture
 
-Monorepo (pnpm + Turborepo). Two independently deployable Next.js 16 apps; the rest are shared packages.
+Monorepo (pnpm + Turborepo). Two Next.js 16 apps, a standalone Sanity Studio, and shared packages.
 
 - `apps/app` — main application (port 3000). Entry: `app/page.tsx`, `app/layout.tsx`.
-- `apps/web` — portfolio/blog site (port 3001), i18n via `app/(main)/[locale]/`, embedded Sanity Studio at `app/studio/`.
+- `apps/web` — portfolio/blog site (port 3001), i18n via `app/(main)/[locale]/`. Owns the Studio Draft Mode endpoints.
+- `apps/studio` — Sanity Studio (port 3333), built with the Sanity CLI. Vercel Services routes `/studio` on the portfolio origin to this app.
 - `packages/*` — `@repo/<name>`. Each is consumed as **raw TypeScript source** by apps through tsconfig path aliases (`@repo/*` → `../../packages/*`), e.g. `@repo/observability/next-config` resolves to `packages/observability/next-config.ts`. **Do not add `exports`/`main` fields or try to build these packages** — Next.js compiles them directly. Subpath imports map to file paths (no build step, no `dist`).
 - `packages/next-config` — shared base `NextConfig` with PostHog rewrites. Both apps compose it with observability configuration. The web app also adds CMS and internationalization configuration.
 
@@ -52,7 +53,7 @@ Excluded from Biome in `biome.jsonc` because they are regenerated:
 
 ## CI / deploy
 
-- No GitHub Actions workflows. **Vercel is the CI.** Each app has `vercel.json`.
+- No GitHub Actions workflows. **Vercel is the CI.** The root `vercel.json` defines all three services.
 - Commit message containing `[skip ci]` skips the Vercel build (see `apps/*/scripts/skip-ci.js`).
 - See the development guide linked from the README for Vercel setup.
 

@@ -10,14 +10,15 @@ npm install --global pnpm@12.18.0
 pnpm install --frozen-lockfile
 cp apps/app/.env.example apps/app/.env.local
 cp apps/web/.env.example apps/web/.env.local
+cp apps/studio/.env.example apps/studio/.env.local
 cp packages/cms/.env.example packages/cms/.env.local
 ```
 
-Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` in both the
-web and CMS env files. Use a Sanity project you can edit and a dataset for
+Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` in the web,
+Studio, and CMS env files. Use a Sanity project you can edit and a dataset for
 published site content. Add `http://localhost:3001` as an allowed CORS origin
-with credentials for Studio sign-in. Run `pnpm dev` for both apps or
-`pnpm --filter web dev` for the portfolio. Open
+with credentials for Studio sign-in. Run `pnpm dev` to start all three apps.
+The portfolio forwards local `/studio` requests to Studio on port 3333. Open
 [Sanity Studio](http://localhost:3001/studio) to publish the homepage and site
 settings. The application starter runs on port 3000.
 
@@ -43,7 +44,7 @@ pnpm test:browser
 ```
 
 Unit tests use fixtures and mocks, including the Sanity auto-tagging tests.
-The production browser suite starts both apps and uses a configured test
+The production browser suite starts all three apps and uses a configured test
 dataset populated with localized pages, posts, projects, and résumé content.
 Some scenarios also need preview or comments configured. The suite has
 standalone fixtures for component tests such as the folder, content modules,
@@ -58,16 +59,22 @@ Leave `EXPOSE_TESTING_API` unset for production deployments.
 
 1. Connect the repository to a Vercel project using the **Services** preset and
    leave the root directory at the repository root. The root
-   [Vercel configuration](../vercel.json) builds `apps/web` as `web` and
-   `apps/app` as `files`.
+   [Vercel configuration](../vercel.json) builds `apps/web` as `web`,
+   `apps/app` as `files`, and `apps/studio` as `studio`.
 2. Add both domains to the project. Use a hostname that starts with `files.`
    for the files app. Set `NEXT_PUBLIC_WEB_URL` to the portfolio origin and
    `NEXT_PUBLIC_APP_URL` to the files origin in Production. Use full HTTPS URLs.
    Set `ENABLE_EXPERIMENTAL_COREPACK=1` to use the pinned pnpm version.
-3. Set the Sanity project ID and dataset, allow the portfolio origin in Sanity
-   CORS with credentials, and publish the site content. Check the portfolio
-   and `/studio` on the portfolio domain, the `/files` redirect there, and the
-   files app on its own domain.
+3. Set the Sanity project ID and dataset using the existing
+   `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` variables.
+   Allow the portfolio origin in Sanity CORS with credentials. Check the
+   portfolio, a deep link under `/studio`, and Presentation on the portfolio
+   domain. Check the `/files` redirect and files app as well.
+
+To register the self-hosted Studio with Sanity Dashboard and Media Library, run
+`pnpm --filter studio exec sanity deploy --external --url https://isnackable.me/studio`
+after deploying. Use a Sanity account with permission to register the Studio
+and publish its schema. [Studio registration](https://www.sanity.io/docs/studio/deployment#register-the-studio-and-deploy-the-schema)
 
 The generated Vercel preview URL opens the portfolio. To preview the files app,
 assign a custom hostname that starts with `files.` to the preview branch and set
@@ -80,6 +87,9 @@ conditions. For private drafts and the publishing webhook, use the same Sanity
 settings as a [portfolio-only deployment](#deploy-the-portfolio-only).
 
 ## Deploy the portfolio only
+
+Use a Vercel Services deployment to serve Studio on the portfolio's `/studio`
+path.
 
 1. Connect the repository to a Next.js project in Vercel. Set the root
    directory to `apps/web` and enable access to workspace files outside that
@@ -99,6 +109,6 @@ settings as a [portfolio-only deployment](#deploy-the-portfolio-only).
    [Sanity CORS settings](https://www.sanity.io/docs/content-lake/cors)
 4. Publish the intended pages in Sanity. Use the `privacy` slug for each locale's
    legal index redirect. Verify the homepage, blog, projects, résumé PDF,
-   sitemap, and Studio on the deployed origin.
+   and sitemap on the deployed origin.
 
 See [AGENTS.md](../AGENTS.md) for workspace conventions.

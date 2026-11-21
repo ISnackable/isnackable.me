@@ -8,7 +8,7 @@ import { apiVersion, dataset, projectId, studioUrl } from "./env";
  * - `useCdn: false` so queries hit the API directly — appropriate for
  *   server-side rendering and `generateStaticParams` where freshness matters.
  * - `stega.studioUrl` enables Visual Editing overlays to resolve back to the
- *   embedded Studio. Overlays are only active in Draft Mode.
+ *   Studio on the portfolio origin. Overlays are only active in Draft Mode.
  *
  * For runtime live content served to browsers, prefer `cachedSanity` from
  * `./live.ts` which uses `defineLive` with the CDN enabled.

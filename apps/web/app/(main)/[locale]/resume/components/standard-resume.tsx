@@ -35,7 +35,7 @@ import {
   WrenchIcon,
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import Image from "next/image";
+import { Image } from "next-sanity/image";
 import { type ReactNode, useState } from "react";
 
 type SectionKey =

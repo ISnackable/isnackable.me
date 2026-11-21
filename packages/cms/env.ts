@@ -13,5 +13,5 @@ export const apiVersion = "2026-06-21";
 export const projectId = NEXT_PUBLIC_SANITY_PROJECT_ID;
 export const dataset = NEXT_PUBLIC_SANITY_DATASET;
 
-/** Studio is embedded at `/studio` in the web app. */
+/** Studio is served at `/studio` on the portfolio origin. */
 export const studioUrl = "/studio";

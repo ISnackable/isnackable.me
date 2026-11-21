@@ -25,6 +25,11 @@ export default defineConfig({
   ],
   webServer: [
     {
+      command: "pnpm --filter studio preview --host 127.0.0.1",
+      url: "http://127.0.0.1:3333/studio",
+      reuseExistingServer: false,
+    },
+    {
       command: "pnpm --filter app exec next start -p 3100",
       url: "http://127.0.0.1:3100",
       reuseExistingServer: false,

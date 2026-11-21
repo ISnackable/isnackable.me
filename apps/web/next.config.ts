@@ -75,6 +75,19 @@ if (process.env.NODE_ENV === "production") {
 
 if (env.VERCEL) {
   nextConfig = withSentry(nextConfig);
+} else {
+  const existingRewrites = nextConfig.rewrites;
+  nextConfig.rewrites = async () => {
+    const rewrites = await existingRewrites?.();
+    const studio = {
+      source: "/studio/:path*",
+      destination: "http://127.0.0.1:3333/studio/:path*",
+    };
+
+    return Array.isArray(rewrites)
+      ? [studio, ...rewrites]
+      : { ...rewrites, afterFiles: [studio, ...(rewrites?.afterFiles ?? [])] };
+  };
 }
 
 if (env.ANALYZE === "true") {

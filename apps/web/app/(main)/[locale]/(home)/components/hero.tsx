@@ -13,7 +13,6 @@ import type { Dictionary } from "@repo/internationalization";
 import { stegaClean } from "@sanity/client/stega";
 import Github from "@thesvg/react/github";
 import { ArrowUpRightIcon, FileCode2Icon, FileTextIcon } from "lucide-react";
-import { getImageProps } from "next/image";
 import Link from "next/link";
 import { getLanyardPreview } from "@/lib/lanyard-previews";
 import { ContributionGraphServer } from "./contribution-graph.server";
@@ -307,19 +306,9 @@ async function HeroLanyard({
 }) {
   const dictionary = lanyardDictionary(badge, placeholderName, flipBack);
   const portrait = httpsUrl(getImageUrl(badge.portrait, 512, 512));
-  // A same-origin optimized image can be used as a WebGL texture even when
-  // the asset CDN does not allow this website's origin to fetch textures.
-  const avatarUrl = portrait
-    ? getImageProps({
-        src: portrait,
-        alt: stegaClean(badge.portrait?.alt ?? ""),
-        width: 512,
-        height: 512,
-      }).props.src
-    : "";
   return (
     <Lanyard
-      avatarUrl={avatarUrl}
+      avatarUrl={portrait ?? ""}
       dictionary={dictionary}
       fov={LANYARD_HERO_FOV}
       preview={await getLanyardPreview(dictionary, portrait)}

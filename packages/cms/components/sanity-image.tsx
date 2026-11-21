@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Image } from "next-sanity/image";
 import { type CSSProperties, cache } from "react";
 import { urlFor } from "../content/images";
 import type { SanityImageCrop, SanityImageHotspot } from "../sanity.types";
@@ -32,7 +32,7 @@ export interface SanityImageProps {
 }
 
 /**
- * Renders a Sanity image via `next/image`.
+ * Renders responsive images directly from Sanity's CDN.
  *
  * - Uses hotspot/crop data via `urlFor` when dimensions are provided.
  * - Falls back to the original asset URL + metadata dimensions.
@@ -67,6 +67,10 @@ export function SanityImage({
         urlFor(image!).width(w).height(h).fit("crop").auto("format").url()
       : asset.url;
 
+  if (!src) {
+    return null;
+  }
+
   return (
     <Image
       alt={image?.alt ?? ""}
@@ -81,8 +85,7 @@ export function SanityImage({
       priority={priority}
       quality={quality}
       sizes={sizes}
-      // biome-ignore lint/style/noNonNullAssertion: asset existence verified above
-      src={src ?? asset.url!}
+      src={src}
       style={style}
       width={fill ? undefined : w}
     />

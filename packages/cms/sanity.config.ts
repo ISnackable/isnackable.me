@@ -1,5 +1,4 @@
 import { siteConfig } from "@repo/config/site";
-import { getBaseUrl } from "@repo/config/url";
 import { codeInput } from "@sanity/code-input";
 import { colorInput } from "@sanity/color-input";
 import { documentInternationalization } from "@sanity/document-internationalization";
@@ -24,21 +23,10 @@ import {
   pageTemplates,
 } from "./studio/templates";
 
-// Read directly from process.env to avoid importing "server-only" guarded
-// modules — the Studio config is consumed client-side via NextStudio.
+// The Studio build exposes these two public values to the client.
 const apiVersion = "2026-06-21";
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "";
-const studioUrl = "/studio";
-
-const prodUrl = (() => {
-  const url =
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    process.env.NEXT_PUBLIC_WEB_URL;
-  if (url) {
-    return getBaseUrl(url).origin;
-  }
-})();
 
 export default defineConfig({
   name: "default",
@@ -47,8 +35,6 @@ export default defineConfig({
   projectId,
   dataset,
   apiVersion,
-
-  basePath: studioUrl,
 
   plugins: [
     structureTool({ structure }),
@@ -64,7 +50,8 @@ export default defineConfig({
     presentationTool({
       resolve,
       previewUrl: {
-        origin: prodUrl || "http://localhost:3001",
+        // The Studio and its preview share an origin.
+        initial: "/",
         previewMode: {
           enable: "/api/draft-mode/enable",
         },

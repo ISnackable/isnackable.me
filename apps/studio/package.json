@@ -1,0 +1,17 @@
+{
+  "name": "studio",
+  "private": true,
+  "scripts": {
+    "build": "sanity build dist/studio --yes",
+    "dev": "sanity dev",
+    "preview": "sanity preview dist/studio",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/cms": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sanity": "^6.22.0",
+    "styled-components": "^6.6.0"
+  }
+}

@@ -15,12 +15,6 @@ vi.mock("../lib/lanyard-previews", () => ({
 
 const COLLAGE_IMAGES_PATTERN = /data-collage-images="([^"]*)"/;
 
-vi.mock("next/image", () => ({
-  getImageProps: ({ src }: { src: string }) => ({
-    props: { src: `/_next/image?url=${encodeURIComponent(src)}` },
-  }),
-  default: () => null,
-}));
 vi.mock("@repo/cms/components/sanity-image", () => ({
   SanityImage: () => null,
   getImageUrl: (
@@ -162,10 +156,8 @@ test("the badge's name and portrait come from its own fields", async () => {
     },
   });
   expect(html).toContain('data-badge-name="Badge identity"');
-  expect(html).toContain('data-badge-portrait="/_next/image?url=');
-  expect(html).toContain(encodeURIComponent("https://example.com/badge.png"));
+  expect(html).toContain('data-badge-portrait="https://example.com/badge.png"');
   expect(html).not.toContain(site.avatar.asset.url);
-  expect(html).not.toContain(encodeURIComponent(site.avatar.asset.url));
 });
 
 function photoFixture(name: string) {

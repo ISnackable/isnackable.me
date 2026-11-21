@@ -1,6 +1,5 @@
 import type { TypedObject } from "@portabletext/types";
 import { stegaClean } from "@sanity/client/stega";
-import Image from "next/image";
 import Link from "next/link";
 import {
   PortableText as BasePortableText,
@@ -10,6 +9,7 @@ import {
   type PortableTextMarkComponentProps,
   type PortableTextTypeComponentProps,
 } from "next-sanity";
+import { Image } from "next-sanity/image";
 import { useMemo } from "react";
 import { getHeadingAnchors } from "../content/rich-text/headings";
 import { VisualModuleView } from "../modules/renderer";

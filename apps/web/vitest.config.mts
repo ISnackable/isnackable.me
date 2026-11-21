@@ -16,7 +16,10 @@ export default defineConfig({
     environment: "node",
     include: ["__tests__/**/*.test.ts"],
     server: {
-      deps: { inline: ["next-intl", "@zanreal/nemo"] },
+      deps: {
+        // The Sanity image entry relies on bundler resolution for next/image.
+        inline: ["next-intl", "@zanreal/nemo", /\/next-sanity\/dist\/image\//],
+      },
     },
   },
   resolve: {

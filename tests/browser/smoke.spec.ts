@@ -17,6 +17,8 @@ const THEME_CLASS = /dark|light/;
 const DARK_CLASS = /dark/;
 const LIGHT_CLASS = /light/;
 const JAPANESE_ROUTE = /\/ja$/;
+const STUDIO_SCRIPT = /src="(\/studio\/static\/[^"]+\.js)"/;
+const JAVASCRIPT_CONTENT_TYPE = /javascript/;
 
 test("application renders its primary navigation link", async ({ page }) => {
   const errors: string[] = [];
@@ -212,11 +214,21 @@ for (const collection of ["blog", "projects"]) {
   });
 }
 
-test("embedded Studio is served with noindex metadata", async ({ request }) => {
-  const response = await request.get("/studio");
-  expect(response.status()).toBe(200);
-  expect(await response.text()).toContain("noindex");
-});
+for (const path of ["/studio", "/studio/presentation"]) {
+  test(`Studio serves its shell and scripts at ${path}`, async ({
+    request,
+  }) => {
+    const response = await request.get(path);
+    expect(response.status()).toBe(200);
+    const html = await response.text();
+    expect(html).toContain("noindex");
+    const script = html.match(STUDIO_SCRIPT)?.[1] ?? "";
+    expect(script).toBeTruthy();
+    const asset = await request.get(script);
+    expect(asset.status()).toBe(200);
+    expect(asset.headers()["content-type"]).toMatch(JAVASCRIPT_CONTENT_TYPE);
+  });
+}
 
 test.describe("portfolio sharing metadata", () => {
   for (const path of ["/en", "/en/blog", "/en/projects"]) {

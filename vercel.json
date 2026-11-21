@@ -11,6 +11,20 @@
       "root": "apps/app",
       "framework": "nextjs",
       "ignoreCommand": "node scripts/skip-ci.js"
+    },
+    "studio": {
+      "root": "apps/studio",
+      "framework": "vite",
+      "buildCommand": "pnpm run build",
+      "devCommand": "pnpm run dev --port $PORT",
+      "ignoreCommand": "node ../web/scripts/skip-ci.js",
+      "outputDirectory": "dist",
+      "rewrites": [
+        {
+          "source": "/studio{/((?!(?:static|node_modules)(?:/|$)|[@.]|sanity\\.config\\.ts(?:/|$)).*)}?",
+          "destination": "/studio/index.html"
+        }
+      ]
     }
   },
   "rewrites": [
@@ -18,6 +32,10 @@
       "source": "/(.*)",
       "has": [{ "type": "host", "value": { "pre": "files." } }],
       "destination": { "service": "files" }
+    },
+    {
+      "source": "/studio/:path*",
+      "destination": { "service": "studio" }
     },
     {
       "source": "/(.*)",
