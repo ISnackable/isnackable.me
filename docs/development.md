@@ -58,23 +58,26 @@ Leave `EXPOSE_TESTING_API` unset for production deployments.
 
 1. Connect the repository to a Vercel project using the **Services** preset and
    leave the root directory at the repository root. The root
-   [Vercel configuration](../vercel.ts) builds `apps/web` as `web` and
+   [Vercel configuration](../vercel.json) builds `apps/web` as `web` and
    `apps/app` as `files`.
-2. Add both domains to the project. Set `NEXT_PUBLIC_WEB_URL` to the portfolio
-   origin and `NEXT_PUBLIC_APP_URL` to the files app origin in Production.
-   Use full HTTPS URLs and distinct hostnames. Configure the URLs separately for
-   Preview. Set
-   `ENABLE_EXPERIMENTAL_COREPACK=1` to use the pinned pnpm version.
+2. Add both domains to the project. Use a hostname that starts with `files.`
+   for the files app. Set `NEXT_PUBLIC_WEB_URL` to the portfolio origin and
+   `NEXT_PUBLIC_APP_URL` to the files origin in Production. Use full HTTPS URLs.
+   Set `ENABLE_EXPERIMENTAL_COREPACK=1` to use the pinned pnpm version.
 3. Set the Sanity project ID and dataset, allow the portfolio origin in Sanity
    CORS with credentials, and publish the site content. Check the portfolio
    and `/studio` on the portfolio domain, the `/files` redirect there, and the
    files app on its own domain.
 
-The generated Vercel preview URL opens the portfolio by default. To test the
-files host in Preview, configure a distinct preview hostname for it. Verify
-both hostnames on a deployment because `vercel dev` skips hostname conditions.
-For private drafts and the publishing webhook, use the same Sanity settings as
-a [portfolio-only deployment](#deploy-the-portfolio-only).
+The generated Vercel preview URL opens the portfolio. To preview the files app,
+assign a custom hostname that starts with `files.` to the preview branch and set
+`NEXT_PUBLIC_APP_URL` to that origin for the branch. Next.js uses that value
+for the portfolio's `/files` redirect. Set both URL variables to the same origin
+in Preview to disable the redirect there.
+
+Verify both hostnames on a deployment because `vercel dev` skips hostname
+conditions. For private drafts and the publishing webhook, use the same Sanity
+settings as a [portfolio-only deployment](#deploy-the-portfolio-only).
 
 ## Deploy the portfolio only
 

@@ -45,7 +45,23 @@ nextConfig.headers = async () => [
 ];
 
 if (process.env.NODE_ENV === "production") {
+  const webUrl = env.NEXT_PUBLIC_WEB_URL
+    ? new URL(env.NEXT_PUBLIC_WEB_URL)
+    : undefined;
+  const filesUrl = env.NEXT_PUBLIC_APP_URL
+    ? new URL(env.NEXT_PUBLIC_APP_URL)
+    : undefined;
+
   const redirects: NextConfig["redirects"] = async () => [
+    ...(webUrl && filesUrl && webUrl.hostname !== filesUrl.hostname
+      ? [
+          {
+            source: "/files/:path*",
+            destination: `${filesUrl.origin}/:path*`,
+            permanent: false,
+          },
+        ]
+      : []),
     {
       // Locale-aware: /:locale/legal → /:locale/legal/privacy (single hop).
       source: "/:locale/legal",
