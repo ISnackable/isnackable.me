@@ -38,5 +38,6 @@ The collage artwork is included with permission.
 
 ## References
 
+- Design inspired by [Yan Liu’s portfolio](https://www.awwwards.com/sites/yan-liu-portfolio).
 - [next-forge](https://github.com/vercel/next-forge)
 - [Sanity with Next.js](https://www.sanity.io/docs/nextjs)
