@@ -570,8 +570,8 @@ importers:
         specifier: ^6.1.9
         version: 6.1.9(17be3d1d5b3eb2c14a902c73c70dcfc0)
       '@sanity/document-internationalization':
-        specifier: ^6.2.46
-        version: 6.2.46(57500114a036dee162060131b1994555)
+        specifier: ^6.3.0
+        version: 6.3.0(8c9f25ab1805428ca8716f953864b698)
       '@sanity/icons':
         specifier: ^5.3.0
         version: 5.3.0(react@19.3.1)
@@ -4149,14 +4149,14 @@ packages:
     resolution: {integrity: sha512-l5pii4dzfnRrg+9xx0pAuT9TGpp80XfF+oeP5s0MBuRg16gPuuWIOVUhQ9XUjYYwFc9fUbM0OFlR2TWUk01YEQ==}
     engines: {node: '>=22.12'}
 
-  '@sanity/document-internationalization@6.2.46':
-    resolution: {integrity: sha512-eovfWCr76VtyyChxkRl8HYZF9cN4C8lZYRFREojKEm+ndG/EchDHIZcrlL68TUZXvX0Oj2gRvx9dLm6UXZO9Og==}
+  '@sanity/document-internationalization@6.3.0':
+    resolution: {integrity: sha512-NkiGFESWFECdqN9dkTF513ZwNNjAWURvE2JnRT/NxVwEHmCGqRiXrZvMIEAY/h4hixoOhRTZDllUvInDutEuPg==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     peerDependencies:
       react: ^19.2
       react-dom: ^19.2
       sanity: ^5 || ^6.0.0-0
-      sanity-plugin-internationalized-array: ^5.3.9
+      sanity-plugin-internationalized-array: ^5.3.10
 
   '@sanity/eventsource@5.0.4':
     resolution: {integrity: sha512-NT6XrTJePJd7q1ZdTqB3NsTyNNOe9R2zMkg4Hlkqwb0LL6UmekVamAD46yjSJ+HbRyXAKLl1Rb65xZBdzC1f8Q==}
@@ -4207,8 +4207,8 @@ packages:
     resolution: {integrity: sha512-skhIX8gT/hLritEBkjfc7+TBlJNu/NLisyA8noKceCk28OatFK0wX7dIuFawkt3pfhTYVomVPykAYFcIm2OqJg==}
     engines: {node: '>=18.2'}
 
-  '@sanity/language-filter@5.0.23':
-    resolution: {integrity: sha512-SnovIoM6+DPE3HrVKR2yFmzOI9usvMeou/0bb8XujII5a82w0EpcZUBcqJB0hFPKL7SPK2roLeMCjV4HXrHTAg==}
+  '@sanity/language-filter@5.0.24':
+    resolution: {integrity: sha512-RUX7t4Um+N9gr763H9yDTxxZNqQRE7BwIchRgNvddJvqQoC3BMFPQyiEcYT1N4z+57V9Z1siKV97DmavRBzUAA==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     peerDependencies:
       react: ^19.2
@@ -7976,12 +7976,12 @@ packages:
       sanity: ^5 || ^6.0.0-0
       styled-components: ^6.1
 
-  sanity-plugin-internationalized-array@5.3.9:
-    resolution: {integrity: sha512-MsKCh2Ib/l08NL56vHyQVz5vZCTb9NjX9Sxpy1v70JeTeQV0tLzqmNtIzYVhxJ9pBYzbXWarq3u4tpbat9O0Ew==}
+  sanity-plugin-internationalized-array@5.3.10:
+    resolution: {integrity: sha512-MOd7X8iZCJJiv9t+eKbHVm/avg9kJ6VtJ8zxnx38Mligj0vkv39QtXP/Pdy1TFAe+FP1eyhOxbzsdmjxL7G54w==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     peerDependencies:
-      '@sanity/assist': ^6.2.6
-      '@sanity/language-filter': ^5.0.23
+      '@sanity/assist': ^6.3.0
+      '@sanity/language-filter': ^5.0.24
       react: ^19.2
       react-dom: ^19.2
       sanity: ^5 || ^6.0.0-0
@@ -7998,8 +7998,8 @@ packages:
       sanity: ^5 || ^6.0.0-0
       styled-components: ^6.1
 
-  sanity-plugin-utils@2.0.22:
-    resolution: {integrity: sha512-fyffxVWwpg0QDatZm10mMYx4mlqbzdScMA6SN1fIsIksFpmeIPc9xRxceB37yhOmtRBQgBqdbky3TCC8iUZwaQ==}
+  sanity-plugin-utils@2.0.23:
+    resolution: {integrity: sha512-7z/iHESVN5VAHEdCJZhRD4qTG1/tocoHpc5YU0WMWNtH1+q3yrpnFAyaDSNLz99S//SZ5nebJIIaNSpwXl0cBw==}
     engines: {node: '>=20.19 <22 || >=22.12'}
     peerDependencies:
       react: ^19.2
@@ -12036,7 +12036,7 @@ snapshots:
     dependencies:
       '@sanity/diff-match-patch': 3.2.1
 
-  '@sanity/document-internationalization@6.2.46(57500114a036dee162060131b1994555)':
+  '@sanity/document-internationalization@6.3.0(8c9f25ab1805428ca8716f953864b698)':
     dependencies:
       '@sanity/icons': 5.3.0(react@19.3.1)
       '@sanity/mutator': 6.22.0(patch_hash=83f3d16cc53e43dfd6303763ef3881e83401387b74be14e55dc68d688a5fbe14)(@types/react@19.3.0)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(jsdom@31.0.0(@noble/hashes@2.4.0))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))
@@ -12047,8 +12047,8 @@ snapshots:
       react-dom: 19.3.1(react@19.3.1)
       rxjs: 7.8.2
       sanity: 6.22.0(@babel/core@7.29.13(supports-color@8.1.1))(@babel/runtime@8.1.0)(@noble/hashes@2.4.0)(@rolldown/plugin-babel@0.2.4(@babel/core@7.29.13(supports-color@8.1.1))(@babel/runtime@8.1.0)(rolldown@1.2.16)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(@sanity/workflow-blueprint@0.37.0(@sanity/workflow-engine@0.37.0(@types/react@19.3.0)(supports-color@8.1.1)(typescript@7.0.2)))(@types/node@26.6.6)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(bare-buffer@3.7.1)(esbuild@0.28.2)(immer@11.2.9)(jiti@2.7.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.16)(styled-components@6.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@8.1.1)(typescript@7.0.2)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(jsdom@31.0.0(@noble/hashes@2.4.0))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))
-      sanity-plugin-internationalized-array: 5.3.9(72d9a330ec250047de78113d7fe1c229)
-      sanity-plugin-utils: 2.0.22(17be3d1d5b3eb2c14a902c73c70dcfc0)
+      sanity-plugin-internationalized-array: 5.3.10(c4700a3b50fe521253e5f9d04054ea4a)
+      sanity-plugin-utils: 2.0.23(17be3d1d5b3eb2c14a902c73c70dcfc0)
     transitivePeerDependencies:
       - '@types/react'
       - remix
@@ -12116,7 +12116,7 @@ snapshots:
 
   '@sanity/json-match@1.0.5': {}
 
-  '@sanity/language-filter@5.0.23(17be3d1d5b3eb2c14a902c73c70dcfc0)':
+  '@sanity/language-filter@5.0.24(17be3d1d5b3eb2c14a902c73c70dcfc0)':
     dependencies:
       '@sanity/icons': 5.3.0(react@19.3.1)
       '@sanity/ui': 4.4.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(styled-components@6.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
@@ -16312,10 +16312,10 @@ snapshots:
       - react-dom
       - remix
 
-  sanity-plugin-internationalized-array@5.3.9(72d9a330ec250047de78113d7fe1c229):
+  sanity-plugin-internationalized-array@5.3.10(c4700a3b50fe521253e5f9d04054ea4a):
     dependencies:
       '@sanity/icons': 5.3.0(react@19.3.1)
-      '@sanity/language-filter': 5.0.23(17be3d1d5b3eb2c14a902c73c70dcfc0)
+      '@sanity/language-filter': 5.0.24(17be3d1d5b3eb2c14a902c73c70dcfc0)
       '@sanity/ui': 4.4.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(styled-components@6.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
       '@sanity/util': 6.22.0(@types/react@19.3.0)(vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(jsdom@31.0.0(@noble/hashes@2.4.0))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))
       lodash-es: 4.18.1
@@ -16387,7 +16387,7 @@ snapshots:
       - vitest
       - yup
 
-  sanity-plugin-utils@2.0.22(17be3d1d5b3eb2c14a902c73c70dcfc0):
+  sanity-plugin-utils@2.0.23(17be3d1d5b3eb2c14a902c73c70dcfc0):
     dependencies:
       '@sanity/asset-utils': 2.3.0
       '@sanity/icons': 5.3.0(react@19.3.1)
