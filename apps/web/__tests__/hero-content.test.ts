@@ -240,7 +240,7 @@ test("the folder stays hidden when no usable content is selected", async () => {
   const html = await renderHero("Name", null, {
     folderItems: [
       { ...projectEntry, document: { ...projectEntry.document, title: "   " } },
-      { ...articleEntry, document: { ...articleEntry.document, slug: null } },
+      { ...articleEntry, document: { ...articleEntry.document, slug: "" } },
     ],
   });
   expect(html).not.toContain('data-folder="true"');

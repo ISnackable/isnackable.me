@@ -9,6 +9,7 @@ import { cn } from "@repo/design-system/lib/utils";
 import { ThemeProvider } from "@repo/design-system/providers/theme";
 import {
   getDictionary,
+  type Locale,
   NextIntlClientProvider,
   routing,
 } from "@repo/internationalization";
@@ -49,10 +50,14 @@ const LocaleLayout = async ({ children }: LocaleLayoutProperties) => {
             <NextIntlClientProvider locale={locale} messages={dictionary}>
               <Suspense
                 fallback={
-                  <Header dictionary={dictionary} siteName={siteConfig.name} />
+                  <Header
+                    dictionary={dictionary}
+                    locale={locale}
+                    siteName={siteConfig.name}
+                  />
                 }
               >
-                <SiteHeader dictionary={dictionary} />
+                <SiteHeader dictionary={dictionary} locale={locale} />
               </Suspense>
               {children}
               <Suspense fallback={null}>
@@ -71,11 +76,15 @@ const LocaleLayout = async ({ children }: LocaleLayoutProperties) => {
 
 async function SiteHeader({
   dictionary,
+  locale,
 }: {
   dictionary: Awaited<ReturnType<typeof getDictionary>>;
+  locale: Locale;
 }) {
   const site = resolveSiteSettings(await settings.get());
-  return <Header dictionary={dictionary} siteName={site.name} />;
+  return (
+    <Header dictionary={dictionary} locale={locale} siteName={site.name} />
+  );
 }
 
 async function LiveContent() {

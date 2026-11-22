@@ -9,19 +9,20 @@ import {
 } from "@repo/design-system/components/ui/navigation-menu";
 import { useScroll } from "@repo/design-system/hooks/use-scroll";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { Dictionary, Locale } from "@repo/internationalization";
 import { Link } from "@repo/internationalization/navigation";
 import { Suspense, useState } from "react";
 import { Logo } from "../logo";
-import { LanguageSwitcher } from "./language-switcher";
+import { SiteLanguageSwitcher } from "./language-switcher";
 import { MobileNav } from "./mobile-nav";
 
 interface HeaderProps {
   dictionary: Dictionary;
+  locale: Locale;
   siteName: string;
 }
 
-export function Header({ dictionary, siteName }: HeaderProps) {
+export function Header({ dictionary, locale, siteName }: HeaderProps) {
   const scrolled = useScroll(10);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -85,7 +86,10 @@ export function Header({ dictionary, siteName }: HeaderProps) {
           <Suspense
             fallback={<div aria-hidden="true" className="size-9 shrink-0" />}
           >
-            <LanguageSwitcher label={dictionary.web.header.switchLanguage} />
+            <SiteLanguageSwitcher
+              label={dictionary.common.switchLanguage}
+              locale={locale}
+            />
           </Suspense>
           <ModeToggle label={dictionary.web.header.toggleTheme} />
           <MobileNav

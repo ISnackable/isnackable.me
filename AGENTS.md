@@ -23,7 +23,7 @@ Turborepo `build` depends on `^build` **and** `test`, so tests run as part of `p
 
 Monorepo (pnpm + Turborepo). Two Next.js 16 apps, a standalone Sanity Studio, and shared packages.
 
-- `apps/app` — main application (port 3000). Entry: `app/page.tsx`, `app/layout.tsx`.
+- `apps/app` — OneDrive file index (port 3000). The localized layout lives in `app/[locale]/layout.tsx`, with the file browser at `app/[locale]/browse/[[...path]]/page.tsx`.
 - `apps/web` — portfolio/blog site (port 3001), i18n via `app/(main)/[locale]/`. Owns the Studio Draft Mode endpoints.
 - `apps/studio` — Sanity Studio (port 3333), built with the Sanity CLI. Vercel Services routes `/studio` on the portfolio origin to this app.
 - `packages/*` — `@repo/<name>`. Each is consumed as **raw TypeScript source** by apps through tsconfig path aliases (`@repo/*` → `../../packages/*`), e.g. `@repo/observability/next-config` resolves to `packages/observability/next-config.ts`. **Do not add `exports`/`main` fields or try to build these packages** — Next.js compiles them directly. Subpath imports map to file paths (no build step, no `dist`).

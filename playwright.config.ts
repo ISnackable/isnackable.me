@@ -30,7 +30,8 @@ export default defineConfig({
       reuseExistingServer: false,
     },
     {
-      command: "pnpm --filter app exec next start -p 3100",
+      command:
+        "pnpm --filter app exec node --import ../../tests/fixtures/files-services.mjs ./node_modules/next/dist/bin/next start -p 3100",
       url: "http://127.0.0.1:3100",
       reuseExistingServer: false,
       env: {

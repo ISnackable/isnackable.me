@@ -3,28 +3,35 @@
   "private": true,
   "scripts": {
     "analyze": "ANALYZE=true npm run build",
+    "prebuild": "node scripts/prepare-viewers.mjs",
     "build": "next build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "connect:onedrive": "node --conditions=react-server --env-file=.env.local --import tsx scripts/connect-onedrive.ts",
+    "predev": "node scripts/prepare-viewers.mjs",
     "dev": "next dev -p 3000",
     "start": "next start",
     "test": "NODE_ENV=test vitest run",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@repo/analytics": "workspace:*",
+    "@azure/msal-node": "7.2.3",
     "@repo/config": "workspace:*",
     "@repo/design-system": "workspace:*",
+    "@repo/internationalization": "workspace:*",
     "@repo/next-config": "workspace:*",
-    "@repo/observability": "workspace:*",
     "@repo/security": "workspace:*",
     "@repo/seo": "workspace:*",
-    "@sentry/nextjs": "^11.11.0",
+    "@repo/storage": "workspace:*",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "import-in-the-middle": "^3.6.0",
-    "next": "16.4.5",
+    "client-zip": "2.5.1",
+    "lucide-react": "^1.77.0",
+    "next": "16.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "require-in-the-middle": "8.0.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "server-only": "^0.0.1",
+    "swr": "2.5.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -35,10 +42,11 @@
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@vitejs/plugin-react": "^6.2.1",
-    "jsdom": "^31.0.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^31.0.1",
     "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   }
 }

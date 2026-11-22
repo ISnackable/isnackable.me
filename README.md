@@ -15,8 +15,8 @@ and hosting by [<img alt="Vercel" src="https://raw.githubusercontent.com/ISnacka
 
 The portfolio and embedded Sanity Studio live in `apps/web`. Edit site
 identity, homepage sections, projects, posts, and résumé content in Studio.
-The monorepo also includes a separate Next.js starter in `apps/app` and shared
-packages for both apps.
+The OneDrive file index lives in `apps/app`. Both apps use the shared packages
+in `packages/`.
 
 - [Local setup, tests, and deployment](docs/development.md)
 - [Editing content in Studio](docs/content-and-pages.md)

@@ -20,4 +20,5 @@ overrides:
 # Avoid patching a missing draft during publish/edit races until Sanity fixes:
 # https://github.com/sanity-io/sanity/issues/15773
 patchedDependencies:
-  "@sanity/mutator@6.22.0": patches/@sanity__mutator@6.22.0.patch
+  "@sanity/mutator@6.22.0": patches/@sanity__mutator.patch
+  "@sanity/mutator@6.24.0": patches/@sanity__mutator.patch
