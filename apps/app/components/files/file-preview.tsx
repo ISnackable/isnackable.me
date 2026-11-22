@@ -3,41 +3,46 @@ import { buttonVariants } from "@repo/design-system/components/ui/button";
 import type { FilesMessages } from "@repo/internationalization/dictionaries";
 import type { Locale } from "@repo/internationalization/locales";
 import { DownloadIcon } from "lucide-react";
-import { browseHref, filesApiHref } from "@/lib/files/paths";
+import type { ReactNode } from "react";
+import { filesApiHref } from "@/lib/files/paths";
 import { canPreview, previewType } from "@/lib/files/preview";
-import type { FileMetadata } from "@/lib/files/types";
-import { FileLocation } from "./location";
+import type { FileDetails } from "@/lib/files/types";
+import { FileDetailsFallback } from "./file-details";
 import { ShareButton } from "./share-button";
-import { PreviewUnavailable } from "./status";
 import { FileTextPreview } from "./text-preview";
 import { DocumentViewer, MediaViewer } from "./viewers";
 
 interface FilePreviewProps {
-  readonly file: FileMetadata;
+  readonly file: FileDetails;
   readonly locale: Locale;
   readonly messages: FilesMessages;
 }
 
-function PreviewContent({ file, locale, messages }: FilePreviewProps) {
-  const { name, path, size } = file;
-  const type = previewType(name);
+function PreviewContent({
+  fallback,
+  file,
+  locale,
+  messages,
+  type,
+}: FilePreviewProps & {
+  readonly fallback: ReactNode;
+  readonly type: ReturnType<typeof previewType>;
+}) {
+  const { name, path } = file;
   const src = filesApiHref("content", path, { preview: "1" });
-  if (!canPreview(type, size)) {
-    return <PreviewUnavailable messages={messages} />;
-  }
   if (type.kind === "document") {
     return (
       <DocumentViewer
+        fallback={fallback}
         fileName={name}
         format={type.format}
-        messages={messages}
         src={src}
       />
     );
   }
   if (type.kind === "image" || type.kind === "audio" || type.kind === "video") {
     return (
-      <MediaViewer kind={type.kind} messages={messages} name={name} src={src} />
+      <MediaViewer fallback={fallback} kind={type.kind} name={name} src={src} />
     );
   }
   if (
@@ -47,6 +52,7 @@ function PreviewContent({ file, locale, messages }: FilePreviewProps) {
   ) {
     return (
       <FileTextPreview
+        fallback={fallback}
         kind={type.kind}
         locale={locale}
         messages={messages}
@@ -54,28 +60,26 @@ function PreviewContent({ file, locale, messages }: FilePreviewProps) {
       />
     );
   }
-  return <PreviewUnavailable messages={messages} />;
+  return fallback;
 }
 
 export function FilePreview({ file, locale, messages }: FilePreviewProps) {
   const { name, path, size } = file;
   const download = filesApiHref("content", path);
+  const type = previewType(name);
+  const previewable = canPreview(type, size);
+  const fallback = (
+    <FileDetailsFallback file={file} locale={locale} messages={messages} />
+  );
   return (
     <>
-      <FileLocation locale={locale} messages={messages} path={path} />
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <h1 className="break-all font-semibold text-2xl tracking-tight sm:text-3xl">
-            {name}
-          </h1>
-          {size !== undefined && (
-            <p className="text-muted-foreground text-sm">
-              {formatFileSize(size, locale)}
-            </p>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <ShareButton href={browseHref(locale, path)} messages={messages} />
+      <div className="flex min-h-8 flex-wrap items-center gap-3">
+        {previewable && size !== undefined && (
+          <p className="text-muted-foreground text-sm">
+            {formatFileSize(size, locale)}
+          </p>
+        )}
+        <div className="ms-auto flex flex-wrap items-center gap-2">
           <ShareButton
             href={download}
             label={messages.copyDirect}
@@ -87,12 +91,18 @@ export function FilePreview({ file, locale, messages }: FilePreviewProps) {
           </a>
         </div>
       </div>
-      <PreviewContent
-        file={file}
-        key={path.join("/")}
-        locale={locale}
-        messages={messages}
-      />
+      {previewable ? (
+        <PreviewContent
+          fallback={fallback}
+          file={file}
+          key={path.join("/")}
+          locale={locale}
+          messages={messages}
+          type={type}
+        />
+      ) : (
+        fallback
+      )}
     </>
   );
 }

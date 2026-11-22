@@ -1,11 +1,15 @@
+import { keys as cms } from "@repo/cms/keys";
 import { keys as core } from "@repo/next-config/keys";
 import { keys as security } from "@repo/security/keys";
 import { keys as storage } from "@repo/storage/keys";
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
+const cmsEnv = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ? cms() : undefined;
+export const hasFilesCms = Boolean(cmsEnv?.NEXT_PUBLIC_SANITY_DATASET);
+
 export const env = createEnv({
-  extends: [core(), security(), storage()],
+  extends: [core(), security(), storage(), ...(cmsEnv ? [cmsEnv] : [])],
   emptyStringAsUndefined: true,
   skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
   server: {

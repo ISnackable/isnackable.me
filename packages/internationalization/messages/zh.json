@@ -1,25 +1,26 @@
 {
   "common": {
-    "switchLanguage": "切换语言"
+    "switchLanguage": "切换语言",
+    "navigation": {
+      "home": "首页",
+      "blog": "博客",
+      "projects": "项目",
+      "files": "文件",
+      "label": "主导航"
+    },
+    "header": {
+      "toggleTheme": "切换主题",
+      "toggleMenu": "切换菜单",
+      "closeMenu": "关闭菜单"
+    }
   },
   "files": {
-    "closeSearch": "关闭搜索",
     "itemActions": "项目操作",
     "copyItem": "复制 {name} 的链接",
     "downloadItem": "下载 {name}",
     "openLink": "打开链接",
     "title": "OneDrive 文件索引",
     "root": "所有文件",
-    "portfolio": "作品集",
-    "search": "搜索文件",
-    "searchPlaceholder": "搜索公开文件",
-    "searchHeading": "搜索结果",
-    "searchPrompt": "输入搜索词，在公开文件夹中搜索。",
-    "searchEmpty": "没有匹配的项目。",
-    "searchRefine": "还有更多结果，请缩小搜索范围。",
-    "searchUnavailable": "搜索暂时不可用。",
-    "searchTooLong": "请输入较短的搜索词。",
-    "theme": "切换主题",
     "breadcrumb": "文件位置",
     "list": "列表视图",
     "grid": "网格视图",
@@ -33,21 +34,26 @@
     "empty": "此文件夹为空。",
     "copy": "复制链接",
     "copyDirect": "复制直链",
-    "copySelected": "复制所选链接",
+    "copySelected": "将链接复制为列表",
     "copied": "链接已复制",
     "linksCopied": "链接已复制",
+    "openOneLink": "请逐个打开链接。",
     "copyError": "无法复制链接。",
     "download": "下载",
     "downloadFolder": "下载文件夹 ZIP",
     "downloadSelected": "下载所选项目",
-    "selectItems": "选择",
-    "cancelSelection": "取消选择",
+    "folderActions": "文件夹操作",
+    "clearSelection": "清除所选项目",
+    "selectedCount": "已选 {count} 项",
     "selectAll": "选择所有已加载的项目",
     "selectItem": "选择 {name}",
     "selectionLimit": "每个 ZIP 最多可选择 {limit} 个项目。",
+    "archiveEntryLimit": "最多 {limit} 项",
     "readme": "文件夹说明",
     "unsupported": "无法预览",
-    "downloadInstead": "请下载文件，然后在设备上打开。",
+    "fileDetails": "文件详情",
+    "mimeType": "MIME 类型",
+    "checksums": "校验和",
     "previewLoading": "正在加载预览…",
     "rateLimited": "请求过多，请稍后重试。",
     "missing": "找不到文件或文件夹",
@@ -66,16 +72,6 @@
       "serverDescription": "请重新加载页面，或返回首页。",
       "home": "返回首页",
       "retry": "重试"
-    },
-    "header": {
-      "home": "首页",
-      "blog": "博客",
-      "projects": "项目",
-      "toggleTheme": "切换主题",
-      "toggleMenu": "切换菜单",
-      "closeMenu": "关闭菜单",
-      "navigation": "主导航",
-      "footerNavigation": "页脚导航"
     },
     "home": {
       "hero": {
@@ -191,6 +187,7 @@
       "tags": "标签"
     },
     "footer": {
+      "navigation": "页脚导航",
       "copyrightHolder": "版权持有人",
       "builtBy": "制作",
       "githubProfile": "{name}的GitHub主页"

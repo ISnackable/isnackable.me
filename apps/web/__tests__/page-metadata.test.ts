@@ -27,9 +27,9 @@ vi.mock("@repo/cms/client", () => ({
   client: { config: () => ({ projectId: "example", dataset: "production" }) },
 }));
 vi.mock("@repo/internationalization/dictionaries", () => ({
-  getDictionary: async () => en,
+  getPortfolioDictionary: async () => en,
 }));
-vi.mock("@/i18n/locale", () => ({ getSiteLocale: async () => "en" }));
+vi.mock("@/i18n/locale", () => ({ getPortfolioLocale: async () => "en" }));
 vi.mock("@/env", () => ({
   env: { NEXT_PUBLIC_WEB_URL: "https://example.com" },
 }));

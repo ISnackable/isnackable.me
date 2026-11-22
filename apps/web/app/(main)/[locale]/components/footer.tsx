@@ -2,14 +2,14 @@ import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { legal, settings } from "@repo/cms";
 import { resolveSiteSettings } from "@repo/cms/content/site";
 import { siteConfig } from "@repo/config/site";
+import { SiteLogo } from "@repo/design-system/components/site-logo";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
-import { Logo } from "./logo";
 
 interface FooterProps {
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
 }
 
@@ -28,10 +28,11 @@ export async function Footer({ locale, dictionary }: FooterProps) {
     { href: site.social.github, label: "GitHub", icon: <GitHubLogoIcon /> },
   ];
 
+  const { navigation } = dictionary.common;
   const navLinks = [
-    { href: `/${locale}`, label: dictionary.web.header.home },
-    { href: `/${locale}/blog`, label: dictionary.web.header.blog },
-    { href: `/${locale}/projects`, label: dictionary.web.header.projects },
+    { href: `/${locale}`, label: navigation.home },
+    { href: `/${locale}/blog`, label: navigation.blog },
+    { href: `/${locale}/projects`, label: navigation.projects },
     ...legalPages.map((post) => ({
       href: `/${locale}/legal/${post.slug}`,
       label: post.title,
@@ -43,7 +44,7 @@ export async function Footer({ locale, dictionary }: FooterProps) {
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 md:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex max-w-full select-none items-center gap-2">
-            <Logo className="size-5 shrink-0" />
+            <SiteLogo className="size-5 shrink-0" />
             <span className="truncate font-semibold text-foreground tracking-tight">
               {site.name}
             </span>
@@ -66,7 +67,7 @@ export async function Footer({ locale, dictionary }: FooterProps) {
           </div>
         </div>
 
-        <nav aria-label={dictionary.web.header.footerNavigation}>
+        <nav aria-label={dictionary.web.footer.navigation}>
           <ul className="flex flex-wrap gap-4 font-medium text-muted-foreground text-sm md:gap-6">
             {navLinks.map((link) => (
               <li key={link.label}>

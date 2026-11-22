@@ -1,26 +1,22 @@
 import "./styles.css";
 import { AnalyticsProvider } from "@repo/analytics/provider";
-import { settings } from "@repo/cms";
-import { resolveSiteSettings } from "@repo/cms/content/site";
 import { SanityLive } from "@repo/cms/live";
-import { siteConfig } from "@repo/config/site";
 import { fonts } from "@repo/design-system/lib/fonts";
 import { cn } from "@repo/design-system/lib/utils";
 import { ThemeProvider } from "@repo/design-system/providers/theme";
 import {
-  getDictionary,
-  type Locale,
+  getPortfolioDictionary,
   NextIntlClientProvider,
   routing,
 } from "@repo/internationalization";
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { type ReactNode, Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { siteUrl } from "@/lib/site-url";
 import { DraftTools } from "./components/draft-tools";
 import { Footer } from "./components/footer";
-import { Header } from "./components/header";
+import { PortfolioHeader } from "./components/header";
 
 interface LocaleLayoutProperties {
   readonly children: ReactNode;
@@ -33,9 +29,9 @@ export function generateStaticParams() {
 export const metadata: Metadata = { metadataBase: siteUrl };
 
 const LocaleLayout = async ({ children }: LocaleLayoutProperties) => {
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
 
-  const dictionary = await getDictionary(locale);
+  const dictionary = await getPortfolioDictionary(locale);
 
   return (
     <html
@@ -48,17 +44,7 @@ const LocaleLayout = async ({ children }: LocaleLayoutProperties) => {
         <AnalyticsProvider>
           <ThemeProvider>
             <NextIntlClientProvider locale={locale} messages={dictionary}>
-              <Suspense
-                fallback={
-                  <Header
-                    dictionary={dictionary}
-                    locale={locale}
-                    siteName={siteConfig.name}
-                  />
-                }
-              >
-                <SiteHeader dictionary={dictionary} locale={locale} />
-              </Suspense>
+              <PortfolioHeader dictionary={dictionary} locale={locale} />
               {children}
               <Suspense fallback={null}>
                 <Footer dictionary={dictionary} locale={locale} />
@@ -73,19 +59,6 @@ const LocaleLayout = async ({ children }: LocaleLayoutProperties) => {
     </html>
   );
 };
-
-async function SiteHeader({
-  dictionary,
-  locale,
-}: {
-  dictionary: Awaited<ReturnType<typeof getDictionary>>;
-  locale: Locale;
-}) {
-  const site = resolveSiteSettings(await settings.get());
-  return (
-    <Header dictionary={dictionary} locale={locale} siteName={site.name} />
-  );
-}
 
 async function LiveContent() {
   const { isEnabled } = await draftMode();

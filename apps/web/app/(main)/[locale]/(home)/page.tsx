@@ -10,13 +10,13 @@ import { ModuleFrame } from "@repo/cms/modules/frame";
 import { VisualModuleView } from "@repo/cms/modules/renderer";
 import { isVisualModule } from "@repo/cms/modules/types";
 import {
-  type Dictionary,
-  getDictionary,
+  getPortfolioDictionary,
+  type PortfolioDictionary,
   routing,
 } from "@repo/internationalization";
 import type { Metadata } from "next";
 import { type ReactNode, Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { createWebMetadata } from "@/lib/metadata";
 import { SectionReveal } from "../components/section-reveal";
 import { AboutSection } from "./components/about-section";
@@ -30,11 +30,11 @@ export function generateStaticParams() {
 }
 
 export const generateMetadata = async (): Promise<Metadata> =>
-  createWebMetadata({ kind: "home" }, await getSiteLocale());
+  createWebMetadata({ kind: "home" }, await getPortfolioLocale());
 
 export default async function Home() {
-  const locale = await getSiteLocale();
-  const dictionary = await getDictionary(locale);
+  const locale = await getPortfolioLocale();
+  const dictionary = await getPortfolioDictionary(locale);
   return (
     <main>
       <Suspense
@@ -72,7 +72,7 @@ async function HomeContent({
   dictionary,
   locale,
 }: {
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
 }) {
   const [page, siteDocument] = await Promise.all([
@@ -136,7 +136,7 @@ function HomeSection({
   site,
 }: {
   section: PageSection;
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
   site: SiteSettings;
 }) {

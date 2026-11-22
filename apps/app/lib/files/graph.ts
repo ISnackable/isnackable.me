@@ -12,7 +12,17 @@ const downloadField = "@microsoft.graph.downloadUrl";
 const folderPageSize = 200;
 const item = z.object({
   [downloadField]: z.string().nullish(),
-  file: z.object({}).optional(),
+  file: z
+    .object({
+      hashes: z
+        .object({
+          quickXorHash: z.string().nullish(),
+          sha1Hash: z.string().nullish(),
+        })
+        .nullish(),
+      mimeType: z.string().nullish(),
+    })
+    .optional(),
   folder: z.object({}).optional(),
   id: oneDriveId,
   lastModifiedDateTime: z.string().optional(),
@@ -40,12 +50,6 @@ const oneDrive = z.object({
   driveType: z.enum(["personal", "business"]),
   id: oneDriveId,
 });
-const itemBatch = z.object({
-  responses: z.array(
-    z.object({ body: z.unknown(), id: oneDriveId, status: z.number() })
-  ),
-});
-
 export type GraphItem = z.infer<typeof item>;
 
 interface GraphCredentials {
@@ -62,7 +66,6 @@ export interface DriveBinding {
 export type GraphDrive = DriveBinding & GraphCredentials;
 
 interface GraphRequestOptions {
-  readonly body?: string;
   readonly redirect?: "error" | "manual";
   readonly signal?: AbortSignal;
 }
@@ -70,18 +73,12 @@ interface GraphRequestOptions {
 function graphRequest(
   url: URL,
   token: string,
-  { body, redirect = "error", signal }: GraphRequestOptions
+  { redirect = "error", signal }: GraphRequestOptions
 ) {
   const timeout = AbortSignal.timeout(10_000);
-  const headers: Record<string, string> = { Authorization: `Bearer ${token}` };
-  if (body) {
-    headers["Content-Type"] = "application/json";
-  }
   return fetch(url, {
-    body,
     cache: "no-store",
-    headers,
-    method: body ? "POST" : "GET",
+    headers: { Authorization: `Bearer ${token}` },
     redirect,
     signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
   });
@@ -219,63 +216,6 @@ export function getGraphChildren(
     throw new FilesError("unavailable");
   }
   return graphJson(drive, url, collection, { signal });
-}
-
-export function getGraphMatches(
-  drive: GraphDrive,
-  text: string,
-  limit: number,
-  signal?: AbortSignal
-) {
-  const url = driveItemUrl(drive.driveId, drive.rootId);
-  const escaped = encodeURIComponent(text.replaceAll("'", "''")).replaceAll(
-    "'",
-    "%27"
-  );
-  url.pathname += `/search(q='${escaped}')`;
-  url.searchParams.set("$select", metadataFields);
-  url.searchParams.set("$top", String(limit));
-  return graphJson(drive, url, collection, { signal });
-}
-
-export async function getGraphItemsById(
-  drive: GraphDrive,
-  ids: readonly string[],
-  signal?: AbortSignal
-) {
-  const url = new URL("/v1.0/$batch", graphOrigin);
-  const batches: Promise<z.infer<typeof itemBatch>>[] = [];
-  const batchLimit = 20;
-  for (let offset = 0; offset < ids.length; offset += batchLimit) {
-    const requests = ids.slice(offset, offset + batchLimit).map((id) => {
-      const target = driveItemUrl(drive.driveId, id);
-      target.searchParams.set("$select", metadataFields);
-      return {
-        id,
-        method: "GET",
-        url: target.pathname.slice("/v1.0".length) + target.search,
-      };
-    });
-    batches.push(
-      graphJson(drive, url, itemBatch, {
-        body: JSON.stringify({ requests }),
-        signal,
-      })
-    );
-  }
-
-  const items = new Map<string, GraphItem>();
-  for (const { responses } of await Promise.all(batches)) {
-    for (const response of responses) {
-      if (response.status === 200) {
-        const entry = item.parse(response.body);
-        if (entry.id === response.id) {
-          items.set(entry.id, entry);
-        }
-      }
-    }
-  }
-  return items;
 }
 
 export async function getGraphThumbnail(

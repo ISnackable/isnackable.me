@@ -1,25 +1,26 @@
 {
   "common": {
-    "switchLanguage": "Switch language"
+    "switchLanguage": "Switch language",
+    "navigation": {
+      "home": "Home",
+      "blog": "Blog",
+      "projects": "Projects",
+      "files": "Files",
+      "label": "Main navigation"
+    },
+    "header": {
+      "toggleTheme": "Toggle theme",
+      "toggleMenu": "Toggle menu",
+      "closeMenu": "Close menu"
+    }
   },
   "files": {
-    "closeSearch": "Close search",
     "itemActions": "Item actions",
     "copyItem": "Copy link to {name}",
     "downloadItem": "Download {name}",
     "openLink": "Open link",
     "title": "OneDrive Index",
     "root": "All files",
-    "portfolio": "Portfolio",
-    "search": "Search files",
-    "searchPlaceholder": "Search public files",
-    "searchHeading": "Search results",
-    "searchPrompt": "Enter a term to search the public folder.",
-    "searchEmpty": "No matching items.",
-    "searchRefine": "More results are available. Try a more specific search.",
-    "searchUnavailable": "Search is temporarily unavailable.",
-    "searchTooLong": "Enter a shorter search term.",
-    "theme": "Toggle theme",
     "breadcrumb": "File location",
     "list": "List view",
     "grid": "Grid view",
@@ -33,21 +34,26 @@
     "empty": "This folder is empty.",
     "copy": "Copy link",
     "copyDirect": "Copy direct link",
-    "copySelected": "Copy selected links",
+    "copySelected": "Copy links as a list",
     "copied": "Link copied",
     "linksCopied": "Links copied",
+    "openOneLink": "Open one link at a time.",
     "copyError": "Could not copy the link.",
     "download": "Download",
     "downloadFolder": "Download folder as ZIP",
     "downloadSelected": "Download selected",
-    "selectItems": "Select",
-    "cancelSelection": "Cancel selection",
+    "folderActions": "Folder actions",
+    "clearSelection": "Clear selection",
+    "selectedCount": "{count} selected",
     "selectAll": "Select all loaded items",
     "selectItem": "Select {name}",
     "selectionLimit": "Select up to {limit} items per ZIP.",
+    "archiveEntryLimit": "Up to {limit} items",
     "readme": "Folder README",
     "unsupported": "Preview unavailable",
-    "downloadInstead": "Download the file to open it on your device.",
+    "fileDetails": "File details",
+    "mimeType": "MIME type",
+    "checksums": "Checksums",
     "previewLoading": "Loading preview…",
     "rateLimited": "Too many requests. Try again in a few minutes.",
     "missing": "File or folder not found",
@@ -66,16 +72,6 @@
       "serverDescription": "Try loading the page again, or return home.",
       "home": "Back to home",
       "retry": "Try again"
-    },
-    "header": {
-      "home": "Home",
-      "blog": "Blog",
-      "projects": "Projects",
-      "toggleTheme": "Toggle theme",
-      "toggleMenu": "Toggle menu",
-      "closeMenu": "Close menu",
-      "navigation": "Main navigation",
-      "footerNavigation": "Footer navigation"
     },
     "home": {
       "hero": {
@@ -191,6 +187,7 @@
       "tags": "Tags"
     },
     "footer": {
+      "navigation": "Footer navigation",
       "copyrightHolder": "Copyright holder",
       "builtBy": "Built by",
       "githubProfile": "GitHub profile of {name}"

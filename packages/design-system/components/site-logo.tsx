@@ -1,6 +1,6 @@
 import type React from "react";
 
-export const Logo = (props: React.ComponentProps<"svg">) => (
+export const SiteLogo = (props: React.ComponentProps<"svg">) => (
   <svg
     aria-hidden="true"
     viewBox="0 0 400 400"

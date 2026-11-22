@@ -4,13 +4,14 @@ export {
   getRequestConfig,
   getTranslations,
 } from "next-intl/server";
-export type { Dictionary } from "./dictionaries";
-export { getDictionary } from "./dictionaries";
+export {
+  getPortfolioDictionary,
+  type PortfolioDictionary,
+} from "./dictionaries";
 export {
   getPathname,
   Link,
   redirect,
-  usePathname,
   useRouter,
 } from "./navigation";
 export type { Locale } from "./routing";

@@ -5,7 +5,6 @@ import { Skeleton } from "@repo/design-system/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { Component, type ReactNode, useState } from "react";
 import type { DocumentFormat } from "@/lib/files/preview";
-import { type PreviewMessages, PreviewUnavailable } from "./status";
 
 const PdfViewer = dynamic(
   () =>
@@ -40,7 +39,7 @@ const PowerPointViewer = dynamic(
 class ViewerBoundary extends Component<
   {
     readonly children: ReactNode;
-    readonly messages: PreviewMessages;
+    readonly fallback: ReactNode;
   },
   { failed: boolean }
 > {
@@ -51,23 +50,19 @@ class ViewerBoundary extends Component<
   }
 
   render() {
-    return this.state.failed ? (
-      <PreviewUnavailable messages={this.props.messages} />
-    ) : (
-      this.props.children
-    );
+    return this.state.failed ? this.props.fallback : this.props.children;
   }
 }
 
 export function DocumentViewer({
+  fallback,
   fileName,
   format,
-  messages,
   src,
 }: {
+  readonly fallback: ReactNode;
   readonly fileName: string;
   readonly format: DocumentFormat;
-  readonly messages: PreviewMessages;
   readonly src: string;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
@@ -95,12 +90,15 @@ export function DocumentViewer({
   }
 
   return (
-    <ViewerBoundary messages={messages}>
+    <ViewerBoundary fallback={fallback}>
       <section
         aria-label={fileName}
-        className="relative h-[min(75svh,56rem)] min-h-80 overflow-hidden rounded-xl border bg-muted/30"
+        className="relative isolate h-[min(75svh,56rem)] min-h-80 overflow-hidden rounded-xl border bg-card"
       >
-        <Skeleton aria-hidden className="absolute inset-0 -z-10 rounded-none" />
+        <Skeleton
+          aria-hidden
+          className="absolute inset-0 -z-10 rounded-none motion-reduce:animate-none"
+        />
         {viewer}
       </section>
     </ViewerBoundary>
@@ -108,24 +106,24 @@ export function DocumentViewer({
 }
 
 export function MediaViewer({
+  fallback,
   name,
   kind,
-  messages,
   src,
 }: {
+  readonly fallback: ReactNode;
   readonly name: string;
   readonly kind: "audio" | "image" | "video";
-  readonly messages: PreviewMessages;
   readonly src: string;
 }) {
   const [failed, setFailed] = useState(false);
   const onError = () => setFailed(true);
   if (failed) {
-    return <PreviewUnavailable messages={messages} />;
+    return fallback;
   }
   if (kind === "image") {
     return (
-      <div className="flex justify-center rounded-xl border bg-muted/40 p-3 sm:p-6">
+      <div className="grid min-h-56 place-items-center rounded-xl border bg-muted p-3 sm:p-6">
         {/* biome-ignore lint/performance/noImgElement lint/correctness/useImageSize lint/a11y/noNoninteractiveElementInteractions: Dimensions are unavailable and onError provides a fallback for the authenticated image. */}
         <img
           alt={name}
@@ -138,22 +136,24 @@ export function MediaViewer({
   }
   if (kind === "audio") {
     return (
-      // biome-ignore lint/a11y/useMediaCaption: User-supplied audio may lack a paired transcript.
-      <audio
-        aria-label={name}
-        className="w-full"
-        controls
-        onError={onError}
-        preload="metadata"
-        src={src}
-      />
+      <div className="rounded-xl border bg-card p-4">
+        {/* biome-ignore lint/a11y/useMediaCaption: User-supplied audio may lack a paired transcript. */}
+        <audio
+          aria-label={name}
+          className="w-full"
+          controls
+          onError={onError}
+          preload="metadata"
+          src={src}
+        />
+      </div>
     );
   }
   return (
     // biome-ignore lint/a11y/useMediaCaption: User-supplied video may lack a paired subtitle file.
     <video
       aria-label={name}
-      className="mx-auto max-h-[75svh] w-full rounded-xl bg-black"
+      className="mx-auto aspect-video max-h-[75svh] w-full rounded-xl bg-black object-contain"
       controls
       onError={onError}
       playsInline

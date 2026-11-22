@@ -20,7 +20,9 @@ published site content. Add `http://localhost:3001` as an allowed CORS origin
 with credentials for Studio sign-in. Run `pnpm dev` to start all three apps.
 The portfolio forwards local `/studio` requests to Studio on port 3333. Open
 [Sanity Studio](http://localhost:3001/studio) to publish the homepage and site
-settings. The OneDrive file index runs on port 3000. [Connect a OneDrive folder](#connect-the-files-app-to-onedrive)
+settings. The OneDrive file index runs on port 3000. Use the same Sanity project
+ID and dataset in `apps/app/.env.local` to show the published site title in the
+files header. It defaults to “Portfolio” when no title is available. [Connect a OneDrive folder](#connect-the-files-app-to-onedrive)
 
 The Sanity project ID, dataset name, and other `NEXT_PUBLIC_*` values are
 included in browser code. Keep provider credentials and webhook secrets in
@@ -79,8 +81,9 @@ and publish its schema. [Studio registration](https://www.sanity.io/docs/studio/
 The generated Vercel preview URL opens the portfolio. To preview the files app,
 assign a custom hostname that starts with `files.` to the preview branch and set
 `NEXT_PUBLIC_APP_URL` to that origin for the branch. Next.js uses that value
-for the portfolio's `/files` redirect. Set both URL variables to the same origin
-in Preview to disable the redirect there.
+for the portfolio's **Files** navigation link and `/files` redirect. Set both
+URL variables to the same origin in Preview to hide the link and disable the
+redirect there.
 
 Verify both hostnames on a deployment because `vercel dev` skips hostname
 conditions. For private drafts and the publishing webhook, use the same Sanity
@@ -131,30 +134,30 @@ setting before it serves files.
    drive, add their exact hostnames to `FILES_CONTENT_HOSTS` as a comma-separated
    list. [Local file index](http://localhost:3000/en/browse)
 
-The files app uses Graph for browsing and scoped search. Redis shares verified
-first-page metadata per connection. A listing is fresh for 15 seconds. A
+The files app uses Graph for browsing. Redis shares verified first-page
+metadata per connection. A listing is fresh for 15 seconds. A
 request in the following 15 seconds gets the cached listing immediately and
 triggers one background refresh. At 30 seconds, a listing that has yet to
 refresh must be fetched from Graph. Returning to a loaded folder shows the
 browser's cached entries while it checks for updates. Downloads, previews,
 and ZIPs verify the current path before fetching file bytes.
-Search results reflect Microsoft's indexing time. Run the setup command again
-if the folder is moved or replaced, the signing secret changes, or Microsoft
-requires the owner to sign in again.
+Run the setup command again if the folder is moved or replaced, the signing
+secret changes, or Microsoft requires the owner to sign in again.
 [Microsoft refresh token lifecycle](https://learn.microsoft.com/en-us/entra/identity-platform/refresh-tokens)
 
 ### Verify file sharing before cutover
 
 Use the same connection settings and Redis credentials on a staged files host.
-Open a nested folder, search for a public file, test a file link and a direct
-link, then try previews, a range download, and a nested ZIP with real OneDrive
-files. For local fixture coverage after a production build, run
+Open a nested folder, test a file link and a direct link, then try previews,
+a range download, and a nested ZIP with real OneDrive files.
+For local fixture coverage after a production build, run
 `pnpm test:browser tests/browser/files.spec.ts`.
 
-Use **Copy link** to share a browse page and **Copy direct link** for embeds
-and download tools. Direct links support cross-origin requests and byte
-ranges. Use **Download folder as ZIP** or select up to 200 entries for a
-streamed ZIP. Folder archives have a 5,000-entry work limit.
+Use **Copy direct link** on a file preview for embeds and download tools.
+Direct links support cross-origin requests and byte ranges. **Copy links as a
+list** copies one URL per line. Use **Download folder as ZIP** or select up to
+200 entries for a streamed ZIP. The server checks for up to 5,000 entries
+across all nested levels before starting the download.
 
 ## Deploy the portfolio only
 

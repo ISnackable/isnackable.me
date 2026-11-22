@@ -2,6 +2,7 @@ import "./styles.css";
 import { getBaseUrl } from "@repo/config/url";
 import { NotFound } from "@repo/design-system/components/ui/not-found";
 import { fonts } from "@repo/design-system/lib/fonts";
+import { ThemeProvider } from "@repo/design-system/providers/theme";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,9 +16,11 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html className={fonts} lang="en">
-      <body>
-        <NotFound className="min-h-svh" homeHref="/en/browse" />
+    <html className={fonts} lang="en" suppressHydrationWarning>
+      <body className="portfolio-theme">
+        <ThemeProvider>
+          <NotFound className="min-h-svh" homeHref="/en/browse" />
+        </ThemeProvider>
       </body>
     </html>
   );

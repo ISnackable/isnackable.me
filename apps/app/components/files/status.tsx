@@ -1,8 +1,3 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@repo/design-system/components/ui/alert";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import {
   Empty,
@@ -12,42 +7,28 @@ import {
   EmptyMedia,
 } from "@repo/design-system/components/ui/empty";
 import { Skeleton } from "@repo/design-system/components/ui/skeleton";
-import type { FilesMessages } from "@repo/internationalization/dictionaries";
 import { CloudOffIcon, FolderOpenIcon } from "lucide-react";
 import Link from "next/link";
-
-export type PreviewMessages = Pick<
-  FilesMessages,
-  "downloadInstead" | "unsupported"
->;
-
-export function PreviewUnavailable({
-  messages,
-}: {
-  readonly messages: PreviewMessages;
-}) {
-  return (
-    <Alert>
-      <AlertTitle>{messages.unsupported}</AlertTitle>
-      <AlertDescription>{messages.downloadInstead}</AlertDescription>
-    </Alert>
-  );
-}
 
 export function FilesLoading({ label }: { readonly label: string }) {
   return (
     <div
       aria-busy="true"
       aria-label={label}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-5"
       role="status"
     >
-      <Skeleton className="h-4 w-24" />
-      <Skeleton className="h-8 w-48" />
-      <div className="grid gap-4 rounded-xl border p-4">
-        <Skeleton className="h-5 w-full" />
-        <Skeleton className="h-5 w-4/5" />
-        <Skeleton className="h-5 w-3/5" />
+      <div className="flex h-8 justify-end gap-2">
+        <Skeleton className="h-8 w-32 motion-reduce:animate-none" />
+        <Skeleton className="h-8 w-24 motion-reduce:animate-none" />
+      </div>
+      <div
+        className="grid min-h-56 content-start gap-3 rounded-xl border bg-card p-4 sm:p-6"
+        data-slot="files-loading-panel"
+      >
+        <Skeleton className="h-5 w-40 max-w-full motion-reduce:animate-none" />
+        <Skeleton className="h-4 w-full motion-reduce:animate-none" />
+        <Skeleton className="h-4 w-2/3 motion-reduce:animate-none" />
       </div>
     </div>
   );

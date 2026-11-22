@@ -30,17 +30,12 @@ export default async function FilesLayout({
   readonly children: ReactNode;
 }) {
   const locale = await getFilesLocale();
-  const { common, files } = await getFilesDictionary(locale);
+  const dictionary = await getFilesDictionary(locale);
   return (
     <html className={fonts} lang={locale} suppressHydrationWarning>
-      <body>
+      <body className="portfolio-theme">
         <DesignSystemProvider>
-          <FilesHeader
-            locale={locale}
-            messages={files}
-            portfolioUrl={env.NEXT_PUBLIC_WEB_URL}
-            switchLanguageLabel={common.switchLanguage}
-          />
+          <FilesHeader dictionary={dictionary} locale={locale} />
           <main className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 pt-7 pb-16 sm:px-6 sm:pt-10">
             <FilesCache>{children}</FilesCache>
           </main>

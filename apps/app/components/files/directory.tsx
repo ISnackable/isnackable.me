@@ -12,15 +12,16 @@ import { Checkbox } from "@repo/design-system/components/ui/checkbox";
 import type { FilesMessages } from "@repo/internationalization/dictionaries";
 import type { Locale } from "@repo/internationalization/locales";
 import { DownloadIcon } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { archiveSelectionLimit } from "@/lib/files/limits";
 import { browseHref, filesApiHref } from "@/lib/files/paths";
 import { previewType } from "@/lib/files/preview";
 import type { FileEntry } from "@/lib/files/types";
 import { BrowseLink } from "./browse-link";
-import { useDirectoryView } from "./preferences";
+import { DirectoryActions } from "./directory-actions";
 import { ShareButton } from "./share-button";
 import { FilesStatus } from "./status";
+import { useDirectoryView } from "./use-directory-view";
 
 interface DirectoryProps {
   readonly entries: readonly FileEntry[];
@@ -28,34 +29,7 @@ interface DirectoryProps {
   readonly hasMore: boolean;
   readonly loadError: boolean;
   readonly locale: Locale;
-  readonly messages: Pick<
-    FilesMessages,
-    | "cancelSelection"
-    | "copied"
-    | "copy"
-    | "copyError"
-    | "copyItem"
-    | "copySelected"
-    | "downloadFolder"
-    | "downloadItem"
-    | "downloadSelected"
-    | "empty"
-    | "grid"
-    | "itemActions"
-    | "list"
-    | "linksCopied"
-    | "loadMore"
-    | "loading"
-    | "modified"
-    | "moreError"
-    | "name"
-    | "selectAll"
-    | "selectItem"
-    | "selectItems"
-    | "selectionLimit"
-    | "size"
-    | "view"
-  >;
+  readonly messages: FilesMessages;
   readonly onLoadMore: () => void;
   readonly pending: boolean;
 }
@@ -126,80 +100,6 @@ function directoryItems(items: readonly FileEntry[]): FileSystemItem[] {
   });
 }
 
-function DirectoryActions({
-  folder,
-  locale,
-  messages,
-  onToggleSelection,
-  selectedItems,
-}: Pick<DirectoryProps, "folder" | "locale" | "messages"> & {
-  readonly onToggleSelection?: () => void;
-  readonly selectedItems: readonly FileSystemItem[] | null;
-}) {
-  const archivePaths = selectedItems?.map((item) => item.path.join("/")) ?? [
-    folder.join("/"),
-  ];
-  const singleFile =
-    selectedItems?.length === 1 && selectedItems[0].kind === "file"
-      ? selectedItems[0]
-      : null;
-  const selectedLinks =
-    selectedItems?.map((item) =>
-      item.kind === "folder"
-        ? browseHref(locale, item.path)
-        : filesApiHref("content", item.path)
-    ) ?? [];
-  const downloadAction = (
-    <>
-      <DownloadIcon aria-hidden data-icon="inline-start" />
-      {selectedItems ? messages.downloadSelected : messages.downloadFolder}
-    </>
-  );
-
-  return (
-    <>
-      <ShareButton href={browseHref(locale, folder)} messages={messages} />
-      {singleFile ? (
-        <a
-          className={buttonVariants({ size: "sm", variant: "outline" })}
-          href={filesApiHref("content", singleFile.path)}
-        >
-          {downloadAction}
-        </a>
-      ) : (
-        <form action="/api/files/archive" method="post">
-          {archivePaths.map((path) => (
-            <input key={path} name="path" type="hidden" value={path} />
-          ))}
-          <Button
-            disabled={
-              archivePaths.length === 0 ||
-              archivePaths.length > archiveSelectionLimit
-            }
-            size="sm"
-            type="submit"
-            variant="outline"
-          >
-            {downloadAction}
-          </Button>
-        </form>
-      )}
-      {onToggleSelection && (
-        <Button onClick={onToggleSelection} size="sm" variant="ghost">
-          {selectedItems ? messages.cancelSelection : messages.selectItems}
-        </Button>
-      )}
-      {selectedLinks.length > 0 && (
-        <ShareButton
-          href={selectedLinks}
-          label={messages.copySelected}
-          messages={messages}
-        />
-      )}
-    </>
-  );
-}
-
 export function FilesDirectory({
   entries,
   folder,
@@ -211,19 +111,17 @@ export function FilesDirectory({
   pending,
 }: DirectoryProps) {
   const [view, setView] = useDirectoryView();
-  const [selected, setSelected] = useState<Set<string> | null>(null);
+  const [selectedKeys, setSelectedKeys] = useState<ReadonlySet<string>>(
+    () => new Set()
+  );
+  const selectAll = useRef<HTMLElement>(null);
   const items = directoryItems(entries);
-  const selectedItems = selected
-    ? items.filter((item) => selected.has(item.key))
-    : null;
-  const selectedCount = selectedItems?.length ?? 0;
-  const allSelected = selectedCount > 0 && selectedCount === items.length;
+  const selectedItems = items.filter((item) => selectedKeys.has(item.key));
+  const selectedCount = selectedItems.length;
+  const allSelected = selectedCount === items.length;
 
   function selectItem(key: string, checked: boolean) {
-    setSelected((before) => {
-      if (!before) {
-        return null;
-      }
+    setSelectedKeys((before) => {
       const next = new Set(before);
       if (checked) {
         next.add(key);
@@ -234,8 +132,9 @@ export function FilesDirectory({
     });
   }
 
-  function toggleSelection() {
-    setSelected((previous) => (previous ? null : new Set()));
+  function clearSelection() {
+    setSelectedKeys(new Set());
+    selectAll.current?.focus();
   }
 
   return (
@@ -246,7 +145,7 @@ export function FilesDirectory({
             folder={folder}
             locale={locale}
             messages={messages}
-            onToggleSelection={items.length > 0 ? toggleSelection : undefined}
+            onClearSelection={clearSelection}
             selectedItems={selectedItems}
           />
         }
@@ -272,7 +171,7 @@ export function FilesDirectory({
           </BrowseLink>
         )}
         selection={
-          selected
+          items.length > 0
             ? {
                 all: (
                   <Checkbox
@@ -280,10 +179,12 @@ export function FilesDirectory({
                     checked={allSelected}
                     indeterminate={!allSelected && selectedCount > 0}
                     onCheckedChange={(checked) =>
-                      setSelected(
+                      setSelectedKeys(
                         new Set(checked ? items.map((item) => item.key) : [])
                       )
                     }
+                    ref={selectAll}
+                    title={messages.selectAll}
                   />
                 ),
                 item: (item) => (
@@ -292,10 +193,11 @@ export function FilesDirectory({
                       "{name}",
                       () => item.name
                     )}
-                    checked={selected.has(item.key)}
+                    checked={selectedKeys.has(item.key)}
                     onCheckedChange={(checked) => selectItem(item.key, checked)}
                   />
                 ),
+                selectedKeys,
               }
             : undefined
         }

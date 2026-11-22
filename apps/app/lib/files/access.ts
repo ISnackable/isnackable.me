@@ -9,7 +9,12 @@ import {
   getGraphItem,
 } from "./graph";
 import { isFilePath, readBrowsePath } from "./paths";
-import type { FileEntry, FileMetadata, FolderMetadata } from "./types";
+import type {
+  FileEntry,
+  FileMetadata,
+  FileProperties,
+  FolderMetadata,
+} from "./types";
 
 interface LocatedEntry<T extends FileEntry> {
   readonly entry: T;
@@ -18,6 +23,7 @@ interface LocatedEntry<T extends FileEntry> {
 
 export type PublishedFile = LocatedEntry<FileMetadata> & {
   readonly downloadUrl?: string;
+  readonly properties?: FileProperties;
 };
 type PublishedFolder = LocatedEntry<FolderMetadata>;
 export type PublishedEntry = PublishedFile | PublishedFolder;
@@ -56,7 +62,7 @@ export function sameOneDrivePath(
   return left.join("/").toLowerCase() === right.join("/").toLowerCase();
 }
 
-export function publishedEntry(
+function publishedEntry(
   drive: DriveBinding,
   item: GraphItem
 ): PublishedEntry | null {
@@ -89,6 +95,7 @@ export function publishedEntry(
         downloadUrl: item["@microsoft.graph.downloadUrl"] ?? undefined,
         entry: { ...metadata, kind: "file", size: item.size },
         id: item.id,
+        properties: item.file,
       };
 }
 

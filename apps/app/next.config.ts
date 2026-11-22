@@ -22,7 +22,7 @@ const csp = [
 let nextConfig: NextConfig = {
   ...config,
   experimental: { ...config.experimental, globalNotFound: true },
-  // Keep document URLs and search terms out of analytics.
+  // Keep document URLs out of analytics.
   rewrites: undefined,
   async headers() {
     return [

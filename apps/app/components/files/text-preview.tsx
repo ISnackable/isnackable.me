@@ -1,18 +1,21 @@
 "use client";
 
 import { buttonVariants } from "@repo/design-system/components/ui/button";
+import { Skeleton } from "@repo/design-system/components/ui/skeleton";
 import type { FilesMessages } from "@repo/internationalization/dictionaries";
 import type { Locale } from "@repo/internationalization/locales";
 import { ArrowUpRightIcon } from "lucide-react";
 import dynamic from "next/dynamic";
+import { type ReactNode, Suspense } from "react";
 import useSWR from "swr";
 import { filesApiHref } from "@/lib/files/paths";
 import { shortcutUrl } from "@/lib/files/preview";
-import { FilesLoading, PreviewUnavailable } from "./status";
 
 const FileMarkdown = dynamic(() =>
   import("./markdown").then((module) => module.FileMarkdown)
 );
+const textPreviewSurface =
+  "min-h-32 rounded-xl border bg-card p-4 text-card-foreground sm:p-6";
 
 async function fetchText(url: string) {
   const response = await fetch(url);
@@ -29,12 +32,60 @@ function useFileText(path: readonly string[]) {
   return useSWR(filesApiHref("content", path, { preview: "1" }), fetchText);
 }
 
+function TextPreviewLoading({ label }: { readonly label: string }) {
+  return (
+    <div
+      aria-busy="true"
+      aria-label={label}
+      className="grid gap-3"
+      role="status"
+    >
+      <Skeleton className="h-5 w-40 max-w-full motion-reduce:animate-none" />
+      <Skeleton className="h-4 w-full motion-reduce:animate-none" />
+      <Skeleton className="h-4 w-2/3 motion-reduce:animate-none" />
+    </div>
+  );
+}
+
+function MarkdownPreview({
+  body,
+  loadingLabel,
+  locale,
+  path,
+  title,
+}: {
+  readonly body: string | undefined;
+  readonly loadingLabel: string;
+  readonly locale: Locale;
+  readonly path: readonly string[];
+  readonly title?: string;
+}) {
+  const loading = <TextPreviewLoading label={loadingLabel} />;
+  return (
+    <section aria-label={title} className={textPreviewSurface}>
+      <Suspense fallback={loading}>
+        {body === undefined ? (
+          loading
+        ) : (
+          <FileMarkdown
+            body={body}
+            folder={path.slice(0, -1)}
+            locale={locale}
+          />
+        )}
+      </Suspense>
+    </section>
+  );
+}
+
 export function FileTextPreview({
+  fallback,
   kind,
   locale,
   messages,
   path,
 }: {
+  readonly fallback: ReactNode;
   readonly kind: "link" | "markdown" | "text";
   readonly locale: Locale;
   readonly messages: FilesMessages;
@@ -42,15 +93,21 @@ export function FileTextPreview({
 }) {
   const { data, error } = useFileText(path);
   if (data === undefined && !error) {
-    return <FilesLoading label={messages.previewLoading} />;
+    return (
+      <div className={textPreviewSurface}>
+        <TextPreviewLoading label={messages.previewLoading} />
+      </div>
+    );
   }
   if (data === null || data === undefined) {
-    return <PreviewUnavailable messages={messages} />;
+    return fallback;
   }
   const url = kind === "link" ? shortcutUrl(data) : null;
   if (url) {
     return (
-      <section className="flex flex-wrap items-center gap-3 rounded-xl border p-4">
+      <section
+        className={`${textPreviewSurface} flex flex-wrap content-start items-center gap-3`}
+      >
         <span className="break-all text-muted-foreground text-sm">{url}</span>
         <a
           className={buttonVariants({ size: "sm", variant: "outline" })}
@@ -65,29 +122,43 @@ export function FileTextPreview({
     );
   }
   return kind === "markdown" ? (
-    <section className="rounded-xl border p-4 sm:p-6">
-      <FileMarkdown body={data} folder={path.slice(0, -1)} locale={locale} />
-    </section>
+    <MarkdownPreview
+      body={data}
+      loadingLabel={messages.previewLoading}
+      locale={locale}
+      path={path}
+    />
   ) : (
-    <pre className="max-h-[75svh] overflow-auto rounded-xl border bg-muted/30 p-4 text-sm sm:p-6">
+    <pre
+      className={`${textPreviewSurface} max-h-[75svh] overflow-auto text-sm`}
+    >
       <code>{data}</code>
     </pre>
   );
 }
 
 export function FolderReadme({
+  loadingLabel,
   locale,
   path,
   title,
 }: {
+  readonly loadingLabel: string;
   readonly locale: Locale;
   readonly path: readonly string[];
   readonly title: string;
 }) {
-  const { data } = useFileText(path);
-  return data ? (
-    <section aria-label={title} className="rounded-xl border p-4 sm:p-6">
-      <FileMarkdown body={data} folder={path.slice(0, -1)} locale={locale} />
-    </section>
-  ) : null;
+  const { data, isLoading } = useFileText(path);
+  if (!(data || isLoading)) {
+    return null;
+  }
+  return (
+    <MarkdownPreview
+      body={data ?? undefined}
+      loadingLabel={loadingLabel}
+      locale={locale}
+      path={path}
+      title={title}
+    />
+  );
 }

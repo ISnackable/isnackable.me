@@ -1,25 +1,26 @@
 {
   "common": {
-    "switchLanguage": "言語を切り替える"
+    "switchLanguage": "言語を切り替える",
+    "navigation": {
+      "home": "ホーム",
+      "blog": "ブログ",
+      "projects": "プロジェクト",
+      "files": "ファイル",
+      "label": "メインナビゲーション"
+    },
+    "header": {
+      "toggleTheme": "テーマを切り替える",
+      "toggleMenu": "メニューを切り替える",
+      "closeMenu": "メニューを閉じる"
+    }
   },
   "files": {
-    "closeSearch": "検索を閉じる",
     "itemActions": "項目の操作",
     "copyItem": "{name} のリンクをコピー",
     "downloadItem": "{name} をダウンロード",
     "openLink": "リンクを開く",
     "title": "OneDrive インデックス",
     "root": "すべてのファイル",
-    "portfolio": "ポートフォリオ",
-    "search": "ファイルを検索",
-    "searchPlaceholder": "公開ファイルを検索",
-    "searchHeading": "検索結果",
-    "searchPrompt": "公開フォルダを検索する語句を入力してください。",
-    "searchEmpty": "一致する項目がありません。",
-    "searchRefine": "検索結果がさらにあります。検索語を絞り込んでください。",
-    "searchUnavailable": "現在、検索を利用できません。",
-    "searchTooLong": "検索語を短くしてください。",
-    "theme": "テーマを切り替え",
     "breadcrumb": "ファイルの場所",
     "list": "リスト表示",
     "grid": "グリッド表示",
@@ -33,21 +34,26 @@
     "empty": "このフォルダは空です。",
     "copy": "リンクをコピー",
     "copyDirect": "直接リンクをコピー",
-    "copySelected": "選択したリンクをコピー",
+    "copySelected": "リンクを一覧としてコピー",
     "copied": "リンクをコピーしました",
     "linksCopied": "リンクをコピーしました",
+    "openOneLink": "リンクは一つずつ開いてください。",
     "copyError": "リンクをコピーできませんでした。",
     "download": "ダウンロード",
     "downloadFolder": "フォルダを ZIP でダウンロード",
     "downloadSelected": "選択した項目をダウンロード",
-    "selectItems": "選択",
-    "cancelSelection": "選択をキャンセル",
+    "folderActions": "フォルダの操作",
+    "clearSelection": "選択を解除",
+    "selectedCount": "{count} 件選択中",
     "selectAll": "表示中の項目をすべて選択",
     "selectItem": "{name} を選択",
     "selectionLimit": "ZIP に追加できるのは {limit} 項目までです。",
+    "archiveEntryLimit": "最大 {limit} 項目",
     "readme": "フォルダの README",
     "unsupported": "プレビューできません",
-    "downloadInstead": "ファイルをダウンロードして、お使いの端末で開いてください。",
+    "fileDetails": "ファイルの詳細",
+    "mimeType": "MIME タイプ",
+    "checksums": "チェックサム",
     "previewLoading": "プレビューを読み込み中…",
     "rateLimited": "リクエストが多すぎます。数分後にお試しください。",
     "missing": "ファイルまたはフォルダが見つかりません",
@@ -66,16 +72,6 @@
       "serverDescription": "もう一度読み込むか、ホームに戻ってください。",
       "home": "ホームに戻る",
       "retry": "再試行"
-    },
-    "header": {
-      "home": "ホーム",
-      "blog": "ブログ",
-      "projects": "プロジェクト",
-      "toggleTheme": "テーマを切り替える",
-      "toggleMenu": "メニューを切り替える",
-      "closeMenu": "メニューを閉じる",
-      "navigation": "メインナビゲーション",
-      "footerNavigation": "フッターナビゲーション"
     },
     "home": {
       "hero": {
@@ -191,6 +187,7 @@
       "tags": "タグ"
     },
     "footer": {
+      "navigation": "フッターナビゲーション",
       "copyrightHolder": "著作権者",
       "builtBy": "制作",
       "githubProfile": "{name}のGitHubプロフィール"

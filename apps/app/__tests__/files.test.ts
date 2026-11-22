@@ -1,13 +1,15 @@
 // @vitest-environment node
+import { formatFileSize } from "@repo/design-system/components/extend/file-format";
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { POST as downloadArchive } from "@/app/api/files/archive/route";
 import { GET } from "@/app/api/files/browse/route";
 import { resolveEntry } from "@/lib/files/access";
 import { serveFileRequest } from "@/lib/files/content";
 import { readCursor, sealCursor } from "@/lib/files/cursor";
 import type { GraphItem } from "@/lib/files/graph";
 import { readArchivePaths } from "@/lib/files/http";
-import { archiveSelectionLimit } from "@/lib/files/limits";
+import { archiveEntryLimit, archiveSelectionLimit } from "@/lib/files/limits";
 import {
   browseHref,
   filesApiHref,
@@ -100,6 +102,26 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+test.each([
+  ["en", "1.5"],
+  ["ja", "1.5"],
+  ["zh", "1.5"],
+  ["de", "1,5"],
+])(
+  "uses consistent byte units with a localized number in %s",
+  (locale, decimal) => {
+    const sizes = [0, 1500, 1_500_000, 1_500_000_000, 1_500_000_000_000];
+
+    expect(sizes.map((size) => formatFileSize(size, locale))).toEqual([
+      "0\u00a0B",
+      `${decimal}\u00a0kB`,
+      `${decimal}\u00a0MB`,
+      `${decimal}\u00a0GB`,
+      `${decimal}\u00a0TB`,
+    ]);
+  }
+);
+
 test("filename links encode spaces, Unicode, and literal percent and hash characters exactly once", () => {
   const path = ["資料", "50% #1 + text.txt"];
   const href = browseHref("ja", path);
@@ -140,6 +162,47 @@ test("archive requests accept the full selection limit with long Unicode paths",
     method: "POST",
   });
   await expect(readArchivePaths(request)).resolves.toEqual(paths);
+});
+
+test("an oversized nested folder fails before the server starts streaming a ZIP", async () => {
+  network
+    .mockResolvedValueOnce(
+      Response.json(
+        folder("documents", drive.rootId, "Public/Shared", "Documents")
+      )
+    )
+    .mockResolvedValueOnce(
+      Response.json({
+        value: [
+          folder("nested", "documents", "Public/Shared/Documents", "Nested"),
+        ],
+      })
+    )
+    .mockResolvedValueOnce(
+      Response.json({
+        value: Array.from({ length: archiveEntryLimit }, (_, index) => ({
+          file: {},
+          id: `file-${index}`,
+          name: `file-${index}.txt`,
+          parentReference: {
+            driveId: drive.driveId,
+            id: "nested",
+            path: "/drive/root:/Public/Shared/Documents/Nested",
+          },
+        })),
+      })
+    );
+
+  const response = await downloadArchive(
+    new NextRequest("https://files.example.test/api/files/archive", {
+      body: new URLSearchParams({ path: "Documents" }),
+      method: "POST",
+    })
+  );
+  expect(response.status).toBe(413);
+  expect(response.headers.get("Content-Disposition")).toBeNull();
+  await expect(response.json()).resolves.toEqual({ error: "archive-limit" });
+  expect(network).toHaveBeenCalledTimes(3);
 });
 
 test.each([

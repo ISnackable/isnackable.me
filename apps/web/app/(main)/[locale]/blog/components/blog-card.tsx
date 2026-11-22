@@ -1,12 +1,12 @@
 import type { PostMeta } from "@repo/cms";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import Link from "next/link";
 import { ArticleMeta } from "../../components/article-meta";
 import { ContentImage } from "../../components/content-image";
 import { ContentTags } from "../../components/content-tags";
 
 interface BlogCardProps {
-  copy: Dictionary["web"]["content"];
+  copy: PortfolioDictionary["web"]["content"];
   headingLevel?: 2 | 3;
   locale: string;
   post: PostMeta;

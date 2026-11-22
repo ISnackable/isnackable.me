@@ -13,6 +13,16 @@ export type FileEntry = EntryMetadata &
 export type FileMetadata = Extract<FileEntry, { kind: "file" }>;
 export type FolderMetadata = Extract<FileEntry, { kind: "folder" }>;
 
+export interface FileProperties {
+  readonly hashes?: {
+    readonly quickXorHash?: string | null;
+    readonly sha1Hash?: string | null;
+  } | null;
+  readonly mimeType?: string | null;
+}
+
+export type FileDetails = FileMetadata & FileProperties;
+
 interface FolderPage {
   readonly entries: readonly FileEntry[];
   readonly entry: FolderMetadata;
@@ -22,14 +32,10 @@ interface FolderPage {
 
 export type BrowsePage =
   | FolderPage
-  | { readonly entry: FileMetadata; readonly kind: "file" };
-
-export interface SearchPage {
-  readonly entries: readonly FileEntry[];
-  readonly hasMore: boolean;
-}
+  | { readonly entry: FileDetails; readonly kind: "file" };
 
 export type FilesErrorCode =
+  | "archive-limit"
   | "invalid"
   | "invalid-cursor"
   | "missing"

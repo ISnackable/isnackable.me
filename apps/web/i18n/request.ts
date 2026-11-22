@@ -1,5 +1,5 @@
 import {
-  getDictionary,
+  getPortfolioDictionary,
   getRequestConfig,
   hasLocale,
   routing,
@@ -12,5 +12,5 @@ export default getRequestConfig(async ({ locale: explicitLocale }) => {
     ? requested
     : routing.defaultLocale;
 
-  return { locale, messages: await getDictionary(locale) };
+  return { locale, messages: await getPortfolioDictionary(locale) };
 });

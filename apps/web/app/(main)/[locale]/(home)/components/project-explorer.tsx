@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { ArrowUpRightIcon, ChevronRightIcon, LayersIcon } from "lucide-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode, useId, useRef } from "react";
@@ -25,7 +25,7 @@ export function ProjectExplorer({
   exploreLabel,
 }: {
   items: ProjectPreviewItem[];
-  copy: Dictionary["web"]["home"]["projects"]["exploration"];
+  copy: PortfolioDictionary["web"]["home"]["projects"]["exploration"];
   exploreLabel: string;
 }) {
   const previewId = useId();

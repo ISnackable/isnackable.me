@@ -69,7 +69,7 @@ async function readBrowsePage(
     if (cursor !== null) {
       throw new FilesError("invalid-cursor");
     }
-    return { entry: item.entry, kind: "file" };
+    return { entry: { ...item.entry, ...item.properties }, kind: "file" };
   }
 
   const nextLink =

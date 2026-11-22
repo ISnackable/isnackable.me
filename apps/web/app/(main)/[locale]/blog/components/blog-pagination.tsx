@@ -9,7 +9,7 @@ import {
   PaginationItem,
 } from "@repo/design-system/components/ui/pagination";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { blogHref } from "@/lib/blog-discovery";
@@ -20,7 +20,7 @@ export function BlogPagination({
   locale,
   pageCount,
 }: {
-  copy: Dictionary["web"]["blog"]["discovery"];
+  copy: PortfolioDictionary["web"]["blog"]["discovery"];
   filters: BlogFilters;
   locale: string;
   pageCount: number;

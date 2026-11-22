@@ -39,7 +39,11 @@ export function LanguageSwitcher({
             <DropdownMenuItem
               aria-current={locale === currentLocale ? "page" : undefined}
               key={locale}
-              onClick={() => onLocaleChange(locale)}
+              onClick={() => {
+                if (locale !== currentLocale) {
+                  onLocaleChange(locale);
+                }
+              }}
             >
               {languageLabels[locale]}
             </DropdownMenuItem>

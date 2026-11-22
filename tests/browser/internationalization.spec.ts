@@ -21,7 +21,7 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
       page.getByRole("button", { name: dictionary.common.switchLanguage })
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: copy.header.toggleTheme })
+      page.getByRole("button", { name: dictionary.common.header.toggleTheme })
     ).toBeVisible();
     // Music and About are optional CMS content; only exercise configured widgets.
     const musicPlayer = page.locator(".music-player-widget");

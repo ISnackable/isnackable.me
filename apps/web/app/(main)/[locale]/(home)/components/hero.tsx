@@ -9,7 +9,7 @@ import {
 import { contentText } from "@repo/cms/content/text";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { stegaClean } from "@sanity/client/stega";
 import Github from "@thesvg/react/github";
 import { ArrowUpRightIcon, FileCode2Icon, FileTextIcon } from "lucide-react";
@@ -28,7 +28,7 @@ import { Terminal } from "./terminal";
 
 interface HeroProps {
   content: HeroSectionContent;
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
   site: SiteSettings;
 }

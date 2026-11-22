@@ -96,16 +96,29 @@ export function BrowseView({ locale, messages, path }: BrowseProps) {
   }
   const pages = data ?? [];
   const first = pages[0];
+  const location = (
+    <FileLocation
+      locale={locale}
+      messages={messages}
+      path={first?.entry.path ?? path}
+    />
+  );
   if (!first) {
     return error ? (
       <BrowseError code={code} locale={locale} messages={messages} />
     ) : (
-      <FilesLoading label={messages.loading} />
+      <>
+        {location}
+        <FilesLoading label={messages.loading} />
+      </>
     );
   }
   if (first.kind === "file") {
     return (
-      <FilePreview file={first.entry} locale={locale} messages={messages} />
+      <>
+        {location}
+        <FilePreview file={first.entry} locale={locale} messages={messages} />
+      </>
     );
   }
 
@@ -124,12 +137,7 @@ export function BrowseView({ locale, messages, path }: BrowseProps) {
   const loadError = Boolean(error && size > pages.length);
   return (
     <>
-      {folder.length > 0 && (
-        <FileLocation locale={locale} messages={messages} path={folder} />
-      )}
-      <h1 className="break-all font-semibold text-2xl tracking-tight sm:text-3xl">
-        {folder.length > 0 ? first.entry.name : messages.root}
-      </h1>
+      {location}
       <FilesDirectory
         entries={entries}
         folder={folder}
@@ -146,6 +154,7 @@ export function BrowseView({ locale, messages, path }: BrowseProps) {
       />
       {readme && (
         <FolderReadme
+          loadingLabel={messages.previewLoading}
           locale={locale}
           path={readme.path}
           title={messages.readme}

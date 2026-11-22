@@ -19,7 +19,6 @@ const rootPath = ["Public"];
 const downloadSuffix = "/content";
 const thumbnailSuffix = "/thumbnails";
 const byteRange = /^bytes=(\d+)-(\d*)$/;
-const search = /^([^/]+)\/search\(q='(.*)'\)$/;
 
 Object.assign(process.env, {
   ARCJET_KEY: "",
@@ -79,6 +78,13 @@ addItem("art", rootId, "Photo.png", pixel);
 addItem("shortcut", rootId, "Unpublished shortcut");
 items.get("shortcut").remoteItem = { id: "private" };
 addItem("large", "archive", "large.bin", Buffer.alloc(5 * 1024 * 1024, 65));
+items.get("large").file = {
+  hashes: {
+    quickXorHash: "AAECAwQFBgcICQoLDA0ODxAREhM=",
+    sha1Hash: "f0a9cd8681a4f45b8aba8f08e5d42f8f8437d066",
+  },
+  mimeType: "application/octet-stream",
+};
 addItem("guide", "docs", "Guide.txt", "Public file fixture");
 addItem("nested", "docs", "Nested");
 addItem("deep", "nested", "Deep");
@@ -182,16 +188,6 @@ function handleGraph(url) {
       value: item?.file
         ? [{ medium: { url: `https://${contentHost}/thumbnail/${item.id}` } }]
         : [],
-    });
-  }
-  const match = search.exec(decodeURIComponent(suffix));
-  if (match?.[1] === rootId) {
-    const term = match[2].replaceAll("''", "'").toLowerCase();
-    // Include stale outside results to exercise the app's scope check.
-    return Response.json({
-      value: [...items.values()].filter((item) =>
-        item.name.toLowerCase().includes(term)
-      ),
     });
   }
   return itemResponse(url, suffix);

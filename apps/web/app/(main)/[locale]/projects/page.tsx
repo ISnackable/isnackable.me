@@ -1,9 +1,9 @@
 import { pages, projects } from "@repo/cms";
 import { contentText } from "@repo/cms/content/text";
-import { getDictionary, routing } from "@repo/internationalization";
+import { getPortfolioDictionary, routing } from "@repo/internationalization";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { createWebMetadata } from "@/lib/metadata";
 import { ContentEmpty } from "../components/content-empty";
 import ContentLoading from "../components/content-loading";
@@ -14,12 +14,12 @@ export function generateStaticParams() {
 }
 
 export const generateMetadata = async (): Promise<Metadata> =>
-  createWebMetadata({ kind: "projects" }, await getSiteLocale());
+  createWebMetadata({ kind: "projects" }, await getPortfolioLocale());
 
 const ProjectsIndex = async () => {
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
 
-  const dictionary = await getDictionary(locale);
+  const dictionary = await getPortfolioDictionary(locale);
   const [items, document] = await Promise.all([
     projects.getMeta(locale, 50),
     pages.get("projects", locale),

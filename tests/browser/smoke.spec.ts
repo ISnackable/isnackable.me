@@ -36,7 +36,7 @@ for (const locale of ["en", "ja", "zh"] as const) {
     ).toHaveCount(1);
     await page
       .getByRole("button", {
-        name: dictionaries[locale].web.header.toggleTheme,
+        name: dictionaries[locale].common.header.toggleTheme,
       })
       .click();
     await expect(page.locator("html")).toHaveClass(THEME_CLASS);

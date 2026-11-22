@@ -11,16 +11,14 @@ import { openPublishedDrive, type PublishedDrive } from "./connection";
 import { fetchFile } from "./content";
 import { FilesError, filesErrorCode } from "./errors";
 import { attachment, noStore } from "./http";
+import { archiveEntryLimit } from "./limits";
 
-interface ArchiveContext {
-  readonly base: readonly string[];
+interface ArchivePlan {
   readonly drive: PublishedDrive;
+  readonly entries: Map<string, PublishedEntry>;
   remainingPages: number;
-  readonly seen: Set<string>;
   readonly signal: AbortSignal;
 }
-
-const entryLimit = 5000;
 
 function sharedParent(roots: readonly PublishedEntry[]) {
   let base = roots[0].entry.path.slice(0, -1);
@@ -44,8 +42,11 @@ type ZipEntry = {
   | { readonly input?: never }
 );
 
-async function archiveFile(file: PublishedFile, context: ArchiveContext) {
-  const { drive, signal } = context;
+async function archiveFile(
+  file: PublishedFile,
+  drive: PublishedDrive,
+  signal: AbortSignal
+) {
   let verified: PublishedEntry;
   try {
     verified = await resolveEntry(drive, file.entry.path, {
@@ -69,65 +70,66 @@ async function archiveFile(file: PublishedFile, context: ArchiveContext) {
   return response.body;
 }
 
-async function* zipEntries(
-  allowed: PublishedEntry,
-  context: ArchiveContext
-): AsyncGenerator<ZipEntry> {
+async function planArchiveEntry(allowed: PublishedEntry, plan: ArchivePlan) {
   const { entry } = allowed;
-  const { seen, signal } = context;
+  const { drive, entries, signal } = plan;
   signal.throwIfAborted();
   const key = entry.path.join("/");
-  if (seen.has(key)) {
+  if (entries.has(key)) {
     return;
   }
-  if (seen.size >= entryLimit) {
-    throw new FilesError("invalid");
+  if (entries.size >= archiveEntryLimit) {
+    throw new FilesError("archive-limit");
   }
-  seen.add(key);
-
-  const name = entry.path.slice(context.base.length).join("/");
-  const lastModified =
-    entry.modifiedAt && Number.isFinite(Date.parse(entry.modifiedAt))
-      ? new Date(entry.modifiedAt)
-      : undefined;
+  entries.set(key, allowed);
   if (isPublishedFile(allowed)) {
-    const input = await archiveFile(allowed, context);
-    if (input) {
-      yield { input, lastModified, name };
-    }
     return;
   }
 
-  if (name) {
-    yield { lastModified, name: `${name}/` };
-  }
   let nextLink: string | undefined;
   do {
     signal.throwIfAborted();
-    context.remainingPages -= 1;
-    if (context.remainingPages < 0) {
-      throw new FilesError("invalid");
+    if (plan.remainingPages === 0) {
+      throw new FilesError("archive-limit");
     }
+    plan.remainingPages -= 1;
     // biome-ignore lint/performance/noAwaitInLoops: Graph returns the next page URL with each page.
     const page = await listFolderEntries(
-      context.drive,
+      drive,
       { id: allowed.id, path: entry.path },
       nextLink,
       signal
     );
     for (const child of page.entries) {
-      yield* zipEntries(child, context);
+      // biome-ignore lint/performance/noAwaitInLoops: Traverse folders sequentially to bound Graph requests.
+      await planArchiveEntry(child, plan);
     }
     nextLink = page.nextLink;
   } while (nextLink);
 }
 
-async function* archiveEntries(
-  roots: readonly PublishedEntry[],
-  context: ArchiveContext
-) {
-  for (const root of roots) {
-    yield* zipEntries(root, context);
+async function* zipEntries(
+  plan: ArchivePlan,
+  base: readonly string[]
+): AsyncGenerator<ZipEntry> {
+  const { drive, entries, signal } = plan;
+  for (const allowed of entries.values()) {
+    signal.throwIfAborted();
+    const { entry } = allowed;
+    const name = entry.path.slice(base.length).join("/");
+    const lastModified =
+      entry.modifiedAt && Number.isFinite(Date.parse(entry.modifiedAt))
+        ? new Date(entry.modifiedAt)
+        : undefined;
+    if (isPublishedFile(allowed)) {
+      // biome-ignore lint/performance/noAwaitInLoops: Stream each file before opening the next one.
+      const input = await archiveFile(allowed, drive, signal);
+      if (input) {
+        yield { input, lastModified, name };
+      }
+    } else if (name) {
+      yield { lastModified, name: `${name}/` };
+    }
   }
 }
 
@@ -147,15 +149,18 @@ export async function archiveResponse(
     roots.length === 1 && roots[0].entry.kind === "folder"
       ? roots[0].entry.name
       : base.at(-1);
-  const body = makeZip(
-    archiveEntries(roots, {
-      base,
-      drive,
-      remainingPages: entryLimit,
-      seen: new Set(),
-      signal,
-    })
-  );
+  // Check traversal limits before returning attachment headers.
+  const plan = {
+    drive,
+    entries: new Map<string, PublishedEntry>(),
+    remainingPages: archiveEntryLimit,
+    signal,
+  };
+  for (const root of roots) {
+    // biome-ignore lint/performance/noAwaitInLoops: Share one work limit across all roots.
+    await planArchiveEntry(root, plan);
+  }
+  const body = makeZip(zipEntries(plan, base));
   return new Response(body, {
     headers: {
       ...noStore,

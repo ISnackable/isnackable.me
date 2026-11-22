@@ -2,7 +2,7 @@ import { projects } from "@repo/cms";
 import { SanityImage } from "@repo/cms/components/sanity-image";
 import type { ProjectsSectionContent } from "@repo/cms/content/pages";
 import { contentText } from "@repo/cms/content/text";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { ContentEmpty } from "../../components/content-empty";
 import { SectionHeading } from "../../components/section-heading";
 import { ArtifactPlaceholder } from "./artifact-placeholder";
@@ -14,18 +14,19 @@ export async function ProjectsSection({
   section,
 }: {
   section: ProjectsSectionContent;
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
 }) {
   const items = await projects.getMeta(locale, section.limit ?? 3);
-  const { content, home, header } = dictionary.web;
+  const { projects: projectsLabel } = dictionary.common.navigation;
+  const { content, home } = dictionary.web;
   return (
     <section className="flex flex-col gap-9">
       <SectionHeading
         action={{ href: `/${locale}/projects`, label: content.allProjects }}
         description={contentText(section.description)}
-        label={header.projects}
-        title={contentText(section.title) || header.projects}
+        label={projectsLabel}
+        title={contentText(section.title) || projectsLabel}
       />
       {items.length ? (
         <ProjectExplorer

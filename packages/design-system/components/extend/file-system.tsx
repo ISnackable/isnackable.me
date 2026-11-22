@@ -56,6 +56,7 @@ interface FileSystemProps {
   readonly selection?: {
     readonly all: ReactNode;
     readonly item: (item: FileSystemItem) => ReactNode;
+    readonly selectedKeys: ReadonlySet<string>;
   };
   readonly view: FileSystemView;
 }
@@ -110,13 +111,16 @@ export function FileSystem({
       data-slot="file-system"
     >
       <FileSystemIconSpriteSheet />
-      <div className="flex min-h-12 items-center justify-between gap-3 border-b px-3 py-2 sm:px-4">
-        <div className="flex min-w-0 flex-wrap items-center gap-2">
-          {selection && view === "icons" && selection.all}
-          {actions}
-        </div>
+      <div className="flex min-h-12 items-center gap-2 border-b px-3 py-2 sm:gap-3 sm:px-4">
+        {selection && view === "icons" && (
+          <div className="flex size-8 shrink-0 items-center justify-center">
+            {selection.all}
+          </div>
+        )}
+        <div className="ms-auto flex min-w-0 items-center">{actions}</div>
         <ToggleGroup
           aria-label={labels.view}
+          className="shrink-0"
           onValueChange={([next]) => {
             if (next === "icons" || next === "list") {
               onViewChange(next);
@@ -144,9 +148,15 @@ export function FileSystem({
       </div>
       {items.length > 0 &&
         (view === "icons" ? (
-          <ul className="grid grid-cols-[repeat(auto-fill,minmax(6.5rem,1fr))] gap-x-1 gap-y-3 p-3">
+          <ul className="grid grid-cols-[repeat(auto-fill,minmax(6.75rem,1fr))] gap-x-1 gap-y-3 p-3">
             {items.map((item) => (
-              <li className="relative" key={item.key}>
+              <li
+                className="rounded-lg data-[state=selected]:bg-muted"
+                data-state={
+                  selection?.selectedKeys.has(item.key) ? "selected" : undefined
+                }
+                key={item.key}
+              >
                 {renderLink(
                   item,
                   <>
@@ -161,14 +171,14 @@ export function FileSystem({
                   </>,
                   "group flex h-[6.375rem] flex-col items-center gap-1.5 rounded-lg outline-none"
                 )}
-                {renderItemActions && (
-                  <div className="mt-1 flex justify-center">
-                    {renderItemActions(item)}
-                  </div>
-                )}
-                {selection && (
-                  <div className="absolute start-2 top-2">
-                    {selection.item(item)}
+                {(selection || renderItemActions) && (
+                  <div className="mt-1 flex items-center justify-center gap-0.5">
+                    {selection && (
+                      <div className="grid h-8 w-10 shrink-0 place-items-center">
+                        {selection.item(item)}
+                      </div>
+                    )}
+                    {renderItemActions?.(item)}
                   </div>
                 )}
               </li>
@@ -179,7 +189,7 @@ export function FileSystem({
             <TableHeader>
               <TableRow className="bg-muted/35 hover:bg-muted/35">
                 {selection && (
-                  <TableHead className="w-10 ps-4">{selection.all}</TableHead>
+                  <TableHead className="w-11 ps-4">{selection.all}</TableHead>
                 )}
                 <TableHead className="px-4 text-muted-foreground">
                   {labels.name}
@@ -187,57 +197,77 @@ export function FileSystem({
                 <TableHead className="hidden w-40 text-muted-foreground sm:table-cell">
                   {labels.modified}
                 </TableHead>
-                <TableHead className="w-24 pr-4 text-right text-muted-foreground">
+                <TableHead className="hidden w-24 pe-4 text-right text-muted-foreground sm:table-cell">
                   {labels.size}
                 </TableHead>
                 {renderItemActions && (
-                  <TableHead aria-label={labels.itemActions} className="w-20" />
+                  <TableHead className="w-20">
+                    <span className="sr-only">{labels.itemActions}</span>
+                  </TableHead>
                 )}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.key}>
-                  {selection && (
-                    <TableCell className="ps-4">
-                      {selection.item(item)}
-                    </TableCell>
-                  )}
-                  <TableCell className="max-w-0 p-0">
-                    {renderLink(
-                      item,
-                      <>
-                        {item.kind === "folder" ? (
-                          <FileSystemFolderGlyph className="w-5 shrink-0" />
-                        ) : (
-                          <FileTypeIcon
-                            className="size-5"
-                            fileName={item.name}
-                          />
-                        )}
-                        <span className="truncate">{item.name}</span>
-                      </>,
-                      "flex min-h-11 items-center gap-3 px-4 py-2 font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+              {items.map((item) => {
+                const size =
+                  item.size === undefined
+                    ? undefined
+                    : formatFileSize(item.size, locale);
+                return (
+                  <TableRow
+                    data-state={
+                      selection?.selectedKeys.has(item.key)
+                        ? "selected"
+                        : undefined
+                    }
+                    key={item.key}
+                  >
+                    {selection && (
+                      <TableCell className="ps-4">
+                        {selection.item(item)}
+                      </TableCell>
                     )}
-                  </TableCell>
-                  <TableCell className="hidden text-muted-foreground text-xs sm:table-cell">
-                    {item.updatedAt &&
-                    Number.isFinite(Date.parse(item.updatedAt))
-                      ? date.format(new Date(item.updatedAt))
-                      : "–"}
-                  </TableCell>
-                  <TableCell className="pr-4 text-right text-muted-foreground text-xs tabular-nums">
-                    {item.size === undefined
-                      ? "–"
-                      : formatFileSize(item.size, locale)}
-                  </TableCell>
-                  {renderItemActions && (
-                    <TableCell className="pr-3">
-                      {renderItemActions(item)}
+                    <TableCell className="max-w-0 p-0">
+                      {renderLink(
+                        item,
+                        <>
+                          {item.kind === "folder" ? (
+                            <FileSystemFolderGlyph className="w-5 shrink-0" />
+                          ) : (
+                            <FileTypeIcon
+                              className="size-5"
+                              fileName={item.name}
+                            />
+                          )}
+                          <span className="flex min-w-0 flex-col gap-0.5">
+                            <span className="truncate">{item.name}</span>
+                            {size && (
+                              <span className="font-normal text-muted-foreground text-xs tabular-nums sm:hidden">
+                                {size}
+                              </span>
+                            )}
+                          </span>
+                        </>,
+                        "flex min-h-11 items-center gap-2 px-2 py-2 font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:gap-3 sm:px-4"
+                      )}
                     </TableCell>
-                  )}
-                </TableRow>
-              ))}
+                    <TableCell className="hidden text-muted-foreground text-xs sm:table-cell">
+                      {item.updatedAt &&
+                      Number.isFinite(Date.parse(item.updatedAt))
+                        ? date.format(new Date(item.updatedAt))
+                        : "–"}
+                    </TableCell>
+                    <TableCell className="hidden pe-4 text-right text-muted-foreground text-xs tabular-nums sm:table-cell">
+                      {size ?? "–"}
+                    </TableCell>
+                    {renderItemActions && (
+                      <TableCell className="pr-3">
+                        {renderItemActions(item)}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         ))}

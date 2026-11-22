@@ -1,6 +1,6 @@
 import type { PROJECT_QUERY_RESULT } from "@repo/cms";
 import { Button } from "@repo/design-system/components/ui/button";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { stegaClean } from "@sanity/client/stega";
 import { ArrowUpRightIcon, Code2Icon } from "lucide-react";
 import { ContentTags } from "../../components/content-tags";
@@ -11,7 +11,7 @@ export function ProjectFacts({
   locale,
 }: {
   project: NonNullable<PROJECT_QUERY_RESULT>;
-  copy: Dictionary["web"]["content"];
+  copy: PortfolioDictionary["web"]["content"];
   locale: string;
 }) {
   const formatDate = (value?: string | null) => {

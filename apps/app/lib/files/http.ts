@@ -13,6 +13,7 @@ const archiveBodyLimit =
   archiveSelectionLimit * (filePathLimit * 9 + "path=&".length);
 
 const status = {
+  "archive-limit": 413,
   invalid: 400,
   "invalid-cursor": 400,
   missing: 404,
@@ -57,7 +58,10 @@ export async function readArchivePaths(request: Request) {
   );
   const form = new URLSearchParams(await new Response(body).text());
   const paths = new Set(form.getAll("path"));
-  if (paths.size === 0 || paths.size > archiveSelectionLimit) {
+  if (paths.size > archiveSelectionLimit) {
+    throw new FilesError("archive-limit");
+  }
+  if (paths.size === 0) {
     throw new FilesError("invalid");
   }
   return Array.from(paths, (value) => {

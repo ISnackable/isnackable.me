@@ -4,8 +4,10 @@ import { type Locale, resolveLocale } from "./locales";
 import type en from "./messages/en.json";
 
 type Messages = typeof en;
-export type Dictionary = Pick<Messages, "common" | "web">;
+export type PortfolioDictionary = Pick<Messages, "common" | "web">;
+export type FilesDictionary = Pick<Messages, "common" | "files">;
 export type FilesMessages = Messages["files"];
+export type CommonMessages = Messages["common"];
 
 // Static imports make missing keys in any locale a type error rather than a
 // runtime English fallback hidden behind an untyped dynamic import.
@@ -21,12 +23,16 @@ async function loadDictionary(locale: Locale): Promise<Messages> {
   return await dictionaries[locale]();
 }
 
-export async function getDictionary(locale: string): Promise<Dictionary> {
+export async function getPortfolioDictionary(
+  locale: string
+): Promise<PortfolioDictionary> {
   const { common, web } = await loadDictionary(resolveLocale(locale));
   return { common, web };
 }
 
-export async function getFilesDictionary(locale: Locale) {
+export async function getFilesDictionary(
+  locale: Locale
+): Promise<FilesDictionary> {
   const { common, files } = await loadDictionary(locale);
   return { common, files };
 }

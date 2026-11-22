@@ -5,7 +5,7 @@ import { locale as getRootLocale } from "next/root-params";
 import { connection } from "next/server";
 
 /** Root locale is reusable in App Shells, unlike URL-specific page params. */
-export async function getSiteLocale() {
+export async function getPortfolioLocale() {
   if ((await draftMode()).isEnabled) {
     await connection();
   }
