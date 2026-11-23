@@ -1,5 +1,6 @@
 import { resume } from "@repo/cms";
 import { getPortfolioDictionary } from "@repo/internationalization/dictionaries";
+import { log } from "@repo/observability/log";
 import { compileTypstProject } from "@repo/typst/server";
 import type { CompiledTypstDocument, TypstProject } from "@repo/typst/types";
 import { draftMode } from "next/headers";
@@ -51,7 +52,8 @@ export async function GET(
   let artifact: CompiledTypstDocument;
   try {
     artifact = await compileTypstProject(project);
-  } catch {
+  } catch (error) {
+    log.error("Failed to compile résumé PDF", { error, locale });
     return new NextResponse("Failed to compile PDF", { status: 500 });
   }
 

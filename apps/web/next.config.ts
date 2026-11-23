@@ -44,6 +44,10 @@ let nextConfig: NextConfig = withPostHog({
   experimental: { ...config.experimental, optimizePackageImports: ["three"] },
   outputFileTracingIncludes: {
     "/*": ["./generated/lanyard/previews.json"],
+    "/\\[locale\\]/resume/pdf": [
+      // Typst loads the compiler binary from its package directory at runtime.
+      "../../node_modules/.pnpm/@myriaddreamin+typst-ts-web-compiler@*/node_modules/@myriaddreamin/typst-ts-web-compiler/pkg/typst_ts_web_compiler_bg.wasm",
+    ],
     "/**/opengraph-image*": [
       "./node_modules/@fontsource/arimo/files/arimo-latin*-normal.woff",
       "./node_modules/@fontsource/noto-sans-jp/files/*-700-normal.woff",

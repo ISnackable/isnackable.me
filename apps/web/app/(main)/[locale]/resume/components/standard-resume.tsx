@@ -676,7 +676,6 @@ export function StandardResume({
                   buttonVariants({ variant: "default", size: "sm" }),
                   "w-full gap-2"
                 )}
-                download
                 href={pdfHref}
               >
                 <DownloadIcon className="size-4" />
