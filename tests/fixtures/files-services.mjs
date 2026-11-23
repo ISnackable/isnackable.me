@@ -14,6 +14,7 @@ const driveRoot = "drive-root";
 const graph = "https://graph.microsoft.com";
 const contentHost = "files-fixture.example.test";
 const redisHost = "redis-fixture.example.test";
+const redisToken = "fixture-only-redis-token";
 const secret = "fixture-only-signing-secret-000000";
 const rootPath = ["Public"];
 const downloadSuffix = "/content";
@@ -29,8 +30,9 @@ Object.assign(process.env, {
   FILES_PROTECTED_FOLDERS: "{}",
   FILES_SIGNING_SECRET: secret,
   FILES_TENANT_ID: "",
-  UPSTASH_REDIS_REST_URL: `https://${redisHost}`,
-  UPSTASH_REDIS_REST_TOKEN: "fixture-only-redis-token",
+  KV_REST_API_URL: `https://${redisHost}`,
+  KV_REST_API_TOKEN: redisToken,
+  KV_REST_API_READ_ONLY_TOKEN: "fixture-only-read-only-token",
 });
 
 const items = new Map();
@@ -361,6 +363,9 @@ globalThis.fetch = async (input, init) => {
     return handleContent(url, headers);
   }
   if (url.hostname === redisHost) {
+    if (headers.get("authorization") !== `Bearer ${redisToken}`) {
+      return Response.json({ error: "Invalid Redis token" }, { status: 401 });
+    }
     const body = JSON.parse(init?.body ?? (await input.text()));
     return Response.json(
       url.pathname.endsWith("/pipeline")

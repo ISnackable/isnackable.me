@@ -120,10 +120,11 @@ setting before it serves files.
    to the owner's OneDrive root, such as `Public/Shared`. Leave
    `FILES_TENANT_ID` empty for personal OneDrive. Set `FILES_CLIENT_ID`
    to the application ID and `FILES_CLIENT_SECRET` to the secret's original
-   **Value**. Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to an
-   Upstash REST endpoint and read/write token. Generate `FILES_SIGNING_SECRET`
+   **Value**. The Upstash integration supplies `KV_REST_API_URL` and
+   `KV_REST_API_TOKEN` on Vercel. Use the same names in `apps/app/.env.local`
+   for the HTTPS endpoint and read/write token. Generate `FILES_SIGNING_SECRET`
    with `openssl rand -base64 32`. The app uses it to encrypt the owner connection
-   saved in Redis. [Upstash REST credentials](https://upstash.com/docs/redis/features/restapi)
+   saved in Redis. [Upstash Vercel integration](https://upstash.com/docs/redis/howto/vercelintegration)
 4. Run the setup command from the repository root. Replace `sample.txt` with
    the path to an actual file under the publish folder. For example, if
    `FILES_BASE_DIRECTORY` is `Public/Shared`, pass `sample.txt` for
