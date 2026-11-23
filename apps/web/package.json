@@ -62,7 +62,7 @@
     "@types/three": "^0.187.0",
     "groq-js": "2.0.3",
     "jsdom": "^31.0.1",
-    "playwright-core": "1.65.1",
+    "playwright-core": "1.63.0",
     "sharp": "0.35.5",
     "tailwindcss": "^4.3.5",
     "tsup": "9.0.0",

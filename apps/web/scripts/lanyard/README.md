@@ -50,9 +50,10 @@ download, font loading and scene preparation have explicit deadlines, with brows
 server and staging cleanup on failure. Smoke captures go under `.next/cache`,
 without changing published preview output or contacting the CMS.
 
-Linux builds use `@sparticuz/chromium` 153 with `playwright-core` 1.63, whose
-tested browser is Chromium 153. The generator checks that the major versions
-match. Update and smoke-test these dependencies together. This dedicated driver
+Linux builds use `@sparticuz/chromium` 153 with `playwright-core` 1.63.0, whose
+tested browser is Chromium 153. The generator checks the installed versions
+before looking up cached previews on any platform, then checks the launched
+browser on Linux. Update and smoke-test these dependencies together. This driver
 does not change the repository's Playwright test runner. The capture pair has
 also been verified on Linux x64. Docker is not required by the build.
 
