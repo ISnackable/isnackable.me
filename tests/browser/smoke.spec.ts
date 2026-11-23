@@ -20,19 +20,6 @@ const JAPANESE_ROUTE = /\/ja$/;
 const STUDIO_SCRIPT = /src="(\/studio\/static\/[^"]+\.js)"/;
 const JAVASCRIPT_CONTENT_TYPE = /javascript/;
 
-test("application renders its primary navigation link", async ({ page }) => {
-  const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("http://127.0.0.1:3100");
-  await expect(
-    page.getByRole("heading", { name: "Start building your app here." })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Visit website" })
-  ).toHaveAttribute("href", HTTP_URL);
-  expect(errors).toEqual([]);
-});
-
 for (const locale of ["en", "ja", "zh"] as const) {
   test(`homepage renders and hydrates in ${locale}`, async ({ page }) => {
     const errors: string[] = [];
@@ -49,7 +36,7 @@ for (const locale of ["en", "ja", "zh"] as const) {
     ).toHaveCount(1);
     await page
       .getByRole("button", {
-        name: dictionaries[locale].web.header.toggleTheme,
+        name: dictionaries[locale].common.header.toggleTheme,
       })
       .click();
     await expect(page.locator("html")).toHaveClass(THEME_CLASS);

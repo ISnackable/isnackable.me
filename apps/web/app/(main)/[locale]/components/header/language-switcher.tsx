@@ -1,58 +1,40 @@
 "use client";
 
-import { Button } from "@repo/design-system/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@repo/design-system/components/ui/dropdown-menu";
-import { languageLabels, locales } from "@repo/internationalization/locales";
-import { usePathname, useRouter } from "@repo/internationalization/navigation";
-import { Languages } from "lucide-react";
-import { getLanguageSwitchPath } from "@/i18n/switch-path";
+import { LanguageSwitcher } from "@repo/design-system/components/language-switcher";
+import type { Locale } from "@repo/internationalization/locales";
+import { getPathnameWithoutLocale } from "@repo/internationalization/localized-pathname";
+import { useRouter } from "@repo/internationalization/navigation";
+import { getPortfolioLanguageSwitchPath } from "@/i18n/switch-path";
 
-export const LanguageSwitcher = ({ label }: { label: string }) => {
+export function PortfolioLanguageSwitcher({
+  label,
+  locale,
+}: {
+  readonly label: string;
+  readonly locale: Locale;
+}) {
   const router = useRouter();
-  const pathname = usePathname();
+
+  function changeLanguage(targetLocale: Locale) {
+    const pathname = getPathnameWithoutLocale(window.location.pathname, locale);
+    if (!pathname) {
+      return;
+    }
+
+    const alternate = document.querySelector<HTMLLinkElement>(
+      `link[rel="alternate"][hreflang="${targetLocale}"]`
+    )?.href;
+    router.replace(
+      getPortfolioLanguageSwitchPath(pathname, targetLocale, alternate),
+      { locale: targetLocale }
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            className="shrink-0 text-foreground"
-            size="icon"
-            variant="ghost"
-          >
-            <Languages className="h-[1.2rem] w-[1.2rem]" />
-            <span className="sr-only">{label}</span>
-          </Button>
-        }
-      />
-
-      <DropdownMenuContent>
-        {locales.map((value) => (
-          <DropdownMenuItem
-            key={value}
-            onClick={() => {
-              const alternates = Object.fromEntries(
-                Array.from(
-                  document.querySelectorAll<HTMLLinkElement>(
-                    'link[rel="alternate"][hreflang]'
-                  )
-                ).map((link) => [link.hreflang, link.href])
-              );
-              router.replace(
-                getLanguageSwitchPath(pathname, value, alternates),
-                { locale: value }
-              );
-            }}
-          >
-            {languageLabels[value]}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <LanguageSwitcher
+      currentLocale={locale}
+      label={label}
+      onLocaleChange={changeLanguage}
+    />
   );
-};
+}

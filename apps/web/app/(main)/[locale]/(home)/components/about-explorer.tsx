@@ -7,7 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/design-system/components/ui/tabs";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { FileCode2Icon } from "lucide-react";
 import type { ReactNode } from "react";
 import { usePreviewSelection } from "../../components/use-preview-selection";
@@ -25,7 +25,7 @@ export function AboutExplorer({
   introduction,
 }: {
   items: AboutExplorerItem[];
-  copy: Dictionary["web"]["home"]["about"]["exploration"];
+  copy: PortfolioDictionary["web"]["home"]["about"]["exploration"];
   introduction: ReactNode;
 }) {
   const { activeId, motion, select, hover } = usePreviewSelection(

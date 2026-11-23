@@ -1,31 +1,31 @@
 import type { Locale } from "@repo/internationalization/locales";
+import { getPathnameWithoutLocale } from "@repo/internationalization/localized-pathname";
 
 const DETAIL_PATH = /^\/(blog|projects)\/[^/]+\/?$/;
 
 /** Keep translated deep links when available; otherwise show that locale's index. */
-export function getLanguageSwitchPath(
+export function getPortfolioLanguageSwitchPath(
   pathname: string,
-  locale: Locale,
-  alternates: Record<string, string>
+  targetLocale: Locale,
+  alternate?: string
 ) {
   const detail = DETAIL_PATH.exec(pathname);
   if (!detail) {
     return pathname;
   }
   const collection = detail[1];
-  const alternate = alternates[locale];
   if (alternate) {
     try {
-      const { pathname: translatedPath } = new URL(
-        alternate,
-        "https://local.invalid"
+      const url = new URL(alternate, "https://local.invalid");
+      const translatedPath = getPathnameWithoutLocale(
+        url.pathname,
+        targetLocale
       );
-      const prefix = `/${locale}/${collection}/`;
       if (
-        translatedPath.startsWith(prefix) &&
-        DETAIL_PATH.test(translatedPath.slice(locale.length + 1))
+        translatedPath?.startsWith(`/${collection}/`) &&
+        DETAIL_PATH.test(translatedPath)
       ) {
-        return translatedPath.slice(locale.length + 1);
+        return translatedPath;
       }
     } catch {
       // A malformed alternate must not produce a broken language switch.

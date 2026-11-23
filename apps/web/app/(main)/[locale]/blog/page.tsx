@@ -7,8 +7,8 @@ import {
 } from "@repo/cms";
 import { contentText } from "@repo/cms/content/text";
 import {
-  type Dictionary,
-  getDictionary,
+  getPortfolioDictionary,
+  type PortfolioDictionary,
   routing,
 } from "@repo/internationalization";
 import type { Blog, WithContext } from "@repo/seo/json-ld";
@@ -16,7 +16,7 @@ import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { blogHref, parseBlogFilters } from "@/lib/blog-discovery";
 import { createWebMetadata } from "@/lib/metadata";
 import { ContentEmpty } from "../components/content-empty";
@@ -33,16 +33,16 @@ export function generateStaticParams() {
 }
 
 export const generateMetadata = async (): Promise<Metadata> =>
-  createWebMetadata({ kind: "blog" }, await getSiteLocale());
+  createWebMetadata({ kind: "blog" }, await getPortfolioLocale());
 
 interface BlogIndexProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 const BlogIndex = async ({ searchParams }: BlogIndexProps) => {
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
   const [dictionary, document] = await Promise.all([
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
     pages.get("blog", locale),
   ]);
 
@@ -84,7 +84,7 @@ async function BlogResults({
   searchParams,
   locale,
   dictionary,
-}: BlogIndexProps & { locale: string; dictionary: Dictionary }) {
+}: BlogIndexProps & { locale: string; dictionary: PortfolioDictionary }) {
   const filters = parseBlogFilters(await searchParams);
 
   const result = await blog.getIndex(locale, filters);
@@ -104,7 +104,7 @@ async function BlogResults({
 }
 
 interface ResultsProps {
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   filters: BlogFilters;
   locale: string;
   result: BLOG_INDEX_QUERY_RESULT;

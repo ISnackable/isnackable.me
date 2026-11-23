@@ -291,3 +291,6 @@ test-results/
 # Build-generated lanyard snapshots and manifest
 /apps/web/generated/lanyard/
 /apps/web/public/assets/lanyard/generated/
+
+# Build-generated self-hosted document viewer assets
+/apps/app/public/files-static/viewers/

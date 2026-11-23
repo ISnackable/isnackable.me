@@ -1,2 +1,22 @@
 @import "tailwindcss";
 @import "@repo/design-system/styles/globals.css";
+
+@layer components {
+  [data-slot="file-system"] [data-slot="checkbox"] {
+    --input: var(--muted-foreground);
+  }
+
+  [data-slot="file-system"] [data-slot="checkbox"][data-indeterminate] {
+    [data-slot="checkbox-indicator"]::before {
+      width: 0.5rem;
+      height: 2px;
+      content: "";
+      background-color: currentColor;
+      border-radius: 1px;
+    }
+
+    [data-slot="checkbox-indicator"] > svg {
+      display: none;
+    }
+  }
+}

@@ -2,14 +2,14 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { projects, settings } from "@repo/cms";
 import { getReadingTime } from "@repo/cms/content/rich-text/reading-time";
 import { resolveSiteSettings } from "@repo/cms/content/site";
-import { getDictionary, routing } from "@repo/internationalization";
+import { getPortfolioDictionary, routing } from "@repo/internationalization";
 import { isLocale, type Locale } from "@repo/internationalization/locales";
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { createWebMetadata } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site-url";
 import { ArticleBody } from "../../components/article-body";
@@ -29,7 +29,7 @@ export const generateMetadata = async ({
   params,
 }: ProjectDetailProps): Promise<Metadata> => {
   const { slug } = await params;
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
   return createWebMetadata({ kind: "project", slug }, locale);
 };
 
@@ -55,11 +55,11 @@ export const generateStaticParams = async (): Promise<
 
 const ProjectDetail = async ({ params }: ProjectDetailProps) => {
   const { slug } = await params;
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
 
   const [project, dictionary, otherProjects, siteDocument] = await Promise.all([
     projects.getPost(slug, locale),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
     projects.getMeta(locale, 4),
     settings.get({ stega: false }),
   ]);

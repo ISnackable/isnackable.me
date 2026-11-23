@@ -1,9 +1,9 @@
 import { capitalize } from "@repo/design-system/utils/capitalize";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import type { ReactNode } from "react";
 
 interface SidebarProperties {
-  readonly copy: Dictionary["web"]["content"];
+  readonly copy: PortfolioDictionary["web"]["content"];
   readonly tags?: string[];
   readonly toc?: ReactNode;
 }

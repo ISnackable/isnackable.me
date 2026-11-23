@@ -10,6 +10,11 @@
       "cssModules": true
     }
   },
+  "markdown": {
+    "formatter": {
+      "enabled": false
+    }
+  },
   "linter": {
     "rules": {
       // Preserve the existing lint policy across the Ultracite 8 upgrade.
@@ -21,6 +26,11 @@
         "useTailwindSortedClasses": "off"
       },
       "style": {
+        "noExcessiveClassesPerFile": "off",
+        "useImportType": {
+          "level": "error",
+          "options": { "style": "auto" }
+        },
         "noNestedTernary": "off",
         "noIncrementDecrement": "off",
         "useConsistentMethodSignatures": "off",
@@ -29,6 +39,7 @@
         "useUnicodeRegex": "off"
       },
       "performance": {
+        "noNamespaceImport": "error",
         "noBarrelFile": "off",
         "noJsxPropsBind": "off"
       },
@@ -56,8 +67,13 @@
       "!packages/design-system/hooks",
       // Keep the downloaded upstream Typeset stylesheet unchanged.
       "!packages/design-system/styles/typeset.css",
+      "!apps/studio/static/favicon.svg",
       "!packages/cms/sanity.types.ts",
-      "!packages/design-system/components"
+      "!packages/design-system/components/*",
+      // Check the adaptations maintained alongside the files app.
+      "packages/design-system/components/extend",
+      "!packages/design-system/components/extend/*",
+      "packages/design-system/components/extend/{file-system,viewer-scroll-area}.tsx"
     ]
   }
 }

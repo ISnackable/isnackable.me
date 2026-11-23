@@ -6,7 +6,7 @@ import type { SiteSettings } from "@repo/cms/content/site";
 import { contentText } from "@repo/cms/content/text";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { AboutExplorer } from "./about-explorer";
@@ -21,7 +21,7 @@ export function AboutSection({
 }: {
   section: AboutSectionContent;
   site: SiteSettings;
-  dictionary: Dictionary;
+  dictionary: PortfolioDictionary;
   locale: string;
 }) {
   const { about } = dictionary.web.home;

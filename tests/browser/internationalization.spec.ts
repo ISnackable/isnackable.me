@@ -18,10 +18,10 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
     await openContentPage(page, `/${locale}`);
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
     await expect(
-      page.getByRole("button", { name: copy.header.switchLanguage })
+      page.getByRole("button", { name: dictionary.common.switchLanguage })
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: copy.header.toggleTheme })
+      page.getByRole("button", { name: dictionary.common.header.toggleTheme })
     ).toBeVisible();
     // Music and About are optional CMS content; only exercise configured widgets.
     const musicPlayer = page.locator(".music-player-widget");
@@ -67,9 +67,7 @@ test("résumé language switches retain the selected language's résumé URL", a
     .locator('link[rel="alternate"][hreflang="ja"]')
     .evaluateAll((links) => links[0]?.getAttribute("href") ?? null);
   const expected = "/ja/resume";
-  await page
-    .getByRole("button", { name: en.web.header.switchLanguage })
-    .click();
+  await page.getByRole("button", { name: en.common.switchLanguage }).click();
   await page.getByRole("menuitem", { name: "日本語" }).click();
   await expect(page).toHaveURL(expected);
   expect((await page.request.get(expected)).status()).toBe(
@@ -96,9 +94,7 @@ for (const collection of ["blog", "projects"]) {
     const expected = translated
       ? new URL(translated, page.url()).pathname
       : `/ja/${collection}`;
-    await page
-      .getByRole("button", { name: en.web.header.switchLanguage })
-      .click();
+    await page.getByRole("button", { name: en.common.switchLanguage }).click();
     await page.getByRole("menuitem", { name: "日本語" }).click();
     await expect(page).toHaveURL(expected);
     await expect(page.locator("html")).toHaveAttribute("lang", "ja");

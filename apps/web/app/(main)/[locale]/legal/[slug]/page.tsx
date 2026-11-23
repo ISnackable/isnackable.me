@@ -4,7 +4,7 @@ import { routing } from "@repo/internationalization";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { createWebMetadata } from "@/lib/metadata";
 import ContentLoading from "../../components/content-loading";
 
@@ -19,7 +19,7 @@ export const generateMetadata = async ({
   params,
 }: LegalPageProperties): Promise<Metadata> => {
   const { slug } = await params;
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
   return createWebMetadata({ kind: "legal", slug }, locale);
 };
 

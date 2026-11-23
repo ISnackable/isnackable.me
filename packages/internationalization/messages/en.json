@@ -1,4 +1,69 @@
 {
+  "common": {
+    "switchLanguage": "Switch language",
+    "navigation": {
+      "home": "Home",
+      "blog": "Blog",
+      "projects": "Projects",
+      "files": "Files",
+      "label": "Main navigation"
+    },
+    "header": {
+      "toggleTheme": "Toggle theme",
+      "toggleMenu": "Toggle menu",
+      "closeMenu": "Close menu"
+    }
+  },
+  "files": {
+    "itemActions": "Item actions",
+    "copyItem": "Copy link to {name}",
+    "downloadItem": "Download {name}",
+    "openLink": "Open link",
+    "title": "OneDrive Index",
+    "root": "All files",
+    "breadcrumb": "File location",
+    "list": "List view",
+    "grid": "Grid view",
+    "view": "Folder view",
+    "name": "Name",
+    "modified": "Modified",
+    "size": "Size",
+    "loadMore": "Load more",
+    "loading": "Loading files…",
+    "moreError": "Could not load more files. Reload this folder and try again.",
+    "empty": "This folder is empty.",
+    "copy": "Copy link",
+    "copyDirect": "Copy direct link",
+    "copySelected": "Copy links as a list",
+    "copied": "Link copied",
+    "linksCopied": "Links copied",
+    "openOneLink": "Open one link at a time.",
+    "copyError": "Could not copy the link.",
+    "download": "Download",
+    "downloadFolder": "Download folder as ZIP",
+    "downloadSelected": "Download selected",
+    "folderActions": "Folder actions",
+    "clearSelection": "Clear selection",
+    "selectedCount": "{count} selected",
+    "selectAll": "Select all loaded items",
+    "selectItem": "Select {name}",
+    "selectionLimit": "Select up to {limit} items per ZIP.",
+    "archiveEntryLimit": "Up to {limit} items",
+    "readme": "Folder README",
+    "unsupported": "Preview unavailable",
+    "fileDetails": "File details",
+    "mimeType": "MIME type",
+    "checksums": "Checksums",
+    "previewLoading": "Loading preview…",
+    "rateLimited": "Too many requests. Try again in a few minutes.",
+    "missing": "File or folder not found",
+    "missingDescription": "The item may have been moved or deleted.",
+    "unconfigured": "OneDrive setup required",
+    "unconfiguredDescription": "The publish folder hasn’t been connected yet.",
+    "unavailable": "OneDrive is temporarily unavailable",
+    "unavailableDescription": "Reload this page to try again.",
+    "home": "Back to all files"
+  },
   "web": {
     "errors": {
       "notFoundTitle": "Page not found",
@@ -7,17 +72,6 @@
       "serverDescription": "Try loading the page again, or return home.",
       "home": "Back to home",
       "retry": "Try again"
-    },
-    "header": {
-      "home": "Home",
-      "blog": "Blog",
-      "projects": "Projects",
-      "switchLanguage": "Switch language",
-      "toggleTheme": "Toggle theme",
-      "toggleMenu": "Toggle menu",
-      "closeMenu": "Close menu",
-      "navigation": "Main navigation",
-      "footerNavigation": "Footer navigation"
     },
     "home": {
       "hero": {
@@ -133,6 +187,7 @@
       "tags": "Tags"
     },
     "footer": {
+      "navigation": "Footer navigation",
       "copyrightHolder": "Copyright holder",
       "builtBy": "Built by",
       "githubProfile": "GitHub profile of {name}"

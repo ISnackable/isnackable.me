@@ -9,14 +9,14 @@ import {
   CardTitle,
 } from "@repo/design-system/components/ui/card";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { ContentImage } from "../../components/content-image";
 import { ContentTags } from "../../components/content-tags";
 
 interface ProjectCardProps {
-  copy: Dictionary["web"]["content"];
+  copy: PortfolioDictionary["web"]["content"];
   featured?: boolean;
   headingLevel?: 2 | 3;
   locale: string;

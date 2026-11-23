@@ -68,6 +68,20 @@ let browser;
 let server;
 
 try {
+  const expectedBrowser = require(
+    path.join(
+      path.dirname(require.resolve("playwright-core/package.json")),
+      "browsers.json"
+    )
+  ).browsers.find((entry) => entry.name === "chromium").browserVersion;
+  const expectedMajor = expectedBrowser.split(".")[0];
+  const bundledBrowser = await packageVersion("@sparticuz/chromium");
+  if (bundledBrowser.split(".")[0] !== expectedMajor) {
+    throw new Error(
+      `Lanyard capture dependencies need the same Chromium major. playwright-core expects ${expectedBrowser}, while @sparticuz/chromium bundles ${bundledBrowser}.`
+    );
+  }
+
   const options = {
     config: false,
     platform: "node",
@@ -277,22 +291,17 @@ try {
       "--enable-unsafe-swiftshader",
     ];
     browser = await playwright.launch(launchOptions);
-    const expected = require(
-      path.join(
-        path.dirname(require.resolve("playwright-core/package.json")),
-        "browsers.json"
-      )
-    )
-      .browsers.find((entry) => entry.name === "chromium")
-      .browserVersion.split(".")[0];
-    const actual = browser.version().split(".")[0];
-    if (process.platform === "linux" && actual !== expected) {
+    const actualBrowser = browser.version();
+    if (
+      process.platform === "linux" &&
+      actualBrowser.split(".")[0] !== expectedMajor
+    ) {
       throw new Error(
-        `Capture browser major ${actual} does not match Playwright's tested Chromium ${expected}. Update the capture dependencies together.`
+        `Lanyard capture launched Chromium ${actualBrowser}, while playwright-core expects ${expectedBrowser}. Update the capture dependencies together.`
       );
     }
     console.info(
-      `Lanyard: capture browser ${browser.version()} (${process.platform}/${process.arch}).`
+      `Lanyard: capture browser ${actualBrowser} (${process.platform}/${process.arch}).`
     );
     const context = await browser.newContext({ deviceScaleFactor: 2 });
     const page = await context.newPage();
@@ -416,11 +425,6 @@ try {
   );
   console.info(
     `Lanyard: ${restored ? "reused" : "generated"} ${uniqueInputs.length * 16} preview images for ${uniqueInputs.length} unique badge(s).`
-  );
-} catch (error) {
-  throw new Error(
-    "Lanyard preview generation failed. Check CMS access, portraits, and the capture browser before rebuilding.",
-    { cause: error }
   );
 } finally {
   await browser?.close();

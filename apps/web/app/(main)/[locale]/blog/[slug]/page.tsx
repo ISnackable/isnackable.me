@@ -5,7 +5,7 @@ import { getTableOfContents } from "@repo/cms/content/rich-text/headings";
 import { getReadingTime } from "@repo/cms/content/rich-text/reading-time";
 import { Comments } from "@repo/comments";
 import { getGiscusConfig } from "@repo/comments/config";
-import { getDictionary, routing } from "@repo/internationalization";
+import { getPortfolioDictionary, routing } from "@repo/internationalization";
 import { isLocale, type Locale } from "@repo/internationalization/locales";
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
@@ -14,7 +14,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { env } from "@/env";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { articleDiscussionTerm } from "@/lib/comments";
 import { createWebMetadata } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site-url";
@@ -62,7 +62,7 @@ export const generateMetadata = async ({
   params,
 }: BlogPostProperties): Promise<Metadata> => {
   const { slug } = await params;
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
   return createWebMetadata({ kind: "post", slug }, locale);
 };
 
@@ -88,11 +88,11 @@ export const generateStaticParams = async (): Promise<
 
 const BlogPost = async ({ params }: BlogPostProperties) => {
   const { slug } = await params;
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
 
   const [post, dictionary] = await Promise.all([
     blog.getPost(slug, locale),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
 
   if (!post) {

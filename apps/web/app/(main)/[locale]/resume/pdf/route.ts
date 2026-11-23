@@ -1,5 +1,5 @@
 import { resume } from "@repo/cms";
-import { getDictionary } from "@repo/internationalization/dictionaries";
+import { getPortfolioDictionary } from "@repo/internationalization/dictionaries";
 import { compileTypstProject } from "@repo/typst/server";
 import type { CompiledTypstDocument, TypstProject } from "@repo/typst/types";
 import { draftMode } from "next/headers";
@@ -28,7 +28,7 @@ export async function GET(
 
   const [profile, dictionary] = await Promise.all([
     resume.get(locale, { stega: false }),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
 
   if (!(profile?._id && profile.firstName && profile.lastName)) {

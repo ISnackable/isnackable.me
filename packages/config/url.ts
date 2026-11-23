@@ -1,4 +1,10 @@
+import { siteConfig } from "./site";
+
 const HTTP_PROTOCOL = /^https?:\/\//;
+
+export function filesHref(locale: string) {
+  return `/${locale}${siteConfig.files.path}`;
+}
 
 /** Vercel provides a hostname; local configuration may provide a full URL. */
 export const getBaseUrl = (

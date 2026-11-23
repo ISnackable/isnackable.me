@@ -16,7 +16,7 @@ import {
   NativeSelectOption,
 } from "@repo/design-system/components/ui/native-select";
 import { cn } from "@repo/design-system/lib/utils";
-import type { Dictionary } from "@repo/internationalization";
+import type { PortfolioDictionary } from "@repo/internationalization";
 import Link from "next/link";
 import { useId } from "react";
 
@@ -26,7 +26,7 @@ export function BlogFiltersForm({
   locale,
   tags,
 }: {
-  copy: Dictionary["web"]["blog"]["discovery"];
+  copy: PortfolioDictionary["web"]["blog"]["discovery"];
   filters: BlogFilters;
   locale: string;
   tags: string[];

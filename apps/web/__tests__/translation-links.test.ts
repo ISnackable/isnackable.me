@@ -2,7 +2,7 @@ import { getTranslationLinks } from "@repo/cms/content/translations";
 import { POST_QUERY, PROJECT_QUERY } from "@repo/cms/queries";
 import { evaluate, parse } from "groq-js";
 import { expect, test } from "vitest";
-import { getLanguageSwitchPath } from "../i18n/switch-path";
+import { getPortfolioLanguageSwitchPath } from "../i18n/switch-path";
 
 for (const [collection, type, query] of [
   ["blog", "post", POST_QUERY],
@@ -62,26 +62,30 @@ for (const [collection, type, query] of [
 
 test("switching language uses a translated slug or a localized collection index", () => {
   expect(
-    getLanguageSwitchPath("/blog/original", "ja", {
-      ja: "https://example.com/ja/blog/translated",
-    })
+    getPortfolioLanguageSwitchPath(
+      "/blog/original",
+      "ja",
+      "https://example.com/ja/blog/translated"
+    )
   ).toBe("/blog/translated");
-  expect(getLanguageSwitchPath("/projects/original", "zh", {})).toBe(
+  expect(getPortfolioLanguageSwitchPath("/projects/original", "zh")).toBe(
     "/projects"
   );
   expect(
-    getLanguageSwitchPath("/blog/original", "ja", {
-      ja: "/ja/projects/wrong-collection",
-    })
+    getPortfolioLanguageSwitchPath(
+      "/blog/original",
+      "ja",
+      "/ja/projects/wrong-collection"
+    )
   ).toBe("/blog");
-  expect(getLanguageSwitchPath("/blog/original", "ja", { ja: "/ja" })).toBe(
+  expect(getPortfolioLanguageSwitchPath("/blog/original", "ja", "/ja")).toBe(
     "/blog"
   );
-  expect(getLanguageSwitchPath("/resume", "ja", {})).toBe("/resume");
-  expect(getLanguageSwitchPath("/resume", "ja", { ja: "/ja/resume" })).toBe(
+  expect(getPortfolioLanguageSwitchPath("/resume", "ja")).toBe("/resume");
+  expect(getPortfolioLanguageSwitchPath("/resume", "ja", "/ja/resume")).toBe(
     "/resume"
   );
-  expect(getLanguageSwitchPath("/legal/privacy", "zh", {})).toBe(
+  expect(getPortfolioLanguageSwitchPath("/legal/privacy", "zh")).toBe(
     "/legal/privacy"
   );
 });

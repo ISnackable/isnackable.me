@@ -8,6 +8,7 @@
     "boundaries": "turbo boundaries",
     "prebuild": "pnpm --filter web lanyard:inputs",
     "build": "turbo build",
+    "build:browser": "node tests/fixtures/browser-servers.mjs",
     "bump-deps": "pnpm dlx npm-check-updates --cooldown 1d --deep -u && pnpm install",
     "bump-ui": "pnpm dlx shadcn@latest add --all --overwrite -c packages/design-system",
     "check": "ultracite check",
@@ -22,19 +23,19 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
-    "@next/playwright": "16.4.5",
-    "@playwright/test": "^1.65.0",
+    "@biomejs/biome": "2.6.8",
+    "@next/playwright": "16.4.6",
+    "@playwright/test": "^1.65.1",
     "@repo/typescript-config": "workspace:*",
-    "@turbo/gen": "^2.11.10",
+    "@turbo/gen": "^2.11.13",
     "@types/node": "^26.6.6",
     "tsup": "^9.0.0",
-    "turbo": "^2.11.10",
+    "turbo": "^2.11.13",
     "typescript": "^7.0.2",
-    "ultracite": "8.1.1",
-    "vitest": "^5.1.0"
+    "ultracite": "8.3.1",
+    "vitest": "^5.1.1"
   },
-  "packageManager": "pnpm@12.18.0",
+  "packageManager": "pnpm@12.21.0",
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   }

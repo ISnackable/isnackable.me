@@ -19,6 +19,7 @@
     "hooks": "@repo/design-system/hooks"
   },
   "registries": {
+    "@extend": "https://www.extend.ai/ui/r/styles/{style}/{name}.json",
     "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
     "@kibo-ui": "https://www.kibo-ui.com/r/{name}.json",
     "@magicui": "https://magicui.design/r/{name}",

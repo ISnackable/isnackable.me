@@ -1032,7 +1032,7 @@ export type BLOG_INDEX_QUERY_RESULT = {
   tags: Array<string | null>;
   posts: Array<{
     _id: string;
-    slug: string | null;
+    slug: string;
     title: string | null;
     description: string | null;
     date: string | null;
@@ -1330,7 +1330,7 @@ export type POST_QUERY_RESULT = {
 // Query: *[_type == "post" && language == $locale && defined(slug.current) && seo.noIndex != true] | order(date desc)[0...$limit]{      _id, "slug": slug.current, title, description, date,  image {   asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt },  authors[]->{   _id,  name,  "slug": slug.current,  avatar {      asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt  },  xUrl },  tags,  "estimatedReadingTime": round(length(array::join([  coalesce(pt::text(content[attributes.hidden != true]), ""),  coalesce(array::join(content[attributes.hidden != true && _type in ["calloutModule", "galleryModule", "accordionModule"] && defined(title)].title, " "), ""),  coalesce(pt::text(content[attributes.hidden != true && _type == "calloutModule"].body[]), ""),  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(quote)].quote, " "), ""),  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(attribution)].attribution, " "), ""),  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(sourceLabel)].sourceLabel, " "), ""),  coalesce(array::join(content[attributes.hidden != true && _type == "galleryModule"].images[defined(caption)].caption, " "), ""),  coalesce(array::join(content[attributes.hidden != true && _type == "accordionModule"].items[defined(title)].title, " "), ""),  coalesce(pt::text(content[attributes.hidden != true && _type == "accordionModule"].items[].body[]), "")], " ")) / 5 / 180)  }
 export type LATEST_POSTS_QUERY_RESULT = Array<{
   _id: string;
-  slug: string | null;
+  slug: string;
   title: string | null;
   description: string | null;
   date: string | null;
@@ -1376,7 +1376,7 @@ export type LATEST_POSTS_QUERY_RESULT = Array<{
 // Variable: POST_SLUGS_QUERY
 // Query: *[_type == "post" && defined(slug.current)]{    "slug": slug.current,    language  }
 export type POST_SLUGS_QUERY_RESULT = Array<{
-  slug: string | null;
+  slug: string;
   language: "en" | "ja" | "zh" | null;
 }>;
 
@@ -1385,7 +1385,7 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
 // Query: *[_type == "legalPage" && defined(slug.current)] | order(_createdAt asc){    _id,    "slug": slug.current,    title,    description  }
 export type LEGAL_PAGES_META_QUERY_RESULT = Array<{
   _id: string;
-  slug: string | null;
+  slug: string;
   title: string | null;
   description: string | null;
 }>;
@@ -1579,7 +1579,7 @@ export type LEGAL_PAGE_QUERY_RESULT = {
 // Source: queries/legal.ts
 // Variable: LEGAL_PAGE_SLUGS_QUERY
 // Query: *[_type == "legalPage" && defined(slug.current)]{    "slug": slug.current  }["slug"]
-export type LEGAL_PAGE_SLUGS_QUERY_RESULT = Array<string | null>;
+export type LEGAL_PAGE_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: queries/pages.ts
 // Variable: PAGE_QUERY
@@ -1828,7 +1828,7 @@ export type PAGE_QUERY_RESULT = {
               document: {
                 _type: "post";
                 title: string | null;
-                slug: string | null;
+                slug: string;
                 summary: string | null;
               };
             }
@@ -1837,7 +1837,7 @@ export type PAGE_QUERY_RESULT = {
               document: {
                 _type: "project";
                 title: string | null;
-                slug: string | null;
+                slug: string;
                 summary: string | null;
               };
             }
@@ -1905,7 +1905,7 @@ export type PAGE_QUERY_RESULT = {
 // Query: *[_type == "project" && language == $locale && defined(slug.current) && seo.noIndex != true] | order(coalesce(featured, false) desc, date desc, _id asc)[0...$limit]{    _id,    "slug": slug.current,    title,    summary,    role,    organization,    technologies,    date,    "featured": coalesce(featured, false),    coverImage {        asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt    }  }
 export type PROJECTS_META_QUERY_RESULT = Array<{
   _id: string;
-  slug: string | null;
+  slug: string;
   title: string | null;
   summary: string | null;
   role: string | null;
@@ -2169,7 +2169,7 @@ export type PROJECT_QUERY_RESULT = {
 // Variable: PROJECT_SLUGS_QUERY
 // Query: *[_type == "project" && defined(slug.current)]{    "slug": slug.current,    language  }
 export type PROJECT_SLUGS_QUERY_RESULT = Array<{
-  slug: string | null;
+  slug: string;
   language: "en" | "ja" | "zh" | null;
 }>;
 
@@ -2397,17 +2397,17 @@ export type SITEMAP_QUERY_RESULT = {
     noIndex: boolean | false;
   }>;
   posts: Array<{
-    slug: string | null;
+    slug: string;
     language: "en" | "ja" | "zh" | null;
     _updatedAt: string;
   }>;
   projects: Array<{
-    slug: string | null;
+    slug: string;
     language: "en" | "ja" | "zh" | null;
     _updatedAt: string;
   }>;
   legalPages: Array<{
-    slug: string | null;
+    slug: string;
     _updatedAt: string;
   }>;
 };

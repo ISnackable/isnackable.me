@@ -3,7 +3,7 @@ import type { PageRoute } from "@repo/cms/content/pages";
 import { httpsUrl, resolveSiteSettings } from "@repo/cms/content/site";
 import { contentText } from "@repo/cms/content/text";
 import { getTranslationLinks } from "@repo/cms/content/translations";
-import { getDictionary } from "@repo/internationalization";
+import { getPortfolioDictionary } from "@repo/internationalization";
 import {
   defaultLocale,
   isLocale,
@@ -43,7 +43,7 @@ async function getSectionSeo(
 ): Promise<SeoContent> {
   const [document, dictionary] = await Promise.all([
     pages.get(kind, locale, publishedSeo),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
   const suffix = kind === "home" ? "" : `/${kind}`;
   return {
@@ -64,7 +64,7 @@ async function getResumeSeo(locale: Locale): Promise<SeoContent | null> {
   const [profile, languages, dictionary] = await Promise.all([
     resume.get(locale, publishedSeo),
     resume.getLanguages(publishedSeo),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
   if (!(profile?.firstName && profile.lastName)) {
     return null;
@@ -94,7 +94,7 @@ async function getLegalSeo(
 ): Promise<SeoContent | null> {
   const [document, dictionary] = await Promise.all([
     legal.getPost(slug, publishedSeo),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
   if (!document) {
     return null;
@@ -120,7 +120,7 @@ async function getEntrySeo(
   const collection = kind === "post" ? "blog" : "projects";
   const [document, dictionary] = await Promise.all([
     (kind === "post" ? blog : projects).getPost(slug, locale, publishedSeo),
-    getDictionary(locale),
+    getPortfolioDictionary(locale),
   ]);
   if (!document) {
     return null;

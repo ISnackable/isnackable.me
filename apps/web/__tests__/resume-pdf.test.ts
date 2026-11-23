@@ -6,20 +6,22 @@ import { GET } from "../app/(main)/[locale]/resume/pdf/route";
 const {
   draftMode,
   getResume,
-  getDictionary,
+  getPortfolioDictionary,
   compileTypstProject,
   generateTypstProject,
 } = vi.hoisted(() => ({
   draftMode: vi.fn(),
   getResume: vi.fn(),
-  getDictionary: vi.fn(),
+  getPortfolioDictionary: vi.fn(),
   compileTypstProject: vi.fn(),
   generateTypstProject: vi.fn(),
 }));
 
 vi.mock("next/headers", () => ({ draftMode }));
 vi.mock("@repo/cms", () => ({ resume: { get: getResume } }));
-vi.mock("@repo/internationalization/dictionaries", () => ({ getDictionary }));
+vi.mock("@repo/internationalization/dictionaries", () => ({
+  getPortfolioDictionary,
+}));
 vi.mock("@repo/typst/server", () => ({ compileTypstProject }));
 vi.mock("../app/(main)/[locale]/resume/lib/generate-typst-project", () => ({
   generateTypstProject,
@@ -27,7 +29,7 @@ vi.mock("../app/(main)/[locale]/resume/lib/generate-typst-project", () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
-  getDictionary.mockResolvedValue(en);
+  getPortfolioDictionary.mockResolvedValue(en);
   getResume.mockResolvedValue({
     _id: "resume-en",
     firstName: "Test",

@@ -4,7 +4,7 @@ import { routing } from "@repo/internationalization";
 import { stegaClean } from "@sanity/client/stega";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getSiteLocale } from "@/i18n/locale";
+import { getPortfolioLocale } from "@/i18n/locale";
 import { createWebMetadata } from "@/lib/metadata";
 import { StandardResume } from "./components/standard-resume";
 
@@ -13,10 +13,10 @@ export function generateStaticParams() {
 }
 
 export const generateMetadata = async (): Promise<Metadata> =>
-  createWebMetadata({ kind: "resume" }, await getSiteLocale());
+  createWebMetadata({ kind: "resume" }, await getPortfolioLocale());
 
 const ResumePage = async () => {
-  const locale = await getSiteLocale();
+  const locale = await getPortfolioLocale();
 
   const profile = await resume.get(locale);
 
