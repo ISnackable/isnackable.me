@@ -21,13 +21,6 @@ export async function generateMetadata(): Promise<Metadata> {
   const { assetPrefix } = siteConfig.files;
   return {
     metadataBase: getBaseUrl(env.NEXT_PUBLIC_WEB_URL),
-    icons: {
-      apple: `${assetPrefix}/apple-icon.png`,
-      icon: [
-        `${assetPrefix}/favicon.ico`,
-        { url: `${assetPrefix}/icon.png`, type: "image/png" },
-      ],
-    },
     openGraph: { images: [`${assetPrefix}/opengraph-image`] },
     robots: { index: false, follow: false },
     title: files.title,

@@ -7,6 +7,7 @@ export const LEGAL_PAGES_META_QUERY = defineQuery(`
     _id,
     "slug": slug.current,
     title,
+    "navigationLabel": navigationLabel[language == $locale][0].value,
     description
   }
 `);

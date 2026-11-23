@@ -2,6 +2,7 @@ import { filesHref } from "@repo/config/url";
 import { isLocale } from "@repo/internationalization/locales";
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
 import { secure } from "@repo/security";
+import { filesApiBots, linkPreviewBots } from "@repo/security/bots";
 import { noseconeOptions, securityMiddleware } from "@repo/security/proxy";
 import { type NextProxy, NextResponse } from "next/server";
 import { env } from "./env";
@@ -14,7 +15,7 @@ const proxy: NextProxy = async (request) => {
   const isApi = pathname.startsWith("/api/");
   if (env.ARCJET_KEY) {
     try {
-      await secure(["CATEGORY:PREVIEW"], request);
+      await secure(isApi ? filesApiBots : linkPreviewBots, request);
     } catch {
       return NextResponse.json(
         { error: "denied" },

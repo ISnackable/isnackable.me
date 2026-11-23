@@ -359,6 +359,7 @@ export type LegalPage = {
   _updatedAt: string;
   _rev: string;
   title?: string;
+  navigationLabel?: InternationalizedArrayString;
   slug?: Slug;
   description?: string;
   content?: Array<
@@ -416,6 +417,12 @@ export type Slug = {
   current?: string;
   source?: string;
 };
+
+export type InternationalizedArrayString = Array<
+  {
+    _key: string;
+  } & InternationalizedArrayStringValue
+>;
 
 export type Author = {
   _id: string;
@@ -500,6 +507,12 @@ export type Code = {
   filename?: string;
   code?: string;
   highlightedLines?: Array<number>;
+};
+
+export type InternationalizedArrayStringValue = {
+  _type: "internationalizedArrayStringValue";
+  value?: string;
+  language?: string;
 };
 
 export type TranslationMetadata = {
@@ -995,6 +1008,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | LegalPage
   | Slug
+  | InternationalizedArrayString
   | Author
   | MediaFolderReference
   | MediaFolder
@@ -1004,6 +1018,7 @@ export type AllSanitySchemaTypes =
   | HsvaColor
   | HslaColor
   | Code
+  | InternationalizedArrayStringValue
   | TranslationMetadata
   | InternationalizedArrayReference
   | ResumeReference
@@ -1382,11 +1397,12 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
 
 // Source: queries/legal.ts
 // Variable: LEGAL_PAGES_META_QUERY
-// Query: *[_type == "legalPage" && defined(slug.current)] | order(_createdAt asc){    _id,    "slug": slug.current,    title,    description  }
+// Query: *[_type == "legalPage" && defined(slug.current)] | order(_createdAt asc){    _id,    "slug": slug.current,    title,    "navigationLabel": navigationLabel[language == $locale][0].value,    description  }
 export type LEGAL_PAGES_META_QUERY_RESULT = Array<{
   _id: string;
   slug: string;
   title: string | null;
+  navigationLabel: string | null;
   description: string | null;
 }>;
 
@@ -2424,7 +2440,7 @@ declare global {
     '\n  *[_type == "post" && language == $locale && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    description,\n    date,\n    image {\n      \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n\n    },\n    authors[]->{\n      \n  _id,\n  name,\n  "slug": slug.current,\n  avatar {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n\n  },\n  xUrl\n\n    },\n    tags,\n    "commentsEnabled": commentsEnabled != false,\n    \n  content[attributes.hidden != true]{\n    _key, _type,\n    _type == "block" => { style, listItem, level, children, markDefs },\n    _type == "code" => { code, language, filename },\n    _type == "image" => {\n      \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption\n    },\n    \n  _type == "calloutModule" => { title, tone, body[]{ _key, _type, style, listItem, level, children, markDefs }, attributes{ uid, hidden } },\n  _type == "galleryModule" => { title, columns, images[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption }, attributes{ uid, hidden } },\n  _type == "quoteModule" => { quote, attribution, sourceLabel, sourceUrl, attributes{ uid, hidden } },\n  _type == "accordionModule" => { title, items[]{ _key, title, body[]{ _key, _type, style, listItem, level, children, markDefs }, open }, attributes{ uid, hidden } }\n\n  }\n,\n    \n  "translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{\n    _type,\n    language,\n    "slug": slug.current,\n    "noIndex": seo.noIndex == true\n  }\n,\n    \n  "seo": {\n    "title": coalesce(seo.title, title, ""),\n    "description": coalesce(seo.description, description, summary, ""),\n    "image": seo.image {\n      \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n\n    },\n    "noIndex": seo.noIndex == true\n  }\n\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "post" && language == $locale && defined(slug.current) && seo.noIndex != true] | order(date desc)[0...$limit]{\n    \n  _id, "slug": slug.current, title, description, date,\n  image { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n },\n  authors[]->{ \n  _id,\n  name,\n  "slug": slug.current,\n  avatar {\n    \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n\n  },\n  xUrl\n },\n  tags,\n  "estimatedReadingTime": round(length(array::join([\n  coalesce(pt::text(content[attributes.hidden != true]), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type in ["calloutModule", "galleryModule", "accordionModule"] && defined(title)].title, " "), ""),\n  coalesce(pt::text(content[attributes.hidden != true && _type == "calloutModule"].body[]), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(quote)].quote, " "), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(attribution)].attribution, " "), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type == "quoteModule" && defined(sourceLabel)].sourceLabel, " "), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type == "galleryModule"].images[defined(caption)].caption, " "), ""),\n  coalesce(array::join(content[attributes.hidden != true && _type == "accordionModule"].items[defined(title)].title, " "), ""),\n  coalesce(pt::text(content[attributes.hidden != true && _type == "accordionModule"].items[].body[]), "")\n], " ")) / 5 / 180)\n\n  }\n': LATEST_POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)]{\n    "slug": slug.current,\n    language\n  }\n': POST_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "legalPage" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    "slug": slug.current,\n    title,\n    description\n  }\n': LEGAL_PAGES_META_QUERY_RESULT;
+    '\n  *[_type == "legalPage" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    "slug": slug.current,\n    title,\n    "navigationLabel": navigationLabel[language == $locale][0].value,\n    description\n  }\n': LEGAL_PAGES_META_QUERY_RESULT;
     '\n  *[_type == "legalPage" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    description,\n    \n  content[attributes.hidden != true]{\n    _key, _type,\n    _type == "block" => { style, listItem, level, children, markDefs },\n    _type == "code" => { code, language, filename },\n    _type == "image" => {\n      \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption\n    },\n    \n  _type == "calloutModule" => { title, tone, body[]{ _key, _type, style, listItem, level, children, markDefs }, attributes{ uid, hidden } },\n  _type == "galleryModule" => { title, columns, images[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption }, attributes{ uid, hidden } },\n  _type == "quoteModule" => { quote, attribution, sourceLabel, sourceUrl, attributes{ uid, hidden } },\n  _type == "accordionModule" => { title, items[]{ _key, title, body[]{ _key, _type, style, listItem, level, children, markDefs }, open }, attributes{ uid, hidden } }\n\n  }\n,\n    \n  "seo": {\n    "title": coalesce(seo.title, title, ""),\n    "description": coalesce(seo.description, description, summary, ""),\n    "image": seo.image {\n      \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n\n    },\n    "noIndex": seo.noIndex == true\n  }\n\n  }\n': LEGAL_PAGE_QUERY_RESULT;
     '\n  *[_type == "legalPage" && defined(slug.current)]{\n    "slug": slug.current\n  }["slug"]\n': LEGAL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "page" && route == $route && language == $locale] | order(_createdAt asc, _id asc)[0]{\n    _id, _type, route, language, \n    "title": select(route != "home" => title),\n    "description": select(route != "home" => description),\n    "seo": {\n      "title": coalesce(seo.title, select(route != "home" => title), ""),\n      "description": coalesce(seo.description, select(route != "home" => description), ""),\n      "image": seo.image { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n },\n      "noIndex": seo.noIndex == true\n    },\n    sections[attributes.hidden != true]{\n      _key, _type, attributes{ uid, hidden },\n      \n  _type == "calloutModule" => { title, tone, body[]{ _key, _type, style, listItem, level, children, markDefs }, attributes{ uid, hidden } },\n  _type == "galleryModule" => { title, columns, images[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption }, attributes{ uid, hidden } },\n  _type == "quoteModule" => { quote, attribution, sourceLabel, sourceUrl, attributes{ uid, hidden } },\n  _type == "accordionModule" => { title, items[]{ _key, title, body[]{ _key, _type, style, listItem, level, children, markDefs }, open }, attributes{ uid, hidden } }\n,\n      _type == "heroSection" => {\n        displayName, tagline,\n        nameGraphic { viewBox, paths },\n        terminalUser, terminalInterests,\n        featureImage { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n },\n        sticker { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n },\n        badge {\n          displayName,\n          portrait { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot },\n          status, pass, handle, summary, details, backTitle, backSubtitle, backDescription\n        },\n        gallery[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption },\n        galleryCaption,\n        folderLabel,\n        "folderItems": folderItems[]{\n          "_key": coalesce(_key, _ref),\n          "document": @->{\n            _type, language, title, "slug": slug.current,\n            "summary": select(_type == "project" => summary, description)\n          }\n        }[document._type in ["project", "post"] && document.language == $locale && defined(document.slug)][0...3]{\n          _key, document{ _type, title, slug, summary }\n        },\n        tracks[]{ _key, title, artist, url, cover { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n } }\n      },\n      _type == "aboutSection" => {\n        headline, biography,\n        interests[]{ _key, area, title, description,\n          image { \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt\n, crop, hotspot, caption }\n        }\n      },\n      _type == "projectsSection" => { title, description, limit },\n      _type == "writingSection" => { title, description, limit }\n    }\n  }\n': PAGE_QUERY_RESULT;

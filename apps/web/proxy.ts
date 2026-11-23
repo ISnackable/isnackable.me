@@ -1,6 +1,7 @@
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
 import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
+import { publicContentBots } from "@repo/security/bots";
 import { noseconeOptions, securityMiddleware } from "@repo/security/proxy";
 import { createNEMO } from "@zanreal/nemo";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
@@ -25,15 +26,7 @@ const arcjetMiddleware = async (request: NextRequest) => {
   }
 
   try {
-    await secure(
-      [
-        // See https://docs.arcjet.com/bot-protection/identifying-bots
-        "CATEGORY:SEARCH_ENGINE", // Allow search engines
-        "CATEGORY:PREVIEW", // Allow preview links to show OG images
-        "CATEGORY:MONITOR", // Allow uptime monitoring services
-      ],
-      request
-    );
+    await secure(publicContentBots, request);
   } catch (error) {
     const message = parseError(error);
     return NextResponse.json({ error: message }, { status: 403 });

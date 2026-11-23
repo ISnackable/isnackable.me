@@ -24,6 +24,10 @@ test.each([
   "/monitoring?o=123",
   "/studio",
   "/api/revalidate",
+  "/api/draft-mode/enable",
+  "/api/files/browse",
+  "/files",
+  "/ja/files/Documents",
   "/ingest/e",
   "/robots.txt",
   "/sitemap.xml",
@@ -35,9 +39,33 @@ test.each([
   }
 );
 
-test.each(["/", "/en", "/en/blog/test"])("protects page route %s", (url) => {
-  expect(doesProxyMatch({ config, url })).toBe(true);
-});
+test.each(["/", "/en", "/en/blog/test", "/en/opengraph-image-ipmbgq"])(
+  "protects portfolio route %s",
+  (url) => {
+    expect(doesProxyMatch({ config, url })).toBe(true);
+  }
+);
+
+test.each(["/en", "/en/blog/test", "/en/opengraph-image-ipmbgq"])(
+  "allows search, archive, and social preview crawlers through Arcjet on %s",
+  async (path) => {
+    const request = new NextRequest(`https://example.com${path}`);
+    await proxy(request, {} as NextFetchEvent);
+    expect(secure).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        "CATEGORY:SEARCH_ENGINE",
+        "CATEGORY:PREVIEW",
+        "SLACK_CRAWLER",
+        "LINKEDIN_CRAWLER",
+        "VERCEL_CRAWLER",
+        "ARCHIVEORG_ARCHIVER",
+        "ANTHROPIC_CRAWLER_SEARCH",
+        "PERPLEXITY_CRAWLER",
+      ]),
+      request
+    );
+  }
+);
 
 test("preserves locale redirects and security headers after the Nemo migration", async () => {
   const response = await proxy(

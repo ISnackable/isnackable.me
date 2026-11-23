@@ -21,7 +21,9 @@ import type {
 import { enabled } from "./enabled";
 
 export const legal = {
-  getPostsMeta: async (): Promise<LEGAL_PAGES_META_QUERY_RESULT> => {
+  getPostsMeta: async (
+    locale: string
+  ): Promise<LEGAL_PAGES_META_QUERY_RESULT> => {
     if (!enabled) {
       return [];
     }
@@ -30,6 +32,7 @@ export const legal = {
       const { data } = await cachedSanity({
         ...(await getDynamicFetchOptions()),
         query: LEGAL_PAGES_META_QUERY,
+        params: { locale },
         tags: ["legalPage"],
       });
       return data ?? [];

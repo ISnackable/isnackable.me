@@ -222,7 +222,14 @@ test.describe("portfolio sharing metadata", () => {
     test(`${path} declares a canonical URL and share image`, async ({
       page,
     }) => {
-      await page.goto(path);
+      const documentResponse = await page.goto(path);
+      expect(documentResponse?.status()).toBe(200);
+      const head = (await documentResponse?.text())?.split("</head>", 1)[0];
+      expect(head).not.toContain('property="twitter:card"');
+      expect(head).toContain(
+        'name="twitter:card" content="summary_large_image"'
+      );
+
       const canonical = page.locator('link[rel="canonical"]');
       await expect(canonical).toHaveAttribute("href", HTTP_URL);
       expect(

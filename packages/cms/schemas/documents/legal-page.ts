@@ -2,6 +2,7 @@ import { BlockContentIcon } from "@sanity/icons/BlockContent";
 import { DocumentIcon } from "@sanity/icons/Document";
 import { SearchIcon } from "@sanity/icons/Search";
 import { defineField, defineType } from "sanity";
+import { i18nLocales } from "../../studio/localization";
 import { blockContentField } from "../objects/block-content";
 import { hiddenAllFieldsGroup } from "../shared/editorial";
 
@@ -30,6 +31,13 @@ export const legalPage = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "navigationLabel",
+      type: "internationalizedArrayString",
+      group: "content",
+      description:
+        "Short link text for the site footer. Enter a label in every language before publishing.",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -56,6 +64,29 @@ export const legalPage = defineType({
       group: "seo",
     }),
   ],
+  // Keep the localized array's own validation for duplicate and invalid languages.
+  validation: (rule) =>
+    rule.custom((document) => {
+      const labels = Array.isArray(document?.navigationLabel)
+        ? document.navigationLabel
+        : [];
+      const missingLanguages = i18nLocales.filter(
+        ({ id }) =>
+          !labels.some(
+            (label) =>
+              label?.language === id &&
+              typeof label.value === "string" &&
+              label.value.trim().length > 0
+          )
+      );
+
+      return missingLanguages.length
+        ? {
+            message: `Enter a navigation label for ${missingLanguages.map(({ title }) => title).join(", ")}.`,
+            path: ["navigationLabel"],
+          }
+        : true;
+    }),
   preview: {
     select: {
       title: "title",

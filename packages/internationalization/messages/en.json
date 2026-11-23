@@ -188,6 +188,7 @@
     },
     "footer": {
       "navigation": "Footer navigation",
+      "legal": "Legal",
       "copyrightHolder": "Copyright holder",
       "builtBy": "Built by",
       "githubProfile": "GitHub profile of {name}"

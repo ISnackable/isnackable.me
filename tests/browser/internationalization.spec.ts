@@ -40,9 +40,17 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
         "true"
       );
     }
-    await expect(page.getByRole("contentinfo")).toContainText(
-      copy.footer.builtBy
-    );
+    const footer = page.getByRole("contentinfo");
+    await expect(footer).toContainText(copy.footer.builtBy);
+    const footerNavigation = footer.getByRole("navigation", {
+      name: copy.footer.navigation,
+    });
+    const files = footerNavigation.getByRole("link", {
+      name: dictionary.common.navigation.files,
+      exact: true,
+    });
+    const filesPath = `/${locale}/files`;
+    await expect(files).toHaveAttribute("href", filesPath);
     const links = await page
       .locator('main a[href^="/"]')
       .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
@@ -56,6 +64,16 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
         page.locator(`#about a[href="/${locale}/resume"]`)
       ).toBeVisible();
     }
+    const [filesResponse] = await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.request().isNavigationRequest() &&
+          new URL(response.url()).pathname === filesPath
+      ),
+      files.click(),
+    ]);
+    expect(filesResponse.ok()).toBe(true);
+    await expect(page.locator("html")).toHaveAttribute("lang", locale);
   });
 }
 

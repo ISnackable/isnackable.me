@@ -1,7 +1,9 @@
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { legal, settings } from "@repo/cms";
 import { resolveSiteSettings } from "@repo/cms/content/site";
+import { contentText } from "@repo/cms/content/text";
 import { siteConfig } from "@repo/config/site";
+import { filesHref } from "@repo/config/url";
 import { SiteLogo } from "@repo/design-system/components/site-logo";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import type { PortfolioDictionary } from "@repo/internationalization";
@@ -15,7 +17,7 @@ interface FooterProps {
 
 export async function Footer({ locale, dictionary }: FooterProps) {
   const [legalPages, document] = await Promise.all([
-    legal.getPostsMeta(),
+    legal.getPostsMeta(locale),
     settings.get(),
   ]);
   const site = resolveSiteSettings(document);
@@ -29,14 +31,12 @@ export async function Footer({ locale, dictionary }: FooterProps) {
   ];
 
   const { navigation } = dictionary.common;
+  const { footer } = dictionary.web;
+  const [firstLegalPage] = legalPages;
   const navLinks = [
     { href: `/${locale}`, label: navigation.home },
     { href: `/${locale}/blog`, label: navigation.blog },
     { href: `/${locale}/projects`, label: navigation.projects },
-    ...legalPages.map((post) => ({
-      href: `/${locale}/legal/${post.slug}`,
-      label: post.title,
-    })),
   ];
 
   return (
@@ -67,15 +67,53 @@ export async function Footer({ locale, dictionary }: FooterProps) {
           </div>
         </div>
 
-        <nav aria-label={dictionary.web.footer.navigation}>
+        <nav aria-label={footer.navigation}>
           <ul className="flex flex-wrap gap-4 font-medium text-muted-foreground text-sm md:gap-6">
             {navLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.href}>
                 <Link className="hover:text-foreground" href={link.href}>
                   {link.label}
                 </Link>
               </li>
             ))}
+            <li>
+              <a className="hover:text-foreground" href={filesHref(locale)}>
+                {navigation.files}
+              </a>
+            </li>
+            {firstLegalPage && (
+              <li>
+                {legalPages.length > 1 ? (
+                  <details>
+                    <summary className="cursor-pointer hover:text-foreground">
+                      {footer.legal}
+                    </summary>
+                    <ul className="mt-2 flex flex-col gap-2 border-l pl-3">
+                      {legalPages.map((post) => (
+                        <li key={post._id}>
+                          <Link
+                            className="hover:text-foreground"
+                            href={`/${locale}/legal/${post.slug}`}
+                          >
+                            {contentText(post.navigationLabel) ||
+                              post.title ||
+                              post.slug}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ) : (
+                  <Link
+                    className="hover:text-foreground"
+                    href={`/${locale}/legal/${firstLegalPage.slug}`}
+                  >
+                    {contentText(firstLegalPage.navigationLabel) ||
+                      footer.legal}
+                  </Link>
+                )}
+              </li>
+            )}
           </ul>
         </nav>
       </div>
@@ -83,13 +121,13 @@ export async function Footer({ locale, dictionary }: FooterProps) {
       <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 border-t px-4 py-4 text-muted-foreground text-sm md:px-6">
         <p>
           &copy; {await getCopyrightYear()}{" "}
-          {site.publisher || dictionary.web.footer.copyrightHolder}
+          {site.publisher || footer.copyrightHolder}
         </p>
 
         <p className="inline-flex flex-wrap items-center gap-1">
-          <span>{dictionary.web.footer.builtBy}</span>
+          <span>{footer.builtBy}</span>
           <a
-            aria-label={dictionary.web.footer.githubProfile.replace(
+            aria-label={footer.githubProfile.replace(
               "{name}",
               siteConfig.builtBy.name
             )}

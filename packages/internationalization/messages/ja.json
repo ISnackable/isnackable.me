@@ -188,6 +188,7 @@
     },
     "footer": {
       "navigation": "フッターナビゲーション",
+      "legal": "法的情報",
       "copyrightHolder": "著作権者",
       "builtBy": "制作",
       "githubProfile": "{name}のGitHubプロフィール"

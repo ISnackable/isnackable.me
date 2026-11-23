@@ -188,6 +188,7 @@
     },
     "footer": {
       "navigation": "页脚导航",
+      "legal": "法律信息",
       "copyrightHolder": "版权持有人",
       "builtBy": "制作",
       "githubProfile": "{name}的GitHub主页"
