@@ -293,4 +293,4 @@ test-results/
 /apps/web/public/assets/lanyard/generated/
 
 # Build-generated self-hosted document viewer assets
-/apps/app/public/assets/viewers/
+/apps/app/public/files-static/viewers/

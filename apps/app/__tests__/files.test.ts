@@ -56,6 +56,7 @@ vi.mock("@/env", () => ({
     FILES_CLIENT_ID: "fixture-client",
     FILES_CLIENT_SECRET: "fixture-client-secret",
     FILES_SIGNING_SECRET: "fixture-signing-key",
+    NEXT_PUBLIC_WEB_URL: "https://portfolio.example.test",
   },
 }));
 vi.mock("@/lib/files/connection", () => ({
@@ -130,7 +131,7 @@ test("filename links encode spaces, Unicode, and literal percent and hash charac
     "https://files.example.test"
   );
   expect(href).toBe(
-    "/ja/browse/%E8%B3%87%E6%96%99/50%25%20%231%20%2B%20text.txt"
+    "/ja/files/%E8%B3%87%E6%96%99/50%25%20%231%20%2B%20text.txt"
   );
   expect(readFilePath(api.searchParams.get("path"))).toEqual(path);
   expect(readBrowsePath(href.split("/").slice(3))).toEqual(path);
@@ -196,6 +197,10 @@ test("an oversized nested folder fails before the server starts streaming a ZIP"
   const response = await downloadArchive(
     new NextRequest("https://files.example.test/api/files/archive", {
       body: new URLSearchParams({ path: "Documents" }),
+      headers: {
+        Origin: "https://portfolio.example.test",
+        "Sec-Fetch-Site": "same-origin",
+      },
       method: "POST",
     })
   );

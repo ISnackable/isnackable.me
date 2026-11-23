@@ -1,6 +1,7 @@
 "use client";
 
 import "./styles.css";
+import { filesHref } from "@repo/config/url";
 import { NotFound } from "@repo/design-system/components/ui/not-found";
 import { fonts } from "@repo/design-system/lib/fonts";
 import { ThemeProvider } from "@repo/design-system/providers/theme";
@@ -21,7 +22,7 @@ const GlobalError = ({ reset }: GlobalErrorProperties) => (
           errorCode="500"
           onAction={reset}
           secondaryActionLabel="Back to home"
-          secondaryHref="/en/browse"
+          secondaryHref={filesHref("en")}
           title="Something went wrong"
         />
       </ThemeProvider>

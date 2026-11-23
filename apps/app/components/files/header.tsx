@@ -25,7 +25,10 @@ export function FilesHeader({
       }
       locale={locale}
       messages={common}
-      portfolioOrigin={getBaseUrl(env.NEXT_PUBLIC_WEB_URL).origin}
+      portfolioHome={{
+        href: `${env.VERCEL ? "" : getBaseUrl(env.NEXT_PUBLIC_WEB_URL).origin}/${locale}`,
+        navigation: "document",
+      }}
       siteName={
         hasFilesCms ? (
           <SanitySiteName

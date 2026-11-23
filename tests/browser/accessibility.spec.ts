@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const mondayContribution = /^Mon, .* contributions$/;
 const tuesdayContribution = /^Tue, .* contributions$/;
-const filesPath = /\/en\/browse$/;
+const filesPath = "/en/files";
 
 test("the GitHub heatmap supports mouse and keyboard selection in the rotated hero", async ({
   page,
@@ -142,17 +142,15 @@ test("mobile navigation manages focus, blocks background input, and closes with 
   await expect(page.getByRole("button", { name: "Toggle theme" })).toHaveCount(
     0
   );
+  const files = dialog.getByRole("link", { name: "Files", exact: true });
+  await expect(files).toHaveAttribute("href", filesPath);
   const focusOrder = [
     dialog.getByRole("link", { name: "Home", exact: true }),
     dialog.getByRole("link", { name: "Blog", exact: true }),
     dialog.getByRole("link", { name: "Projects", exact: true }),
+    files,
+    dialog.getByRole("button", { name: "Close menu" }),
   ];
-  const files = dialog.getByRole("link", { name: "Files", exact: true });
-  if (await files.count()) {
-    await expect(files).toHaveAttribute("href", filesPath);
-    focusOrder.push(files);
-  }
-  focusOrder.push(dialog.getByRole("button", { name: "Close menu" }));
   for (let index = 0; index < 6; index++) {
     // biome-ignore lint/performance/noAwaitInLoops: Verify sequential keyboard focus remains inside the modal.
     await page.keyboard.press("Tab");

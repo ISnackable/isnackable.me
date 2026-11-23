@@ -2,8 +2,8 @@ import { once } from "node:events";
 import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import { expect, type Page, test } from "@playwright/test";
+import { filesOrigin as origin } from "../fixtures/browser-servers.mjs";
 
-const origin = "http://127.0.0.1:3100";
 const file = (path: string, endpoint = "content") =>
   `${origin}/api/files/${endpoint}?${new URLSearchParams({ path })}`;
 const downloads = /attachment/;
@@ -37,10 +37,52 @@ function expectArchive(bytes: Buffer, ...entries: string[]) {
   }
 }
 
+test("the shared header navigates between zones on the portfolio origin", async ({
+  isMobile,
+  page,
+}) => {
+  await page.goto("/ja");
+  const headerLink = async (name: string) => {
+    if (isMobile) {
+      await page.getByRole("button", { name: "メニューを切り替える" }).click();
+      return page.getByRole("dialog").getByRole("link", { exact: true, name });
+    }
+    return page.getByRole("banner").getByRole("link", { exact: true, name });
+  };
+
+  const files = await headerLink("ファイル");
+  await expect(files).toHaveAttribute("href", "/ja/files");
+  const [response] = await Promise.all([
+    page.waitForResponse(
+      (candidate) =>
+        candidate.request().isNavigationRequest() &&
+        new URL(candidate.url()).pathname === "/ja/files"
+    ),
+    files.click(),
+  ]);
+  expect(response.ok()).toBe(true);
+  await expect(page).toHaveURL("/ja/files");
+  await directoryLink(page, "Documents").click();
+  await expect(page).toHaveURL("/ja/files/Documents");
+  await expect(directoryLink(page, guide)).toBeVisible();
+
+  const preferred = await page.request.get("/files", {
+    headers: { "Accept-Language": "en" },
+    maxRedirects: 0,
+  });
+  expect(preferred.status()).toBe(307);
+  expect(new URL(preferred.headers().location, page.url()).pathname).toBe(
+    "/ja/files"
+  );
+
+  await (await headerLink("ホーム")).click();
+  await expect(page).toHaveURL("/ja");
+});
+
 test("files without a preview show illustrated file details and offer a download", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse/Archive/large.bin`);
+  await page.goto(`${origin}/en/files/Archive/large.bin`);
   const main = page.getByRole("main");
   await expect(locationCrumb(page, "large.bin")).toHaveAttribute(
     "aria-current",
@@ -61,7 +103,9 @@ test("files without a preview show illustrated file details and offer a download
   await expect(
     main.getByText("f0a9cd8681a4f45b8aba8f08e5d42f8f8437d066")
   ).toBeVisible();
-  const illustration = main.locator('img[src="/assets/file-details.webp"]');
+  const illustration = main.locator(
+    'img[src="/files-static/file-details.webp"]'
+  );
   await expect
     .poll(() =>
       illustration.evaluate((image: HTMLImageElement) => image.naturalWidth)
@@ -75,7 +119,7 @@ test("files without a preview show illustrated file details and offer a download
 
 test("failed previews show the available file details", async ({ page }) => {
   await page.route(photoPreview, (route) => route.fulfill({ status: 503 }));
-  await page.goto(`${origin}/en/browse/Photo.png`);
+  await page.goto(`${origin}/en/files/Photo.png`);
   const main = page.getByRole("main");
   await expect(
     main.getByRole("heading", { name: "File details" })
@@ -93,7 +137,7 @@ test("browse, page forward, follow a file link and return to the folder", async 
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(origin);
-  await expect(page).toHaveURL(`${origin}/en/browse`);
+  await expect(page).toHaveURL(`${origin}/en/files`);
   const homeCrumb = locationCrumb(page, "All files");
   await expect(homeCrumb.locator("svg")).toBeVisible();
   await expect(homeCrumb).toHaveAttribute("aria-current", "page");
@@ -121,7 +165,7 @@ test("browse, page forward, follow a file link and return to the folder", async 
   );
   await expect(
     navigation.getByRole("link", { name: "Files", exact: true })
-  ).toHaveAttribute("href", "/en/browse");
+  ).toHaveAttribute("href", "/en/files");
   if (isMobile) {
     await page.keyboard.press("Escape");
     await expect(navigation).toBeHidden();
@@ -147,11 +191,11 @@ test("browse, page forward, follow a file link and return to the folder", async 
     })
   ).toBeVisible();
   await directoryLink(page, "50% ready #1.txt").click();
-  await expect(page).toHaveURL(`${origin}/en/browse/50%25%20ready%20%231.txt`);
+  await expect(page).toHaveURL(`${origin}/en/files/50%25%20ready%20%231.txt`);
   const homeLink = page
     .getByRole("navigation", { name: "File location" })
     .getByRole("link", { name: "All files" });
-  await expect(homeLink).toHaveAttribute("href", "/en/browse");
+  await expect(homeLink).toHaveAttribute("href", "/en/files");
   await expect(homeLink.locator("svg")).toHaveCSS("width", homeIconWidth);
   await expect(homeLink.locator("svg")).toHaveCSS("height", homeIconWidth);
   const textPreview = page.getByRole("main").getByRole("code");
@@ -174,13 +218,13 @@ test("the mobile files menu follows a portfolio link and closes on browser back"
 }) => {
   test.skip(!isMobile, "The menu is only shown below the desktop breakpoint.");
   await page.route(portfolioBlog, (route) => route.fulfill({ body: "Blog" }));
-  await page.goto(`${origin}/en/browse`);
+  await page.goto(`${origin}/en/files`);
   await page.getByRole("button", { name: "Toggle menu" }).click();
   const dialog = page.getByRole("dialog", { name: "Main navigation" });
   await dialog.getByRole("link", { name: "Blog", exact: true }).click();
   await expect(page).toHaveURL(portfolioBlog);
   await page.goBack();
-  await expect(page).toHaveURL(`${origin}/en/browse`);
+  await expect(page).toHaveURL(`${origin}/en/files`);
   await expect(dialog).toBeHidden();
 });
 
@@ -197,7 +241,7 @@ for (const { fragment, title } of [
   test(title, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    const path = `/browse/50%25%20ready%20%231.txt?from=share${fragment}`;
+    const path = `/files/50%25%20ready%20%231.txt?from=share${fragment}`;
     const preview = page.getByRole("main").getByRole("code");
     await page.goto(`${origin}/en${path}`);
     await expect(locationCrumb(page, "50% ready #1.txt")).toBeVisible();
@@ -215,7 +259,7 @@ for (const { fragment, title } of [
     const homeLink = breadcrumb.getByRole("link", { name: "すべてのファイル" });
     await expect(homeLink.locator("svg")).toBeVisible();
     await expect(homeLink).toBeEmpty();
-    await expect(homeLink).toHaveAttribute("href", "/ja/browse");
+    await expect(homeLink).toHaveAttribute("href", "/ja/files");
     await expect(
       breadcrumb.getByRole("heading", { name: "50% ready #1.txt" })
     ).toHaveAttribute("aria-current", "page");
@@ -237,7 +281,7 @@ for (const { fragment, title } of [
     const chineseHome = page.getByRole("link", { name: "所有文件" });
     await expect(chineseHome.locator("svg")).toBeVisible();
     await chineseHome.press("Enter");
-    await expect(page).toHaveURL(`${origin}/zh/browse`);
+    await expect(page).toHaveURL(`${origin}/zh/files`);
     await expect(
       page.getByRole("heading", { name: "所有文件" })
     ).toHaveAttribute("aria-current", "page");
@@ -248,7 +292,7 @@ for (const { fragment, title } of [
 test("page links and direct bytes support sharing, embeds, and ranges", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse/Documents/Guide.txt`);
+  await page.goto(`${origin}/en/files/Documents/Guide.txt`);
   const preview = page.getByText("Public file fixture");
   const download = page.getByRole("link", { exact: true, name: "Download" });
   await expect(preview).toBeVisible();
@@ -356,7 +400,7 @@ test("page links and direct bytes support sharing, embeds, and ranges", async ({
 test("selected files and nested folder ZIPs download through the browser", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse/Documents`);
+  await page.goto(`${origin}/en/files/Documents`);
   await expect(locationCrumb(page, "Documents")).toHaveAttribute(
     "aria-current",
     "page"
@@ -388,7 +432,7 @@ test("selected files and nested folder ZIPs download through the browser", async
   const expectedLinks = [
     file("Documents/Guide.txt"),
     file("Documents/sample.pdf"),
-    `${origin}/en/browse/Documents/Nested`,
+    `${origin}/en/files/Documents/Nested`,
   ].sort();
   await expect
     .poll(() =>
@@ -421,7 +465,7 @@ test("selected files and nested folder ZIPs download through the browser", async
   await page.getByRole("menuitem", { name: "Copy link" }).click();
   await expect
     .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-    .toBe(`${origin}/en/browse/Documents`);
+    .toBe(`${origin}/en/files/Documents`);
   await folderActions.click();
   const downloadFolder = page.getByRole("menuitem", {
     name: "Download folder as ZIP",
@@ -444,7 +488,7 @@ test("selected files and nested folder ZIPs download through the browser", async
 test("select all tracks loaded entries and keeps selection when switching views", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse`);
+  await page.goto(`${origin}/en/files`);
   const selectAll = page.getByRole("checkbox", {
     name: "Select all loaded items",
   });
@@ -477,7 +521,7 @@ test("select all tracks loaded entries and keeps selection when switching views"
 test("Internet shortcuts preview their full external destination", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse/Documents/Project.url`);
+  await page.goto(`${origin}/en/files/Documents/Project.url`);
   await expect(page.getByRole("link", { name: "Open link" })).toHaveAttribute(
     "href",
     "https://example.test/?a=b&c=d"
@@ -512,7 +556,7 @@ test("published content streams and private paths and shortcuts stay outside the
     ).status()
   ).toBe(403);
 
-  await page.goto(`${origin}/en/browse/Private`);
+  await page.goto(`${origin}/en/files/Private`);
   await expect(
     page.getByRole("heading", { name: "File or folder not found" })
   ).toBeVisible();
@@ -573,7 +617,7 @@ for (const { path, filename, panelSelector, hasTextPreview } of [
     }
 
     try {
-      await page.goto(`${origin}/en/browse/${path}`, {
+      await page.goto(`${origin}/en/files/${path}`, {
         waitUntil: "domcontentloaded",
       });
       const breadcrumb = locationCrumb(page, filename);
@@ -629,7 +673,7 @@ test("a slow folder README keeps loading inside its own panel", async ({
     }
   );
 
-  await page.goto(`${origin}/en/browse`);
+  await page.goto(`${origin}/en/files`);
   const readme = page.getByRole("region", { name: "Folder README" });
   const loading = readme.getByRole("status", { name: "Loading preview…" });
   const selection = page.getByRole("checkbox", { name: "Select README.md" });
@@ -652,13 +696,13 @@ test("a slow folder README keeps loading inside its own panel", async ({
 test("the files home redirects straight to the preferred language's listing", async ({
   request,
 }) => {
-  const response = await request.get(origin, {
+  const response = await request.get(`${origin}/files`, {
     headers: { "Accept-Language": "ja" },
     maxRedirects: 0,
   });
   expect(response.status()).toBe(307);
   expect(new URL(response.headers().location, origin).pathname).toBe(
-    "/ja/browse"
+    "/ja/files"
   );
 });
 
@@ -675,7 +719,8 @@ test("a directly opened folder starts loading before JavaScript hydrates", async
   });
   await page.route(
     (url) =>
-      url.pathname.startsWith("/_next/static/") && url.pathname.endsWith(".js"),
+      url.pathname.startsWith("/files-static/_next/static/") &&
+      url.pathname.endsWith(".js"),
     async (route) => {
       await release.promise;
       await route.continue();
@@ -687,7 +732,7 @@ test("a directly opened folder starts loading before JavaScript hydrates", async
         (response) => isBrowseRequest(new URL(response.url()), folder),
         { timeout: 5000 }
       ),
-      page.goto(`${origin}/en/browse/${folder}`, { waitUntil: "commit" }),
+      page.goto(`${origin}/en/files/${folder}`, { waitUntil: "commit" }),
     ]);
     expect(listing.ok()).toBe(true);
   } finally {
@@ -702,7 +747,7 @@ test("opening a cold folder loads its data while the route is still pending", as
   page,
 }) => {
   const folder = "Documents";
-  const destination = `/en/browse/${folder}`;
+  const destination = `/en/files/${folder}`;
   const release = Promise.withResolvers<void>();
   let reads = 0;
   page.on("request", (request) => {
@@ -717,7 +762,7 @@ test("opening a cold folder loads its data while the route is still pending", as
       await route.continue();
     }
   );
-  await page.goto(`${origin}/en/browse`);
+  await page.goto(`${origin}/en/files`);
   try {
     const [listing] = await Promise.all([
       page.waitForResponse(
@@ -769,7 +814,7 @@ test("already visited nested folders and files open while their refresh is pendi
   page,
 }) => {
   await page.clock.install();
-  await page.goto(`${origin}/en/browse/${deepFolder}`);
+  await page.goto(`${origin}/en/files/${deepFolder}`);
   const fileLink = directoryLink(page, deepTitle);
   await fileLink.click();
   const preview = page.getByText("Nested public file fixture", { exact: true });
@@ -805,7 +850,7 @@ test("already visited nested folders and files open while their refresh is pendi
 
 test("returning focus refreshes the visible folder", async ({ page }) => {
   await page.clock.install();
-  await page.goto(`${origin}/en/browse/${deepFolder}`);
+  await page.goto(`${origin}/en/files/${deepFolder}`);
   await expect(directoryLink(page, deepTitle)).toBeVisible();
 
   const name = "New public file.txt";
@@ -840,13 +885,15 @@ test("returning focus refreshes the visible folder", async ({ page }) => {
 test("the files host enforces a production CSP and loads its PDF engine locally", async ({
   page,
 }) => {
-  const response = await page.goto(`${origin}/en/browse/Documents/sample.pdf`);
+  const response = await page.goto(`${origin}/en/files/Documents/sample.pdf`);
   const csp = response?.headers()["content-security-policy"] ?? "";
   expect(csp).toContain("connect-src 'self'");
   expect(csp).not.toContain("'unsafe-eval'");
   await expect(locationCrumb(page, "sample.pdf")).toBeVisible();
   await expect(page.getByRole("button", { name: "Search text" })).toBeEnabled();
-  const wasm = await page.request.get(`${origin}/assets/viewers/pdfium.wasm`);
+  const wasm = await page.request.get(
+    `${origin}/files-static/viewers/pdfium.wasm`
+  );
   expect(wasm.status()).toBe(200);
   expect(wasm.headers()["content-type"]).toContain("application/wasm");
 });
@@ -856,7 +903,7 @@ test("the spreadsheet viewer opens workbook sheets", async ({ page }) => {
     height: 640,
     width: page.viewportSize()?.width ?? 1024,
   });
-  await page.goto(`${origin}/en/browse/Documents/sample.xlsx`);
+  await page.goto(`${origin}/en/files/Documents/sample.xlsx`);
   await expect(locationCrumb(page, "sample.xlsx")).toBeVisible();
   await expect(page.getByText("Reports", { exact: true })).toBeVisible();
   const sheet = page.getByRole("tab", { name: "Data", exact: true });
@@ -893,12 +940,12 @@ test("the spreadsheet viewer opens workbook sheets", async ({ page }) => {
 test("Word and PowerPoint preview documents open read-only", async ({
   page,
 }) => {
-  await page.goto(`${origin}/en/browse/Documents/sample.docx`);
+  await page.goto(`${origin}/en/files/Documents/sample.docx`);
   await expect(locationCrumb(page, "sample.docx")).toBeVisible();
   await expect(
     page.getByText("OneDrive sample document", { exact: true })
   ).toBeVisible();
-  await page.goto(`${origin}/en/browse/Documents/sample.pptx`);
+  await page.goto(`${origin}/en/files/Documents/sample.pptx`);
   await expect(locationCrumb(page, "sample.pptx")).toBeVisible();
   await expect(
     page.getByText("Presentation fixture content", { exact: true })

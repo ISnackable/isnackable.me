@@ -142,6 +142,7 @@ export type PDFViewerProps = {
    * Raw base64 is recognized by the encoded %PDF- header.
    */
   src?: string
+  wasmSrc: string
   toolbarActions?: React.ReactNode
   pageClassName?: (pageNumber: number) => string | undefined
   renderPageOverlay?: (props: PDFViewerPageOverlayProps) => React.ReactNode
@@ -232,24 +233,31 @@ function arePageIndexSetsEqual(left: Set<number>, right: Set<number>) {
 function normalizeRotation(rotation: number): Rotation {
   return (((rotation % 4) + 4) % 4) as Rotation
 }
-function useSharedPdfEngine() {
-  const [engine, setEngine] = React.useState<PdfEngine | null>(null)
-  const [error, setError] = React.useState<Error | null>(null)
+function useSharedPdfEngine(wasmSrc: string) {
+  const [result, setResult] = React.useState<{
+    src: string
+    engine: PdfEngine | null
+    error: Error | null
+  } | null>(null)
   React.useEffect(() => {
     let cancelled = false
-    loadSharedPdfEngine().then(
+    loadSharedPdfEngine(wasmSrc).then(
       (loadedEngine) => {
-        if (!cancelled) setEngine(loadedEngine)
+        if (!cancelled) {
+          setResult({ src: wasmSrc, engine: loadedEngine, error: null })
+        }
       },
       (loadError: Error) => {
-        if (!cancelled) setError(loadError)
+        if (!cancelled) {
+          setResult({ src: wasmSrc, engine: null, error: loadError })
+        }
       }
     )
     return () => {
       cancelled = true
     }
-  }, [])
-  return { engine, error }
+  }, [wasmSrc])
+  return result?.src === wasmSrc ? result : { engine: null, error: null }
 }
 function rotationToDegrees(rotation: Rotation) {
   return (rotation as number) * 90
@@ -2543,6 +2551,7 @@ export const PDFViewer = React.forwardRef<PDFViewerHandle, PDFViewerProps>(
       showToolbar = true,
       showUpload = true,
       src,
+      wasmSrc,
       toolbarActions,
       pageClassName,
       renderPageOverlay,
@@ -2556,7 +2565,7 @@ export const PDFViewer = React.forwardRef<PDFViewerHandle, PDFViewerProps>(
     },
     ref
   ) {
-    const { engine, error: engineError } = useSharedPdfEngine()
+    const { engine, error: engineError } = useSharedPdfEngine(wasmSrc)
     const [uploadedPdfFile, setUploadedPdfFile] = React.useState<{
       src: string | undefined
       url: string | null

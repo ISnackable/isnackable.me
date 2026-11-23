@@ -9,7 +9,7 @@ All commands run from the repo root unless noted. Package manager is **pnpm** (w
 - `pnpm dev` — run the app on :3000, portfolio on :3001, and Studio on :3333 via Turborepo. Access Studio through the portfolio's `/studio` path.
 - `pnpm build` — prepare the web build's CMS inputs, then run `turbo build`.
 - `pnpm test` — `turbo test` (both apps have regression tests)
-- `pnpm test:browser` — production browser regression tests (build first)
+- `pnpm build:browser` / `pnpm test:browser` — build for the browser fixture ports, then run production browser regression tests.
 - `pnpm test:instant` — build with the navigation testing API, then verify instant navigation on desktop and mobile. Ordinary builds leave this API disabled.
 - `pnpm check` / `pnpm fix` — lint + format via **Biome** (wrapped by `ultracite`). There is no ESLint/Prettier.
 - `pnpm typecheck` — check the apps, shared source packages, and the Sanity function via Turborepo. Per-package: `pnpm --filter <pkg> typecheck`.
@@ -23,11 +23,11 @@ Turborepo `build` depends on `^build` **and** `test`, so tests run as part of `p
 
 Monorepo (pnpm + Turborepo). Two Next.js 16 apps, a standalone Sanity Studio, and shared packages.
 
-- `apps/app` — OneDrive file index (port 3000). The localized layout lives in `app/[locale]/layout.tsx`, with the file browser at `app/[locale]/browse/[[...path]]/page.tsx`.
+- `apps/app` — OneDrive file index (port 3000), served from the portfolio's `/files` entry point as a separate Vercel service. The localized layout lives in `app/[locale]/layout.tsx`, with the file browser at `app/[locale]/files/[[...path]]/page.tsx`.
 - `apps/web` — portfolio/blog site (port 3001), i18n via `app/(main)/[locale]/`. Owns the Studio Draft Mode endpoints.
 - `apps/studio` — Sanity Studio (port 3333), built with the Sanity CLI. Vercel Services routes `/studio` on the portfolio origin to this app.
 - `packages/*` — `@repo/<name>`. Each is consumed as **raw TypeScript source** by apps through tsconfig path aliases (`@repo/*` → `../../packages/*`), e.g. `@repo/observability/next-config` resolves to `packages/observability/next-config.ts`. **Do not add `exports`/`main` fields or try to build these packages** — Next.js compiles them directly. Subpath imports map to file paths (no build step, no `dist`).
-- `packages/next-config` — shared base `NextConfig` with PostHog rewrites. Both apps compose it with observability configuration. The web app also adds CMS and internationalization configuration.
+- `packages/next-config` — shared base `NextConfig`. Web composes it with analytics, observability, CMS, and internationalization settings from their packages.
 
 ## Next.js 16 conventions
 

@@ -27,7 +27,7 @@ import {
 
 interface HeaderDestination {
   href: string;
-  external?: boolean;
+  navigation?: "client" | "document";
   current?: boolean;
 }
 
@@ -46,14 +46,14 @@ function HeaderLink({
   destination: HeaderDestination;
   onNavigate?: () => void;
 }) {
-  const { current, external, href } = destination;
+  const { current, href, navigation } = destination;
   const props = {
     "aria-current": current ? ("location" as const) : undefined,
     className,
     href,
   };
 
-  return external ? (
+  return navigation === "document" ? (
     <a {...props} onClick={onNavigate}>
       {children}
     </a>
@@ -152,26 +152,25 @@ export function SiteHeader({
   languageSwitcher,
   locale,
   messages,
-  portfolioOrigin = "",
+  portfolioHome,
   siteName,
 }: {
-  filesLink?: HeaderDestination;
+  filesLink: HeaderDestination;
   languageSwitcher: ReactNode;
   locale: Locale;
   messages: CommonMessages;
-  portfolioOrigin?: string;
+  portfolioHome?: HeaderDestination;
   siteName: ReactNode;
 }) {
   const scrolled = useScroll(10);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { header, navigation } = messages;
-  const homeHref = `${portfolioOrigin}/${locale}`;
-  const external = Boolean(portfolioOrigin);
+  const home = portfolioHome ?? { href: `/${locale}` };
   const items = [
-    { title: navigation.home, href: homeHref, external },
-    { title: navigation.blog, href: `${homeHref}/blog`, external },
-    { title: navigation.projects, href: `${homeHref}/projects`, external },
-    ...(filesLink ? [{ ...filesLink, title: navigation.files }] : []),
+    { ...home, title: navigation.home },
+    { ...home, href: `${home.href}/blog`, title: navigation.blog },
+    { ...home, href: `${home.href}/projects`, title: navigation.projects },
+    { ...filesLink, title: navigation.files },
   ];
 
   return (
@@ -187,7 +186,7 @@ export function SiteHeader({
       >
         <HeaderLink
           className="flex min-w-0 select-none items-center gap-2 rounded-md py-2"
-          destination={{ href: homeHref, external }}
+          destination={home}
         >
           <SiteLogo className="size-5 shrink-0" />
           <span className="truncate font-semibold text-foreground tracking-tight">

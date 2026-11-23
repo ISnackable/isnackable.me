@@ -29,8 +29,19 @@
   },
   "rewrites": [
     {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": { "pre": "files." } }],
+      "source": "/files/:path*",
+      "destination": { "service": "files" }
+    },
+    {
+      "source": "/:locale(en|ja|zh)/files/:path*",
+      "destination": { "service": "files" }
+    },
+    {
+      "source": "/files-static/:path*",
+      "destination": { "service": "files" }
+    },
+    {
+      "source": "/api/files/:path*",
       "destination": { "service": "files" }
     },
     {

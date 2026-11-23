@@ -1,10 +1,10 @@
+import { filesHref } from "@repo/config/url";
 import { isLocale } from "@repo/internationalization/locales";
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
 import { secure } from "@repo/security";
 import { noseconeOptions, securityMiddleware } from "@repo/security/proxy";
 import { type NextProxy, NextResponse } from "next/server";
 import { env } from "./env";
-import { browseHref } from "./lib/files/paths";
 
 const securityHeaders = securityMiddleware(noseconeOptions);
 const trailingSlash = /\/$/;
@@ -46,7 +46,7 @@ const proxy: NextProxy = async (request) => {
     );
     const locale = location?.pathname.slice(1);
     if (location && isLocale(locale)) {
-      location.pathname = browseHref(locale);
+      location.pathname = filesHref(locale);
       localized.headers.set("location", location.href);
     }
   }
@@ -63,7 +63,9 @@ export default proxy;
 export const config = {
   // File page segments legitimately contain dots and file extensions.
   matcher: [
-    "/((?!api(?:/|$)|_next(?:/|$)|assets(?:/|$)|\\.well-known(?:/|$)|(?:apple-icon\\.png|favicon\\.ico|icon\\.png|robots\\.txt|sitemap\\.xml)$).*)",
+    "/",
+    "/files/:path*",
+    "/:locale(en|ja|zh)/files/:path*",
     "/api/files/:path*",
   ],
 };

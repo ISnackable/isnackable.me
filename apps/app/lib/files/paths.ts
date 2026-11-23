@@ -1,3 +1,4 @@
+import { filesHref } from "@repo/config/url";
 import type { Locale } from "@repo/internationalization/locales";
 import { filePathLimit } from "./limits";
 
@@ -48,7 +49,8 @@ export function encodeFilePath(path: readonly string[]) {
 
 export function browseHref(locale: Locale, path: readonly string[] = []) {
   const suffix = encodeFilePath(path);
-  return suffix ? `/${locale}/browse/${suffix}` : `/${locale}/browse`;
+  const root = filesHref(locale);
+  return suffix ? `${root}/${suffix}` : root;
 }
 
 export function filesApiHref(

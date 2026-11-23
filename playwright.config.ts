@@ -1,4 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
+import {
+  filesOrigin,
+  filesPort,
+  hostname,
+  webOrigin,
+  webPort,
+} from "./tests/fixtures/browser-servers.mjs";
 
 export default defineConfig({
   testDir: "./tests/browser",
@@ -9,7 +16,7 @@ export default defineConfig({
   workers: 1,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:3101",
+    baseURL: webOrigin,
     trace: "retain-on-failure",
     launchOptions: {
       executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
@@ -30,22 +37,23 @@ export default defineConfig({
       reuseExistingServer: false,
     },
     {
-      command:
-        "pnpm --filter app exec node --import ../../tests/fixtures/files-services.mjs ./node_modules/next/dist/bin/next start -p 3100",
-      url: "http://127.0.0.1:3100",
+      command: `pnpm --filter app exec node --import ../../tests/fixtures/files-services.mjs ./node_modules/next/dist/bin/next start -H ${hostname} -p ${filesPort}`,
+      url: filesOrigin,
       reuseExistingServer: false,
       env: {
-        SKIP_ENV_VALIDATION: "true",
+        SKIP_ENV_VALIDATION: "false",
+        NEXT_PUBLIC_WEB_URL: webOrigin,
         ARCJET_KEY: "",
         ARCJET_ENV: "development",
       },
     },
     {
-      command: "pnpm --filter web exec next start -p 3101",
-      url: "http://127.0.0.1:3101/en",
+      command: `pnpm --filter web exec next start -H ${hostname} -p ${webPort}`,
+      url: `${webOrigin}/en`,
       reuseExistingServer: false,
       env: {
         SKIP_ENV_VALIDATION: "true",
+        NEXT_PUBLIC_WEB_URL: webOrigin,
         ARCJET_KEY: "",
         ARCJET_ENV: "development",
       },

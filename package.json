@@ -8,6 +8,7 @@
     "boundaries": "turbo boundaries",
     "prebuild": "pnpm --filter web lanyard:inputs",
     "build": "turbo build",
+    "build:browser": "node tests/fixtures/browser-servers.mjs",
     "bump-deps": "pnpm dlx npm-check-updates --cooldown 1d --deep -u && pnpm install",
     "bump-ui": "pnpm dlx shadcn@latest add --all --overwrite -c packages/design-system",
     "check": "ultracite check",

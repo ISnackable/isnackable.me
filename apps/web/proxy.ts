@@ -12,7 +12,7 @@ export const config = {
   // Sanity Studio (`/studio`), API routes, and Draft Mode endpoints —
   // those must bypass i18n rewriting and Arcjet security checks.
   matcher: [
-    "/((?!_next/static|_next/image|ingest|monitoring|robots\\.txt|sitemap\\.xml|favicon.ico|studio|api|assets|typst|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next/static|_next/image|ingest|monitoring|robots\\.txt|sitemap\\.xml|favicon.ico|studio|api|assets|typst|files(?:-static)?(?:/|$)|(?:en|ja|zh)/files(?:/|$)|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
 

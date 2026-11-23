@@ -11,7 +11,7 @@ export default function Image() {
       brand="OneDrive Index"
       description="Browse and download files."
       host={
-        URL.parse(process.env.NEXT_PUBLIC_APP_URL ?? "")?.hostname ||
+        URL.parse(process.env.NEXT_PUBLIC_WEB_URL ?? "")?.hostname ||
         "localhost"
       }
       label="Files"

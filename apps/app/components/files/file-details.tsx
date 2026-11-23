@@ -1,3 +1,4 @@
+import { siteConfig } from "@repo/config/site";
 import { formatFileSize } from "@repo/design-system/components/extend/file-format";
 import {
   Card,
@@ -77,7 +78,7 @@ export function FileDetailsFallback({
           fetchPriority="high"
           height={384}
           loading="eager"
-          src="/assets/file-details.webp"
+          src={`${siteConfig.files.assetPrefix}/file-details.webp`}
           unoptimized
           width={384}
         />

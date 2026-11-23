@@ -1,6 +1,6 @@
 import type { PdfEngine } from "@embedpdf/models";
 
-let engine: Promise<PdfEngine> | undefined;
+const engines = new Map<string, Promise<PdfEngine>>();
 
 export function getPdfSourceUrl(src: string) {
   // Raw base64 must start with the encoded PDF header to distinguish it from a path.
@@ -10,14 +10,18 @@ export function getPdfSourceUrl(src: string) {
   return src;
 }
 
-export function loadSharedPdfEngine() {
-  engine ??= import("@embedpdf/engines/pdfium-worker-engine")
-    .then(({ createPdfiumEngine }) =>
-      createPdfiumEngine(new URL("/assets/viewers/pdfium.wasm", window.location.origin).href, {})
-    )
+export function loadSharedPdfEngine(wasmSrc: string) {
+  const url = new URL(wasmSrc, window.location.origin).href;
+  const existing = engines.get(url);
+  if (existing) {
+    return existing;
+  }
+  const engine = import("@embedpdf/engines/pdfium-worker-engine")
+    .then(({ createPdfiumEngine }) => createPdfiumEngine(url, {}))
     .catch((error: unknown) => {
-      engine = undefined;
+      engines.delete(url);
       throw error;
     });
+  engines.set(url, engine);
   return engine;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { siteConfig } from "@repo/config/site";
 import { useTheme } from "@repo/design-system/client";
 import { Skeleton } from "@repo/design-system/components/ui/skeleton";
 import dynamic from "next/dynamic";
@@ -86,7 +87,13 @@ export function DocumentViewer({
       viewer = <ExcelViewer className="h-full" {...document} {...theme} />;
       break;
     default:
-      viewer = <PdfViewer defaultZoom="fit-width" {...document} />;
+      viewer = (
+        <PdfViewer
+          defaultZoom="fit-width"
+          wasmSrc={`${siteConfig.files.assetPrefix}/viewers/pdfium.wasm`}
+          {...document}
+        />
+      );
   }
 
   return (

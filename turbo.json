@@ -11,14 +11,16 @@
         "!.next/cache/**",
         "**/generated/**",
         "dist/**",
-        "public/assets/viewers/**"
+        "public/files-static/viewers/**"
       ],
       "env": [
         "ANALYZE",
         "CI",
         "EXPOSE_TESTING_API",
+        "FILES_BROWSER_TEST_ORIGIN",
         "NEXT_PUBLIC_SANITY_DATASET",
         "NEXT_PUBLIC_SANITY_PROJECT_ID",
+        "NEXT_PUBLIC_WEB_URL",
         "SENTRY_AUTH_TOKEN",
         "SENTRY_ENVIRONMENT",
         "SENTRY_ORG",

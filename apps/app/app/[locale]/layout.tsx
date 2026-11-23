@@ -1,4 +1,5 @@
 import "../styles.css";
+import { siteConfig } from "@repo/config/site";
 import { getBaseUrl } from "@repo/config/url";
 import { DesignSystemProvider } from "@repo/design-system";
 import { fonts } from "@repo/design-system/lib/fonts";
@@ -17,8 +18,17 @@ export function generateStaticParams() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const { files } = await getFilesDictionary(await getFilesLocale());
+  const { assetPrefix } = siteConfig.files;
   return {
-    metadataBase: getBaseUrl(env.NEXT_PUBLIC_APP_URL, "http://localhost:3000"),
+    metadataBase: getBaseUrl(env.NEXT_PUBLIC_WEB_URL),
+    icons: {
+      apple: `${assetPrefix}/apple-icon.png`,
+      icon: [
+        `${assetPrefix}/favicon.ico`,
+        { url: `${assetPrefix}/icon.png`, type: "image/png" },
+      ],
+    },
+    openGraph: { images: [`${assetPrefix}/opengraph-image`] },
     robots: { index: false, follow: false },
     title: files.title,
   };

@@ -1,3 +1,4 @@
+import { siteConfig } from "@repo/config/site";
 import { config, withAnalyzer } from "@repo/next-config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
@@ -21,10 +22,9 @@ const csp = [
 
 let nextConfig: NextConfig = {
   ...config,
+  assetPrefix: siteConfig.files.assetPrefix,
   experimental: { ...config.experimental, globalNotFound: true },
-  // Keep document URLs out of analytics.
-  rewrites: undefined,
-  async headers() {
+  headers() {
     return [
       {
         source: "/:path*",
