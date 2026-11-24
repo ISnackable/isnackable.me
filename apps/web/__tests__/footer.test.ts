@@ -44,9 +44,7 @@ test("the footer omits Legal when the CMS has no legal pages", async () => {
   const navigation = await renderFooterNavigation();
 
   expect(navigation?.textContent).not.toContain(ja.web.footer.legal);
-  expect(navigation?.querySelector('a[href="/ja/files"]')?.textContent).toBe(
-    ja.common.navigation.files
-  );
+  expect(navigation?.querySelector('a[href="/ja/files"]')).toBeNull();
 });
 
 test("the footer links to the English policy until a translation is published", async () => {

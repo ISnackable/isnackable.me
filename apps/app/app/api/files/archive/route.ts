@@ -1,4 +1,5 @@
 import { getBaseUrl } from "@repo/config/url";
+import { secure } from "@repo/security";
 import type { NextRequest } from "next/server";
 import { env } from "@/env";
 import { archiveResponse } from "@/lib/files/archive";
@@ -20,6 +21,14 @@ export async function POST(request: NextRequest) {
   ) {
     return new Response(null, { headers: noStore, status: 403 });
   }
+
+  const denied = await secure(["CATEGORY:PREVIEW"], request, {
+    requestsPerMinute: 5,
+  });
+  if (denied) {
+    return denied;
+  }
+
   try {
     return await archiveResponse(
       await readArchivePaths(request),

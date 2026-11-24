@@ -1,12 +1,9 @@
-import { isLocale } from "@repo/internationalization/locales";
+import { isLocale, locales } from "@repo/internationalization/locales";
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
-import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
 import { publicContentBots } from "@repo/security/bots";
-import { noseconeOptions, securityMiddleware } from "@repo/security/proxy";
-import { createNEMO } from "@zanreal/nemo";
-import { type NextProxy, type NextRequest, NextResponse } from "next/server";
-import { env } from "@/env";
+import { nosecone, noseconeOptions } from "@repo/security/proxy";
+import type { NextProxy } from "next/server";
 
 export const config = {
   // Static assets and service routes bypass locale rewriting and Arcjet.
@@ -15,50 +12,37 @@ export const config = {
   ],
 };
 
-const securityHeaders = securityMiddleware(noseconeOptions);
+const securityHeaders = nosecone(noseconeOptions);
 
-// Custom middleware for Arcjet security checks
-const arcjetMiddleware = async (request: NextRequest) => {
-  if (!env.ARCJET_KEY) {
-    return;
-  }
-
-  try {
-    await secure(publicContentBots, request);
-  } catch (error) {
-    const message = parseError(error);
-    return NextResponse.json({ error: message }, { status: 403 });
-  }
-};
-
-// Compose middleware with Nemo
-const composedMiddleware = createNEMO(
-  {},
-  {
-    before: [internationalizationMiddleware, arcjetMiddleware],
-  }
+// Next.js adds a hash to metadata routes inside route groups.
+const socialImagePath = new RegExp(
+  `^/(?:${locales.join("|")})(?:/(?:blog|projects|resume)|/(?:blog|projects|legal)/[^/]+)?/opengraph-image-[a-z0-9]{1,6}$`
 );
+const resumePdfPath = new RegExp(`^/(?:${locales.join("|")})/resume/pdf$`);
 
-const proxy = async (request: NextRequest, event: Parameters<NextProxy>[1]) => {
-  const headersResponse = await securityHeaders();
-  const middlewareResponse = await composedMiddleware(
-    request as unknown as NextRequest,
-    event
-  );
+const proxy: NextProxy = async (request) => {
+  const pathname = request.nextUrl.pathname;
+  const isRead = request.method === "GET" || request.method === "HEAD";
+  // Preview services may fetch images with a separate HTTP client.
+  const allow =
+    isRead && socialImagePath.test(pathname) ? null : publicContentBots;
+  // The PDF handler protects requests that reach the origin for compilation.
+  const denied =
+    isRead && resumePdfPath.test(pathname)
+      ? undefined
+      : await secure(allow, request);
+  const response = denied ?? internationalizationMiddleware(request);
 
-  if (middlewareResponse) {
-    const [, first, second] = request.nextUrl.pathname.split("/");
-    if (first === "legal" || (isLocale(first) && second === "legal")) {
-      // Legal alternates come from published translation relationships.
-      middlewareResponse.headers.delete("Link");
-    }
-    headersResponse.headers.forEach((value, key) => {
-      middlewareResponse.headers.set(key, value);
-    });
-    return middlewareResponse;
+  const [, first, second] = pathname.split("/");
+  if (first === "legal" || (isLocale(first) && second === "legal")) {
+    // Legal alternates come from published translation relationships.
+    response.headers.delete("Link");
   }
 
-  return headersResponse;
+  securityHeaders.forEach((value, key) => {
+    response.headers.set(key, value);
+  });
+  return response;
 };
 
-export default proxy as unknown as NextProxy;
+export default proxy;

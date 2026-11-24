@@ -57,26 +57,19 @@ const LegalPage = async ({ params }: LegalPageProperties) => {
   const body = page.content ?? [];
 
   return (
-    <div
-      className="mx-auto w-full max-w-7xl px-4 py-16 md:px-6"
-      lang={contentLocale}
-    >
-      <h1 className="scroll-m-20 text-balance font-extrabold text-4xl tracking-tight lg:text-5xl">
-        {page.title ?? dictionary.web.content.untitled}
-      </h1>
-      {page.description ? (
-        <p className="text-balance leading-7 [&:not(:first-child)]:mt-6">
-          {page.description}
-        </p>
-      ) : null}
-      <div className="mt-16 flex flex-col items-start gap-8 sm:flex-row">
-        <div className="w-full min-w-0 sm:flex-1">
-          <div className="article-measure typeset typeset-article">
-            <PortableText value={body} />
-          </div>
+    <main className="px-4 py-10 sm:py-14" lang={contentLocale}>
+      <div className="article-measure">
+        <h1 className="scroll-m-20 text-balance font-extrabold text-4xl tracking-tight lg:text-5xl">
+          {page.title ?? dictionary.web.content.untitled}
+        </h1>
+        {page.description ? (
+          <p className="mt-4 text-balance leading-7">{page.description}</p>
+        ) : null}
+        <div className="mt-8 typeset typeset-article sm:mt-10">
+          <PortableText value={body} />
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

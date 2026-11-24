@@ -32,7 +32,6 @@
     "@sentry/nextjs": "^11.15.0",
     "@t3-oss/env-nextjs": "^0.13.11",
     "@thesvg/react": "^4.0.12",
-    "@zanreal/nemo": "^3.0.2",
     "import-in-the-middle": "^3.6.0",
     "lucide-react": "^1.77.0",
     "motion": "^14.14.0",

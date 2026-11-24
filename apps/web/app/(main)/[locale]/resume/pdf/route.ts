@@ -1,6 +1,8 @@
 import { resume } from "@repo/cms";
 import { getPortfolioDictionary } from "@repo/internationalization/dictionaries";
 import { log } from "@repo/observability/log";
+import { secure } from "@repo/security";
+import { publicContentBots } from "@repo/security/bots";
 import { compileTypstProject } from "@repo/typst/server";
 import type { CompiledTypstDocument, TypstProject } from "@repo/typst/types";
 import { draftMode } from "next/headers";
@@ -21,9 +23,16 @@ interface ResumePdfRouteProps {
  * heavy WASM compilation off the critical rendering path.
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: ResumePdfRouteProps
 ) {
+  const denied = await secure(publicContentBots, request, {
+    requestsPerMinute: 10,
+  });
+  if (denied) {
+    return denied;
+  }
+
   const { locale } = await params;
   const { isEnabled: isDraftMode } = await draftMode();
 

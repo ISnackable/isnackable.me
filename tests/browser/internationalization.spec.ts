@@ -12,6 +12,7 @@ import { openContentPage } from "./content-page";
 
 for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
   test(`${locale} interface labels, About controls, and content links remain localized`, async ({
+    isMobile,
     page,
   }) => {
     const copy = dictionary.web;
@@ -45,12 +46,12 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
     const footerNavigation = footer.getByRole("navigation", {
       name: copy.footer.navigation,
     });
-    const files = footerNavigation.getByRole("link", {
+    const filesLink = {
       name: dictionary.common.navigation.files,
       exact: true,
-    });
-    const filesPath = `/${locale}/files`;
-    await expect(files).toHaveAttribute("href", filesPath);
+    };
+    await expect(footerNavigation).toBeVisible();
+    await expect(footerNavigation.getByRole("link", filesLink)).toHaveCount(0);
     const links = await page
       .locator('main a[href^="/"]')
       .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
@@ -64,6 +65,16 @@ for (const [locale, dictionary] of Object.entries({ en, ja, zh })) {
         page.locator(`#about a[href="/${locale}/resume"]`)
       ).toBeVisible();
     }
+    const header = page.getByRole("banner");
+    if (isMobile) {
+      await header
+        .getByRole("button", { name: dictionary.common.header.toggleMenu })
+        .click();
+    }
+    const primaryNavigation = isMobile ? page.getByRole("dialog") : header;
+    const files = primaryNavigation.getByRole("link", filesLink);
+    const filesPath = `/${locale}/files`;
+    await expect(files).toHaveAttribute("href", filesPath);
     const [filesResponse] = await Promise.all([
       page.waitForResponse(
         (response) =>

@@ -2,49 +2,69 @@ import arcjet, {
   type ArcjetBotCategory,
   type ArcjetWellKnownBot,
   detectBot,
-  request,
   shield,
+  slidingWindow,
 } from "@arcjet/next";
 import { keys } from "./keys";
 
 const arcjetKey = keys().ARCJET_KEY;
+const arcjetClient = arcjetKey
+  ? arcjet({
+      key: arcjetKey,
+      // A cached bot denial should only affect clients with the same identity.
+      characteristics: ["ip.src", "userAgent"],
+      rules: [shield({ mode: "LIVE" })],
+    })
+  : undefined;
 
 export const secure = async (
-  allow: (ArcjetWellKnownBot | ArcjetBotCategory)[],
-  sourceRequest?: Request
+  allow: (ArcjetWellKnownBot | ArcjetBotCategory)[] | null,
+  request: Request,
+  rateLimit?: { requestsPerMinute: number }
 ) => {
-  if (!arcjetKey) {
+  if (!arcjetClient) {
     return;
   }
 
-  const base = arcjet({
-    // Get your site key from https://app.arcjet.com
-    key: arcjetKey,
-    // Identify the user by their IP address
-    characteristics: ["ip.src"],
-    rules: [
-      // Protect against common attacks with Arcjet Shield
-      shield({
-        // Will block requests. Use "DRY_RUN" to log only
-        mode: "LIVE",
-      }),
-      // Other rules are added in different routes
-    ],
-  });
+  try {
+    const botClient =
+      allow === null
+        ? arcjetClient
+        : arcjetClient.withRule(detectBot({ mode: "LIVE", allow }));
+    const client = rateLimit
+      ? botClient.withRule(
+          slidingWindow({
+            characteristics: ["ip.src"],
+            interval: "60s",
+            max: rateLimit.requestsPerMinute,
+            mode: "LIVE",
+          })
+        )
+      : botClient;
+    const decision = await client.protect(request, {
+      userAgent: request.headers.get("user-agent")?.trim() || "(missing)",
+    });
 
-  const req = sourceRequest ?? (await request());
-  const aj = base.withRule(detectBot({ mode: "LIVE", allow }));
-  const decision = await aj.protect(req);
-
-  if (decision.isDenied()) {
-    if (decision.reason.isBot()) {
-      throw new Error("No bots allowed");
+    if (decision.isDenied()) {
+      const reason = decision.reason;
+      const rateLimited = reason.isRateLimit();
+      const headers = new Headers({ "Cache-Control": "private, no-store" });
+      if (rateLimited) {
+        const { reset, resetTime } = reason;
+        const seconds = resetTime
+          ? (resetTime.getTime() - Date.now()) / 1000
+          : reset;
+        headers.set("Retry-After", String(Math.max(1, Math.ceil(seconds))));
+      }
+      return Response.json(
+        { error: rateLimited ? "rate-limited" : "denied" },
+        {
+          headers,
+          status: rateLimited ? 429 : 403,
+        }
+      );
     }
-
-    if (decision.reason.isRateLimit()) {
-      throw new Error("Rate limit exceeded");
-    }
-
-    throw new Error("Access denied");
+  } catch (error) {
+    console.error("Arcjet request protection failed", error);
   }
 };

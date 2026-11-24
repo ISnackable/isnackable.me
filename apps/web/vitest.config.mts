@@ -18,7 +18,7 @@ export default defineConfig({
     server: {
       deps: {
         // The Sanity image entry relies on bundler resolution for next/image.
-        inline: ["next-intl", "@zanreal/nemo", /\/next-sanity\/dist\/image\//],
+        inline: ["next-intl", /\/next-sanity\/dist\/image\//],
       },
     },
   },

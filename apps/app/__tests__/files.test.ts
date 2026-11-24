@@ -28,6 +28,7 @@ const drive = {
   rootPath: ["Public", "Shared"],
 };
 const network = vi.fn<typeof fetch>();
+const secure = vi.hoisted(() => vi.fn());
 const scheduleAfter = vi.hoisted(() =>
   vi.fn<(work: () => Promise<void>) => void>()
 );
@@ -50,6 +51,7 @@ vi.mock("next/server", async (load) => ({
   after: scheduleAfter,
 }));
 vi.mock("server-only", () => ({}));
+vi.mock("@repo/security", () => ({ secure }));
 vi.mock("@/env", () => ({
   env: {
     FILES_BASE_DIRECTORY: "Public/Shared",
@@ -92,6 +94,7 @@ function browse(...path: string[]) {
 
 beforeEach(() => {
   network.mockReset();
+  secure.mockReset().mockResolvedValue(undefined);
   scheduleAfter.mockReset();
   listingCache.eval.mockReset().mockResolvedValue(1);
   listingCache.get.mockReset().mockResolvedValue(null);
@@ -163,6 +166,32 @@ test("archive requests accept the full selection limit with long Unicode paths",
     method: "POST",
   });
   await expect(readArchivePaths(request)).resolves.toEqual(paths);
+});
+
+test("rate limited archive requests stop before reading paths or calling Graph", async () => {
+  secure.mockResolvedValue(
+    Response.json({ error: "rate-limited" }, { status: 429 })
+  );
+  const request = new NextRequest(
+    "https://files.example.test/api/files/archive",
+    {
+      method: "POST",
+      body: new URLSearchParams({ path: "Documents" }),
+    }
+  );
+
+  const response = await downloadArchive(request);
+
+  expect(secure).toHaveBeenCalledExactlyOnceWith(
+    ["CATEGORY:PREVIEW"],
+    request,
+    {
+      requestsPerMinute: 5,
+    }
+  );
+  expect(response.status).toBe(429);
+  expect(request.bodyUsed).toBe(false);
+  expect(network).not.toHaveBeenCalled();
 });
 
 test("an oversized nested folder fails before the server starts streaming a ZIP", async () => {

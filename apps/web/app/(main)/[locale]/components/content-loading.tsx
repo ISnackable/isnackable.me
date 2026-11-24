@@ -150,17 +150,16 @@ export default function ContentLoading({
       content = <Article project />;
       break;
     case "legal":
-      className =
-        "mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-16 md:px-6";
+      className = "px-4 py-10 sm:py-14";
       content = (
-        <>
-          <Skeleton className="h-12 w-64 max-w-full" />
-          <Skeleton className="h-5 w-full max-w-lg" />
-          <div className="article-measure mt-10 flex flex-col gap-8 text-lg">
+        <div className="article-measure">
+          <Skeleton className="h-10 w-64 max-w-full lg:h-12" />
+          <Skeleton className="mt-4 h-7 w-full max-w-lg" />
+          <div className="mt-8 flex flex-col gap-8 sm:mt-10">
             <TextLines />
             <TextLines />
           </div>
-        </>
+        </div>
       );
       break;
     default:

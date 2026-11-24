@@ -4,36 +4,29 @@ import { internationalizationMiddleware } from "@repo/internationalization/proxy
 import { secure } from "@repo/security";
 import { linkPreviewBots } from "@repo/security/bots";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
-import { env } from "./env";
 
 const isApiRequest = (request: NextRequest) =>
   request.nextUrl.pathname.startsWith("/api/");
 
-const arcjetMiddleware = async (request: NextRequest) => {
-  if (!env.ARCJET_KEY) {
-    return;
-  }
-
-  try {
-    await secure(
-      isApiRequest(request) ? ["CATEGORY:PREVIEW"] : linkPreviewBots,
-      request
-    );
-  } catch {
-    return NextResponse.json(
-      { error: "denied" },
-      { headers: { "Cache-Control": "private, no-store" }, status: 403 }
-    );
-  }
-};
-
 const proxy: NextProxy = async (request) => {
-  const denied = await arcjetMiddleware(request);
+  // The archive handler applies bot protection and its download limit together.
+  if (
+    request.method === "POST" &&
+    request.nextUrl.pathname === "/api/files/archive"
+  ) {
+    return NextResponse.next();
+  }
+
+  const apiRequest = isApiRequest(request);
+  const denied = await secure(
+    apiRequest ? ["CATEGORY:PREVIEW"] : linkPreviewBots,
+    request
+  );
   if (denied) {
     return denied;
   }
 
-  if (isApiRequest(request)) {
+  if (apiRequest) {
     return NextResponse.next();
   }
 

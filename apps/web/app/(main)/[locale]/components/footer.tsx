@@ -3,7 +3,6 @@ import { legal, settings } from "@repo/cms";
 import { resolveSiteSettings } from "@repo/cms/content/site";
 import { contentText } from "@repo/cms/content/text";
 import { siteConfig } from "@repo/config/site";
-import { filesHref } from "@repo/config/url";
 import { SiteLogo } from "@repo/design-system/components/site-logo";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import type { PortfolioDictionary } from "@repo/internationalization";
@@ -82,11 +81,6 @@ export async function Footer({ locale, dictionary }: FooterProps) {
                 </Link>
               </li>
             ))}
-            <li>
-              <a className="hover:text-foreground" href={filesHref(locale)}>
-                {navigation.files}
-              </a>
-            </li>
             {firstLegalPage && (
               <li>
                 {legalPages.length > 1 ? (

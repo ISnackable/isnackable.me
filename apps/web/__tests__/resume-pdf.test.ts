@@ -9,12 +9,14 @@ const {
   getPortfolioDictionary,
   compileTypstProject,
   generateTypstProject,
+  secure,
 } = vi.hoisted(() => ({
   draftMode: vi.fn(),
   getResume: vi.fn(),
   getPortfolioDictionary: vi.fn(),
   compileTypstProject: vi.fn(),
   generateTypstProject: vi.fn(),
+  secure: vi.fn(),
 }));
 
 vi.mock("next/headers", () => ({ draftMode }));
@@ -23,12 +25,14 @@ vi.mock("@repo/internationalization/dictionaries", () => ({
   getPortfolioDictionary,
 }));
 vi.mock("@repo/typst/server", () => ({ compileTypstProject }));
+vi.mock("@repo/security", () => ({ secure }));
 vi.mock("../app/(main)/[locale]/resume/lib/generate-typst-project", () => ({
   generateTypstProject,
 }));
 
 beforeEach(() => {
   vi.clearAllMocks();
+  secure.mockReset().mockResolvedValue(undefined);
   getPortfolioDictionary.mockResolvedValue(en);
   getResume.mockResolvedValue({
     _id: "resume-en",
@@ -39,6 +43,26 @@ beforeEach(() => {
   compileTypstProject.mockResolvedValue({
     pdfArtifactBase64: Buffer.from("%PDF-test").toString("base64"),
   });
+});
+
+test("rate limited PDF requests stop before reading CMS content or compiling", async () => {
+  secure.mockResolvedValue(
+    Response.json({ error: "rate-limited" }, { status: 429 })
+  );
+  const request = new NextRequest("https://example.com/en/resume/pdf");
+
+  const response = await GET(request, {
+    params: Promise.resolve({ locale: "en" }),
+  });
+
+  expect(secure).toHaveBeenCalledExactlyOnceWith(
+    expect.arrayContaining(["CATEGORY:PREVIEW"]),
+    request,
+    { requestsPerMinute: 10 }
+  );
+  expect(response.status).toBe(429);
+  expect(getResume).not.toHaveBeenCalled();
+  expect(compileTypstProject).not.toHaveBeenCalled();
 });
 
 test("preview PDF exports inherit the selected perspective and cannot be publicly cached", async () => {

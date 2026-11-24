@@ -11,7 +11,6 @@ vi.mock("@repo/internationalization/proxy", () => ({
   internationalizationMiddleware: localize,
 }));
 vi.mock("@repo/security", () => ({ secure }));
-vi.mock("@/env", () => ({ env: { ARCJET_KEY: "test-key" } }));
 
 beforeEach(() => {
   localize.mockReset().mockImplementation(() => NextResponse.next());
@@ -38,9 +37,26 @@ test("uses the preview category policy on Files API requests", async () => {
   expect(localize).not.toHaveBeenCalled();
 });
 
+test("lets the archive handler apply its own protection", async () => {
+  const request = new NextRequest("https://example.com/api/files/archive", {
+    method: "POST",
+  });
+
+  const response = await proxy(request, {} as NextFetchEvent);
+
+  expect(response?.headers.get("x-middleware-next")).toBe("1");
+  expect(secure).not.toHaveBeenCalled();
+  expect(localize).not.toHaveBeenCalled();
+});
+
 test("returns a non-cacheable denial before localizing a blocked Files page", async () => {
   const request = new NextRequest("https://example.com/en/files/Documents");
-  secure.mockRejectedValue(new Error("Access denied"));
+  secure.mockResolvedValue(
+    Response.json(
+      { error: "denied" },
+      { headers: { "Cache-Control": "private, no-store" }, status: 403 }
+    )
+  );
 
   const response = await proxy(request, {} as NextFetchEvent);
 
