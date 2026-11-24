@@ -7,7 +7,6 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
-import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { media } from "sanity-plugin-media";
 import { schemaTypes } from "./schemas/index";
 import {
@@ -46,12 +45,6 @@ export default defineConfig({
       languageField: "language",
       allowCreateMetaDoc: true,
       addTemplates: false,
-    }),
-    internationalizedArray({
-      languages: i18nLocales,
-      fieldTypes: ["string"],
-      languageDisplay: "titleOnly",
-      restoreOrder: false,
     }),
     // Presentation tool configuration for Visual Editing
     presentationTool({

@@ -11,8 +11,9 @@ import useSWR from "swr";
 import { filesApiHref } from "@/lib/files/paths";
 import { shortcutUrl } from "@/lib/files/preview";
 
-const FileMarkdown = dynamic(() =>
-  import("./markdown").then((module) => module.FileMarkdown)
+const FileMarkdown = dynamic(
+  () => import("./markdown").then((module) => module.FileMarkdown),
+  { ssr: false }
 );
 const textPreviewSurface =
   "min-h-32 rounded-xl border bg-card p-4 text-card-foreground sm:p-6";

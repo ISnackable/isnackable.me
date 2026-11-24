@@ -12,9 +12,6 @@ export const config: NextConfig = {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [],
   },
-
-  // Preserve trailing slashes for service routes and PostHog requests.
-  skipTrailingSlashRedirect: true,
 };
 
 export const withAnalyzer = (sourceConfig: NextConfig): NextConfig =>

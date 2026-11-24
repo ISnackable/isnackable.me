@@ -28,7 +28,6 @@ test.each([
   "/api/files/browse",
   "/files",
   "/ja/files/Documents",
-  "/ingest/e",
   "/robots.txt",
   "/sitemap.xml",
   "/_next/static/app.js",

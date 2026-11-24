@@ -2,6 +2,12 @@
 
 Repo-specific guidance for AI agents working in this project. Read this before editing.
 
+## Implementation priorities
+
+- Do not add or retain backwards-compatibility paths.
+- Choose the simplest implementation that fully meets the current requirements.
+- Prefer established, well-maintained libraries over custom implementations.
+
 ## Commands
 
 All commands run from the repo root unless noted. Package manager is **pnpm** (workspaces in `apps/*` and `packages/*`).
@@ -27,7 +33,7 @@ Monorepo (pnpm + Turborepo). Two Next.js 16 apps, a standalone Sanity Studio, an
 - `apps/web` — portfolio/blog site (port 3001), i18n via `app/(main)/[locale]/`. Owns the Studio Draft Mode endpoints.
 - `apps/studio` — Sanity Studio (port 3333), built with the Sanity CLI. Vercel Services routes `/studio` on the portfolio origin to this app.
 - `packages/*` — `@repo/<name>`. Each is consumed as **raw TypeScript source** by apps through tsconfig path aliases (`@repo/*` → `../../packages/*`), e.g. `@repo/observability/next-config` resolves to `packages/observability/next-config.ts`. **Do not add `exports`/`main` fields or try to build these packages** — Next.js compiles them directly. Subpath imports map to file paths (no build step, no `dist`).
-- `packages/next-config` — shared base `NextConfig`. Web composes it with analytics, observability, CMS, and internationalization settings from their packages.
+- `packages/next-config` — shared base `NextConfig`. Web composes it with observability, CMS, and internationalization settings from their packages.
 
 ## Next.js 16 conventions
 

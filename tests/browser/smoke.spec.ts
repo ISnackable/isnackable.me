@@ -8,6 +8,7 @@ import ja from "../../packages/internationalization/messages/ja.json" with {
 import zh from "../../packages/internationalization/messages/zh.json" with {
   type: "json",
 };
+import { filesOrigin, webOrigin } from "../fixtures/browser-servers.mjs";
 import { openContentPage } from "./content-page";
 
 const dictionaries = { en, ja, zh };
@@ -201,7 +202,20 @@ for (const collection of ["blog", "projects"]) {
   });
 }
 
-for (const path of ["/studio", "/studio/presentation"]) {
+test("both Next.js apps redirect trailing slashes to canonical paths", async ({
+  request,
+}) => {
+  const urls = [`${webOrigin}/en`, `${filesOrigin}/en/files`];
+  await Promise.all(
+    urls.map(async (url) => {
+      const response = await request.get(`${url}/`, { maxRedirects: 0 });
+      expect(response.status()).toBe(308);
+      expect(new URL(response.headers().location, url).href).toBe(url);
+    })
+  );
+});
+
+for (const path of ["/studio", "/studio/", "/studio/presentation"]) {
   test(`Studio serves its shell and scripts at ${path}`, async ({
     request,
   }) => {

@@ -24,7 +24,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "posthog-js": resolvePackageDependency("posthog-js", "analytics"),
       "@myriaddreamin/typst.ts/options.init": resolvePackageDependency(
         "@myriaddreamin/typst.ts/options.init",
         "typst"

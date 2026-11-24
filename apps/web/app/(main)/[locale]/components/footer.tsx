@@ -7,6 +7,7 @@ import { filesHref } from "@repo/config/url";
 import { SiteLogo } from "@repo/design-system/components/site-logo";
 import { buttonVariants } from "@repo/design-system/components/ui/button";
 import type { PortfolioDictionary } from "@repo/internationalization";
+import { defaultLocale } from "@repo/internationalization/locales";
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 
@@ -16,7 +17,7 @@ interface FooterProps {
 }
 
 export async function Footer({ locale, dictionary }: FooterProps) {
-  const [legalPages, document] = await Promise.all([
+  const [localizedLegalPages, document] = await Promise.all([
     legal.getPostsMeta(locale),
     settings.get(),
   ]);
@@ -32,6 +33,11 @@ export async function Footer({ locale, dictionary }: FooterProps) {
 
   const { navigation } = dictionary.common;
   const { footer } = dictionary.web;
+  const legalLocale = localizedLegalPages.length ? locale : defaultLocale;
+  const legalPages =
+    legalLocale === locale
+      ? localizedLegalPages
+      : await legal.getPostsMeta(legalLocale);
   const [firstLegalPage] = legalPages;
   const navLinks = [
     { href: `/${locale}`, label: navigation.home },
@@ -93,11 +99,11 @@ export async function Footer({ locale, dictionary }: FooterProps) {
                         <li key={post._id}>
                           <Link
                             className="hover:text-foreground"
-                            href={`/${locale}/legal/${post.slug}`}
+                            href={`/${legalLocale}/legal/${encodeURIComponent(post.slug)}`}
+                            hrefLang={legalLocale}
+                            lang={legalLocale}
                           >
-                            {contentText(post.navigationLabel) ||
-                              post.title ||
-                              post.slug}
+                            {contentText(post.title) || post.slug}
                           </Link>
                         </li>
                       ))}
@@ -106,10 +112,11 @@ export async function Footer({ locale, dictionary }: FooterProps) {
                 ) : (
                   <Link
                     className="hover:text-foreground"
-                    href={`/${locale}/legal/${firstLegalPage.slug}`}
+                    href={`/${legalLocale}/legal/${encodeURIComponent(firstLegalPage.slug)}`}
+                    hrefLang={legalLocale}
+                    lang={legalLocale}
                   >
-                    {contentText(firstLegalPage.navigationLabel) ||
-                      footer.legal}
+                    {contentText(firstLegalPage.title) || firstLegalPage.slug}
                   </Link>
                 )}
               </li>

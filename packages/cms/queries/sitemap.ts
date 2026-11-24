@@ -20,6 +20,7 @@ export const SITEMAP_QUERY = defineQuery(`
     },
     "legalPages": *[_type == "legalPage" && defined(slug.current) && seo.noIndex != true]{
       "slug": slug.current,
+      language,
       _updatedAt
     }
   }

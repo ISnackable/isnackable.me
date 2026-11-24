@@ -4,7 +4,7 @@ import {
   type PresentationPluginOptions,
 } from "sanity/presentation";
 import { pageLabels } from "../content/pages";
-import { defaultLocaleId, i18nLocales } from "./localization";
+import { defaultLocaleId } from "./localization";
 
 /**
  * Maps document types to their frontend routes so the Presentation Tool
@@ -53,17 +53,19 @@ export const resolve: PresentationPluginOptions["resolve"] = {
       select: {
         title: "title",
         slug: "slug.current",
+        language: "language",
       },
       resolve: (doc) => {
         if (!doc?.slug) {
           return { locations: [] };
         }
-        // Legal pages are not localized — available under every locale prefix.
         return {
-          locations: i18nLocales.map((l) => ({
-            title: `${doc.title || "Untitled"} (${l.id.toUpperCase()})`,
-            href: `/${l.id}/legal/${doc.slug}`,
-          })),
+          locations: [
+            {
+              title: doc.title || "Untitled",
+              href: `/${doc.language || defaultLocaleId}/legal/${doc.slug}`,
+            },
+          ],
         };
       },
     }),
@@ -133,7 +135,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     },
     {
       route: "/:locale/legal/:slug",
-      filter: `_type == "legalPage" && slug.current == $slug`,
+      filter: `_type == "legalPage" && coalesce(language, "${defaultLocaleId}") == $locale && slug.current == $slug`,
     },
   ]),
 };

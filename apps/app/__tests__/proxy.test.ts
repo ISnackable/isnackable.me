@@ -1,14 +1,22 @@
 import { type NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { expect, test, vi } from "vitest";
+import { beforeEach, expect, test, vi } from "vitest";
 import proxy from "../proxy";
 
-const { secure } = vi.hoisted(() => ({ secure: vi.fn() }));
+const { localize, secure } = vi.hoisted(() => ({
+  localize: vi.fn(),
+  secure: vi.fn(),
+}));
 
 vi.mock("@repo/internationalization/proxy", () => ({
-  internationalizationMiddleware: () => NextResponse.next(),
+  internationalizationMiddleware: localize,
 }));
 vi.mock("@repo/security", () => ({ secure }));
 vi.mock("@/env", () => ({ env: { ARCJET_KEY: "test-key" } }));
+
+beforeEach(() => {
+  localize.mockReset().mockImplementation(() => NextResponse.next());
+  secure.mockReset().mockResolvedValue(undefined);
+});
 
 test("allows the shared link preview crawlers on Files pages", async () => {
   const request = new NextRequest("https://example.com/en/files/Documents");
@@ -27,4 +35,16 @@ test("uses the preview category policy on Files API requests", async () => {
   await proxy(request, {} as NextFetchEvent);
 
   expect(secure).toHaveBeenLastCalledWith(["CATEGORY:PREVIEW"], request);
+  expect(localize).not.toHaveBeenCalled();
+});
+
+test("returns a non-cacheable denial before localizing a blocked Files page", async () => {
+  const request = new NextRequest("https://example.com/en/files/Documents");
+  secure.mockRejectedValue(new Error("Access denied"));
+
+  const response = await proxy(request, {} as NextFetchEvent);
+
+  expect(response?.status).toBe(403);
+  expect(response?.headers.get("cache-control")).toBe("private, no-store");
+  expect(localize).not.toHaveBeenCalled();
 });

@@ -82,6 +82,7 @@ test("hidden detail documents stay excluded while published translations and leg
       seo: { noIndex: true },
     },
     { _type: "legalPage", slug: { current: "privacy" } },
+    { _type: "legalPage", language: "zh", slug: { current: "yinsi" } },
   ];
   const urls = (await createSitemap()).map((entry) => entry.url);
   expect(urls).toContain("https://example.com/ja/blog/visible-post");
@@ -89,7 +90,9 @@ test("hidden detail documents stay excluded while published translations and leg
   expect(urls).not.toContain("https://example.com/en/projects/hidden-project");
   expect(urls).not.toContain("https://example.com/en/legal");
   expect(urls).toContain("https://example.com/en/legal/privacy");
-  expect(urls).toContain("https://example.com/zh/legal/privacy");
+  expect(urls).toContain("https://example.com/zh/legal/yinsi");
+  expect(urls).not.toContain("https://example.com/zh/legal/privacy");
+  expect(urls).not.toContain("https://example.com/ja/legal/privacy");
 });
 
 test("a CMS failure falls back to static routes without issuing competing queries", async () => {

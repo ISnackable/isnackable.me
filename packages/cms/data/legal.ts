@@ -1,4 +1,6 @@
 import "server-only";
+import { defaultLocale, type Locale } from "@repo/internationalization/locales";
+import { stegaClean } from "@sanity/client/stega";
 import { unstable_rethrow } from "next/navigation";
 import {
   cachedSanity,
@@ -20,6 +22,35 @@ import type {
 
 import { enabled } from "./enabled";
 
+async function getLocalizedPost(
+  slug: string,
+  locale: Locale,
+  options?: FetchOptions
+): Promise<LEGAL_PAGE_QUERY_RESULT | null> {
+  if (!enabled) {
+    return null;
+  }
+
+  try {
+    const { data } = await cachedSanity({
+      ...(await getDynamicFetchOptions(options)),
+      query: LEGAL_PAGE_QUERY,
+      params: { slug, locale, defaultLocale },
+      tags: [`legalPage:${slug}`, "legalPage", "translation.metadata"],
+    });
+    return data
+      ? {
+          ...data,
+          content: cleanArticleModules(data.content),
+          translations: stegaClean(data.translations),
+        }
+      : null;
+  } catch (error) {
+    unstable_rethrow(error);
+    return null;
+  }
+}
+
 export const legal = {
   getPostsMeta: async (
     locale: string
@@ -32,7 +63,7 @@ export const legal = {
       const { data } = await cachedSanity({
         ...(await getDynamicFetchOptions()),
         query: LEGAL_PAGES_META_QUERY,
-        params: { locale },
+        params: { locale, defaultLocale },
         tags: ["legalPage"],
       });
       return data ?? [];
@@ -42,28 +73,35 @@ export const legal = {
     }
   },
 
-  getPost: async (
-    slug: string,
-    options?: FetchOptions
-  ): Promise<LEGAL_PAGE_QUERY_RESULT | null> => {
-    if (!enabled) {
+  getPost: async (slug: string, locale: Locale, options?: FetchOptions) => {
+    const localized = await getLocalizedPost(slug, locale, options);
+    if (localized) {
+      return { document: localized, locale, slug };
+    }
+    if (locale === defaultLocale) {
       return null;
     }
 
-    try {
-      const { data } = await cachedSanity({
-        ...(await getDynamicFetchOptions(options)),
-        query: LEGAL_PAGE_QUERY,
-        params: { slug },
-        tags: [`legalPage:${slug}`, "legalPage"],
-      });
-      return data
-        ? { ...data, content: cleanArticleModules(data.content) }
-        : null;
-    } catch (error) {
-      unstable_rethrow(error);
+    // Older policy links used the English slug in every language.
+    const source = await getLocalizedPost(slug, defaultLocale, options);
+    if (!source) {
       return null;
     }
+    const alternate = source.translations.find(
+      (entry) => entry?._type === "legalPage" && entry.language === locale
+    );
+    if (alternate?.slug) {
+      const translated = await getLocalizedPost(
+        alternate.slug,
+        locale,
+        options
+      );
+      if (translated) {
+        return { document: translated, locale, slug: alternate.slug };
+      }
+    }
+
+    return { document: source, locale: defaultLocale, slug };
   },
 
   /**
@@ -83,7 +121,7 @@ export const legal = {
         stega: false,
         tags: ["legalPage"],
       });
-      return data;
+      return data ?? [];
     } catch (error) {
       unstable_rethrow(error);
       return [];

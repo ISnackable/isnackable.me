@@ -85,7 +85,13 @@ test("switching language uses a translated slug or a localized collection index"
   expect(getPortfolioLanguageSwitchPath("/resume", "ja", "/ja/resume")).toBe(
     "/resume"
   );
-  expect(getPortfolioLanguageSwitchPath("/legal/privacy", "zh")).toBe(
-    "/legal/privacy"
-  );
+  expect(getPortfolioLanguageSwitchPath("/legal/privacy", "zh")).toBe("/");
+  expect(
+    getPortfolioLanguageSwitchPath("/legal/privacy", "zh", "/zh/legal/yinsi")
+  ).toBe("/legal/yinsi");
+  expect(
+    getTranslationLinks("legal", { locale: "en", slug: "privacy" }, [
+      { _type: "legalPage", language: "zh", slug: "yinsi" },
+    ])
+  ).toEqual({ en: "/en/legal/privacy", zh: "/zh/legal/yinsi" });
 });

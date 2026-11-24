@@ -25,6 +25,7 @@ interface SeoContent {
   image?: string | null;
   imageAlt?: string | null;
   languages: Record<string, string>;
+  locale?: Locale;
   noIndex?: boolean;
   path: string;
   publishedTime?: string | null;
@@ -92,14 +93,13 @@ async function getLegalSeo(
   locale: Locale,
   slug: string
 ): Promise<SeoContent | null> {
-  const [document, dictionary] = await Promise.all([
-    legal.getPost(slug, publishedSeo),
-    getPortfolioDictionary(locale),
-  ]);
-  if (!document) {
+  const resolved = await legal.getPost(slug, locale, publishedSeo);
+  if (!resolved) {
     return null;
   }
-  const suffix = `/legal/${encodeURIComponent(slug)}`;
+  const { document, locale: contentLocale, slug: contentSlug } = resolved;
+  const dictionary = await getPortfolioDictionary(contentLocale);
+  const suffix = `/legal/${encodeURIComponent(contentSlug)}`;
   return {
     title:
       document.seo?.title || document.title || dictionary.web.content.untitled,
@@ -107,8 +107,13 @@ async function getLegalSeo(
     image: document.seo?.image?.asset?.url,
     imageAlt: document.seo?.image?.alt,
     noIndex: document.seo?.noIndex,
-    path: `/${locale}${suffix}`,
-    languages: sectionLinks(suffix),
+    path: `/${contentLocale}${suffix}`,
+    locale: contentLocale,
+    languages: getTranslationLinks(
+      "legal",
+      { locale: contentLocale, slug: contentSlug },
+      document.translations
+    ),
   };
 }
 
@@ -184,8 +189,11 @@ export async function createWebMetadata(
   const pageImage = httpsUrl(content.image);
   const canonical = new URL(content.path, siteUrl);
   const fallback = content.languages[defaultLocale];
+  const contentLocale = content.locale ?? locale;
   const alternateLocale = locales
-    .filter((language) => language !== locale && content.languages[language])
+    .filter(
+      (language) => language !== contentLocale && content.languages[language]
+    )
     .map(openGraphLocale);
 
   return createMetadata({
@@ -193,11 +201,12 @@ export async function createWebMetadata(
     description: contentText(content.description),
     image: pageImage || (route.kind === "home" ? homepageImage : undefined),
     imageAlt: pageImage ? contentText(content.imageAlt) : homepageImageAlt,
-    locale,
+    locale: contentLocale,
     site,
     metadataBase: siteUrl,
     alternates: {
-      canonical,
+      // Next.js treats URL objects as bases for the requested path.
+      canonical: route.kind === "legal" ? canonical.href : canonical,
       languages: {
         ...content.languages,
         ...(fallback && { "x-default": fallback }),

@@ -16,4 +16,5 @@ export const localizedSchemaTypes = [
   "project",
   "resume",
   "page",
+  "legalPage",
 ] as const;

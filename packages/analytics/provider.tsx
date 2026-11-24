@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { ReactNode } from "react";
 import { keys } from "./keys";
 
@@ -12,7 +13,12 @@ const { NEXT_PUBLIC_GA_MEASUREMENT_ID } = keys();
 export const AnalyticsProvider = ({ children }: AnalyticsProviderProps) => (
   <>
     {children}
-    {process.env.VERCEL ? <VercelAnalytics /> : null}
+    {process.env.VERCEL ? (
+      <>
+        <VercelAnalytics />
+        <SpeedInsights />
+      </>
+    ) : null}
     {NEXT_PUBLIC_GA_MEASUREMENT_ID && (
       <GoogleAnalytics gaId={NEXT_PUBLIC_GA_MEASUREMENT_ID} />
     )}

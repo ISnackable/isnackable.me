@@ -88,17 +88,18 @@ test.each([
       },
       translations: [],
     };
-    fetchDocument.mockResolvedValue(document);
+    const response = (value: typeof document) =>
+      fetchDocument === getLegal ? { ...params, document: value } : value;
+    fetchDocument.mockResolvedValue(response(document));
     expect(
       (await generate({ params: Promise.resolve(params) })).robots
     ).toMatchObject({
       index: false,
       follow: false,
     });
-    fetchDocument.mockResolvedValue({
-      ...document,
-      seo: { ...document.seo, noIndex: false },
-    });
+    fetchDocument.mockResolvedValue(
+      response({ ...document, seo: { ...document.seo, noIndex: false } })
+    );
     expect(
       (await generate({ params: Promise.resolve(params) })).robots
     ).toBeUndefined();
@@ -139,6 +140,22 @@ test("post metadata declares the canonical URL and actual translations using pub
   });
 });
 
+test("legacy legal URLs use the resolved document's canonical URL and alternates", async () => {
+  getLegal.mockResolvedValue({
+    locale: "ja",
+    slug: "oshirase",
+    document: { title: "お知らせ", translations: [] },
+  });
+  const metadata = await createWebMetadata(
+    { kind: "legal", slug: "old-notice" },
+    "ja"
+  );
+  expect(metadata.alternates).toEqual({
+    canonical: "https://example.com/ja/legal/oshirase",
+    languages: { ja: "/ja/legal/oshirase" },
+  });
+});
+
 test("the homepage upload stays on the homepage and page uploads stay on their own cards", async () => {
   const defaultUrl = "https://cdn.sanity.io/images/example/default.png";
   const pageUrl = "https://cdn.sanity.io/images/example/custom.png";
@@ -147,7 +164,8 @@ test("the homepage upload stays on the homepage and page uploads stay on their o
     ogImage: { asset: { url: defaultUrl }, alt: "Homepage artwork" },
   });
   getPage.mockResolvedValue(null);
-  getLegal.mockResolvedValue({ title: "Privacy" });
+  const legal = { locale: "en", slug: "privacy" };
+  getLegal.mockResolvedValue({ ...legal, document: { title: "Privacy" } });
 
   const props = { params: Promise.resolve({ locale: "en", slug: "privacy" }) };
   const homepage = await createWebMetadata({ kind: "home" }, "en");
@@ -158,8 +176,11 @@ test("the homepage upload stays on the homepage and page uploads stay on their o
   expect(generated.openGraph).not.toHaveProperty("images");
   expect(generated.twitter).not.toHaveProperty("images");
   getLegal.mockResolvedValue({
-    title: "Privacy",
-    seo: { image: { asset: { url: pageUrl }, alt: "Custom artwork" } },
+    ...legal,
+    document: {
+      title: "Privacy",
+      seo: { image: { asset: { url: pageUrl }, alt: "Custom artwork" } },
+    },
   });
   const own = await legalMetadata(props);
   expect(own.openGraph?.images).toEqual([

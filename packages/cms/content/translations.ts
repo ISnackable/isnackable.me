@@ -1,5 +1,11 @@
 import { isLocale } from "@repo/internationalization/locales";
 
+const documentTypes = {
+  blog: "post",
+  projects: "project",
+  legal: "legalPage",
+} as const;
+
 interface Translation {
   _type?: string;
   language?: string | null;
@@ -9,12 +15,12 @@ interface Translation {
 
 /** Follow Sanity's translation relationships; equal slugs alone prove nothing. */
 export function getTranslationLinks(
-  collection: "blog" | "projects",
+  collection: keyof typeof documentTypes,
   current: { locale: string; slug: string },
   translations?: readonly (Translation | null)[] | null
 ): Record<string, string> {
   const links: Record<string, string> = {};
-  const type = collection === "blog" ? "post" : "project";
+  const type = documentTypes[collection];
   for (const translation of translations ?? []) {
     if (
       translation?._type === type &&

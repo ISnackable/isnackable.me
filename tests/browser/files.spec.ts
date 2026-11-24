@@ -888,7 +888,13 @@ test("the files host enforces a production CSP and loads its PDF engine locally"
   const response = await page.goto(`${origin}/en/files/Documents/sample.pdf`);
   const csp = response?.headers()["content-security-policy"] ?? "";
   expect(csp).toContain("connect-src 'self'");
+  expect(csp).toContain(
+    "img-src 'self' data: blob: https://avatars.githubusercontent.com https://img.shields.io"
+  );
   expect(csp).not.toContain("'unsafe-eval'");
+  expect(response?.headers()["referrer-policy"]).toBe("no-referrer");
+  expect(response?.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(response?.headers()["x-robots-tag"]).toBe("noindex, nofollow");
   await expect(locationCrumb(page, "sample.pdf")).toBeVisible();
   await expect(page.getByRole("button", { name: "Search text" })).toBeEnabled();
   const wasm = await page.request.get(
@@ -896,6 +902,13 @@ test("the files host enforces a production CSP and loads its PDF engine locally"
   );
   expect(wasm.status()).toBe(200);
   expect(wasm.headers()["content-type"]).toContain("application/wasm");
+
+  const browse = await page.request.get(file("Documents", "browse"));
+  expect(browse.ok()).toBe(true);
+  expect(browse.headers()["content-security-policy"]).toBe(
+    "default-src 'none'; sandbox;"
+  );
+  expect(browse.headers()["cross-origin-resource-policy"]).toBe("same-origin");
 });
 
 test("the spreadsheet viewer opens workbook sheets", async ({ page }) => {

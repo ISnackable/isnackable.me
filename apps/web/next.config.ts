@@ -1,4 +1,3 @@
-import { withPostHog } from "@repo/analytics/next-config";
 import { withCMS } from "@repo/cms/next-config";
 import { siteConfig } from "@repo/config/site";
 import { locales } from "@repo/internationalization/locales";
@@ -8,10 +7,16 @@ import { withSentry } from "@repo/observability/next-config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
 
-const studioRewrite = {
-  source: "/studio/:path*",
-  destination: "http://127.0.0.1:3333/studio/:path*",
-};
+const studioRewrites = [
+  {
+    source: "/studio{/}?",
+    destination: "http://127.0.0.1:3333/studio/",
+  },
+  {
+    source: "/studio/:path+",
+    destination: "http://127.0.0.1:3333/studio/:path+",
+  },
+];
 
 function localFilesRewrites() {
   const filesUrl =
@@ -38,7 +43,7 @@ function localFilesRewrites() {
   ];
 }
 
-let nextConfig: NextConfig = withPostHog({
+let nextConfig: NextConfig = {
   ...config,
   images: { ...config.images, qualities: [60, 75] },
   experimental: { ...config.experimental, optimizePackageImports: ["three"] },
@@ -74,20 +79,9 @@ let nextConfig: NextConfig = withPostHog({
     ];
   },
   rewrites() {
-    return env.VERCEL ? [] : [...localFilesRewrites(), studioRewrite];
+    return env.VERCEL ? [] : [...localFilesRewrites(), ...studioRewrites];
   },
-});
-
-if (process.env.NODE_ENV === "production") {
-  nextConfig.redirects = () => [
-    {
-      // Locale-aware: /:locale/legal → /:locale/legal/privacy (single hop).
-      source: "/:locale/legal",
-      destination: "/:locale/legal/privacy",
-      statusCode: 301,
-    },
-  ];
-}
+};
 
 if (env.VERCEL) {
   nextConfig = withSentry(nextConfig);

@@ -2,45 +2,43 @@ import { filesHref } from "@repo/config/url";
 import { isLocale } from "@repo/internationalization/locales";
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
 import { secure } from "@repo/security";
-import { filesApiBots, linkPreviewBots } from "@repo/security/bots";
-import { noseconeOptions, securityMiddleware } from "@repo/security/proxy";
-import { type NextProxy, NextResponse } from "next/server";
+import { linkPreviewBots } from "@repo/security/bots";
+import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
 
-const securityHeaders = securityMiddleware(noseconeOptions);
-const trailingSlash = /\/$/;
+const isApiRequest = (request: NextRequest) =>
+  request.nextUrl.pathname.startsWith("/api/");
 
-const proxy: NextProxy = async (request) => {
-  const pathname = request.nextUrl.pathname.replace(trailingSlash, "") || "/";
-  const isApi = pathname.startsWith("/api/");
-  if (env.ARCJET_KEY) {
-    try {
-      await secure(isApi ? filesApiBots : linkPreviewBots, request);
-    } catch {
-      return NextResponse.json(
-        { error: "denied" },
-        {
-          headers: { "Cache-Control": "private, no-store" },
-          status: 403,
-        }
-      );
-    }
+const arcjetMiddleware = async (request: NextRequest) => {
+  if (!env.ARCJET_KEY) {
+    return;
   }
 
-  const security = await securityHeaders();
-  if (isApi) {
-    if (
-      pathname === "/api/files/content" ||
-      pathname === "/api/files/thumbnail"
-    ) {
-      // The byte routes set the resource policy for public embeds.
-      security.headers.delete("Cross-Origin-Resource-Policy");
-    }
-    return security;
+  try {
+    await secure(
+      isApiRequest(request) ? ["CATEGORY:PREVIEW"] : linkPreviewBots,
+      request
+    );
+  } catch {
+    return NextResponse.json(
+      { error: "denied" },
+      { headers: { "Cache-Control": "private, no-store" }, status: 403 }
+    );
+  }
+};
+
+const proxy: NextProxy = async (request) => {
+  const denied = await arcjetMiddleware(request);
+  if (denied) {
+    return denied;
+  }
+
+  if (isApiRequest(request)) {
+    return NextResponse.next();
   }
 
   const localized = internationalizationMiddleware(request);
-  if (pathname === "/") {
+  if (request.nextUrl.pathname === "/") {
     const location = URL.parse(
       localized.headers.get("location") ?? "",
       request.url
@@ -49,11 +47,6 @@ const proxy: NextProxy = async (request) => {
     if (location && isLocale(locale)) {
       location.pathname = filesHref(locale);
       localized.headers.set("location", location.href);
-    }
-  }
-  for (const [name, value] of security.headers) {
-    if (!name.startsWith("x-middleware-") && name !== "referrer-policy") {
-      localized.headers.set(name, value);
     }
   }
   return localized;

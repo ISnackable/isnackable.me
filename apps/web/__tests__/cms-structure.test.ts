@@ -68,7 +68,9 @@ test.each(localizedSchemaTypes.filter((name) => name !== "page"))(
   async (type) => {
     const result = serializeStudioStructure();
     const pages = childList(result.items.find((entry) => entry.id === "pages"));
-    const items = type === "resume" ? pages.items : result.items;
+    const items = ["resume", "legalPage"].includes(type)
+      ? pages.items
+      : result.items;
     const item = items.find((entry) => entry.id === type);
     expect(item).toMatchObject({
       child: {
@@ -82,11 +84,14 @@ test.each(localizedSchemaTypes.filter((name) => name !== "page"))(
       { _id: "source", _type: type, language: defaultLocaleId },
       { _id: "translation", _type: type, language: "ja" },
       { _id: "other-type", _type: "other", language: defaultLocaleId },
+      { _id: "legacy-legal", _type: "legalPage" },
     ];
     const documents = await (
       await evaluate(parse(`*[${filter}]._id`), { dataset, params })
     ).get();
-    expect(documents).toEqual(["source"]);
+    expect(documents).toEqual(
+      type === "legalPage" ? ["source", "legacy-legal"] : ["source"]
+    );
   }
 );
 

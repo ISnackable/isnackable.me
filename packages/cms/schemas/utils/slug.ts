@@ -32,11 +32,19 @@ export async function isUniqueSlug(
 
   const count = await getClient({ apiVersion: "2026-06-21" }).fetch<number>(
     `count(*[
+      _type == $type &&
       !(_id in [$draft, $published]) &&
-      language == $language &&
+      (language == $language || ($type == "legalPage" && $language == $defaultLocale && !defined(language))) &&
       slug.current == $slug
     ])`,
-    { draft: `drafts.${id}`, published: id, language, slug }
+    {
+      type: document?._type,
+      draft: `drafts.${id}`,
+      published: id,
+      language,
+      defaultLocale: defaultLocaleId,
+      slug,
+    }
   );
 
   return count === 0;

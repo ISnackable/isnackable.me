@@ -19,5 +19,3 @@ export const publicContentBots = [
   "ANTHROPIC_CRAWLER_SEARCH",
   "PERPLEXITY_CRAWLER",
 ] satisfies BotAllowlist;
-
-export const filesApiBots = ["CATEGORY:PREVIEW"] satisfies BotAllowlist;

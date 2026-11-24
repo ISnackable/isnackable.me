@@ -67,6 +67,10 @@ const text = new Set([
 
 export type DocumentFormat = keyof typeof documents;
 export const textPreviewLimit = 512 * 1024;
+export const markdownImageOrigins = [
+  "https://avatars.githubusercontent.com",
+  "https://img.shields.io",
+] as const;
 const documentPreviewLimit = 25 * 1024 * 1024;
 
 function mimeFrom<T extends Record<string, string>>(

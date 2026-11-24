@@ -45,6 +45,10 @@
       "destination": { "service": "files" }
     },
     {
+      "source": "/studio{/}?",
+      "destination": { "service": "studio", "path": "/studio/index.html" }
+    },
+    {
       "source": "/studio/:path*",
       "destination": { "service": "studio" }
     },

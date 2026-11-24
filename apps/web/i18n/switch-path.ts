@@ -1,7 +1,7 @@
 import type { Locale } from "@repo/internationalization/locales";
 import { getPathnameWithoutLocale } from "@repo/internationalization/localized-pathname";
 
-const DETAIL_PATH = /^\/(blog|projects)\/[^/]+\/?$/;
+const DETAIL_PATH = /^\/(blog|projects|legal)\/[^/]+\/?$/;
 
 /** Keep translated deep links when available; otherwise show that locale's index. */
 export function getPortfolioLanguageSwitchPath(
@@ -31,5 +31,5 @@ export function getPortfolioLanguageSwitchPath(
       // A malformed alternate must not produce a broken language switch.
     }
   }
-  return `/${collection}`;
+  return collection === "legal" ? "/" : `/${collection}`;
 }

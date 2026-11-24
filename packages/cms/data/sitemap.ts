@@ -1,4 +1,5 @@
 import "server-only";
+import { defaultLocale } from "@repo/internationalization/locales";
 import { unstable_rethrow } from "next/navigation";
 import { cachedSanity } from "../live";
 
@@ -74,16 +75,17 @@ export const sitemap = {
           _updatedAt: project._updatedAt,
         }));
 
-      const legalPaths: SitemapEntry[] = result.legalPages
-        .filter((page): page is typeof page & { slug: string } =>
-          Boolean(page.slug)
-        )
-        .flatMap((page) =>
-          locales.map((locale) => ({
-            href: `/${locale}/legal/${page.slug}`,
-            _updatedAt: page._updatedAt,
-          }))
-        );
+      const legalPaths: SitemapEntry[] = result.legalPages.flatMap((page) => {
+        const locale = page.language ?? defaultLocale;
+        return page.slug && locales.includes(locale)
+          ? [
+              {
+                href: `/${locale}/legal/${encodeURIComponent(page.slug)}`,
+                _updatedAt: page._updatedAt,
+              },
+            ]
+          : [];
+      });
 
       return [...pagePaths, ...postPaths, ...projectPaths, ...legalPaths];
     } catch (error) {

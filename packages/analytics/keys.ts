@@ -5,12 +5,6 @@ export const keys = () =>
   createEnv({
     skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
     client: {
-      NEXT_PUBLIC_POSTHOG_KEY: z
-        .string()
-        .startsWith("phc_")
-        .or(z.literal(""))
-        .optional(),
-      NEXT_PUBLIC_POSTHOG_HOST: z.url().or(z.literal("")).optional(),
       NEXT_PUBLIC_GA_MEASUREMENT_ID: z
         .string()
         .startsWith("G-")
@@ -18,8 +12,6 @@ export const keys = () =>
         .optional(),
     },
     runtimeEnv: {
-      NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-      NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
       NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
     },
   });

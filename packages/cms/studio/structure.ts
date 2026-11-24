@@ -33,7 +33,11 @@ function documentCollection(S: StructureBuilder, type: string, title: string) {
     ? item.child(
         list
           .apiVersion("2026-06-21")
-          .filter("_type == $type && language == $language")
+          .filter(
+            type === "legalPage"
+              ? "_type == $type && coalesce(language, $language) == $language"
+              : "_type == $type && language == $language"
+          )
           .params({ type, language: defaultLocaleId })
           .initialValueTemplates([
             S.initialValueTemplateItem(`${type}-${defaultLocaleId}`),

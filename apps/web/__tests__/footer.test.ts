@@ -1,6 +1,9 @@
 // @vitest-environment jsdom
 
-import { LEGAL_PAGES_META_QUERY } from "@repo/cms/queries/legal";
+import {
+  LEGAL_PAGE_QUERY,
+  LEGAL_PAGES_META_QUERY,
+} from "@repo/cms/queries/legal";
 import ja from "@repo/internationalization/messages/ja.json";
 import { evaluate, parse } from "groq-js";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -37,7 +40,7 @@ async function renderFooterNavigation() {
 }
 
 test("the footer omits Legal when the CMS has no legal pages", async () => {
-  getLegalPages.mockResolvedValueOnce([]);
+  getLegalPages.mockResolvedValueOnce([]).mockResolvedValueOnce([]);
   const navigation = await renderFooterNavigation();
 
   expect(navigation?.textContent).not.toContain(ja.web.footer.legal);
@@ -46,43 +49,84 @@ test("the footer omits Legal when the CMS has no legal pages", async () => {
   );
 });
 
-test("a single legal page uses the localized label and the CMS slug", async () => {
-  getLegalPages.mockResolvedValueOnce([notice]);
+test("the footer links to the English policy until a translation is published", async () => {
+  getLegalPages.mockResolvedValueOnce([]).mockResolvedValueOnce([notice]);
   const navigation = await renderFooterNavigation();
 
-  expect(
-    navigation?.querySelector('a[href="/ja/legal/site-notice"]')?.textContent
-  ).toBe(ja.web.footer.legal);
+  const link = navigation?.querySelector('a[href="/en/legal/site-notice"]');
+  expect(link?.textContent).toBe(notice.title);
+  expect(link?.getAttribute("hreflang")).toBe("en");
   expect(navigation?.querySelector("details")).toBeNull();
 });
 
-test("a single legal page uses the Sanity label for the requested language", async () => {
-  const result = await evaluate(parse(LEGAL_PAGES_META_QUERY), {
-    dataset: [
+const localizedDataset = [
+  { ...notice, _type: "legalPage", slug: { current: notice.slug } },
+  {
+    _id: "notice-ja",
+    _type: "legalPage",
+    language: "ja",
+    slug: { current: "oshirase" },
+    title: localizedNotice,
+    description: "日本語版",
+    content: [
       {
-        ...notice,
-        _type: "legalPage",
-        slug: { current: notice.slug },
-        navigationLabel: [
-          { _key: "english", language: "en", value: "Notice" },
-          { _key: "japanese", language: "ja", value: localizedNotice },
-        ],
+        _key: "text",
+        _type: "block",
+        children: [{ _key: "span", _type: "span", text: "日本語の本文" }],
       },
     ],
-    params: { locale: "ja" },
+  },
+  {
+    _id: "notice-translations",
+    _type: "translation.metadata",
+    translations: [
+      { value: { _type: "reference", _ref: notice._id } },
+      { value: { _type: "reference", _ref: "notice-ja" } },
+    ],
+  },
+];
+
+test("a single legal page uses its translated document title and slug", async () => {
+  const result = await evaluate(parse(LEGAL_PAGES_META_QUERY), {
+    dataset: localizedDataset,
+    params: { locale: "ja", defaultLocale: "en" },
   });
   getLegalPages.mockResolvedValueOnce(await result.get());
   const navigation = await renderFooterNavigation();
 
   expect(getLegalPages).toHaveBeenLastCalledWith("ja");
   expect(
-    navigation?.querySelector('a[href="/ja/legal/site-notice"]')?.textContent
+    navigation?.querySelector('a[href="/ja/legal/oshirase"]')?.textContent
   ).toBe(localizedNotice);
+});
+
+test("legal detail queries return the localized document and expose translations for legacy English links", async () => {
+  const query = parse(LEGAL_PAGE_QUERY);
+  const read = async (locale: string, slug: string) =>
+    (
+      await evaluate(query, {
+        dataset: localizedDataset,
+        params: { locale, slug, defaultLocale: "en" },
+      })
+    ).get();
+
+  expect(await read("ja", "oshirase")).toMatchObject({
+    title: localizedNotice,
+    description: "日本語版",
+    content: [{ children: [{ text: "日本語の本文" }] }],
+  });
+  expect(await read("ja", notice.slug)).toBeNull();
+  expect(await read("en", notice.slug)).toMatchObject({
+    title: notice.title,
+    translations: expect.arrayContaining([
+      expect.objectContaining({ language: "ja", slug: "oshirase" }),
+    ]),
+  });
 });
 
 test("multiple legal pages are listed under a localized disclosure", async () => {
   getLegalPages.mockResolvedValueOnce([
-    { ...notice, navigationLabel: localizedNotice },
+    { ...notice, title: localizedNotice },
     disclaimer,
   ]);
   const navigation = await renderFooterNavigation();

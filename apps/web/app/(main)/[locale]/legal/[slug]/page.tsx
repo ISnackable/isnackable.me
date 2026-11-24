@@ -1,6 +1,11 @@
 import { legal } from "@repo/cms";
 import { PortableText } from "@repo/cms/components/portable-text";
-import { routing } from "@repo/internationalization";
+import { getPortfolioDictionary } from "@repo/internationalization";
+import {
+  defaultLocale,
+  isLocale,
+  locales,
+} from "@repo/internationalization/locales";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -29,33 +34,35 @@ export const ensureStatic = "navigation";
 export const generateStaticParams = async (): Promise<
   { locale: string; slug: string }[]
 > => {
-  const slugs = await legal.getSlugs();
-  // Legal pages are shared across all locales — cross-product.
-  const validSlugs = slugs.filter((s): s is string => Boolean(s));
-  // The existing /legal redirect targets privacy even before it is published.
-  if (validSlugs.length === 0) {
-    validSlugs.push("privacy");
-  }
-  return routing.locales.flatMap((locale) =>
-    validSlugs.map((slug) => ({ locale, slug }))
-  );
+  const paths = (await legal.getSlugs()).flatMap(({ slug, language }) => {
+    const locale = language ?? defaultLocale;
+    return slug && isLocale(locale) ? [{ locale, slug }] : [];
+  });
+  return paths.length
+    ? paths
+    : locales.map((locale) => ({ locale, slug: "__empty__" }));
 };
 
 const LegalPage = async ({ params }: LegalPageProperties) => {
   const { slug } = await params;
+  const locale = await getPortfolioLocale();
+  const resolved = await legal.getPost(slug, locale);
 
-  const page = await legal.getPost(slug);
-
-  if (!page) {
+  if (!resolved) {
     notFound();
   }
 
+  const { document: page, locale: contentLocale } = resolved;
+  const dictionary = await getPortfolioDictionary(contentLocale);
   const body = page.content ?? [];
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-16 md:px-6">
+    <div
+      className="mx-auto w-full max-w-7xl px-4 py-16 md:px-6"
+      lang={contentLocale}
+    >
       <h1 className="scroll-m-20 text-balance font-extrabold text-4xl tracking-tight lg:text-5xl">
-        {page.title ?? "Untitled"}
+        {page.title ?? dictionary.web.content.untitled}
       </h1>
       {page.description ? (
         <p className="text-balance leading-7 [&:not(:first-child)]:mt-6">
