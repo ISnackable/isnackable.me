@@ -3,6 +3,8 @@ import {
   SanityImage,
   type SanityImageProps,
 } from "@repo/cms/components/sanity-image";
+import { withCMS } from "@repo/cms/next-config";
+import { hasRemoteMatch } from "next/dist/shared/lib/match-remote-pattern";
 import { expect, test, vi } from "vitest";
 
 vi.mock("@repo/cms/keys", () => ({
@@ -47,4 +49,19 @@ test("dimensioned image URLs preserve editorial crop and focal point", () => {
   const url = getImageUrl(image, 512, 384);
   expect(url).not.toBeNull();
   expect(new URL(url ?? "").searchParams.get("rect")).toBe("667,0,1333,1000");
+});
+
+test("image optimization accepts the configured Sanity dataset and its crop parameters", () => {
+  const patterns = withCMS({}).images?.remotePatterns ?? [];
+  const ownImage = new URL(getImageUrl(image, 512, 384) ?? "");
+  const otherProject = new URL(
+    ownImage.href.replace("/images/example/", "/images/another/")
+  );
+  const otherDataset = new URL(
+    ownImage.href.replace("/production/", "/staging/")
+  );
+
+  expect(hasRemoteMatch([], patterns, ownImage)).toBe(true);
+  expect(hasRemoteMatch([], patterns, otherProject)).toBe(false);
+  expect(hasRemoteMatch([], patterns, otherDataset)).toBe(false);
 });

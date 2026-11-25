@@ -10,7 +10,12 @@
     "files": {
       "root": "apps/app",
       "framework": "nextjs",
-      "ignoreCommand": "node scripts/skip-ci.js"
+      "ignoreCommand": "node scripts/skip-ci.js",
+      "functions": {
+        "app/api/files/archive/route.ts": {
+          "supportsCancellation": true
+        }
+      }
     },
     "studio": {
       "root": "apps/studio",

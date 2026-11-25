@@ -48,7 +48,7 @@
     "selectAll": "表示中の項目をすべて選択",
     "selectItem": "{name} を選択",
     "selectionLimit": "ZIP に追加できるのは {limit} 項目までです。",
-    "archiveEntryLimit": "最大 {limit} 項目",
+    "archiveLimits": "最大 {limit} 項目、合計 {size} まで",
     "readme": "フォルダの README",
     "unsupported": "プレビューできません",
     "fileDetails": "ファイルの詳細",

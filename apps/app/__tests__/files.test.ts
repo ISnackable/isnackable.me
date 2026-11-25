@@ -9,7 +9,11 @@ import { serveFileRequest } from "@/lib/files/content";
 import { readCursor, sealCursor } from "@/lib/files/cursor";
 import type { GraphItem } from "@/lib/files/graph";
 import { readArchivePaths } from "@/lib/files/http";
-import { archiveEntryLimit, archiveSelectionLimit } from "@/lib/files/limits";
+import {
+  archiveByteLimit,
+  archiveEntryLimit,
+  archiveSelectionLimit,
+} from "@/lib/files/limits";
 import {
   browseHref,
   filesApiHref,
@@ -63,6 +67,10 @@ vi.mock("@/env", () => ({
 }));
 vi.mock("@/lib/files/connection", () => ({
   openPublishedDrive: () => Promise.resolve(drive),
+}));
+vi.mock("@/lib/files/limits", async (load) => ({
+  ...(await load<typeof import("@/lib/files/limits")>()),
+  archiveByteLimit: 32,
 }));
 vi.mock("@/lib/files/redis", () => ({
   requireFilesRedis: () => listingCache,
@@ -238,6 +246,95 @@ test("an oversized nested folder fails before the server starts streaming a ZIP"
   await expect(response.json()).resolves.toEqual({ error: "archive-limit" });
   expect(network).toHaveBeenCalledTimes(3);
 });
+
+test("an archive above the combined file size limit returns 413 before fetching content", async () => {
+  const root = folder("documents", drive.rootId, "Public/Shared", "Documents");
+  const files = ["First.txt", "Second.txt"].map((name) => ({
+    file: {},
+    id: name,
+    name,
+    parentReference: {
+      driveId: drive.driveId,
+      id: root.id,
+      path: "/drive/root:/Public/Shared/Documents",
+    },
+    size: archiveByteLimit / 2 + 1,
+  }));
+  network
+    .mockResolvedValueOnce(Response.json(root))
+    .mockResolvedValueOnce(Response.json({ value: files }));
+
+  const response = await downloadArchive(
+    new NextRequest("https://files.example.test/api/files/archive", {
+      body: new URLSearchParams({ path: "Documents" }),
+      method: "POST",
+    })
+  );
+
+  expect(response.status).toBe(413);
+  expect(response.headers.get("Content-Disposition")).toBeNull();
+  await expect(response.json()).resolves.toEqual({ error: "archive-limit" });
+  expect(network).toHaveBeenCalledTimes(2);
+});
+
+test.each([0, 1])(
+  "an archive enforces the combined stream limit when a file grows by %i bytes",
+  async (growth) => {
+    const root = folder(
+      "documents",
+      drive.rootId,
+      "Public/Shared",
+      "Documents"
+    );
+    const fileSize = archiveByteLimit / 2;
+    const files = ["First.txt", "Second.txt"].map((name) => ({
+      "@microsoft.graph.downloadUrl": `https://content.fixture.test/${name}`,
+      file: {},
+      id: name,
+      name,
+      parentReference: {
+        driveId: drive.driveId,
+        id: root.id,
+        path: "/drive/root:/Public/Shared/Documents",
+      },
+      size: fileSize,
+    }));
+    const cancel = vi.fn();
+    const lastBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new Uint8Array(fileSize + growth));
+        if (growth === 0) {
+          controller.close();
+        }
+      },
+      cancel,
+    });
+    network
+      .mockResolvedValueOnce(Response.json(root))
+      .mockResolvedValueOnce(Response.json({ value: files }))
+      .mockResolvedValueOnce(Response.json(files[0]))
+      .mockResolvedValueOnce(new Response(new Uint8Array(fileSize)))
+      .mockResolvedValueOnce(Response.json(files[1]))
+      .mockResolvedValueOnce(new Response(lastBody));
+
+    const response = await downloadArchive(
+      new NextRequest("https://files.example.test/api/files/archive", {
+        body: new URLSearchParams({ path: "Documents" }),
+        method: "POST",
+      })
+    );
+
+    expect(response.status).toBe(200);
+    if (growth === 0) {
+      const zip = Buffer.from(await response.arrayBuffer());
+      expect(zip.toString("ascii", 0, 2)).toBe("PK");
+      expect(zip.indexOf("Second.txt")).toBeGreaterThan(0);
+    } else {
+      await expect(response.arrayBuffer()).rejects.toThrow("archive-limit");
+      expect(cancel).toHaveBeenCalledOnce();
+    }
+  }
+);
 
 test.each([
   ["Public", 200, { entries: [{ name: "Docs" }], kind: "folder" }],

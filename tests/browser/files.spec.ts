@@ -470,7 +470,9 @@ test("selected files and nested folder ZIPs download through the browser", async
   const downloadFolder = page.getByRole("menuitem", {
     name: "Download folder as ZIP",
   });
-  await expect(downloadFolder).toHaveAccessibleDescription("Up to 5,000 items");
+  await expect(downloadFolder).toHaveAccessibleDescription(
+    "Up to 5,000 items and 500 MB total"
+  );
   const pendingFolder = page.waitForEvent("download");
   await downloadFolder.click();
   const folder = await pendingFolder;

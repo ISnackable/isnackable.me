@@ -48,7 +48,7 @@
     "selectAll": "选择所有已加载的项目",
     "selectItem": "选择 {name}",
     "selectionLimit": "每个 ZIP 最多可选择 {limit} 个项目。",
-    "archiveEntryLimit": "最多 {limit} 项",
+    "archiveLimits": "最多 {limit} 项，总大小不超过 {size}",
     "readme": "文件夹说明",
     "unsupported": "无法预览",
     "fileDetails": "文件详情",

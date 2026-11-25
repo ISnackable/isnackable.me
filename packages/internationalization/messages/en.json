@@ -48,7 +48,7 @@
     "selectAll": "Select all loaded items",
     "selectItem": "Select {name}",
     "selectionLimit": "Select up to {limit} items per ZIP.",
-    "archiveEntryLimit": "Up to {limit} items",
+    "archiveLimits": "Up to {limit} items and {size} total",
     "readme": "Folder README",
     "unsupported": "Preview unavailable",
     "fileDetails": "File details",

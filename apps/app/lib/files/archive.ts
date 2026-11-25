@@ -11,11 +11,12 @@ import { openPublishedDrive, type PublishedDrive } from "./connection";
 import { fetchFile } from "./content";
 import { FilesError, filesErrorCode } from "./errors";
 import { attachment, noStore } from "./http";
-import { archiveEntryLimit } from "./limits";
+import { archiveByteLimit, archiveEntryLimit } from "./limits";
 
 interface ArchivePlan {
   readonly drive: PublishedDrive;
   readonly entries: Map<string, PublishedEntry>;
+  remainingBytes: number;
   remainingPages: number;
   readonly signal: AbortSignal;
 }
@@ -83,6 +84,10 @@ async function planArchiveEntry(allowed: PublishedEntry, plan: ArchivePlan) {
   }
   entries.set(key, allowed);
   if (isPublishedFile(allowed)) {
+    plan.remainingBytes -= entry.size ?? 0;
+    if (plan.remainingBytes < 0) {
+      throw new FilesError("archive-limit");
+    }
     return;
   }
 
@@ -113,6 +118,7 @@ async function* zipEntries(
   base: readonly string[]
 ): AsyncGenerator<ZipEntry> {
   const { drive, entries, signal } = plan;
+  let remainingBytes = archiveByteLimit;
   for (const allowed of entries.values()) {
     signal.throwIfAborted();
     const { entry } = allowed;
@@ -125,7 +131,19 @@ async function* zipEntries(
       // biome-ignore lint/performance/noAwaitInLoops: Stream each file before opening the next one.
       const input = await archiveFile(allowed, drive, signal);
       if (input) {
-        yield { input, lastModified, name };
+        // Metadata can be missing or change between planning and streaming.
+        const boundedInput = input.pipeThrough(
+          new TransformStream<Uint8Array, Uint8Array>({
+            transform(chunk, controller) {
+              remainingBytes -= chunk.byteLength;
+              if (remainingBytes < 0) {
+                throw new FilesError("archive-limit");
+              }
+              controller.enqueue(chunk);
+            },
+          })
+        );
+        yield { input: boundedInput, lastModified, name };
       }
     } else if (name) {
       yield { lastModified, name: `${name}/` };
@@ -137,6 +155,7 @@ export async function archiveResponse(
   paths: readonly string[][],
   signal: AbortSignal
 ) {
+  signal.throwIfAborted();
   const drive = await openPublishedDrive();
   const roots: PublishedEntry[] = [];
   for (const path of paths) {
@@ -149,10 +168,11 @@ export async function archiveResponse(
     roots.length === 1 && roots[0].entry.kind === "folder"
       ? roots[0].entry.name
       : base.at(-1);
-  // Check traversal limits before returning attachment headers.
+  // Check traversal and known file sizes before returning attachment headers.
   const plan = {
     drive,
     entries: new Map<string, PublishedEntry>(),
+    remainingBytes: archiveByteLimit,
     remainingPages: archiveEntryLimit,
     signal,
   };

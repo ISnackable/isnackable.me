@@ -1,5 +1,6 @@
 "use client";
 
+import { formatFileSize } from "@repo/design-system/components/extend/file-format";
 import type { FileSystemItem } from "@repo/design-system/components/extend/file-system";
 import {
   Button,
@@ -17,7 +18,11 @@ import type { Locale } from "@repo/internationalization/locales";
 import { DownloadIcon, EllipsisIcon, LinkIcon, XIcon } from "lucide-react";
 import { useId, useMemo, useRef } from "react";
 import { copyFileLinks } from "@/lib/files/copy-links";
-import { archiveEntryLimit, archiveSelectionLimit } from "@/lib/files/limits";
+import {
+  archiveByteLimit,
+  archiveEntryLimit,
+  archiveSelectionLimit,
+} from "@/lib/files/limits";
 import { browseHref, filesApiHref } from "@/lib/files/paths";
 
 interface DirectoryActionsProps {
@@ -78,10 +83,12 @@ function FolderActions({
                   className="text-muted-foreground text-xs"
                   id={archiveLimitDescription}
                 >
-                  {messages.archiveEntryLimit.replace(
-                    "{limit}",
-                    numberFormat.format(archiveEntryLimit)
-                  )}
+                  {messages.archiveLimits
+                    .replace("{limit}", numberFormat.format(archiveEntryLimit))
+                    .replace(
+                      "{size}",
+                      formatFileSize(archiveByteLimit, locale)
+                    )}
                 </span>
               </span>
             </DropdownMenuItem>
